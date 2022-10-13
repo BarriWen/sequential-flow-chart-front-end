@@ -934,26 +934,7 @@
 				x2: start.x,
 				y2: start.y + height
 			});
-			const g = Dom.svg('g');
-			const circle = Dom.svg('circle', {
-				class: 'sqd-start-stop',
-				cx: SIZE / 2,
-				cy: SIZE / 2,
-				r: SIZE / 2
-			});
-			const stop = Dom.svg('rect', {
-				class: 'sqd-start-stop-icon',
-				x: start.x,
-				y: start.y + height,
-				width: SIZE * 0.5,
-				height: SIZE * 0.5,
-				rx: 4,
-				ry: 4
-			});
-			g.appendChild(circle);
-			g.appendChild(stop);
-			//Dom.translate(g, start.x, start.y + height);
-			join.appendChild(g);
+			
 			//console.log(join);
 			parent.insertBefore(join, parent.firstChild);
 		}
@@ -1420,6 +1401,8 @@
 		}
 	}
 */
+	
+	// 
 	// if-else block
 	const MIN_CHILDREN_WIDTH = 50;
 	const PADDING_X$1 = 20;
@@ -1535,6 +1518,7 @@
 				width: ICON_SIZE,
 				height: ICON_SIZE
 			});
+			// Adding more icon
 			const moreUrl = './assets/more.svg';
 			const moreIcon = moreUrl
 			 	? Dom.svg('image', {
@@ -1614,6 +1598,7 @@
 			g.appendChild(icon1);
 			g.appendChild(icon2);
 			g.appendChild(icon3);
+
 			JoinView.createStraightJoin(g, new Vector(containerWidths[0], 0), PADDING_TOP + boxHeight);
 			//const iconUrl = configuration.iconUrlProvider ? configuration.iconUrlProvider(step.componentType, step.type) : null;
 			const inputView = InputView.createRoundInput(g, containerWidths[0], 0, iconUrl);
@@ -2818,7 +2803,7 @@
 				
 				this.context.behaviorController.start(position, SelectStepBehavior.create(clickedStep, this.context));
 				const moreid = clickedStep.view.g.childNodes[3].id.toString();
-				console.log(2821,clickedStep.view)
+				console.log(2806, clickedStep.view.g.childNodes)
 				const but = document.getElementById(moreid)
 				if(but){
 					but.onclick = function(){
@@ -2851,7 +2836,10 @@
 					but.forEach((e) =>e.classList.add("sqd-hidden"));
 				}
 				//console.log(2663, this.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes)
-				this.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes.forEach((child) => {if(child.childNodes[7]) {child.childNodes[7].classList.add("sqd-hidden")}});
+				this.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes.forEach((child) => 
+				{
+					if(child.childNodes[7]) {child.childNodes[7].classList.add("sqd-hidden")}
+				});
 				this.context.behaviorController.start(position, MoveViewPortBehavior.create(this.context));
 			}
 		}
@@ -2896,7 +2884,8 @@
 					throw new Error(`Cannot find a step component by id ${step.id}`);
 				}
 				this.selectedStepComponent.setState(StepComponentState.selected);
-				const clickedStep = !this.context.isMoveModeEnabled ? this.getRootComponent().findByElement(this.position) : null;
+
+				const clickedStep = !this.context.isMoveModeEnabled ? this.getRootComponent().findByElement(this.position) : null;	
 				if(clickedStep) {
 					this.selectedStepComponent.view.icon1.classList.remove("sqd-hidden")
 					this.selectedStepComponent.view.icon2.classList.remove("sqd-hidden")
