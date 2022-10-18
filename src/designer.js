@@ -934,7 +934,6 @@
 				x2: start.x,
 				y2: start.y + height
 			});
-			
 			//console.log(join);
 			parent.insertBefore(join, parent.firstChild);
 		}
@@ -984,7 +983,7 @@
 	}
 
 	const PH_WIDTH = 100;
-	const PH_HEIGHT = 24;
+	const PH_HEIGHT = 90;
 	class SequenceComponentView {
 		constructor(g, width, height, joinX, placeholders, components) {
 			this.g = g;
@@ -1003,24 +1002,38 @@
 			let offsetY = PH_HEIGHT;
 			const placeholders = [];
 
-			// Empty canvas
+			// Empty canvas - 应该不会存在这情况
 			if (components.length == 0) {
 				placeholders.push(appendPlaceholder(g, maxJoinX - PH_WIDTH / 2, 0));
 			}
 
 			// Adding lines, placeholders, and stop points on TOP of components
-			for (let i = 0; i < components.length; i++) {
+			let i = 0;
+			for (i; i < components.length; i++) {
 				const offsetX = maxJoinX - components[i].view.joinX;
 				JoinView.createStraightJoin(g, new Vector(maxJoinX, offsetY - PH_HEIGHT), PH_HEIGHT);
+				
 				placeholders.push(appendPlaceholder(g, maxJoinX - PH_WIDTH / 2, offsetY - PH_HEIGHT));
 				Dom.translate(components[i].view.g, offsetX, offsetY);
 				offsetY += components[i].view.height + PH_HEIGHT;
 			}			
 			
-			// Modify switch components
-			let i = 0;
-			for (i; i < components.length; i++) {
+			/* Add placeholder & stop sign to the BOTTOM of last component 
+			 if it's not a switch component */
+			 if (components[i - 1] instanceof TaskStepComponent){
+				JoinView.createStraightJoin(g, new Vector(maxJoinX, offsetY - PH_HEIGHT), PH_HEIGHT);
+				placeholders.push(appendPlaceholder(g, maxJoinX - PH_WIDTH / 2, offsetY - PH_HEIGHT));
+				// Add stop sign to task block
+				const stop = addStop();
+				Dom.translate(stop, maxJoinX - PH_WIDTH / 6.8, offsetY - PH_HEIGHT / 16);
 				
+				// Calculate location
+				g.appendChild(stop);
+			}
+
+			
+			for (i = 0; i < components.length; i++) {
+				// Modify switch components
 				if (components[i] instanceof SwitchStepComponent) {
 					JoinView.createStraightJoin(g, new Vector(maxJoinX, 0), PH_HEIGHT);
 					
@@ -1034,21 +1047,20 @@
 						components[i].parentSequence.splice(i+1,1);
 						components.splice(i+1, 1);
 					}
+
+					const lines = document.getElementsByClassName("sqd-join");
+					Dom.attrs(lines[0], {
+						visibility: "hidden"
+					});
+				} 
+				else {
+					const lines = document.getElementsByClassName("sqd-join");
+					Dom.attrs(lines[lines.length - 1], {
+						visibility: "hidden"
+					});
 				} 
 			}
-
-			/* Add placeholder & stop sign to the BOTTOM of last component 
-			 if it's not a switch component */
-			if (components[i - 1] instanceof TaskStepComponent){
-				JoinView.createStraightJoin(g, new Vector(maxJoinX, offsetY - PH_HEIGHT), PH_HEIGHT);
-				placeholders.push(appendPlaceholder(g, maxJoinX - PH_WIDTH / 2, offsetY - PH_HEIGHT));
-				// Add stop sign to task block
-				const stop = addStop();
-				// Calculate location
-				Dom.translate(stop, maxJoinX - PH_WIDTH / 6.8, offsetY - PH_HEIGHT / 16);
-				g.appendChild(stop);
-			}
-			
+			// placeholders.splice(0,1);
 			return new SequenceComponentView(g, maxWidth, offsetY, maxJoinX, placeholders, components);
 		}
 		getClientPosition() {
@@ -1401,8 +1413,6 @@
 		}
 	}
 */
-	
-	// 
 	// if-else block
 	const MIN_CHILDREN_WIDTH = 50;
 	const PADDING_X$1 = 20;
@@ -1518,7 +1528,6 @@
 				width: ICON_SIZE,
 				height: ICON_SIZE
 			});
-			// Adding more icon
 			const moreUrl = './assets/more.svg';
 			const moreIcon = moreUrl
 			 	? Dom.svg('image', {
@@ -1598,7 +1607,6 @@
 			g.appendChild(icon1);
 			g.appendChild(icon2);
 			g.appendChild(icon3);
-
 			JoinView.createStraightJoin(g, new Vector(containerWidths[0], 0), PADDING_TOP + boxHeight);
 			//const iconUrl = configuration.iconUrlProvider ? configuration.iconUrlProvider(step.componentType, step.type) : null;
 			const inputView = InputView.createRoundInput(g, containerWidths[0], 0, iconUrl);
@@ -1839,7 +1847,7 @@
 			 	  });
 			 Dom.attrs(icon1, {
 			 	class: "moreicon sqd-hidden",
-			 	x: ICON_SIZE + 3 * PADDING_X + textWidth + 44,
+			 	x: ICON_SIZE + 3 * PADDING_X + textWidth + 40,
 			 	y: PADDING_Y,
 			 	width: ICON_SIZE,
 			 	height: ICON_SIZE
@@ -1881,11 +1889,59 @@
 				width: ICON_SIZE,
 				height: ICON_SIZE
 			});
+			const rect1 = Dom.svg('rect', {
+				x: 0.5,
+				y: boxHeight,
+				class: 'sqd-task-rect sqd-hidden',
+				width: boxWidth,
+				height: 2 * boxHeight,
+				rx: RECT_RADIUS,
+				ry: RECT_RADIUS
+			});
+			Dom.attrs(rect1, {
+					//class: 'sqd-hidden',
+					id:`dropdown${Date.now()}`
+				})
+			const nameText = Dom.svg('text', {
+			class: 'sqd-task-text',
+					x: PADDING_X,
+					y: 1.5 * boxHeight,
+				});
+			Dom.attrs(nameText, {
+					class: 'sqd-hidden',
+					id:`dropdownword1${Date.now()}`
+				})
+			const nameText1 = Dom.svg('text', {
+					class: 'sqd-task-text',
+					x: PADDING_X,
+					y: 2 * boxHeight,
+				});
+				Dom.attrs(nameText1, {
+					class: 'sqd-hidden',
+					id:`dropdownword2${Date.now()}`
+				})
+				nameText.textContent = 'Select List:';
+				nameText1.textContent = 'Run:';
+			//new added
+			
+			const dropdownShape = Dom.svg('rect', {
+				width: 198,
+				height: 22,
+				class: 'option select-field',
+				fill: "#fff",
+				stroke: "#a0a0a0",
+				x: ICON_SIZE + 3 * PADDING_X + textWidth
+			})
+			
+			//svgDropDown(config)
 			g.appendChild(icon);
 			g.appendChild(moreIcon);
 			g.appendChild(icon1);
 			g.appendChild(icon2);
 			g.appendChild(icon3);
+			g.appendChild(nameText);
+			g.appendChild(nameText1);
+			g.insertBefore(rect1, nameText);
 			const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
 			const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
 			const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
@@ -2014,6 +2070,7 @@
 			this.clearCacheHandler = () => this.clearCache();
 		}
 		static create(placeholders, context) {
+			console.log("Placeholder finder", placeholders[placeholders.length - 1]);
 			const checker = new PlaceholderFinder(placeholders, context);
 			context.onViewPortChanged.subscribe(checker.clearCacheHandler);
 			window.addEventListener('scroll', checker.clearCacheHandler, false);
@@ -2063,7 +2120,13 @@
 		}
 		onStart(position) {
 			let offset;
-			//console.log(this.movingStepComponent);
+			
+			// Modified: added more properties to each node 
+			this.step["createdAt"] = new Date().toLocaleString();
+			this.step["createdBy"] = "userID";
+			this.step["updatedAt"] = " ";
+			this.step["updatedBy"] = "userID";
+
 			if (this.movingStepComponent) {
 				this.movingStepComponent.setState(StepComponentState.dragging);
 				const clientPosition = this.movingStepComponent.view.getClientPosition();
@@ -2410,6 +2473,7 @@
 			}
 		}
 		onEnd(interrupt) {
+			// console.log(2428, this.pressedStepComponent)
 			if (!interrupt) {
 				this.context.setSelectedStep(this.pressedStepComponent.step);
 			}
@@ -2460,14 +2524,11 @@
 			parent.appendChild(g);
 			const sequenceComponent = SequenceComponent.create(g, sequence, configuration);
 			const view = sequenceComponent.view;
-			const startCircle = createCircle(true);
-			Dom.translate(startCircle, view.joinX - SIZE / 2, 0);
+			
+			const startCircle = createStart(view.joinX - SIZE / 2, 0);
 			g.appendChild(startCircle);
 			Dom.translate(view.g, 0, SIZE);
 
-			// const endCircle = createCircle(false);
-			// Dom.translate(endCircle, view.joinX - SIZE / 2, SIZE + view.height);
-			// g.appendChild(endCircle);
 			return new StartComponentView(g, view.width, view.height + SIZE * 2, view.joinX, sequenceComponent);
 		}
 		getClientPosition() {
@@ -2478,25 +2539,33 @@
 			(_a = this.g.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(this.g);
 		}
 	}
-	function createCircle(isStart) {
-		const circle = Dom.svg('circle', {
-			class: 'sqd-start-stop',
-			cx: SIZE / 2,
-			cy: SIZE / 2,
-			r: SIZE / 2
+	const LABEL_HEIGHT$1 = 40;
+	const MAX_LABEL_WIDTH = 90;
+	function createStart(x, y) {
+		const g = Dom.svg("g", {
+			class: "sqd-start"
 		});
-		const g = Dom.svg('g');
-		g.appendChild(circle);
-		const s = SIZE * 0.5;
-		const m = (SIZE - s) / 2;
-		if (isStart) {
-			const start = Dom.svg('path', {
-				class: 'sqd-start-stop-icon',
-				transform: `translate(${m}, ${m})`,
-				d: `M ${s * 0.2} 0 L ${s} ${s / 2} L ${s * 0.2} ${s} Z`
-			});
-			g.appendChild(start);
-		} 
+		
+		const nameText = Dom.svg('text', {
+				class: 'sqd-label-text',
+				x,
+				y: y + LABEL_HEIGHT$1 / 2
+		});
+		nameText.textContent = "Set up trigger";
+		g.appendChild(nameText);
+		// const nameWidth = Math.max(nameText.getBBox().width + LABEL_PADDING_X * 2, MIN_LABEL_WIDTH);
+		const nameRect = Dom.svg('rect', {
+			class: 'sqd-label-rect',
+			width: MAX_LABEL_WIDTH,
+			height: LABEL_HEIGHT$1,
+			x: x - MAX_LABEL_WIDTH / 2,
+			y,
+			rx: 10,
+			ry: 10
+		});
+
+		g.insertBefore(nameRect, nameText);
+
 		return g;
 	}
 
@@ -2526,63 +2595,6 @@
 	}
 	// end: Start component
 
-	/* not used below
-	// start: Stop component
-	class StopComponentView {
-		constructor(g, width, height, joinX, component) {
-			this.g = g;
-			this.width = width;
-			this.height = height;
-			this.joinX = joinX;
-			this.component = component;
-		}
-		static create(parent, sequence, configuration) {
-			const g = Dom.svg('g');
-			parent.appendChild(g);
-			const sequenceComponent = SequenceComponent.create(g, sequence, configuration);
-			const view = sequenceComponent.view;
-
-			const endCircle = createCircle(false);
-			Dom.translate(endCircle, view.joinX - SIZE / 2, SIZE + view.height);
-			g.appendChild(endCircle);
-			return new StopComponentView(g, view.width, view.height + SIZE * 2, view.joinX, sequenceComponent);
-		}
-		getClientPosition() {
-			throw new Error('Not supported');
-		}
-		destroy() {
-			var _a;
-			(_a = this.g.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(this.g);
-		}
-	}
-
-	class StopComponent {
-		constructor(view) {
-			this.view = view;
-			this.componentType = 'stop';
-		}
-		static create(parent, sequence, configuration) {
-			const view = StopComponentView.create(parent, sequence, configuration);
-			return new StopComponent(view);
-		}
-		findByElement(element) {
-			return this.view.component.findByElement(element);
-		}
-		findById(stepId) {
-			return this.view.component.findById(stepId);
-		}
-		getPlaceholders(result) {
-			this.view.component.getPlaceholders(result);
-		}
-		setIsDragging(isDragging) {
-			this.view.component.setIsDragging(isDragging);
-		}
-		validate() {
-			return this.view.component.validate();
-		}
-	}
-	// end: Stop component
-*/
 	const GRID_SIZE = 48;
 	let lastGridPatternId = 0;
 	class WorkspaceView {
@@ -2635,7 +2647,20 @@
 			if (this.rootComponent) {
 				this.rootComponent.view.destroy();
 			}
+			// Modified
 			this.rootComponent = StartComponent.create(this.foreground, sequence, this.configuration);
+
+			Dom.attrs(this.foreground.childNodes[0].lastChild, {
+				visibility: "hidden"
+			});
+			// const lines = document.getElementsByClassName("sqd-join");
+			// Dom.attrs(lines[lines.length - 1], {
+			// 	visibility: "hidden"
+			// });
+
+			if (sequence.length > 0) {
+				console.log("workspace view", this.foreground.childNodes[0].firstChild);
+			}
 			this.refreshSize();
 		}
 		setPositionAndScale(position, scale) {
@@ -2802,27 +2827,37 @@
 			if (clickedStep) {
 				
 				this.context.behaviorController.start(position, SelectStepBehavior.create(clickedStep, this.context));
-				const moreid = clickedStep.view.g.childNodes[3].id.toString();
-				console.log(2806, clickedStep.view.g.childNodes)
-				const but = document.getElementById(moreid)
-				if(but){
-					but.onclick = function(){
-						clickedStep.view.icon1.classList.toggle("sqd-hidden");
-						clickedStep.view.icon2.classList.toggle("sqd-hidden");
-						clickedStep.view.icon3.classList.toggle("sqd-hidden");
-					}
-				}
 				if(clickedStep.view.g.childNodes[14]){
 					const moreidIf = clickedStep.view.g.childNodes[14].id.toString();
 					const butIf = document.getElementById(moreidIf);
 					butIf.onclick = function(){
-						clickedStep.view.g.childNodes[15].classList.toggle("sqd-hidden");
-						clickedStep.view.g.childNodes[16].classList.toggle("sqd-hidden");
-						clickedStep.view.g.childNodes[17].classList.toggle("sqd-hidden");
+						clickedStep.view.icon1.classList.toggle("sqd-hidden");
+						clickedStep.view.icon2.classList.toggle("sqd-hidden");
+						clickedStep.view.icon3.classList.toggle("sqd-hidden");
+					}
+				}else{
+					//if(clickedStep.view.g.childNodes[3]){
+						const moreid = clickedStep.view.g.childNodes[3].id.toString();
+						const but = document.getElementById(moreid)
+						but.onclick = function(){
+							clickedStep.view.icon1.classList.toggle("sqd-hidden");
+							clickedStep.view.icon2.classList.toggle("sqd-hidden");
+							clickedStep.view.icon3.classList.toggle("sqd-hidden");
+						}
+					//}
+				}
+				if(clickedStep.view.g.childNodes[6]){
+					const dropdownButId = clickedStep.view.g.childNodes[6].id.toString();
+					const dropdownBut = document.getElementById(dropdownButId);
+					dropdownBut.onclick = function(){
+						clickedStep.view.g.childNodes[7].classList.toggle('sqd-hidden');
+						clickedStep.view.g.childNodes[8].classList.toggle('sqd-hidden');
+						clickedStep.view.g.childNodes[9].classList.toggle('sqd-hidden');
 					}
 				}
-				// const dropdown = clickedStep.view.g.childNodes[6].id;
-				// const dropdownbut = document.getElementById(dropdown)
+
+				//const dropdown = clickedStep.view.g.childNodes[6].id;
+				// console.log(2951, clickedStep.view.g.childNodes)
 				// dropdownbut.onclick = function(){
 					
 				// 	const dropdownwindow = clickedStep.view.g.childNodes[7].id;
@@ -2835,11 +2870,8 @@
 				if(but){
 					but.forEach((e) =>e.classList.add("sqd-hidden"));
 				}
-				//console.log(2663, this.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes)
-				this.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes.forEach((child) => 
-				{
-					if(child.childNodes[7]) {child.childNodes[7].classList.add("sqd-hidden")}
-				});
+				//this.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes.forEach((child) => {if(child.childNodes[7]) {child.childNodes[7].classList.add("sqd-hidden")}});
+				// console.log(2855, this.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes)
 				this.context.behaviorController.start(position, MoveViewPortBehavior.create(this.context));
 			}
 		}
@@ -2884,8 +2916,7 @@
 					throw new Error(`Cannot find a step component by id ${step.id}`);
 				}
 				this.selectedStepComponent.setState(StepComponentState.selected);
-
-				const clickedStep = !this.context.isMoveModeEnabled ? this.getRootComponent().findByElement(this.position) : null;	
+				const clickedStep = !this.context.isMoveModeEnabled ? this.getRootComponent().findByElement(this.position) : null;
 				if(clickedStep) {
 					this.selectedStepComponent.view.icon1.classList.remove("sqd-hidden")
 					this.selectedStepComponent.view.icon2.classList.remove("sqd-hidden")
@@ -2911,6 +2942,7 @@
 			this.onKeyUpHandlers = [];
 		}
 		static create(parent, context, configuration) {
+			
 			const theme = configuration.theme || 'light';
 			const root = Dom.element('div', {
 				class: `sqd-designer sqd-theme-${theme}`
@@ -3076,13 +3108,12 @@
 			e.preventDefault();
 			e.stopPropagation();
 			console.log("delete from keyup");
-			/* const c = promtChoices(this.context);
-			this.context.tryDeleteStep(this.context.selectedStep, c); */
-			let arr = this.context.tryDeleteStep(this.context.selectedStep);
-			if (arr[0].componentType == 'switch'){
-				promptChoices(this.context, arr[0], arr[1]); 
-			} else {
-				SequenceModifier.deleteStep(arr[0], arr[1], 2); 
+			
+			if (this.context.selectedStep.componentType == 'switch'){
+				promptChoices(this.context);
+			}
+			else {
+				this.context.tryDeleteStep(this.context.selectedStep, 2);
 			}
 		}
 	}

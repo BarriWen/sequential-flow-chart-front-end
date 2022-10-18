@@ -1,3 +1,10 @@
+/* Create a canvas-like background */
+body {
+	background-size: 50px 50px;
+	background-image:
+	  linear-gradient(to right, #e5e5e5 0.01px, transparent 1px),
+	  linear-gradient(to bottom, #e5e5e5 0.01px, transparent 1px);
+}
 
 .sqd-designer {
 	position: relative;
@@ -24,7 +31,7 @@
 }
 .sqd-toolbox {
 	position: absolute;
-	top: 10px;
+	top: 100px;
 	left: 10px;
 	z-index: 20;
 	box-sizing: border-box;
@@ -284,4 +291,26 @@
 }
 .sqd-task-rect-dropdown{
 	position: fixed;
+}
+/* Start component */
+.sqd-start:hover {
+	cursor: pointer;
+}
+/* Trigger lists */
+.trigger-list{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -100px;
+	fill: #5495d4;
+	border-color: #5495d4;
+	border-radius: 10px;
+}
+
+#start-component {
+	fill: #5495d4;
+	height: 300px;
+	width: 200px;
+	border-radius: 10px;
 }
