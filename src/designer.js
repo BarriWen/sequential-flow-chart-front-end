@@ -1060,7 +1060,8 @@
 					});
 				} 
 			}
-			// placeholders.splice(0,1);
+			// Remove first placeholder above trigger
+			placeholders.splice(0, 1)
 			return new SequenceComponentView(g, maxWidth, offsetY, maxJoinX, placeholders, components);
 		}
 		getClientPosition() {
@@ -2070,7 +2071,7 @@
 			this.clearCacheHandler = () => this.clearCache();
 		}
 		static create(placeholders, context) {
-			console.log("Placeholder finder", placeholders[placeholders.length - 1]);
+			console.log("Placeholder finder", placeholders);
 			const checker = new PlaceholderFinder(placeholders, context);
 			context.onViewPortChanged.subscribe(checker.clearCacheHandler);
 			window.addEventListener('scroll', checker.clearCacheHandler, false);
@@ -2183,7 +2184,8 @@
 						this.currentPlaceholder.index
 					);
 				} else {
-					modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
+					// Increment placeholder index by 1 to put component in correct position
+					modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index+1);
 				}
 			}
 			if (!modified) {
