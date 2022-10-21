@@ -1,10 +1,3 @@
-/* Create a canvas-like background */
-body {
-	background-size: 50px 50px;
-	background-image:
-	  linear-gradient(to right, #e5e5e5 0.01px, transparent 1px),
-	  linear-gradient(to bottom, #e5e5e5 0.01px, transparent 1px);
-}
 
 .sqd-designer {
 	position: relative;
@@ -292,16 +285,11 @@ body {
 .sqd-task-rect-dropdown{
 	position: fixed;
 }
-<<<<<<< Updated upstream
+
 /* Start component */
 .sqd-start:hover {
 	cursor: pointer;
 }
-/* Trigger lists */
-.trigger-list{
-	position: fixed;
-=======
-
 /* title box */
 .info-box{
 	position: absolute;
@@ -326,41 +314,3 @@ body {
 	top: 10px;
 	left: 10px;
 }
-
-/* Triggers list */
-.triggers-list{
-	position: relative;
->>>>>>> Stashed changes
-	top: 50%;
-	left: 50%;
-	margin-top: -50px;
-	margin-left: -100px;
-<<<<<<< Updated upstream
-	fill: #5495d4;
-	border-color: #5495d4;
-	border-radius: 10px;
-}
-
-#start-component {
-	fill: #5495d4;
-	height: 300px;
-	width: 200px;
-	border-radius: 10px;
-}
-=======
-	width: 200px;
-	background-color: transparent;
-	border:none;
-	border-radius: 10px;
-}
-.triggers{
-	border: none;
-	width: 150px;
-	height: 40px;
-	margin-bottom: 10px;
-	border-radius: 10px;
-	color: black;
-	background-color: white;
-	padding: 5px;
-}
->>>>>>> Stashed changes
