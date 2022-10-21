@@ -16,8 +16,8 @@ function createIfStep(id, _true, _false) {
 		type: 'if',
 		name: 'If/Else',
 		branches: {
-			'true': _true,
-			'false': _false
+			'True': _true,
+			'False': _false
 		},
 		properties: {}
 	};
@@ -104,10 +104,18 @@ const configuration = {
 		}
 	}
 };
+<<<<<<< Updated upstream
+=======
+let str = new Date();
+>>>>>>> Stashed changes
 // start from canvas with only start and end points
 const startDefinition = {
 	properties: {
-		journeyName:'test'
+		journeyName:'test',
+		createdAt: str,
+		createdBy: 'userID',
+		updateAt: new Date(),
+		updateBy: 'userID'
 	},
 	sequence: [
 	]
@@ -164,3 +172,11 @@ butt.addEventListener('click', e => {
 	document.getElementById("first-step").removeChild(butt);
 },false);
 
+<<<<<<< Updated upstream
+=======
+const placeholder = document.getElementById('designer');
+designer = sequentialWorkflowDesigner.create(placeholder, startDefinition, configuration);
+designer.onDefinitionChanged.subscribe((newDefinition) => {
+	// console.log('the definition has changed', newDefinition);
+});
+>>>>>>> Stashed changes

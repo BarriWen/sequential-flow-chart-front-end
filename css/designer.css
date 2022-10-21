@@ -292,6 +292,7 @@ body {
 .sqd-task-rect-dropdown{
 	position: fixed;
 }
+<<<<<<< Updated upstream
 /* Start component */
 .sqd-start:hover {
 	cursor: pointer;
@@ -299,10 +300,42 @@ body {
 /* Trigger lists */
 .trigger-list{
 	position: fixed;
+=======
+
+/* title box */
+.info-box{
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	margin: 12px 0 0 12px;
+}
+.info-box-rect{
+	position: relative;
+	top: 80px;
+	fill:#5495d4;
+}
+.info-box-title{
+	position:relative;
+	fill:white;
+	text-anchor: middle;
+}
+
+/* title-box prompt */
+.info-box-prompt{
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+/* Triggers list */
+.triggers-list{
+	position: relative;
+>>>>>>> Stashed changes
 	top: 50%;
 	left: 50%;
 	margin-top: -50px;
 	margin-left: -100px;
+<<<<<<< Updated upstream
 	fill: #5495d4;
 	border-color: #5495d4;
 	border-radius: 10px;
@@ -314,3 +347,20 @@ body {
 	width: 200px;
 	border-radius: 10px;
 }
+=======
+	width: 200px;
+	background-color: transparent;
+	border:none;
+	border-radius: 10px;
+}
+.triggers{
+	border: none;
+	width: 150px;
+	height: 40px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+	color: black;
+	background-color: white;
+	padding: 5px;
+}
+>>>>>>> Stashed changes

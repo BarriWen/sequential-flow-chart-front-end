@@ -196,17 +196,17 @@
 			//console.log(parentSequence);
 			
 			// If deleting true branch, keep blocks in false
-			if (choice == "0" && step.branches.false.length > 0){
+			if (choice == "0" && step.branches.False.length > 0){
 				console.log("delete true");
-				for (let i = 0; i < step.branches.false.length; i++) {
-					parentSequence.push(step.branches.false[i]);
+				for (let i = 0; i < step.branches.False.length; i++) {
+					parentSequence.push(step.branches.False[i]);
 				}
 			} 
 			// If deleting false branch, keep blocks in true
-			else if (choice == "1" && step.branches.true.length > 0) {
+			else if (choice == "1" && step.branches.True.length > 0) {
 				console.log("delete false");
-				for (let i = 0; i < step.branches.true.length; i++) {
-					parentSequence.push(step.branches.true[i]);
+				for (let i = 0; i < step.branches.True.length; i++) {
+					parentSequence.push(step.branches.True[i]);
 				}
 			} 
 			
@@ -249,6 +249,7 @@
 			this.isReadonly = !!configuration.isReadonly;
 		}
 		setViewPort(position, scale) {
+			// position.y = position.y - PH_HEIGHT - LABEL_HEIGHT$1;
 			this.viewPort = { position, scale };
 			this.onViewPortChanged.forward(this.viewPort);
 		}
@@ -518,7 +519,7 @@
 		let output = null;
 		// Create a propmt window
 		const dialogBox = Dom.element('dialog',{
-			id: 'dialog-box'
+			id: 'dialog-box',
 		});
 
 		// Top-right close button
@@ -1001,12 +1002,15 @@
 			let maxWidth = components.length > 0 ? Math.max(...components.map(c => c.view.width)) : PH_WIDTH;
 			let offsetY = PH_HEIGHT;
 			const placeholders = [];
+<<<<<<< Updated upstream
 
 			// Empty canvas - 应该不会存在这情况
+=======
+			// Empty canvas
+>>>>>>> Stashed changes
 			if (components.length == 0) {
 				placeholders.push(appendPlaceholder(g, maxJoinX - PH_WIDTH / 2, 0));
-			}
-
+			} 
 			// Adding lines, placeholders, and stop points on TOP of components
 			let i = 0;
 			for (i; i < components.length; i++) {
@@ -1031,17 +1035,18 @@
 				g.appendChild(stop);
 			}
 
-			
+			let containsSwitch = 0;
 			for (i = 0; i < components.length; i++) {
 				// Modify switch components
 				if (components[i] instanceof SwitchStepComponent) {
+					containsSwitch = 1;
 					JoinView.createStraightJoin(g, new Vector(maxJoinX, 0), PH_HEIGHT);
 					
 					// If there is one or more blocks below if/else,
 					// move them to the end of true branch
 					while (components[i+1]) {
 						// Move every block to true branch
-						components[i].step.branches.true.push(components[i].parentSequence[i+1]);
+						components[i].step.branches.True.push(components[i].parentSequence[i+1]);
 			
 						// Remove from parent sequence of if/else & components
 						components[i].parentSequence.splice(i+1,1);
@@ -1060,8 +1065,33 @@
 					});
 				} 
 			}
+<<<<<<< Updated upstream
 			// Remove first placeholder above trigger
 			placeholders.splice(0, 1)
+=======
+			// Hide placeholder & line above trigger
+			if (components.length > 0 && components[0].step.id == 'start-component') {
+				
+				Dom.attrs(placeholders[0], {
+					display: 'none'
+				});
+				const lines = parent.childNodes[0].childNodes;
+				
+				if (components.length == 1){
+					parent.childNodes[0].removeChild(lines[1]);
+				}
+				else {
+					// console.log(lines);
+					parent.childNodes[0].removeChild(lines[components.length]);
+					if (containsSwitch){
+						parent.childNodes[0].removeChild(lines[0]);
+					}
+				}
+				// console.log(document.getElementsByClassName("sqd-input")[0]);
+				document.getElementsByClassName("sqd-input")[0].setAttribute("display","none");
+			}
+				
+>>>>>>> Stashed changes
 			return new SequenceComponentView(g, maxWidth, offsetY, maxJoinX, placeholders, components);
 		}
 		getClientPosition() {
@@ -2121,9 +2151,15 @@
 		}
 		onStart(position) {
 			let offset;
+<<<<<<< Updated upstream
 			
 			// Modified: added more properties to each node 
 			this.step["createdAt"] = new Date().toLocaleString();
+=======
+			//console.log(this.movingStepComponent);
+			// console.log("drag step behavior",this.step);
+			this.step["createdAt"] = new Date();
+>>>>>>> Stashed changes
 			this.step["createdBy"] = "userID";
 			this.step["updatedAt"] = " ";
 			this.step["updatedBy"] = "userID";
@@ -2521,17 +2557,38 @@
 			this.joinX = joinX;
 			this.component = component;
 		}
-		static create(parent, sequence, configuration) {
-			const g = Dom.svg('g');
+		static create(parent, sequence,configuration) {
+			const g = Dom.svg('g', {
+				id: "blocks-container"
+			});
 			parent.appendChild(g);
+			
 			const sequenceComponent = SequenceComponent.create(g, sequence, configuration);
 			const view = sequenceComponent.view;
+<<<<<<< Updated upstream
 			
 			const startCircle = createStart(view.joinX - SIZE / 2, 0);
-			g.appendChild(startCircle);
-			Dom.translate(view.g, 0, SIZE);
+=======
+			let startCircle;
+			if (sequence.length == 0){
+				startCircle = createCircle(g, view.joinX / 2, 0, "Set up trigger");
+			} else if (sequence[0].id != 'start-component'){
+				startCircle = createCircle(g, view.joinX / 2, 0, "Set up trigger");
+			} else {
+				startCircle = createCircle(g, view.joinX / 2, 0, " ");
+			}
 
+
+			Dom.translate(startCircle, view.joinX / 2, 0);
+>>>>>>> Stashed changes
+			g.appendChild(startCircle);
+			Dom.translate(view.g, 0, LABEL_HEIGHT$1);
+
+<<<<<<< Updated upstream
 			return new StartComponentView(g, view.width, view.height + SIZE * 2, view.joinX, sequenceComponent);
+=======
+			return new StartComponentView(g, view.width, LABEL_HEIGHT$1, view.joinX, sequenceComponent);
+>>>>>>> Stashed changes
 		}
 		getClientPosition() {
 			throw new Error('Not supported');
@@ -2542,17 +2599,34 @@
 		}
 	}
 	const LABEL_HEIGHT$1 = 40;
+<<<<<<< Updated upstream
 	const MAX_LABEL_WIDTH = 90;
 	function createStart(x, y) {
 		const g = Dom.svg("g", {
 			class: "sqd-start"
 		});
 		
+=======
+	function createCircle(parent, x, y, text) {
+		let g = Dom.svg("g", {
+			class: "sqd-start",
+			id: 'start'
+		});
+
+		if (text == " "){
+			Dom.attrs(g, {
+				visibility: "hidden"
+			})
+		}
+		
+		parent.appendChild(g);
+>>>>>>> Stashed changes
 		const nameText = Dom.svg('text', {
 				class: 'sqd-label-text',
 				x,
 				y: y + LABEL_HEIGHT$1 / 2
 		});
+<<<<<<< Updated upstream
 		nameText.textContent = "Set up trigger";
 		g.appendChild(nameText);
 		// const nameWidth = Math.max(nameText.getBBox().width + LABEL_PADDING_X * 2, MIN_LABEL_WIDTH);
@@ -2561,6 +2635,16 @@
 			width: MAX_LABEL_WIDTH,
 			height: LABEL_HEIGHT$1,
 			x: x - MAX_LABEL_WIDTH / 2,
+=======
+		nameText.textContent = text;
+		g.appendChild(nameText);
+		const nameWidth = Math.max(g.getBBox().width + LABEL_PADDING_X * 2, MIN_LABEL_WIDTH);
+		const nameRect = Dom.svg('rect', {
+			class: 'sqd-label-rect',
+			width: nameWidth,
+			height: LABEL_HEIGHT$1,
+			x: x - nameWidth / 2,
+>>>>>>> Stashed changes
 			y,
 			rx: 10,
 			ry: 10
@@ -2576,7 +2660,7 @@
 			this.view = view;
 		}
 		static create(parent, sequence, configuration) {
-			const view = StartComponentView.create(parent, sequence, configuration);
+			const view = StartComponentView.create(parent, sequence,configuration);
 			return new StartComponent(view);
 		}
 		findByElement(element) {
@@ -2637,12 +2721,126 @@
 					fill: `url(#${gridPatternId})`
 				})
 			);
+			
+			// Add title box
+			const info = Dom.svg('svg',{
+				class: "info-box",
+				width: 200,
+				height: 40
+			});
+			const rect = Dom.svg('rect', {
+				class: 'info-box-rect',
+				width: 200,
+				height: 40,
+				rx: 20,
+				ry: 20
+			});
+			const title = Dom.svg('text', {
+				x: 90,
+				y: 25,
+				class: 'info-box-title'
+			});
+			title.textContent = "TEST";
+
+			// console.log(parent);
+			const dialogBox = Dom.element('div', {
+				class: 'info-box-prompt',
+			});
+			const dialogForm = Dom.element('form', {
+				class: 'info-box-prompt'
+			});
+			const txt = Dom.element('input', {
+				class: 'info-box-prompt-input',
+				type: 'text',
+				name: 'title',
+				placeholder: title.textContent,
+			});
+			dialogForm.appendChild(txt);
+			txt.insertAdjacentHTML("afterend", "</br>");
+			const btn = Dom.element('input', {
+				class: 'info-box-prompt-btn',
+				type: 'submit',
+			});
+			btn.addEventListener('click', function(e) {
+				e.preventDefault();
+				title.textContent = txt.value;
+				Dom.toggleClass(dialogBox, 1, 'sqd-hidden');
+			});
+			dialogForm.appendChild(btn);
+			dialogBox.appendChild(dialogForm);
+			Dom.toggleClass(dialogBox, 1, 'sqd-hidden');
+
+			info.addEventListener('click', function (){
+				Dom.toggleClass(dialogBox, 0, 'sqd-hidden');
+			});
+
+			info.appendChild(title);
+			info.insertBefore(rect, title);
 			canvas.appendChild(foreground);
 			workspace.appendChild(canvas);
+			workspace.appendChild(info);
 			parent.appendChild(workspace);
+			parent.appendChild(dialogBox);
 			const view = new WorkspaceView(workspace, canvas, gridPattern, gridPatternPath, foreground, configuration);
 			window.addEventListener('resize', view.onResizeHandler, false);
 			return view;
+		}
+		editStartComp(sequence){
+			const start = document.getElementById('start');;
+			// console.log(document.getElementsByClassName('start-component')[0])
+			start.addEventListener('click', e => {
+				e.preventDefault();
+				const dialogBox = Dom.element('dialog',{
+					class: 'triggers-list'
+				});
+				const triggers = ['Subscribe to a list', 'Unsubscribe from a list', 'Place a purchase', 
+					'Abandon checkout', 'Time trigger'];
+				const types = ['Subscribe', 'Unsubscribe', 'Purchase', 'Abandon','Time Trigger'];
+
+				const dialogForm = Dom.element('form',{
+					// class: 'triggers-list',
+					method: 'dialog'
+				});
+			
+				for (let i = 0; i < triggers.length; i++) {
+					const btn1 = Dom.element('button');
+					Dom.attrs(btn1, {
+						class: "triggers",
+						type: "submit",
+						name: "userChoice",
+						value: i
+					});
+					
+					btn1.innerText = triggers[i];
+					btn1.addEventListener(
+						'click',
+						e => {
+							e.preventDefault();
+							sequence.unshift({
+								id: "start-component",
+								componentType: 'task',
+								type: 'save',	// temporary type name 
+								name: triggers[e.target.value],
+								properties: {}
+							});
+							
+							this.render(sequence);
+							dialogBox.close();
+						},
+					);
+					dialogForm.appendChild(btn1);
+					btn1.insertAdjacentHTML("afterend", "</br>");
+				}
+				dialogBox.appendChild(dialogForm);
+				// const root = document.getElementById("first-step");
+				start.appendChild(dialogBox);
+				
+				try {
+					dialogBox.showModal();
+				} catch(error) {
+					console.log(error);
+				}	
+			});
 		}
 		// Render whole page
 		render(sequence) {
@@ -2651,6 +2849,7 @@
 			}
 			// Modified
 			this.rootComponent = StartComponent.create(this.foreground, sequence, this.configuration);
+<<<<<<< Updated upstream
 
 			Dom.attrs(this.foreground.childNodes[0].lastChild, {
 				visibility: "hidden"
@@ -2663,6 +2862,9 @@
 			if (sequence.length > 0) {
 				console.log("workspace view", this.foreground.childNodes[0].firstChild);
 			}
+=======
+			this.editStartComp(sequence);
+>>>>>>> Stashed changes
 			this.refreshSize();
 		}
 		setPositionAndScale(position, scale) {
@@ -2759,7 +2961,7 @@
 			return workspace;
 		}
 		render() {
-			this.view.render(this.context.definition.sequence);
+			this.view.render(this.context.definition.sequence);			
 			this.trySelectStep(this.context.selectedStep);
 			this.revalidate();
 		}
@@ -2824,11 +3026,16 @@
 			e.preventDefault();
 		}
 		startBehavior(target, position, forceMoveMode) {
+			// Update journey name in output json
+			const title = document.getElementsByClassName("info-box-title")[0];
+			this.context.definition.properties.journeyName = title.textContent;
+			// console.log(title.textContent);
+
 			const clickedStep = !forceMoveMode && !this.context.isMoveModeEnabled ? this.getRootComponent().findByElement(target) : null;
-			//console.log(clickedStep);
 			if (clickedStep) {
 				
 				this.context.behaviorController.start(position, SelectStepBehavior.create(clickedStep, this.context));
+<<<<<<< Updated upstream
 				if(clickedStep.view.g.childNodes[14]){
 					const moreidIf = clickedStep.view.g.childNodes[14].id.toString();
 					const butIf = document.getElementById(moreidIf);
@@ -2839,6 +3046,20 @@
 					}
 				}else{
 					//if(clickedStep.view.g.childNodes[3]){
+=======
+				// console.log(2932, clickedStep.view.g.childNodes)
+				// if(clickedStep.view.g.childNodes[14].id){
+				// 	const moreidIf = clickedStep.view.g.childNodes[14].id.toString();
+				// 	const butIf = document.getElementById(moreidIf);
+				// 	butIf.onclick = function(){
+				// 		clickedStep.view.icon1.classList.toggle("sqd-hidden");
+				// 		clickedStep.view.icon2.classList.toggle("sqd-hidden");
+				// 		clickedStep.view.icon3.classList.toggle("sqd-hidden");
+				// 	}
+				// }else{
+					if(clickedStep.view.g.childNodes[3]){
+						// console.log(3071, clickedStep.view.g.childNodes[6].childNodes[0].childNodes[3].id)
+>>>>>>> Stashed changes
 						const moreid = clickedStep.view.g.childNodes[3].id.toString();
 						const but = document.getElementById(moreid)
 						but.onclick = function(){
@@ -2857,6 +3078,25 @@
 						clickedStep.view.g.childNodes[9].classList.toggle('sqd-hidden');
 					}
 				}
+<<<<<<< Updated upstream
+=======
+				
+				if(clickedStep.view.g.childNodes[6].childNodes[0].childNodes[3].id){
+					// console.log(3243, 'valid ID')
+					const subDropdownButtonId1 = clickedStep.view.g.childNodes[6].childNodes[0].childNodes[3].id.toString();
+					const subDropdownButton1 = document.getElementById(subDropdownButtonId1);
+					// console.log(3246, 'GO TO 3246')
+					subDropdownButton1.onclick = function(){
+						console.log(3248, 'clicked')
+						clickedStep.view.g.childNodes[6].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
+						clickedStep.view.g.childNodes[6].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+						clickedStep.view.g.childNodes[6].childNodes[1].childNodes[2].classList.toggle('sqd-hidden');
+						clickedStep.view.g.childNodes[6].childNodes[1].childNodes[3].classList.toggle('sqd-hidden');
+						clickedStep.view.g.childNodes[6].childNodes[1].childNodes[4].classList.toggle('sqd-hidden');
+						clickedStep.view.g.childNodes[6].childNodes[1].childNodes[5].classList.toggle('sqd-hidden');
+					}
+					
+>>>>>>> Stashed changes
 
 				//const dropdown = clickedStep.view.g.childNodes[6].id;
 				// console.log(2951, clickedStep.view.g.childNodes)
@@ -3110,7 +3350,13 @@
 			e.preventDefault();
 			e.stopPropagation();
 			console.log("delete from keyup");
+<<<<<<< Updated upstream
 			
+=======
+			/* const c = promtChoices(this.context);
+			this.context.tryDeleteStep(this.context.selectedStep, c); */
+			// let arr = this.context.tryDeleteStep(this.context.selectedStep);
+>>>>>>> Stashed changes
 			if (this.context.selectedStep.componentType == 'switch'){
 				promptChoices(this.context);
 			}
