@@ -16,13 +16,12 @@ function createIfStep(id, _true, _false) {
 		type: 'if',
 		name: 'If/Else',
 		branches: {
-			'True': _true,
-			'False': _false
+			'true': _true,
+			'false': _false
 		},
 		properties: {}
 	};
 }
-
 
 function toolboxGroup(name) {
 	// if (name == 'Trigger') {
@@ -104,79 +103,22 @@ const configuration = {
 		}
 	}
 };
-<<<<<<< Updated upstream
-=======
-let str = new Date();
->>>>>>> Stashed changes
+
 // start from canvas with only start and end points
 const startDefinition = {
 	properties: {
-		journeyName:'test',
-		createdAt: str,
-		createdBy: 'userID',
-		updateAt: new Date(),
-		updateBy: 'userID'
+		journeyName:'test'
 	},
 	sequence: [
+		// createIfStep('00000000000000000000000000000001',
+		// 	[ createTaskStep('00000000000000000000000000000002', 'save', 'Save file') ],
+		// 	[ createTaskStep('00000000000000000000000000000003', 'text', 'Send email') ]
+		// )
 	]
 };
-// Modified below -- Let user set up trigger first
-function onStartClicked() {
-	// console.log("start clicked", parent)
-	const dialogBox = document.createElement('dialog',{
-		class: 'triggers-list'
-	});
-	const triggers = ['Subscribe to a list', 'Unsubscribe from a list', 'Place a purchase', 
-	'Abandon checkout', 'Time trigger'];
 
-	const dialogForm = document.createElement('form',{
-		// class: 'triggers-list',
-		method: 'dialog'
-	});
-
-	for (let i = 0; i < triggers.length; i++) {
-		const btn1 = document.createElement('button');
-		btn1.setAttribute("class", "triggers");
-		btn1.setAttribute("type", "submit");
-		btn1.setAttribute("name", "userChoice");
-		btn1.setAttribute("value", i);
-		btn1.innerText = triggers[i];
-		btn1.addEventListener(
-			'click',
-			e => {
-				e.preventDefault();
-				startDefinition.sequence.push(createTaskStep('start-component', 'task', triggers[e.target.value]));
-				console.log(startDefinition);
-				document.getElementById("first-step").setAttribute("visibility","hidden");
-				dialogBox.close();
-				const placeholder = document.getElementById('designer');
-				designer = sequentialWorkflowDesigner.create(placeholder, startDefinition, configuration);
-				designer.onDefinitionChanged.subscribe((newDefinition) => {
-					console.log('the definition has changed', newDefinition);
-				});
-			},
-		);
-		dialogForm.appendChild(btn1);
-		btn1.insertAdjacentHTML("afterend", "</br>");
-	}
-	dialogBox.appendChild(dialogForm);
-	const root = document.getElementById("first-step");
-	root.appendChild(dialogBox);
-	dialogBox.showModal();
-}
-
-const butt = document.getElementById('choice');
-butt.addEventListener('click', e => {
-	e.preventDefault();
-	onStartClicked();
-	document.getElementById("first-step").removeChild(butt);
-},false);
-
-<<<<<<< Updated upstream
-=======
 const placeholder = document.getElementById('designer');
 designer = sequentialWorkflowDesigner.create(placeholder, startDefinition, configuration);
 designer.onDefinitionChanged.subscribe((newDefinition) => {
-	// console.log('the definition has changed', newDefinition);
+	console.log('the definition has changed', newDefinition);
 });
->>>>>>> Stashed changes
