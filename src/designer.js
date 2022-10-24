@@ -1567,6 +1567,7 @@
 						});
 				  Dom.attrs(icon1, {
 					  class: "moreicon",
+					  id: `icon1${Date.now()}`,
 					  x: containerWidths[0] + 2 * PADDING_X + ICON_SIZE + 30,
 					  y: PADDING_TOP*1.5,
 					  width: ICON_SIZE,
@@ -2193,6 +2194,7 @@
 			 	  });
 			 Dom.attrs(icon1, {
 			 	class: "moreicon",
+				 id: `icon3${Date.now()}`,
 			 	x: ICON_SIZE + 3 * PADDING_X + textWidth + 40,
 			 	y: PADDING_Y,
 			 	width: ICON_SIZE,
@@ -2760,14 +2762,15 @@
 			this.movingStepComponent = movingStepComponent;
 		}
 		static create(context, step, movingStepComponent) {
+			console.log("drag step behavior",context);
 			const view = DragStepView.create(step, context.configuration);
 			return new DragStepBehavior(view, context, step, movingStepComponent);
 		}
 		onStart(position) {
 			let offset;
 			//console.log(this.movingStepComponent);
-			console.log("drag step behavior",this.step);
-			this.step["createdAt"] = new Date().toLocaleString();
+			
+			this.step["createdAt"] = new Date();
 			this.step["createdBy"] = "userID";
 			this.step["updatedAt"] = " ";
 			this.step["updatedBy"] = "userID";
@@ -2793,7 +2796,7 @@
 				const newPosition = this.state.startPosition.subtract(delta).subtract(this.state.offset);
 				this.view.setPosition(newPosition);
 				const placeholder = this.state.finder.find(newPosition, this.view.width, this.view.height);
-	
+
 				if (this.currentPlaceholder !== placeholder) {
 					//console.log("not the same");
 					if (this.currentPlaceholder) {
@@ -2810,7 +2813,7 @@
 			if (!this.state) {
 				throw new Error('Invalid state');
 			}
-
+			console.log("end dragging", this.currentPlaceholder);			
 			this.state.finder.destroy();
 			this.state = undefined;
 			this.view.remove();
@@ -2819,16 +2822,20 @@
 
 			if (!interrupt && this.currentPlaceholder) {
 				if (this.movingStepComponent) {
-					
+
 					modified = this.context.tryMoveStep(
-						this.movingStepComponent.parentSequence,
-						this.movingStepComponent.step,
-						this.currentPlaceholder.parentSequence,
-						this.currentPlaceholder.index
+					this.movingStepComponent.parentSequence,
+					this.movingStepComponent.step,
+					this.currentPlaceholder.parentSequence,
+					this.currentPlaceholder.index
 					);
 				} else {
+					console.log(" no movingStepComponent")
 					modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
 				}
+			} 
+			else if(this.step.id.startsWith("copy-") && this.currentPlaceholder) {
+				modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
 			}
 			if (!modified) {
 				if (this.movingStepComponent) {
@@ -2841,11 +2848,12 @@
 			this.currentPlaceholder = undefined;
 
 			// Reload page 
-			for (let component of this.context.definition.sequence) {
-				if (component.componentType == "switch") {
-					this.context.provider.render();
-				}
-			}
+			this.context.provider.render();
+			// for (let component of this.context.definition.sequence) {
+			// 	if (component.componentType == "switch") {
+			// 		this.context.provider.render();
+			// 	}
+			// }
 		}
 	}
 	
@@ -3452,6 +3460,10 @@
 								componentType: 'task',
 								type: 'save',	// temporary type name 
 								name: triggers[e.target.value],
+								createdAt: new Date(),
+								createdBy: "userID",
+								updatedAt: new Date(),
+								updatedBy: "userID",
 								properties: {}
 							});
 							
@@ -3683,7 +3695,7 @@
 							clickedStep.view.g.childNodes[17].classList.toggle('sqd-hidden');
 						}
 					}
-
+					
 					//show subdropdown
 					if(clickedStep.view.g.childNodes[17].childNodes[1]){
 						const dropdownButId = clickedStep.view.g.childNodes[17].childNodes[0].childNodes[4].id.toString();
@@ -3781,6 +3793,23 @@
 							
 						}
 					}
+					// duplicate
+					if(clickedStep.view.g.childNodes[14].childNodes[0]){
+						console.log("duplicate if", clickedStep.view.g.childNodes[14].childNodes[0].id);
+						const duplicateId = clickedStep.view.g.childNodes[14].childNodes[0].id.toString();
+						const duplicateBut = document.getElementById(duplicateId);
+						
+						const tempContext = this.context;
+						duplicateBut.onclick = function(e){
+							e.stopPropagation();
+							const duplicateStep = createStep(clickedStep.step);	
+							const pos = readMousePosition(e);
+							duplicateStep.id = "copy-" + clickedStep.step.id+"-at-"+Date.now();
+							// console.log("copy", duplicateStep.id);
+							tempContext.behaviorController.start(pos, DragStepBehavior.create(tempContext, duplicateStep));
+							// console.log(tempContext);							
+						}					
+					}
 				}
 
 
@@ -3791,7 +3820,7 @@
 				
 				if(clickedStep.step.componentType === 'task'){
 					//right popout delete button
-					console.log(3577, clickedStep.view.g.childNodes);
+					// console.log(3577, clickedStep.view.g.childNodes);
 					if(clickedStep.view.g.childNodes[4].childNodes[1]){
 						const deleteButtonId = clickedStep.view.g.childNodes[4].childNodes[1].id.toString();
 						const deleteButton = document.getElementById(deleteButtonId)
@@ -3916,9 +3945,28 @@
 							
 						}
 					}
+					// if(clickedStep.view.g.childNodes[4].childNodes[1]){
+
+					// duplicate
+					if(clickedStep.view.g.childNodes[4].childNodes[0]){
+						const duplicateId = clickedStep.view.g.childNodes[4].childNodes[0].id.toString();
+						const duplicateBut = document.getElementById(duplicateId);
+						
+						// console.log(duplicateId);
+						const tempContext = this.context;
+						duplicateBut.onclick = function(e){
+							// e.preventDefault();
+							e.stopPropagation();
+							const duplicateStep = createStep(clickedStep.step);	
+							const pos = readMousePosition(e);
+							duplicateStep.id = "copy-" + clickedStep.step.id+"-at-"+Date.now();
+							// console.log("copy", duplicateStep.id);
+							tempContext.behaviorController.start(pos, DragStepBehavior.create(tempContext, duplicateStep));
+							// console.log(tempContext);							
+						}					
+					}
 				}
 			} else {
-				console.log(3577, this)
 				var but = document.querySelectorAll(".Collapsed");
 					if(but){
 						but.forEach((e) =>e.classList.add("sqd-hidden"));
