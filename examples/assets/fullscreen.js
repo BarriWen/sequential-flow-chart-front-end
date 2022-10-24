@@ -107,7 +107,11 @@ const configuration = {
 // start from canvas with only start and end points
 const startDefinition = {
 	properties: {
-		journeyName:'test'
+		journeyName:'test',
+		createdAt: new Date(),
+		createdBy: "userID",
+		updatedAt: new Date(),
+		updatedBy: "userID"
 	},
 	sequence: [
 		// createIfStep('00000000000000000000000000000001',
