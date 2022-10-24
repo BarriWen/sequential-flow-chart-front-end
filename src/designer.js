@@ -2763,7 +2763,6 @@
 			this.movingStepComponent = movingStepComponent;
 		}
 		static create(context, step, movingStepComponent) {
-			console.log("drag step behavior",context);
 			const view = DragStepView.create(step, context.configuration);
 			return new DragStepBehavior(view, context, step, movingStepComponent);
 		}
@@ -2797,7 +2796,7 @@
 				const newPosition = this.state.startPosition.subtract(delta).subtract(this.state.offset);
 				this.view.setPosition(newPosition);
 				const placeholder = this.state.finder.find(newPosition, this.view.width, this.view.height);
-
+	
 				if (this.currentPlaceholder !== placeholder) {
 					//console.log("not the same");
 					if (this.currentPlaceholder) {
@@ -2814,7 +2813,7 @@
 			if (!this.state) {
 				throw new Error('Invalid state');
 			}
-			console.log("end dragging", this.currentPlaceholder);			
+
 			this.state.finder.destroy();
 			this.state = undefined;
 			this.view.remove();
@@ -2823,20 +2822,16 @@
 
 			if (!interrupt && this.currentPlaceholder) {
 				if (this.movingStepComponent) {
-
+					
 					modified = this.context.tryMoveStep(
-					this.movingStepComponent.parentSequence,
-					this.movingStepComponent.step,
-					this.currentPlaceholder.parentSequence,
-					this.currentPlaceholder.index
+						this.movingStepComponent.parentSequence,
+						this.movingStepComponent.step,
+						this.currentPlaceholder.parentSequence,
+						this.currentPlaceholder.index
 					);
 				} else {
-					console.log(" no movingStepComponent")
 					modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
 				}
-			} 
-			else if(this.step.id.startsWith("copy-") && this.currentPlaceholder) {
-				modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
 			}
 			if (!modified) {
 				if (this.movingStepComponent) {
@@ -3461,10 +3456,6 @@
 								componentType: 'task',
 								type: 'save',	// temporary type name 
 								name: triggers[e.target.value],
-								createdAt: new Date(),
-								createdBy: "userID",
-								updatedAt: new Date(),
-								updatedBy: "userID",
 								properties: {}
 							});
 							
@@ -3794,24 +3785,6 @@
 							
 						}
 					}
-
-					// duplicate
-					if(clickedStep.view.g.childNodes[14].childNodes[0]){
-						console.log("duplicate if", clickedStep.view.g.childNodes[14].childNodes[0].id);
-						const duplicateId = clickedStep.view.g.childNodes[14].childNodes[0].id.toString();
-						const duplicateBut = document.getElementById(duplicateId);
-						
-						const tempContext = this.context;
-						duplicateBut.onclick = function(e){
-							e.stopPropagation();
-							const duplicateStep = createStep(clickedStep.step);	
-							const pos = readMousePosition(e);
-							duplicateStep.id = "copy-" + clickedStep.step.id+"-at-"+Date.now();
-							// console.log("copy", duplicateStep.id);
-							tempContext.behaviorController.start(pos, DragStepBehavior.create(tempContext, duplicateStep));
-							// console.log(tempContext);							
-						}					
-					}
 				}
 
 
@@ -3822,7 +3795,7 @@
 
 				if(clickedStep.step.componentType === 'task'){
 					//right popout delete button
-					// console.log(3577, clickedStep.view.g.childNodes);
+					// // console.log(3577, clickedStep.view.g.childNodes);
 					if(clickedStep.view.g.childNodes[4].childNodes[1]){
 						const deleteButtonId = clickedStep.view.g.childNodes[4].childNodes[1].id.toString();
 						const deleteButton = document.getElementById(deleteButtonId)
@@ -3947,26 +3920,9 @@
 							
 						}
 					}
-					// duplicate
-					if(clickedStep.view.g.childNodes[4].childNodes[0]){
-						const duplicateId = clickedStep.view.g.childNodes[4].childNodes[0].id.toString();
-						const duplicateBut = document.getElementById(duplicateId);
-						
-						// console.log(duplicateId);
-						const tempContext = this.context;
-						duplicateBut.onclick = function(e){
-							// e.preventDefault();
-							e.stopPropagation();
-							const duplicateStep = createStep(clickedStep.step);	
-							const pos = readMousePosition(e);
-							duplicateStep.id = "copy-" + clickedStep.step.id+"-at-"+Date.now();
-							// console.log("copy", duplicateStep.id);
-							tempContext.behaviorController.start(pos, DragStepBehavior.create(tempContext, duplicateStep));
-							// console.log(tempContext);							
-						}					
-					}
 				}
 			} else {
+				console.log(3577, this)
 				var but = document.querySelectorAll(".Collapsed");
 					if(but){
 						but.forEach((e) =>e.classList.add("sqd-hidden"));
