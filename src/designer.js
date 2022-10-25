@@ -1808,7 +1808,7 @@
 			const dropdownBoxBottomShapecover = Dom.svg('rect', {
 				width: 60,
 				height: 15,
-				class: 'option select-field',
+				class: 'option select-field choice',
 				fill: "#fff",
 				stroke: "#a0a0a0",
 				x: containerWidths[0] - 5,
@@ -1818,7 +1818,7 @@
 				
 			})
 			Dom.attrs(dropdownBoxBottomShapecover,{
-				opacity: 0
+				opacity: 0.3
 				}
 			)
 			const dropdownBoxBottomShapeS = Dom.svg('rect', {
@@ -1840,7 +1840,7 @@
 			const dropdownBoxBottomShapeScover = Dom.svg('rect', {
 				width: 60,
 				height: 15,
-				class: 'option select-field',
+				class: 'option select-field choice',
 				fill: "#fff",
 				stroke: "#a0a0a0",
 				x: containerWidths[0] - 5,
@@ -1849,7 +1849,7 @@
 				
 			})
 			Dom.attrs(dropdownBoxBottomShapeScover,{
-				opacity: 0
+				opacity: 0.3
 				}
 			)
 			
@@ -1872,7 +1872,7 @@
 			const dropdownBoxBottomShape1cover = Dom.svg('rect', {
 				width: 60,
 				height: 15,
-				class: 'option select-field',
+				class: 'option select-field choice',
 				fill: "#fff",
 				stroke: "#a0a0a0",
 				x: containerWidths[0] - 5,
@@ -1881,7 +1881,7 @@
 				
 			})
 			Dom.attrs(dropdownBoxBottomShape1cover,{
-				opacity: 0
+				opacity: 0.3
 				}
 			)
 			const dropdownBoxBottomShape1S = Dom.svg('rect', {
@@ -1903,16 +1903,16 @@
 			const dropdownBoxBottomShape1Scover = Dom.svg('rect', {
 				width: 60,
 				height: 15,
-				class: 'option select-field',
+				class: 'option select-field choice',
 				fill: "#fff",
 				stroke: "#a0a0a0",
-				x: ICON_SIZE + 5 * PADDING_X,
+				x: containerWidths[0] - 5,
 				y: 2.2 * boxHeight + 30,
 				id:`dropdownBoxBottomShape1Scover${Date.now()}`
 				
 			})
 			Dom.attrs(dropdownBoxBottomShape1Scover,{
-				opacity: 0
+				opacity: 0.3
 				}
 			)
 			
@@ -3727,6 +3727,7 @@
 							clickedStep.view.g.childNodes[17].childNodes[1].classList.toggle('sqd-hidden');
 						}
 					}
+					//subdropdown1
 					if(clickedStep.view.g.childNodes[16].childNodes[0].childNodes[3].id){
 						const dropdownButId = clickedStep.view.g.childNodes[16].childNodes[0].childNodes[3].id.toString();
 						const dropdownBut = document.getElementById(dropdownButId);
@@ -3736,6 +3737,51 @@
 							clickedStep.view.g.childNodes[16].childNodes[1].classList.toggle('sqd-hidden');
 						}
 					}
+					//upper subdropdown
+					console.log(3741, clickedStep.view.g.childNodes)
+					const selectRunUpperId = clickedStep.view.g.childNodes[17].childNodes[1].childNodes[2].id.toString()
+					const selectRunUpper  = document.getElementById(selectRunUpperId);
+					selectRunUpper.onclick = function() {
+						console.log(3589, clickedStep)
+						const showVal = clickedStep.view.g.childNodes[17].childNodes[1].childNodes[1].innerHTML
+						clickedStep.view.g.childNodes[17].childNodes[0].childNodes[2].textContent = showVal
+						clickedStep.view.g.childNodes[17].childNodes[1].classList.toggle('sqd-hidden');
+						clickedStep.step.properties['Select List'] = showVal
+					}
+					const selectRunUpperId1 = clickedStep.view.g.childNodes[17].childNodes[1].childNodes[5].id.toString()
+					const selectRunUpper1  = document.getElementById(selectRunUpperId1);
+					selectRunUpper1.onclick = function() {
+						
+						const showVal = clickedStep.view.g.childNodes[17].childNodes[1].childNodes[4].innerHTML
+
+						console.log(3589,showVal)
+						clickedStep.view.g.childNodes[17].childNodes[0].childNodes[2].textContent = showVal
+						clickedStep.view.g.childNodes[17].childNodes[1].classList.toggle('sqd-hidden');
+						clickedStep.step.properties['Select List'] = showVal
+					}
+
+
+					//lower subdropdown
+					const selectRunLowerId = clickedStep.view.g.childNodes[16].childNodes[1].childNodes[2].id.toString()
+					const selectRunLower  = document.getElementById(selectRunLowerId);
+					selectRunLower.onclick = function() {
+						//console.log(3589, clickedStep.view.g.childNodes)
+						const showVal = clickedStep.view.g.childNodes[16].childNodes[1].childNodes[1].innerHTML
+						clickedStep.view.g.childNodes[16].childNodes[0].childNodes[2].textContent = showVal
+						clickedStep.view.g.childNodes[16].childNodes[1].classList.toggle('sqd-hidden');
+						clickedStep.step.properties['Run'] = showVal
+					}
+					const selectRunLowerId1 = clickedStep.view.g.childNodes[16].childNodes[1].childNodes[5].id.toString()
+					const selectRunLower1  = document.getElementById(selectRunLowerId1);
+					selectRunLower1.onclick = function() {
+						//console.log(3589, )
+						const showVal = clickedStep.view.g.childNodes[16].childNodes[1].childNodes[4].innerHTML
+						console.log(3596, clickedStep.view.g.childNodes[16].childNodes[0].childNodes[2])
+						clickedStep.view.g.childNodes[16].childNodes[0].childNodes[2].textContent = showVal
+						clickedStep.view.g.childNodes[16].childNodes[1].classList.toggle('sqd-hidden');
+						clickedStep.step.properties['Run'] = showVal
+					}
+
 				}
 
 
