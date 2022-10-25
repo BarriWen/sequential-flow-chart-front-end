@@ -24,18 +24,19 @@ function createIfStep(id, _true, _false) {
 }
 
 function toolboxGroup(name) {
-	if (name == 'Trigger') {
-		return {
-			name,
-			steps: [
-				createTaskStep(null, 'text', 'Subscribe'),
-				createTaskStep(null, 'text', 'Unsubscribe'),
-				createTaskStep(null, 'task', 'Abandon'),
-				createTaskStep(null, 'task', 'Purchase'),
-				createTaskStep(null, 'task', 'Time Trigger')
-			]
-		};
-	} else if (name == 'Filter') {
+	// if (name == 'Trigger') {
+	// 	return {
+	// 		name,
+	// 		steps: [
+	// 			createTaskStep(null, 'text', 'Subscribe'),
+	// 			createTaskStep(null, 'text', 'Unsubscribe'),
+	// 			createTaskStep(null, 'task', 'Abandon'),
+	// 			createTaskStep(null, 'task', 'Purchase'),
+	// 			createTaskStep(null, 'task', 'Time Trigger')
+	// 		]
+	// 	};
+	// } else 
+	if (name == 'Filter') {
 		return {
 			name,
 			steps: [
@@ -61,7 +62,7 @@ const configuration = {
 	toolbox: {
 		isHidden: false,
 		groups: [
-			toolboxGroup('Trigger'),
+			// toolboxGroup('Trigger'),
 			toolboxGroup('Filter'),
 			toolboxGroup('Action')
 		]
@@ -106,7 +107,11 @@ const configuration = {
 // start from canvas with only start and end points
 const startDefinition = {
 	properties: {
-		journeyName:'test'
+		journeyName:'test',
+		createdAt: new Date(),
+		createdBy: "userID",
+		updatedAt: new Date(),
+		updatedBy: "userID"
 	},
 	sequence: [
 		// createIfStep('00000000000000000000000000000001',
