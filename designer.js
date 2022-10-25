@@ -1015,43 +1015,7 @@
 				placeholders.push(appendPlaceholder(g, maxJoinX - PH_WIDTH / 2, offsetY - PH_HEIGHT));
 				Dom.translate(components[i].view.g, offsetX, offsetY);
 				offsetY += components[i].view.height + PH_HEIGHT;
-				// console.log(1035,components[i])
-				// const rect = Dom.svg('rect', {
-				// 	x: offsetX,
-				// 	y: offsetY - PH_HEIGHT,
-				// 	class: 'sqd-task-rect',
-				// 	width: 150,
-				// 	height: 42* 2,
-				// 	rx: RECT_RADIUS,
-				// 	ry: RECT_RADIUS
-				// });
-				// Dom.attrs(rect, {
-				// 	class: 'sqd-hidden',
-				// 	id:`dropdown${Date.now()}`
-				// })
-				// const nameText = Dom.svg('text', {
-				// 	class: 'sqd-task-text',
-				// 	x: maxJoinX - components[i].view.joinX + 10,
-				// 	y: offsetY - PH_HEIGHT + 30,
-				// });
-				// Dom.attrs(nameText, {
-				// 	class: 'sqd-hidden',
-				// 	id:`dropdownword${Date.now()}`
-				// })
-				// const nameText1 = Dom.svg('text', {
-				// 	class: 'sqd-task-text',
-				// 	x: maxJoinX - components[i].view.joinX + 10,
-				// 	y: offsetY - PH_HEIGHT + 50,
-				// });
-				// Dom.attrs(nameText1, {
-				// 	class: 'sqd-hidden',
-				// 	id:`dropdownword${Date.now()}`
-				// })
-				// nameText.textContent = 'Select List:';
-				// nameText1.textContent = 'Run:';
-				// g.appendChild(nameText)
-				// g.appendChild(nameText1)
-				// g.insertBefore(rect, nameText);
+				
 			}			
 			
 			/* Add placeholder & stop sign to the BOTTOM of last component 
@@ -1067,42 +1031,12 @@
 				g.appendChild(stop);
 			}
 
-			
+			let containsSwitch;
 			for (i = 0; i < components.length; i++) {
-				// 这里添加dropdown!
-				// console.log(1035,components[i])
-				// const rect = Dom.svg('rect', {
-				// 	x: maxJoinX - components[i].view.joinX,
-				// 	y: components[i].view.height + PH_HEIGHT,
-				// 	class: 'sqd-task-rect',
-				// 	width: 150,
-				// 	height: 42* 2,
-				// 	rx: RECT_RADIUS,
-				// 	ry: RECT_RADIUS
-				// });
-				// Dom.attrs(rect, {
-				// 	id:`dropdown${Date.now()}`
-				// })
-				// const nameText = Dom.svg('text', {
-				// 	class: 'sqd-task-text',
-				// 	x: maxJoinX - components[i].view.joinX + 10,
-				// 	y: offsetY - PH_HEIGHT + 30,
-				// });
-				// const nameText1 = Dom.svg('text', {
-				// 	class: 'sqd-task-text',
-				// 	x: maxJoinX - components[i].view.joinX + 10,
-				// 	y: offsetY - PH_HEIGHT + 50,
-				// });
-				// nameText.textContent = 'Select List:';
-				// nameText1.textContent = 'Run:';
-				// g.appendChild(nameText)
-				// g.appendChild(nameText1)
-				// g.insertBefore(rect, nameText);
-				
 				// Modify switch components
 				if (components[i] instanceof SwitchStepComponent) {
 					JoinView.createStraightJoin(g, new Vector(maxJoinX, 0), PH_HEIGHT);
-					
+					containsSwitch = 1;
 					// If there is one or more blocks below if/else,
 					// move them to the end of true branch
 					while (components[i+1]) {
@@ -1115,7 +1049,28 @@
 					}
 				} 
 			}
-			
+			// Hide start component, and placeholder & line below it
+			if (components.length > 0 && components[0].step.id == 'start-component') {
+				
+				Dom.attrs(placeholders[0], {
+					display: 'none'
+				});
+				const lines = parent.childNodes[0].childNodes;
+				
+				if (components.length == 1){
+					parent.childNodes[0].removeChild(lines[1]);
+				}
+				else {
+					// console.log(lines);
+					parent.childNodes[0].removeChild(lines[components.length]);
+					if (containsSwitch){
+						parent.childNodes[0].removeChild(lines[0]);
+					}
+				}
+				// console.log(document.getElementsByClassName("sqd-input")[0]);
+				document.getElementsByClassName("sqd-input")[0].setAttribute("display","none");
+			}
+
 			return new SequenceComponentView(g, maxWidth, offsetY, maxJoinX, placeholders, components);
 		}
 		getClientPosition() {
@@ -1543,7 +1498,6 @@
 				);
 				Dom.translate(sequence.view.g, sequenceX, sequenceY);
 			});
-			//LabelView.create(g, containerWidths[0], PADDING_TOP, step.name);
 			
 			// New look of if/else block
 			const g1 = Dom.svg("g");
@@ -1614,6 +1568,7 @@
 						});
 				  Dom.attrs(icon1, {
 					  class: "moreicon",
+					  id: `icon1${Date.now()}`,
 					  x: containerWidths[0] + 2 * PADDING_X + ICON_SIZE + 30,
 					  y: PADDING_TOP*1.5,
 					  width: ICON_SIZE,
@@ -2203,6 +2158,7 @@
 			 	  });
 			 Dom.attrs(icon1, {
 			 	class: "moreicon",
+				id: `icon1${Date.now()}`,
 			 	x: ICON_SIZE + 3 * PADDING_X + textWidth + 40,
 			 	y: PADDING_Y,
 			 	width: ICON_SIZE,
@@ -2836,7 +2792,7 @@
 			let offset;
 			//console.log(this.movingStepComponent);
 			console.log("drag step behavior",this.step);
-			this.step["createdAt"] = new Date().toLocaleString();
+			this.step["createdAt"] = new Date();
 			this.step["createdBy"] = "userID";
 			this.step["updatedAt"] = " ";
 			this.step["updatedBy"] = "userID";
@@ -3237,8 +3193,16 @@
 			parent.appendChild(g);
 			const sequenceComponent = SequenceComponent.create(g, sequence, configuration);
 			const view = sequenceComponent.view;
-			const startCircle = createCircle(true);
-			Dom.translate(startCircle, view.joinX - SIZE / 2, 0);
+			let startCircle;
+			if (sequence.length == 0){
+				startCircle = createCircle(g, view.joinX -  SIZE/3, 0, "Click here to choose your trigger");
+			} else if (sequence[0].id != 'start-component'){
+				startCircle = createCircle(g, view.joinX - SIZE/3, 0, "Click here to choose your trigger");
+			} else {
+				startCircle = createCircle(g, view.joinX - SIZE/3, 0, " ");
+			}
+			
+			// Dom.translate(startCircle, view.joinX - SIZE / 2, 0);
 			g.appendChild(startCircle);
 			Dom.translate(view.g, 0, SIZE);
 
@@ -3255,25 +3219,39 @@
 			(_a = this.g.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(this.g);
 		}
 	}
-	function createCircle(isStart) {
-		const circle = Dom.svg('circle', {
-			class: 'sqd-start-stop',
-			cx: SIZE / 2,
-			cy: SIZE / 2,
-			r: SIZE / 2
+	const LABEL_HEIGHT$1 = 40;
+	function createCircle(parent, x, y, text) {
+		let g = Dom.svg("g", {
+			class: "sqd-start",
+			id: 'start'
 		});
-		const g = Dom.svg('g');
-		g.appendChild(circle);
-		const s = SIZE * 0.5;
-		const m = (SIZE - s) / 2;
-		if (isStart) {
-			const start = Dom.svg('path', {
-				class: 'sqd-start-stop-icon',
-				transform: `translate(${m}, ${m})`,
-				d: `M ${s * 0.2} 0 L ${s} ${s / 2} L ${s * 0.2} ${s} Z`
+		parent.appendChild(g);
+		if (text == " "){
+			Dom.attrs(g, {
+				visibility: "hidden"
 			});
-			g.appendChild(start);
-		} 
+			// return g;
+		}
+
+		const nameText = Dom.svg('text', {
+			class: 'sqd-label-text',
+			x,
+			y: y + LABEL_HEIGHT$1 / 2
+		});
+		nameText.textContent = text;
+		g.appendChild(nameText);
+		const nameWidth = Math.max(g.getBBox().width + LABEL_PADDING_X * 2, MIN_LABEL_WIDTH);
+		const nameRect = Dom.svg('rect', {
+			class: 'sqd-label-rect',
+			width: nameWidth,
+			height: LABEL_HEIGHT$1,
+			x: x - nameWidth / 2,
+			y,
+			rx: 10,
+			ry: 10
+		});
+
+		g.insertBefore(nameRect, nameText);
 		return g;
 	}
 
@@ -3303,63 +3281,6 @@
 	}
 	// end: Start component
 
-	/* not used below
-	// start: Stop component
-	class StopComponentView {
-		constructor(g, width, height, joinX, component) {
-			this.g = g;
-			this.width = width;
-			this.height = height;
-			this.joinX = joinX;
-			this.component = component;
-		}
-		static create(parent, sequence, configuration) {
-			const g = Dom.svg('g');
-			parent.appendChild(g);
-			const sequenceComponent = SequenceComponent.create(g, sequence, configuration);
-			const view = sequenceComponent.view;
-
-			const endCircle = createCircle(false);
-			Dom.translate(endCircle, view.joinX - SIZE / 2, SIZE + view.height);
-			g.appendChild(endCircle);
-			return new StopComponentView(g, view.width, view.height + SIZE * 2, view.joinX, sequenceComponent);
-		}
-		getClientPosition() {
-			throw new Error('Not supported');
-		}
-		destroy() {
-			var _a;
-			(_a = this.g.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(this.g);
-		}
-	}
-
-	class StopComponent {
-		constructor(view) {
-			this.view = view;
-			this.componentType = 'stop';
-		}
-		static create(parent, sequence, configuration) {
-			const view = StopComponentView.create(parent, sequence, configuration);
-			return new StopComponent(view);
-		}
-		findByElement(element) {
-			return this.view.component.findByElement(element);
-		}
-		findById(stepId) {
-			return this.view.component.findById(stepId);
-		}
-		getPlaceholders(result) {
-			this.view.component.getPlaceholders(result);
-		}
-		setIsDragging(isDragging) {
-			this.view.component.setIsDragging(isDragging);
-		}
-		validate() {
-			return this.view.component.validate();
-		}
-	}
-	// end: Stop component
-*/
 	const GRID_SIZE = 48;
 	let lastGridPatternId = 0;
 	class WorkspaceView {
@@ -3400,12 +3321,130 @@
 					fill: `url(#${gridPatternId})`
 				})
 			);
+			// Add title box
+			const info = Dom.svg('svg',{
+				class: "info-box",
+				width: 200,
+				height: 40
+			});
+			const rect = Dom.svg('rect', {
+				class: 'info-box-rect',
+				width: 200,
+				height: 40,
+				rx: 20,
+				ry: 20
+			});
+			const title = Dom.svg('text', {
+				x: 90,
+				y: 25,
+				class: 'info-box-title'
+			});
+			title.textContent = "TEST";
+
+			// console.log(parent);
+			const dialogBox = Dom.element('div', {
+				class: 'info-box-prompt',
+			});
+			const dialogForm = Dom.element('form', {
+				class: 'info-box-prompt'
+			});
+			const txt = Dom.element('input', {
+				class: 'info-box-prompt-input',
+				type: 'text',
+				name: 'title',
+				placeholder: title.textContent,
+			});
+			dialogForm.appendChild(txt);
+			txt.insertAdjacentHTML("afterend", "</br>");
+			const btn = Dom.element('input', {
+				class: 'info-box-prompt-btn',
+				type: 'submit',
+			});
+			btn.addEventListener('click', function(e) {
+				e.preventDefault();
+				title.textContent = txt.value;
+				Dom.toggleClass(dialogBox, 1, 'sqd-hidden');
+			});
+			dialogForm.appendChild(btn);
+			dialogBox.appendChild(dialogForm);
+			Dom.toggleClass(dialogBox, 1, 'sqd-hidden');
+
+			info.addEventListener('click', function (){
+				Dom.toggleClass(dialogBox, 0, 'sqd-hidden');
+			});
+
+			info.appendChild(title);
+			info.insertBefore(rect, title);
+
 			canvas.appendChild(foreground);
 			workspace.appendChild(canvas);
+			workspace.appendChild(info);
 			parent.appendChild(workspace);
+			parent.appendChild(dialogBox);
 			const view = new WorkspaceView(workspace, canvas, gridPattern, gridPatternPath, foreground, configuration);
 			window.addEventListener('resize', view.onResizeHandler, false);
 			return view;
+		}
+		editStartComp(sequence){
+			const start = document.getElementById('start');;
+			// console.log(document.getElementsByClassName('start-component')[0])
+			start.addEventListener('click', e => {
+				e.preventDefault();
+				const dialogBox = Dom.element('dialog',{
+					class: 'triggers-list'
+				});
+				const triggers = ['Subscribe to a list', 'Unsubscribe from a list', 'Place a purchase', 
+					'Abandon checkout', 'Time trigger'];
+				const types = ['Subscribe', 'Unsubscribe', 'Purchase', 'Abandon','Time Trigger'];
+
+				const dialogForm = Dom.element('form',{
+					// class: 'triggers-list',
+					method: 'dialog'
+				});
+			
+				for (let i = 0; i < triggers.length; i++) {
+					const btn1 = Dom.element('button');
+					Dom.attrs(btn1, {
+						class: "triggers",
+						type: "submit",
+						name: "userChoice",
+						value: i
+					});
+					
+					btn1.innerText = triggers[i];
+					btn1.addEventListener(
+						'click',
+						e => {
+							e.preventDefault();
+							sequence.unshift({
+								id: "start-component",
+								componentType: 'task',
+								type: 'save',	// temporary type name 
+								name: triggers[e.target.value],
+								createdAt: new Date(),
+								createdBy: "userID",
+								updatedAt: new Date(),
+								updatedBy: "userID",
+								properties: {}
+							});
+							
+							this.render(sequence);
+							dialogBox.close();
+						},
+					);
+					dialogForm.appendChild(btn1);
+					btn1.insertAdjacentHTML("afterend", "</br>");
+				}
+				dialogBox.appendChild(dialogForm);
+				// const root = document.getElementById("first-step");
+				start.appendChild(dialogBox);
+				
+				try {
+					dialogBox.showModal();
+				} catch(error) {
+					console.log(error);
+				}	
+			});
 		}
 		// Render whole page
 		render(sequence) {
@@ -3413,6 +3452,7 @@
 				this.rootComponent.view.destroy();
 			}
 			this.rootComponent = StartComponent.create(this.foreground, sequence, this.configuration);
+			this.editStartComp(sequence);
 			this.refreshSize();
 		}
 		setPositionAndScale(position, scale) {
@@ -3574,6 +3614,10 @@
 			e.preventDefault();
 		}
 		startBehavior(target, position, forceMoveMode) {
+			// Update journey name in output json
+			const title = document.getElementsByClassName("info-box-title")[0];
+			this.context.definition.properties.journeyName = title.textContent;
+
 			const clickedStep = !forceMoveMode && !this.context.isMoveModeEnabled ? this.getRootComponent().findByElement(target) : null;
 			if (clickedStep) {
 				this.context.behaviorController.start(position, SelectStepBehavior.create(clickedStep, this.context));
@@ -3628,6 +3672,24 @@
 							e.stopPropagation();
 							clickedStep.view.g.childNodes[16].childNodes[1].classList.toggle('sqd-hidden');
 						}
+					}
+
+					// duplicate
+					if(clickedStep.view.g.childNodes[14].childNodes[0]){
+						console.log("duplicate if", clickedStep.view.g.childNodes[14].childNodes[0].id);
+						const duplicateId = clickedStep.view.g.childNodes[14].childNodes[0].id.toString();
+						const duplicateBut = document.getElementById(duplicateId);
+						
+						const tempContext = this.context;
+						duplicateBut.onclick = function(e){
+							e.stopPropagation();
+							const duplicateStep = createStep(clickedStep.step);	
+							const pos = readMousePosition(e);
+							duplicateStep.id = "copy-" + clickedStep.step.id+"-at-"+Date.now();
+							// console.log("copy", duplicateStep.id);
+							tempContext.behaviorController.start(pos, DragStepBehavior.create(tempContext, duplicateStep));
+							// console.log(tempContext);							
+						}					
 					}
 				}
 
@@ -3749,7 +3811,24 @@
 						clickedStep.step.properties['Run'] = showVal
 					}
 
-
+					// duplicate
+					if(clickedStep.view.g.childNodes[4].childNodes[0]){
+						const duplicateId = clickedStep.view.g.childNodes[4].childNodes[0].id.toString();
+						const duplicateBut = document.getElementById(duplicateId);
+						
+						// console.log(duplicateId);
+						const tempContext = this.context;
+						duplicateBut.onclick = function(e){
+							// e.preventDefault();
+							e.stopPropagation();
+							const duplicateStep = createStep(clickedStep.step);	
+							const pos = readMousePosition(e);
+							duplicateStep.id = "copy-" + clickedStep.step.id+"-at-"+Date.now();
+							// console.log("copy", duplicateStep.id);
+							tempContext.behaviorController.start(pos, DragStepBehavior.create(tempContext, duplicateStep));
+							// console.log(tempContext);							
+						}					
+					}
 
 				}
 			} else {
@@ -3997,13 +4076,12 @@
 			e.preventDefault();
 			e.stopPropagation();
 			console.log("delete from keyup");
-			/* const c = promtChoices(this.context);
-			this.context.tryDeleteStep(this.context.selectedStep, c); */
-			let arr = this.context.tryDeleteStep(this.context.selectedStep);
-			if (arr[0].componentType == 'switch'){
-				promptChoices(this.context, arr[0], arr[1]); 
-			} else {
-				SequenceModifier.deleteStep(arr[0], arr[1], 2); 
+			
+			if (this.context.selectedStep.componentType == 'switch'){
+				promptChoices(this.context);
+			}
+			else {
+				this.context.tryDeleteStep(this.context.selectedStep, 2);
 			}
 		}
 	}
