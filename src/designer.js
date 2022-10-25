@@ -1569,6 +1569,7 @@
 						});
 				  Dom.attrs(icon1, {
 					  class: "moreicon",
+					  id: `icon1${Date.now()}`,
 					  x: containerWidths[0] + 2 * PADDING_X + ICON_SIZE + 30,
 					  y: PADDING_TOP*1.5,
 					  width: ICON_SIZE,
@@ -2156,6 +2157,7 @@
 			 	  });
 			 Dom.attrs(icon1, {
 			 	class: "moreicon",
+				id: `icon1${Date.now()}`,
 			 	x: ICON_SIZE + 3 * PADDING_X + textWidth + 40,
 			 	y: PADDING_Y,
 			 	width: ICON_SIZE,
@@ -2960,6 +2962,9 @@
 					modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
 				}
 			}
+			else if(this.step.id.startsWith("copy-") && this.currentPlaceholder) {
+				modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
+			}
 			if (!modified) {
 				if (this.movingStepComponent) {
 					this.movingStepComponent.setState(StepComponentState.default);
@@ -2971,11 +2976,12 @@
 			this.currentPlaceholder = undefined;
 
 			// Reload page 
-			for (let component of this.context.definition.sequence) {
-				if (component.componentType == "switch") {
-					this.context.provider.render();
-				}
-			}
+			this.context.provider.render();
+			// for (let component of this.context.definition.sequence) {
+			// 	if (component.componentType == "switch") {
+			// 		this.context.provider.render();
+			// 	}
+			// }
 		}
 	}
 	
@@ -3880,6 +3886,23 @@
 						clickedStep.step.properties['Run'] = showVal
 					}
 
+					// duplicate
+					if(clickedStep.view.g.childNodes[14].childNodes[0]){
+						console.log("duplicate if", clickedStep.view.g.childNodes[14].childNodes[0].id);
+						const duplicateId = clickedStep.view.g.childNodes[14].childNodes[0].id.toString();
+						const duplicateBut = document.getElementById(duplicateId);
+						
+						const tempContext = this.context;
+						duplicateBut.onclick = function(e){
+							e.stopPropagation();
+							const duplicateStep = createStep(clickedStep.step);	
+							const pos = readMousePosition(e);
+							duplicateStep.id = "copy-" + clickedStep.step.id+"-at-"+Date.now();
+							// console.log("copy", duplicateStep.id);
+							tempContext.behaviorController.start(pos, DragStepBehavior.create(tempContext, duplicateStep));
+							// console.log(tempContext);							
+						}					
+					}
 				}
 
 
@@ -4015,7 +4038,24 @@
 						clickedStep.step.properties['Run'] = showVal
 					}
 
-
+					// duplicate
+					if(clickedStep.view.g.childNodes[4].childNodes[0]){
+						const duplicateId = clickedStep.view.g.childNodes[4].childNodes[0].id.toString();
+						const duplicateBut = document.getElementById(duplicateId);
+						
+						// console.log(duplicateId);
+						const tempContext = this.context;
+						duplicateBut.onclick = function(e){
+							// e.preventDefault();
+							e.stopPropagation();
+							const duplicateStep = createStep(clickedStep.step);	
+							const pos = readMousePosition(e);
+							duplicateStep.id = "copy-" + clickedStep.step.id+"-at-"+Date.now();
+							// console.log("copy", duplicateStep.id);
+							tempContext.behaviorController.start(pos, DragStepBehavior.create(tempContext, duplicateStep));
+							// console.log(tempContext);							
+						}					
+					}
 
 				}
 			} else {
