@@ -278,10 +278,19 @@
 	width: 22px;
 	cursor: pointer;
 }
-.moreicon:hover {
-	display: block;
-	cursor: pointer;
-}
 .sqd-task-rect-dropdown{
 	position: fixed;
+}
+.sub-dropdownbox-pop{
+	cursor: pointer;
+}
+.sub-dropdownbox{
+	cursor: pointer;
+}
+.choice {
+	cursor: pointer;
+	stroke-width: 1;
+}
+.choice:hover {
+	fill: blue;
 }
