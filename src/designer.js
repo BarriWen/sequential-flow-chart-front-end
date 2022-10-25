@@ -1753,13 +1753,13 @@
 						x: containerWidths[0] - 5,
 						y: 1.85 * boxHeight,
 					});
-			dropdownBoxInnerText.textContent = 'Any list';
+			dropdownBoxInnerText.textContent = 'Select';
 			const dropdownBoxInnerText1 = Dom.svg('text', {
 				class: 'sqd-task-text',
 						x: containerWidths[0] - 5,
 						y: 2.35 * boxHeight,
 					});
-			dropdownBoxInnerText1.textContent = 'Once';
+			dropdownBoxInnerText1.textContent = 'Select';
 			const dropdownBoxShapeAfter = Dom.svg('rect', {
 				width: 60,
 				height: 15,
@@ -2551,13 +2551,13 @@
 						x: ICON_SIZE + 5 * PADDING_X,
 						y: 1.35 * boxHeight,
 					});
-			dropdownBoxInnerText.textContent = 'Any list';
+			dropdownBoxInnerText.textContent = 'Select';
 			const dropdownBoxInnerText1 = Dom.svg('text', {
 				class: 'sqd-task-text',
 						x: ICON_SIZE + 5 * PADDING_X,
 						y: 1.9 * boxHeight,
 					});
-			dropdownBoxInnerText1.textContent = 'Once';
+			dropdownBoxInnerText1.textContent = 'Select';
 			const dropdownBoxShapeAfter = Dom.svg('rect', {
 				width: 60,
 				height: 15,
