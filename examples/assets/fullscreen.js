@@ -16,8 +16,8 @@ function createIfStep(id, _true, _false) {
 		type: 'if',
 		name: 'If/Else',
 		branches: {
-			'true': _true,
-			'false': _false
+			'True': _true,
+			'False': _false
 		},
 		properties: {}
 	};
