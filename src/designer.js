@@ -3112,7 +3112,7 @@
 			let offset;
 			//console.log(this.movingStepComponent);
 			console.log("drag step behavior",this.step);
-			this.step["createdAt"] = new Date().toLocaleString();
+			this.step["createdAt"] = new Date();
 			this.step["createdBy"] = "userID";
 			this.step["updatedAt"] = " ";
 			this.step["updatedBy"] = "userID";
@@ -3701,6 +3701,7 @@
 					fill: `url(#${gridPatternId})`
 				})
 			);
+			// Add title box
 			const info = Dom.svg('svg',{
 				class: "info-box",
 				width: 200,
