@@ -1032,7 +1032,7 @@
 
 			let containsSwitch;
 			for (i = 0; i < components.length; i++) {
-				
+			
 				// Modify switch components
 				if (components[i] instanceof SwitchStepComponent) {
 					JoinView.createStraightJoin(g, new Vector(maxJoinX, 0), PH_HEIGHT);
@@ -1051,12 +1051,12 @@
 			}
 			// Hide start component, and placeholder & line below it
 			if (components.length > 0 && components[0].step.id == 'start-component') {
-				
+
 				Dom.attrs(placeholders[0], {
 					display: 'none'
 				});
 				const lines = parent.childNodes[0].childNodes;
-				
+
 				if (components.length == 1){
 					parent.childNodes[0].removeChild(lines[1]);
 				}
@@ -1070,6 +1070,7 @@
 				// console.log(document.getElementsByClassName("sqd-input")[0]);
 				document.getElementsByClassName("sqd-input")[0].setAttribute("display","none");
 			}
+			
 			return new SequenceComponentView(g, maxWidth, offsetY, maxJoinX, placeholders, components);
 		}
 		getClientPosition() {
@@ -2157,7 +2158,7 @@
 			 	  });
 			 Dom.attrs(icon1, {
 			 	class: "moreicon",
-				id: `icon1${Date.now()}`,
+				 id: `icon1${Date.now()}`,
 			 	x: ICON_SIZE + 3 * PADDING_X + textWidth + 40,
 			 	y: PADDING_Y,
 			 	width: ICON_SIZE,
@@ -2961,8 +2962,7 @@
 				} else {
 					modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
 				}
-			}
-			else if(this.step.id.startsWith("copy-") && this.currentPlaceholder) {
+			}else if(this.step.id.startsWith("copy-") && this.currentPlaceholder) {
 				modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
 			}
 			if (!modified) {
@@ -3489,7 +3489,6 @@
 					fill: `url(#${gridPatternId})`
 				})
 			);
-			// Add title box
 			const info = Dom.svg('svg',{
 				class: "info-box",
 				width: 200,
@@ -3568,7 +3567,7 @@
 					// class: 'triggers-list',
 					method: 'dialog'
 				});
-			
+
 				for (let i = 0; i < triggers.length; i++) {
 					const btn1 = Dom.element('button');
 					Dom.attrs(btn1, {
@@ -3577,7 +3576,7 @@
 						name: "userChoice",
 						value: i
 					});
-					
+
 					btn1.innerText = triggers[i];
 					btn1.addEventListener(
 						'click',
@@ -3594,7 +3593,7 @@
 								updatedBy: "userID",
 								properties: {}
 							});
-							
+
 							this.render(sequence);
 							dialogBox.close();
 						},
@@ -3605,7 +3604,7 @@
 				dialogBox.appendChild(dialogForm);
 				// const root = document.getElementById("first-step");
 				start.appendChild(dialogBox);
-				
+
 				try {
 					dialogBox.showModal();
 				} catch(error) {
@@ -3781,10 +3780,8 @@
 			e.preventDefault();
 		}
 		startBehavior(target, position, forceMoveMode) {
-			// Update journey name in output json
 			const title = document.getElementsByClassName("info-box-title")[0];
 			this.context.definition.properties.journeyName = title.textContent;
-
 			const clickedStep = !forceMoveMode && !this.context.isMoveModeEnabled ? this.getRootComponent().findByElement(target) : null;
 			if (clickedStep) {
 				this.context.behaviorController.start(position, SelectStepBehavior.create(clickedStep, this.context));
@@ -3885,8 +3882,6 @@
 						clickedStep.view.g.childNodes[16].childNodes[1].classList.toggle('sqd-hidden');
 						clickedStep.step.properties['Run'] = showVal
 					}
-
-					// duplicate
 					if(clickedStep.view.g.childNodes[14].childNodes[0]){
 						console.log("duplicate if", clickedStep.view.g.childNodes[14].childNodes[0].id);
 						const duplicateId = clickedStep.view.g.childNodes[14].childNodes[0].id.toString();
@@ -3903,6 +3898,7 @@
 							// console.log(tempContext);							
 						}					
 					}
+
 				}
 
 
@@ -3933,7 +3929,7 @@
 						const deleteButtonYes = document.getElementById(deleteButtonYesId)
 						const deleteButtonNoId = clickedStep.view.g.childNodes[9].childNodes[7].id.toString()
 						const deleteButtonNo = document.getElementById(deleteButtonNoId)
-						console.log(3766, deleteButtonYesId, deleteButtonNoId)
+						//console.log(3766, deleteButtonYesId, deleteButtonNoId)
 						deleteButtonYes.onclick = function() {
 							console.log('3769', 'this is clicked')
 							fakeThis.tryDeleteStep(clickedStep.step, 2);
@@ -4038,11 +4034,17 @@
 						clickedStep.step.properties['Run'] = showVal
 					}
 
-					// duplicate
 					if(clickedStep.view.g.childNodes[4].childNodes[0]){
 						const duplicateId = clickedStep.view.g.childNodes[4].childNodes[0].id.toString();
 						const duplicateBut = document.getElementById(duplicateId);
-						
+						duplicateBut.addEventListener('mouseover', function() {
+							//console.log(3752, clickedStep.view.g.childNodes)
+							clickedStep.view.g.childNodes[8].childNodes[1].classList.remove('sqd-hidden');
+						})
+						duplicateBut.addEventListener('mouseout', function() {
+							//console.log(3650, 'mouseout')
+							clickedStep.view.g.childNodes[8].childNodes[1].classList.add('sqd-hidden');
+						})
 						// console.log(duplicateId);
 						const tempContext = this.context;
 						duplicateBut.onclick = function(e){
@@ -4056,6 +4058,7 @@
 							// console.log(tempContext);							
 						}					
 					}
+
 
 				}
 			} else {
