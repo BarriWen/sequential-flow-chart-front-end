@@ -4498,6 +4498,9 @@
 			this.onDefinitionChanged = new SimpleEvent();
 		}
 		static create(parent, startDefinition, configuration) {
+			// Generate a unique ID for every journey
+			startDefinition.properties.journeyId = Uid.next();
+			
 			const definition = ObjectCloner.deepClone(startDefinition);
 			const behaviorController = new BehaviorController();
 			const layoutController = new LayoutController(parent);
