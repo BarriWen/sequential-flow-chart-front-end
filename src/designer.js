@@ -1041,7 +1041,7 @@
 					// move them to the end of true branch
 					while (components[i+1]) {
 						// Move every block to true branch
-						components[i].step.branches.true.push(components[i].parentSequence[i+1]);
+						components[i].step.branches.True.push(components[i].parentSequence[i+1]);
 			
 						// Remove from parent sequence of if/else & components
 						components[i].parentSequence.splice(i+1,1);
