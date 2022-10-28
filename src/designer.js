@@ -196,17 +196,17 @@
 			//console.log(parentSequence);
 			
 			// If deleting true branch, keep blocks in false
-			if (choice == "0" && step.branches.false.length > 0){
+			if (choice == "0" && step.branches.False.length > 0){
 				console.log("delete true");
-				for (let i = 0; i < step.branches.false.length; i++) {
-					parentSequence.push(step.branches.false[i]);
+				for (let i = 0; i < step.branches.False.length; i++) {
+					parentSequence.push(step.branches.False[i]);
 				}
 			} 
 			// If deleting false branch, keep blocks in true
-			else if (choice == "1" && step.branches.true.length > 0) {
+			else if (choice == "1" && step.branches.True.length > 0) {
 				console.log("delete false");
-				for (let i = 0; i < step.branches.true.length; i++) {
-					parentSequence.push(step.branches.true[i]);
+				for (let i = 0; i < step.branches.True.length; i++) {
+					parentSequence.push(step.branches.True[i]);
 				}
 			} 
 			
@@ -521,16 +521,18 @@
 			id: 'dialog-box'
 		});
 
-		// Top-right close button
+		const title = Dom.element('h3',{
+			class: 'confirm-dialog-content'
+		})
+		title.innerText = "Which branch do you want to delete?";
+		dialogBox.appendChild(title);
 
 		// A form to include all choices
 		const form = Dom.element('form', {
 			method: 'dialog',
 			id: 'dialog-form'
 		});
-		const wrapper = Dom.element('fieldset', {
-			id: 'dialog-form-options'
-		})
+		
 		for (let i = 0; i < 3; i++) {
 			const radio = Dom.element('input', {
 				type: 'radio',
@@ -541,17 +543,22 @@
 			const choice = Dom.element('label');
 			choice.innerText = toDelete[i];
 
-			wrapper.appendChild(radio);
-			wrapper.appendChild(choice);
+			form.appendChild(radio);
+			form.appendChild(choice);
 			choice.insertAdjacentHTML("afterend", "</br>");
 		}
-		form.appendChild(wrapper);
+		// form.appendChild(wrapper);
 	
 		const btn1 = Dom.element('button',{
 			type: 'submit'
 		});
 		btn1.innerText = 'Click to delete';
 		form.appendChild(btn1);
+		const btn2 = Dom.element('button',{
+			type: 'submit'
+		});
+		btn2.innerText = 'Cancel';
+		form.appendChild(btn2);
 		dialogBox.appendChild(form);
 	
 
