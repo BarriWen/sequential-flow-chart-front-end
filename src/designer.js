@@ -929,6 +929,7 @@
 		setIsHover(isHover) {
 			//console.log(this.element);
 			Dom.toggleClass(this.element, isHover, 'sqd-hover');
+			Dom.toggleClass(this.element.childNodes[0],!isHover,'sqd-hidden');
 		}
 	}
 
@@ -1099,10 +1100,10 @@
 			visibility: 'hidden'
 		});
 		const circle = Dom.svg('circle', {
-			class: 'sqd-placeholder',
+			class: 'sqd-placeholder-circle',
 			cx: x + PH_WIDTH / 2,
 			cy: y + PH_HEIGHT / 2,
-			r: SIZE / 4,
+			r: SIZE / 3,
 			
 		}); 
 		const startX = x + PH_WIDTH / 2 - SIZE / 8;
@@ -1114,6 +1115,16 @@
 			class: 'sqd-placeholder-icon',
 			d: `M ${startX} ${y + PH_HEIGHT / 2} H ${endX} M ${x+PH_WIDTH / 2} ${startY} V ${endY}`
 		});
+		// Outside circle
+		const outside = Dom.svg('circle', {
+			id: 'outside-circle',
+			cx: x + PH_WIDTH / 2,
+			cy: y + PH_HEIGHT / 2,
+			r: SIZE,
+		}); 
+		Dom.toggleClass(outside,1,'sqd-hidden');
+		g1.appendChild(outside);
+
 		g1.appendChild(circle);
 		g1.appendChild(sign);
 		g.appendChild(g1);
