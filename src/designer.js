@@ -3574,65 +3574,10 @@
 					fill: `url(#${gridPatternId})`
 				})
 			);
-			// Add title box
-			const info = Dom.svg('svg',{
-				class: "info-box",
-				width: 200,
-				height: 40
-			});
-			const rect = Dom.svg('rect', {
-				class: 'info-box-rect',
-				width: 200,
-				height: 40,
-				rx: 20,
-				ry: 20
-			});
-			const title = Dom.svg('text', {
-				x: 90,
-				y: 25,
-				class: 'info-box-title'
-			});
-			title.textContent = "TEST";
-
-			// console.log(parent);
-			const dialogBox = Dom.element('div', {
-				class: 'info-box-prompt',
-			});
-			const dialogForm = Dom.element('form', {
-				class: 'info-box-prompt'
-			});
-			const txt = Dom.element('input', {
-				class: 'info-box-prompt-input',
-				type: 'text',
-				name: 'title',
-				placeholder: title.textContent,
-			});
-			dialogForm.appendChild(txt);
-			txt.insertAdjacentHTML("afterend", "</br>");
-			const btn = Dom.element('input', {
-				class: 'info-box-prompt-btn',
-				type: 'submit',
-			});
-			btn.addEventListener('click', function(e) {
-				e.preventDefault();
-				title.textContent = txt.value;
-				Dom.toggleClass(dialogBox, 1, 'sqd-hidden');
-			});
-			dialogForm.appendChild(btn);
-			dialogBox.appendChild(dialogForm);
-			Dom.toggleClass(dialogBox, 1, 'sqd-hidden');
-
-			info.addEventListener('click', function (){
-				Dom.toggleClass(dialogBox, 0, 'sqd-hidden');
-			});
-
-			info.appendChild(title);
-			info.insertBefore(rect, title);
+			
 			canvas.appendChild(foreground);
 			workspace.appendChild(canvas);
-			workspace.appendChild(info);
 			parent.appendChild(workspace);
-			parent.appendChild(dialogBox);
 			const view = new WorkspaceView(workspace, canvas, gridPattern, gridPatternPath, foreground, configuration);
 			window.addEventListener('resize', view.onResizeHandler, false);
 			return view;
@@ -3868,6 +3813,7 @@
 		startBehavior(target, position, forceMoveMode) {
 			const title = document.getElementsByClassName("info-box-title")[0];
 			this.context.definition.properties.journeyName = title.textContent;
+
 			const clickedStep = !forceMoveMode && !this.context.isMoveModeEnabled ? this.getRootComponent().findByElement(target) : null;
 			if (clickedStep) {
 				this.context.behaviorController.start(position, SelectStepBehavior.create(clickedStep, this.context));
@@ -4263,6 +4209,222 @@
 			if (!configuration.editors.isHidden) {
 				SmartEditor.create(root, context);
 			}
+
+			// Add title box
+			const info = Dom.svg('svg',{
+				class: "info-box",
+				width: 200,
+				height: 40
+			});
+			const title = Dom.svg('text', {
+				x: 90,
+				y: 25,
+				class: 'info-box-title'
+			});
+			title.textContent = context.definition.properties.journeyName;
+			info.appendChild(title);
+			// console.log(title.textContent);
+			const rect = Dom.svg('rect', {
+				class: 'info-box-rect',
+				width: 200,
+				height: 40,
+				rx: 20,
+				ry: 20
+			});
+			info.insertBefore(rect, title);
+			// Expanded titlebox
+			const dialogBox = Dom.element('div', {
+				class: 'info-box-prompt',
+			});
+			const dialogForm = Dom.element('form');
+			// console.log("In designer view, ", context.definition.properties.journeyName);
+			const txt = Dom.element('input', {
+				class: 'info-box-prompt-input',
+				type: 'text',
+				name: 'title',
+				placeholder: title.textContent,
+			});
+			dialogForm.appendChild(txt);
+			txt.insertAdjacentHTML("afterend", "</br>");
+			// More text contents
+			const column1 = Dom.element('div', {
+				class: 'info-box-prompt-column',
+			});
+			const txt1 = Dom.element('text',{class: "info-box-prompt-column-text"});
+			txt1.textContent = "Owner";
+			column1.appendChild(txt1);
+			txt1.insertAdjacentHTML("afterend", "</br>");
+			const txt2 = Dom.element('text',{class: "info-box-prompt-column-text"});
+			txt2.textContent = "Location";
+			column1.appendChild(txt2);
+			txt2.insertAdjacentHTML("afterend", "</br>");
+			const txt3 = Dom.element('text',{class: "info-box-prompt-column-text"});
+			txt3.textContent = "Created";
+			column1.appendChild(txt3);
+			txt3.insertAdjacentHTML("afterend", "</br>");
+			const txt4 = Dom.element('text',{class: "info-box-prompt-column-text"});
+			txt4.textContent = "Last Modified";
+			column1.appendChild(txt4);
+			txt4.insertAdjacentHTML("afterend", "</br>");
+			
+			const column2 = Dom.element('div', {
+				class: 'info-box-prompt-column',
+			});
+			const txt5 = Dom.element('text',{class: "info-box-prompt-column-text"});
+			txt5.textContent = context.definition.properties.createdBy;
+			column2.appendChild(txt5);
+			txt5.insertAdjacentHTML("afterend", "</br>");
+			const txt6 = Dom.element('text',{class: "info-box-prompt-column-text"});
+			txt6.textContent = "Location";
+			column2.appendChild(txt6);
+			txt6.insertAdjacentHTML("afterend", "</br>");
+			const txt7 = Dom.element('text',{class: "info-box-prompt-column-text"});
+			txt7.textContent = context.definition.properties.createdAt.getDate();
+			column2.appendChild(txt7);
+			txt7.insertAdjacentHTML("afterend", "</br>");
+			const txt8 = Dom.element('text',{class: "info-box-prompt-column-text"});
+			txt8.textContent = context.definition.properties.updatedAt.getDate();
+			column2.appendChild(txt8);
+			txt8.insertAdjacentHTML("afterend", "</br>");
+
+			const column3 = Dom.element('div', {
+				class: 'info-box-prompt-column',
+			});
+			const description = Dom.element('text');
+			const descripArea = Dom.element('textarea', {
+				class: 'input-box-prompt-textarea',
+				name: "description",
+				value: context.definition.properties.description
+			});
+			description.textContent = "Description";
+			column3.appendChild(description);
+			column3.appendChild(descripArea);
+
+			dialogForm.appendChild(column1);
+			dialogForm.appendChild(column2);
+			dialogForm.appendChild(column3);
+			
+			// Buttons
+			const buttonDiv = Dom.element('div', {
+				class: 'info-box-prompt-btn-div',
+			})
+			const btn1 = Dom.element('input', {
+				class: 'info-box-prompt-btn',
+				type: 'submit',
+				value: 'Save'
+			});
+			btn1.addEventListener('click', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				title.textContent = txt.value;
+				txt.value = "";
+				txt.placeholder = title.textContent;
+				context.definition.properties.journeyName = txt.value;
+				context.definition.properties.description = descripArea.value;
+				Dom.toggleClass(dialogBox, 1, 'sqd-hidden');
+			});
+			buttonDiv.appendChild(btn1);
+			const btn2 = Dom.element('button',{
+				class: 'info-box-prompt-btn',
+			});
+			btn2.textContent = "Cancel";
+			btn2.addEventListener('click', function (e){
+				e.stopPropagation();
+				e.preventDefault();
+				txt.value = "";
+				Dom.toggleClass(dialogBox, 1, 'sqd-hidden');
+			});
+			buttonDiv.appendChild(btn2);
+			// Export button
+			const btn3 = Dom.element('input', {
+				class: 'info-box-prompt-btn',
+				type: 'submit',
+				value: 'Export'
+			});
+			btn3.addEventListener('click', function (e){
+				e.preventDefault();
+				e.stopPropagation();
+				Dom.toggleClass(exportPanel, 0, 'sqd-hidden');
+			});
+			buttonDiv.appendChild(btn3);
+			const btn4 = Dom.element('button',{
+				class: 'info-box-prompt-btn',
+			});
+			btn4.textContent = "Share";
+			btn4.addEventListener('click', function (e){
+				e.stopPropagation();
+				Dom.toggleClass(dialogBox, 0, 'sqd-hidden');
+			});
+			buttonDiv.appendChild(btn4);
+			
+			// Export panel view
+			const choices = ['Small Jpg', 'Medium Jpg','Large Jpg','Smaller size','Better Quality'];
+			const exportPanel = Dom.element('div', {
+				class: 'export-panel sqd-hidden',
+			});
+			const pdfForm = Dom.element('form');
+			
+			for(let i = 3; i < choices.length; i++){
+				const radio = Dom.element('input',{
+					type: 'radio',
+					name: 'pdfChoice',
+					value: i
+				});
+				pdfForm.appendChild(radio);
+				const choice = Dom.element('label');
+
+				choice.innerText = choices[i];
+				pdfForm.appendChild(choice);
+				choice.insertAdjacentHTML("afterend", "</br>");
+			}
+			const exportBtnDiv = Dom.element('div', {
+				class: 'info-box-prompt-btn-div',
+			})
+			const exportBtn = Dom.element('input', {
+				class: 'info-box-prompt-btn',
+				type: 'submit',
+				value: 'Confirm'
+			});
+			let output;
+			exportBtn.addEventListener('click', function (e){
+				e.preventDefault();
+				e.stopPropagation();
+
+				var elem = document.getElementsByTagName('input');
+				for (let i = 0; i < elem.length; i++){
+					if (elem[i].type == 'radio' && elem[i].checked) {
+						output = elem[i].value;	
+					}
+					console.log("Export pdf with: ", choices[output]);
+				}
+
+				Dom.toggleClass(exportPanel, 1, 'sqd-hidden');
+				Dom.toggleClass(dialogBox, 1, 'sqd-hidden');
+			});
+			exportBtnDiv.appendChild(exportBtn);
+			const exportBtn2 = Dom.element('button', {
+				class: 'info-box-prompt-btn',
+			});
+			exportBtn2.innerText = "Cancel";
+			exportBtn2.addEventListener('click', function (e){
+				e.preventDefault();
+				e.stopPropagation();
+				Dom.toggleClass(exportPanel, 1, 'sqd-hidden');
+			});
+			exportBtnDiv.appendChild(exportBtn2);
+			pdfForm.appendChild(exportBtnDiv);
+			exportPanel.appendChild(pdfForm);			
+
+			dialogForm.appendChild(buttonDiv);
+			dialogBox.appendChild(dialogForm);
+			Dom.toggleClass(dialogBox, 1, 'sqd-hidden');
+			info.addEventListener('click', function (){
+				Dom.toggleClass(dialogBox, 0, 'sqd-hidden');
+			});
+			root.appendChild(info);
+			root.appendChild(dialogBox);
+			root.appendChild(exportPanel);
+
 			const view = new DesignerView(root, context.layoutController, workspace, toolbox);
 			view.reloadLayout();
 			window.addEventListener('resize', view.onResizeHandler, false);

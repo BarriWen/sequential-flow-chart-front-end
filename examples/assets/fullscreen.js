@@ -111,7 +111,8 @@ const startDefinition = {
 		createdAt: new Date(),
 		createdBy: "userID",
 		updatedAt: new Date(),
-		updatedBy: "userID"
+		updatedBy: "userID",
+		description:" "
 	},
 	sequence: [
 		// createIfStep('00000000000000000000000000000001',
