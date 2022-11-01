@@ -1119,7 +1119,7 @@
 				} 
 			}
 			// Hide start component, and placeholder & line below it
-			if (components.length > 0 && components[0].step.id == 'start-component') {
+			if (components.length > 0 && components[0].step.id.startsWith('start-component')) {
 
 				Dom.attrs(placeholders[0], {
 					display: 'none'
@@ -1640,7 +1640,7 @@
 				 // // add click event for icon
 					  const icon1 = iconUrl1
 					  ? Dom.svg('image', {
-							  href: iconUrl
+							  href: './assets/copy.svg'
 						})
 					  : Dom.svg('rect', {
 							  class: 'sqd-task-empty-icon',
@@ -2228,7 +2228,7 @@
 			// add 3 icons
 			 	const icon1 = iconUrl1
 			 	? Dom.svg('image', {
-			 			href: iconUrl1
+			 			href: './assets/copy.svg'
 			 	  })
 			 	: Dom.svg('rect', {
 			 			class: 'sqd-task-empty-icon',
@@ -3453,7 +3453,7 @@
 			let startCircle;
 			if (sequence.length == 0){
 				startCircle = createCircle(g, view.joinX -  SIZE/3, 0, "Click here to choose your trigger");
-			} else if (sequence[0].id != 'start-component'){
+			} else if (!(sequence[0].id.startsWith('start-component'))) {
 				startCircle = createCircle(g, view.joinX - SIZE/3, 0, "Click here to choose your trigger");
 			} else {
 				startCircle = createCircle(g, view.joinX - SIZE/3, 0, " ");
@@ -3643,7 +3643,7 @@
 			window.addEventListener('resize', view.onResizeHandler, false);
 			return view;
 		}
-		editStartComp(sequence){
+		editStartComp(sequence, journeyID){
 			const start = document.getElementById('start');;
 			// console.log(document.getElementsByClassName('start-component')[0])
 			start.addEventListener('click', e => {
@@ -3675,7 +3675,7 @@
 						e => {
 							e.preventDefault();
 							sequence.unshift({
-								id: "start-component",
+								id: `start-component-${journeyID}`,
 								componentType: 'task',
 								type: 'save',	// temporary type name 
 								name: triggers[e.target.value],
@@ -3705,12 +3705,12 @@
 			});
 		}
 		// Render whole page
-		render(sequence) {
+		render(sequence, journeyID) {
 			if (this.rootComponent) {
 				this.rootComponent.view.destroy();
 			}
 			this.rootComponent = StartComponent.create(this.foreground, sequence, this.configuration);
-			this.editStartComp(sequence);
+			this.editStartComp(sequence, journeyID);
 			this.refreshSize();
 		}
 		setPositionAndScale(position, scale) {
@@ -3807,7 +3807,7 @@
 			return workspace;
 		}
 		render() {
-			this.view.render(this.context.definition.sequence);
+			this.view.render(this.context.definition.sequence, this.context.definition.properties.journeyId);
 			this.trySelectStep(this.context.selectedStep);
 			this.revalidate();
 		}
