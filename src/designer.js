@@ -512,19 +512,31 @@
 		return button;
 	}
 
-	function promptChoices(context){
+	function promptChoices(context, action, event){
 		//console.log(controller);
-		const toDelete = ['Delete true path', 'Delte false path', 'Delte both'];
 		let output = null;
 		// Create a propmt window
 		const dialogBox = Dom.element('dialog',{
+			class: 'confirm-dialog',
 			id: 'dialog-box'
 		});
 
 		const title = Dom.element('h3',{
 			class: 'confirm-dialog-content'
 		})
-		title.innerText = "Which branch do you want to delete?";
+
+		let toDo;
+		if (context.selectedStep.componentType == 'switch') {
+			if (action == 'delete') {
+				toDo = ['Delete true path', 'Delete false path', 'Delete both'];
+				title.innerText = "Which branch do you want to delete?";
+			} else {
+				toDo = ['Copy true path', 'Copy false path', 'Copy both', 'Copy condition only'];
+				title.innerText = "Which branch do you want to duplicate?";
+			}
+		} else {
+			title.innerText = "Are you sure to delete this block?";
+		}		
 		dialogBox.appendChild(title);
 
 		// A form to include all choices
@@ -533,31 +545,41 @@
 			id: 'dialog-form'
 		});
 		
-		for (let i = 0; i < 3; i++) {
-			const radio = Dom.element('input', {
-				type: 'radio',
-				name: 'choice',
-				value: i
-			});
-			
-			const choice = Dom.element('label');
-			choice.innerText = toDelete[i];
+		if (context.selectedStep.componentType == 'switch') {
+			for (let i = 0; i < toDo.length; i++) {
+				const radio = Dom.element('input', {
+					type: 'radio',
+					name: 'choice',
+					value: i
+				});
+				
+				const choice = Dom.element('label');
+				choice.innerText = toDo[i];
 
-			form.appendChild(radio);
-			form.appendChild(choice);
-			choice.insertAdjacentHTML("afterend", "</br>");
+				form.appendChild(radio);
+				form.appendChild(choice);
+				choice.insertAdjacentHTML("afterend", "</br>");
+			}
 		}
 		// form.appendChild(wrapper);
 	
 		const btn1 = Dom.element('button',{
 			type: 'submit'
 		});
-		btn1.innerText = 'Click to delete';
+		btn1.innerText = 'Confirm';
 		form.appendChild(btn1);
 		const btn2 = Dom.element('button',{
 			type: 'submit'
 		});
 		btn2.innerText = 'Cancel';
+		btn2.addEventListener('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			console.log(context.layoutController.parent.childNodes);
+			const designer = document.getElementById('designer');
+			designer.removeChild(designer.childNodes[1]);
+
+		});
 		form.appendChild(btn2);
 		dialogBox.appendChild(form);
 	
@@ -570,15 +592,54 @@
 			prompt("Wow from prompt window", 'ok');
 		}
 
-		dialogBox.addEventListener('close', () => {
+		btn1.addEventListener('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
 			//console.log("close window triggered");
-			var elem = document.getElementsByTagName('input');
-			for (let i = 0; i < elem.length; i++){
-				if (elem[i].type == 'radio' && elem[i].checked) {
-					output = elem[i].value;	
+			if (context.selectedStep.componentType == 'switch') {
+				var elem = document.getElementsByTagName('input');
+				for (let i = 0; i < elem.length; i++){
+					// console.log(570, elem);
+					if (elem[i].type == 'radio' && elem[i].checked) {
+						output = elem[i].value;	
+					}
 				}
+			} else {
+				output = 2;
 			}
-			context.tryDeleteStep(context.selectedStep, output);
+			// Delete behavior
+			if (action == 'delete') {
+				context.tryDeleteStep(context.selectedStep, output);
+			} 
+			// Copy behavior
+			else {
+				console.log(context.selectedStep);
+				const duplicateStep = createStep(context.selectedStep);	
+				duplicateStep.branches.True = [];
+				duplicateStep.branches.False = [];
+				// Copy true branch
+				if (context.selectedStep.branches.True.length > 0 && (output == 0 || output == 2)) {
+					
+					for (let i = 0; i < context.selectedStep.branches.True.length; i++){
+						const step = createStep(context.selectedStep.branches.True[i]);
+						step.id = "copy-" + context.selectedStep.branches.True[i].id+"-at-"+Date.now();
+						duplicateStep.branches.True[i] = step;
+					}
+				} 
+				// Copy false branch
+				if(context.selectedStep.branches.False.length > 0 && (output == 1 || output == 2)) {
+					for (let i = 0; i < context.selectedStep.branches.False.length; i++){
+						const step = createStep(context.selectedStep.branches.False[i]);
+						step.id = "copy-" + context.selectedStep.branches.False[i].id+"-at-"+Date.now();
+						duplicateStep.branches.False[i] = step;
+					}
+				}
+				const pos = readMousePosition(event);
+				duplicateStep.id = "copy-" + context.selectedStep.id+"-at-"+Date.now();
+				context.behaviorController.start(pos, DragStepBehavior.create(context, duplicateStep));
+			}
+			const designer = document.getElementById('designer');
+			designer.removeChild(designer.childNodes[1]);
 		});
 	}
 
@@ -618,7 +679,7 @@
 		onDeleteButtonClicked() {
 			if (this.context.selectedStep) {
 				if (this.context.selectedStep.componentType == 'switch'){
-					promptChoices(this.context);
+					promptChoices(this.context, 'delete', null);
 				}
 				else {
 					this.context.tryDeleteStep(this.context.selectedStep, 2);
@@ -3834,7 +3895,7 @@
 						const deleteButtonId = clickedStep.view.g.childNodes[14].childNodes[1].id.toString();
 						const deleteButton = document.getElementById(deleteButtonId)
 						deleteButton.onclick = function(){
-							promptChoices(fakeThis);
+							promptChoices(fakeThis,'delete', null);
 						}
 					}
 					//dropdown
@@ -3922,12 +3983,7 @@
 						const tempContext = this.context;
 						duplicateBut.onclick = function(e){
 							e.stopPropagation();
-							const duplicateStep = createStep(clickedStep.step);	
-							const pos = readMousePosition(e);
-							duplicateStep.id = "copy-" + clickedStep.step.id+"-at-"+Date.now();
-							// console.log("copy", duplicateStep.id);
-							tempContext.behaviorController.start(pos, DragStepBehavior.create(tempContext, duplicateStep));
-							// console.log(tempContext);							
+							promptChoices(tempContext, 'copy', e);							
 						}					
 					}
 
@@ -3954,23 +4010,24 @@
 							clickedStep.view.g.childNodes[8].childNodes[2].classList.add('sqd-hidden');
 						})
 						deleteButton.onclick = function(){
-							clickedStep.view.g.childNodes[9].classList.toggle('sqd-hidden')
+							promptChoices(fakeThis, 'delete', null);
+							// clickedStep.view.g.childNodes[9].classList.toggle('sqd-hidden')
 							//fakeThis.tryDeleteStep(clickedStep.step, 2);
 						}
-						const deleteButtonYesId = clickedStep.view.g.childNodes[9].childNodes[4].id.toString()
-						const deleteButtonYes = document.getElementById(deleteButtonYesId)
-						const deleteButtonNoId = clickedStep.view.g.childNodes[9].childNodes[7].id.toString()
-						const deleteButtonNo = document.getElementById(deleteButtonNoId)
-						//console.log(3766, deleteButtonYesId, deleteButtonNoId)
-						deleteButtonYes.onclick = function() {
-							console.log('3769', 'this is clicked')
-							fakeThis.tryDeleteStep(clickedStep.step, 2);
+						// const deleteButtonYesId = clickedStep.view.g.childNodes[9].childNodes[4].id.toString()
+						// const deleteButtonYes = document.getElementById(deleteButtonYesId)
+						// const deleteButtonNoId = clickedStep.view.g.childNodes[9].childNodes[7].id.toString()
+						// const deleteButtonNo = document.getElementById(deleteButtonNoId)
+						// //console.log(3766, deleteButtonYesId, deleteButtonNoId)
+						// deleteButtonYes.onclick = function() {
+						// 	console.log('3769', 'this is clicked')
+						// 	fakeThis.tryDeleteStep(clickedStep.step, 2);
 							
-						}
-						deleteButtonNo.onclick = function() {
-							//console.log(3775, 'deleted')
-							clickedStep.view.g.childNodes[9].classList.add('sqd-hidden')
-						}
+						// }
+						// deleteButtonNo.onclick = function() {
+						// 	//console.log(3775, 'deleted')
+						// 	clickedStep.view.g.childNodes[9].classList.add('sqd-hidden')
+						// }
 					}
 					//click right popout
 					if(clickedStep.view.g.childNodes[3]){
@@ -4582,7 +4639,7 @@
 			/* const c = promtChoices(this.context);
 			this.context.tryDeleteStep(this.context.selectedStep, c); */
 			if (this.context.selectedStep.componentType == 'switch'){
-				promptChoices(this.context);
+				promptChoices(this.context, 'delete', null);
 			}
 			else {
 				this.context.tryDeleteStep(this.context.selectedStep, 2);
