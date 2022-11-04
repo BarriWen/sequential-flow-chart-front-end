@@ -1066,6 +1066,20 @@
 			const g = Dom.svg('g');
 			parent.appendChild(g);
 			const components = sequence.map(s => StepComponentFactory.create(g, s, sequence, configuration));
+			components.forEach(e => {
+				if(e.step.properties['Select List']){
+					e.view.g.childNodes[3].innerHTML= e.step.properties['Select List'];
+					e.view.g.childNodes[8].childNodes[0].childNodes[2].innerHTML = e.step.properties['Select List']
+				}
+				if(e.step.properties['Run']){
+					e.view.g.childNodes[7].childNodes[0].childNodes[2].innerHTML = e.step.properties['Run']
+				}
+				if(e.step.properties['Select List'] && e.step.properties['Run']){
+					e.view.g.childNodes[11].classList.add('sqd-hidden')
+				}
+			})
+			console.log(1070, components)
+			//console.log(1070, components[0].view.g.childNodes[7])
 			let maxJoinX = components.length > 0 ? Math.max(...components.map(c => c.view.joinX)) : PH_WIDTH / 2;
 			let maxWidth = components.length > 0 ? Math.max(...components.map(c => c.view.width)) : PH_WIDTH;
 			let offsetY = PH_HEIGHT;
@@ -1119,8 +1133,8 @@
 				} 
 			}
 			// Hide start component, and placeholder & line below it
+			//if (components.length > 0 && components[0].step.id == 'start-component') {
 			if (components.length > 0 && components[0].step.id.startsWith('start-component')) {
-
 				Dom.attrs(placeholders[0], {
 					display: 'none'
 				});
@@ -1636,11 +1650,11 @@
 					height: ICON_SIZE
 				 });
 				 //add 3 icons
-				 const iconUrl1 = configuration.iconUrlProvider ? configuration.iconUrlProvider(step.componentType, step.type) : null;
+				 const iconUrl1 = './assets/copy.svg';
 				 // // add click event for icon
 					  const icon1 = iconUrl1
 					  ? Dom.svg('image', {
-							  href: './assets/copy.svg'
+							  href: iconUrl
 						})
 					  : Dom.svg('rect', {
 							  class: 'sqd-task-empty-icon',
@@ -2150,7 +2164,7 @@
 	const PADDING_Y = 10;
 	const MIN_TEXT_WIDTH = 70;
 	const ICON_SIZE = 22;
-	const RECT_RADIUS = 5;
+	const RECT_RADIUS = 15;
 	class TaskStepComponentView {
 		constructor(g, width, height, joinX, rect, inputView, outputView, validationErrorView, icon1, icon2, icon3) {
 			this.icon1 = icon1;
@@ -2170,16 +2184,18 @@
 				class: `sqd-task-group sqd-type-${step.type}`
 			});
 			parent.appendChild(g);
-			const boxHeight = ICON_SIZE + PADDING_Y * 2;
+			const boxHeight = ICON_SIZE + PADDING_Y;
 			const text = Dom.svg('text', {
-				x: ICON_SIZE + PADDING_X * 2,
+				x: 0.5,
 				y: boxHeight / 2,
 				class: 'sqd-task-text'
 			});
 			text.textContent = step.name;
 			g.appendChild(text);
+			//console.log(2180,text.textContent.length,text.getBBox().width, MIN_TEXT_WIDTH )
+			
 			const textWidth = Math.max(text.getBBox().width, MIN_TEXT_WIDTH);
-			const boxWidth = 2 * ICON_SIZE + PADDING_X * 3 + textWidth;
+			const boxWidth =  ICON_SIZE + 4 * PADDING_X + 2  * textWidth;
 			const rect = Dom.svg('rect', {
 				x: 0.5,
 				y: 0.5,
@@ -2187,25 +2203,108 @@
 				width: boxWidth,
 				height: boxHeight,
 				rx: RECT_RADIUS,
-				ry: RECT_RADIUS
+				ry: RECT_RADIUS,
 			});
-			g.insertBefore(rect, text);
-			const iconUrl = configuration.iconUrlProvider ? configuration.iconUrlProvider(step.componentType, step.type) : null;
-			const icon = iconUrl
-				? Dom.svg('image', {
-						href: iconUrl
-				  })
-				: Dom.svg('rect', {
-						class: 'sqd-task-empty-icon',
-						rx: 4,
-						ry: 4
-				  });
-			Dom.attrs(icon, {
-				x: PADDING_X,
-				y: PADDING_Y,
-				width: ICON_SIZE,
-				height: ICON_SIZE
+			
+			g.insertBefore(rect,text);
+			
+			const rectLeft = Dom.svg('rect', {
+				x: 0.5,
+				y: 0.5,
+				class: 'sqd-task-rect',
+				width: textWidth + 5,
+				height: boxHeight,
+				rx: RECT_RADIUS,
+				ry: RECT_RADIUS,
 			});
+			//console.log(2191, textWidth)
+			const textRight = Dom.svg('text', {
+				x: ICON_SIZE + 3 * PADDING_X + textWidth - 10,
+				y: boxHeight / 2,
+				class: 'sqd-task-text'
+			});
+			textRight.textContent = 'Default list'
+			g.appendChild(textRight);
+			
+			g.insertBefore(rectLeft, text)
+			g.appendChild(textRight)
+			const textRightReminder = Dom.svg('text', {
+				x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 52,
+				y: boxHeight / 2,
+				class: 'sqd-task-text'
+			});
+			textRightReminder.textContent = 'Please set up your filter'
+			const rectRight = Dom.svg('rect', {
+				x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 32,
+				y: 0.5,
+				class: 'sqd-task-rect',
+				width: boxWidth,
+				height: 2 * boxHeight,
+				rx: RECT_RADIUS,
+				ry: RECT_RADIUS,
+			});
+			const rectRightLine = Dom.svg('line', {
+				class: 'sqd-join',
+				x1: ICON_SIZE + 4 * PADDING_X + 2  * textWidth,
+				//y1: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 10,
+				x2: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 31,
+				y1: 15,
+				y2: 15
+			});
+			const clickOkBut = Dom.svg('rect', {
+				x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 112,
+				y: 1.25 * boxHeight,
+				class: 'sqd-task-rect',
+				width: 40,
+				height: 20,
+				rx: 5,
+				ry: 5,
+			});
+			const clickOkButCover = Dom.svg('rect', {
+				x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 112,
+				y: 1.25 * boxHeight,
+				class: 'option select-field choice',
+				width: 40,
+				height: 20,
+				rx: 5,
+				ry: 5,
+				id: `clickOkButCover${Date.now()}`
+			});
+			Dom.attrs(clickOkButCover,{
+				opacity: 0.1,
+				}
+			)
+			const clickOkText = Dom.svg('text', {
+				x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 123,
+				y: 1.55 * boxHeight,
+				class: 'sqd-task-text'
+			});
+			clickOkText.textContent = 'OK'
+			const setUpReminder = Dom.svg('g', {
+				class: `sqd-task-group setup-reminder`
+			});
+			setUpReminder.appendChild(rectRightLine)
+			setUpReminder.appendChild(textRightReminder)
+			setUpReminder.insertBefore(rectRight, textRightReminder)
+			setUpReminder.appendChild(clickOkText)
+			setUpReminder.insertBefore(clickOkBut, clickOkText)
+			setUpReminder.appendChild(clickOkButCover)
+			// const iconUrl = configuration.iconUrlProvider ? configuration.iconUrlProvider(step.componentType, step.type) : null;
+			// const icon = iconUrl
+			// 	? Dom.svg('image', {
+			// 			href: iconUrl
+			// 	  })
+			// 	: Dom.svg('rect', {
+			// 			class: 'sqd-task-empty-icon',
+			// 			rx: 4,
+			// 			ry: 4
+			// 	  });
+			// Dom.attrs(icon, {
+			// 	x: PADDING_X,
+			// 	y: PADDING_Y,
+			// 	width: ICON_SIZE,
+			// 	height: ICON_SIZE
+			// });
 			const moreUrl = './assets/more.svg';
 			const moreIcon = moreUrl
 			 	? Dom.svg('image', {
@@ -2219,16 +2318,16 @@
 				 Dom.attrs(moreIcon, {
 					class: 'more',
 					id: Date.now(),
-					x: ICON_SIZE + 3 * PADDING_X + textWidth - 10,
-					y: PADDING_Y,
-					width: ICON_SIZE,
-					height: ICON_SIZE
+					x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth - 22,
+					y: 5,
+					width: 22,
+					height: 22
 				 });
-			 	const iconUrl1 = configuration.iconUrlProvider ? configuration.iconUrlProvider(step.componentType, step.type) : null;
+			 	const iconUrl1 = './assets/copy.svg';
 			// add 3 icons
 			 	const icon1 = iconUrl1
 			 	? Dom.svg('image', {
-			 			href: './assets/copy.svg'
+			 			href: iconUrl1
 			 	  })
 			 	: Dom.svg('rect', {
 			 			class: 'sqd-task-empty-icon',
@@ -2238,7 +2337,7 @@
 			 Dom.attrs(icon1, {
 			 	class: "moreicon",
 				 id: `icon1${Date.now()}`,
-			 	x: ICON_SIZE + 3 * PADDING_X + textWidth + 40,
+			 	x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 5,
 			 	y: PADDING_Y,
 			 	width: ICON_SIZE,
 			 	height: ICON_SIZE
@@ -2257,8 +2356,8 @@
 			Dom.attrs(icon2, {
 				class: "moreicon",
 				id: `icon2${Date.now()}`,
-				x: ICON_SIZE + 3 * PADDING_X + textWidth + 22,
-				y: PADDING_Y + 22,
+				x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth - 5,
+				y: PADDING_Y + 25,
 				width: ICON_SIZE,
 				height: ICON_SIZE
 			});
@@ -2276,8 +2375,8 @@
 			Dom.attrs(icon3, {
 				class: "moreicon",
 				id: `icon3${Date.now()}`,
-				x: ICON_SIZE + 3 * PADDING_X + textWidth + 22,
-				y: PADDING_Y - 22,
+				x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth - 5,
+				y: PADDING_Y - 30,
 				width: ICON_SIZE,
 				height: ICON_SIZE
 			});
@@ -2292,7 +2391,6 @@
 						rx: 4,
 						ry: 4
 				  });
-
 				  Dom.attrs(icon4, {
 					class: "moreicon",
 					id: `icon4${Date.now()}`,
@@ -2320,7 +2418,7 @@
 					width: ICON_SIZE,
 					height: ICON_SIZE
 				});
-				const iconUrl6 = configuration.iconUrlProvider ? configuration.iconUrlProvider(step.componentType, step.type) : null;
+				const iconUrl6 = './assets/copy.svg';
 			// add 3 icons
 			 	const icon6 = iconUrl6
 			 	? Dom.svg('image', {
@@ -2343,7 +2441,6 @@
 			const gRightPop3 = Dom.svg('g', {
 				class: `sqd-task-group right-popup sqd-hidden Collapsed`
 			});
-
 			const gUpPop3 = Dom.svg('g', {
 				class: `sqd-task-group up-popup sqd-hidden Collapsed`
 			});
@@ -2371,13 +2468,13 @@
 			});
 			Dom.attrs(reminder1, {
 				id: `reminder1${Date.now()}`,
-				x: ICON_SIZE + 3 * PADDING_X + textWidth + 62,
+				x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 22,
 				y: PADDING_Y - 35,
 			}
 			)
 			const reminderText1 = Dom.svg('text', {
 				class: 'sqd-task-text',
-						x: ICON_SIZE + 3 * PADDING_X + textWidth + 62 + 12.5,
+						x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 22 + 12.5,
 						y: PADDING_Y - 23,
 					});
 				Dom.attrs(reminderText1, {
@@ -2396,14 +2493,14 @@
 			});
 			Dom.attrs(reminder2, {
 				id: `reminder2${Date.now()}`,
-				x: ICON_SIZE + 3 * PADDING_X + textWidth + 80,
+				x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 22 + 15,
 				y: PADDING_Y,
 			}
 			)
 
 			const reminderText2 = Dom.svg('text', {
 				class: 'sqd-task-text',
-						x: ICON_SIZE + 3 * PADDING_X + textWidth + 80 + 10,
+						x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 22 + 5 + 15,
 						y: PADDING_Y + 12,
 					});
 				Dom.attrs(reminderText2, {
@@ -2422,14 +2519,14 @@
 			});
 			Dom.attrs(reminder3, {
 				id: `reminder3${Date.now()}`,
-				x: ICON_SIZE + 3 * PADDING_X + textWidth + 62,
+				x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 22,
 				y: PADDING_Y + 35,
 			}
 			)
 
 			const reminderText3 = Dom.svg('text', {
 				class: 'sqd-task-text',
-						x: ICON_SIZE + 3 * PADDING_X + textWidth + 62 + 7,
+						x: ICON_SIZE + 4 * PADDING_X + 2  * textWidth + 22 + 7,
 						y: PADDING_Y + 47,
 					});
 				Dom.attrs(reminderText3, {
@@ -2446,121 +2543,12 @@
 			gRightPop3Reminder.appendChild(gRightPop3Reminder1)
 			gRightPop3Reminder.appendChild(gRightPop3Reminder2)
 			gRightPop3Reminder.appendChild(gRightPop3Reminder3)
-
 			gRightPop3.appendChild(icon1)
 			gRightPop3.appendChild(icon2)
 			gRightPop3.appendChild(icon3)
 			gUpPop3.appendChild(icon4)
 			gUpPop3.appendChild(icon5)
 			gUpPop3.appendChild(icon6)
-			//add delete dropdown
-			const deleteDropdown = Dom.svg('g', {
-				class: `sqd-task-group deletedropdown sqd-hidden Collapsed`
-			});
-			const deleteDropdownText = Dom.svg('text', {
-				class: 'sqd-task-text',
-						x:10,
-						y: 1.3 * boxHeight ,
-					});
-				Dom.attrs(deleteDropdownText, {
-						//class: 'sqd-hidden',
-						id:`deleteDropdownText${Date.now()}`
-					})
-
-			deleteDropdownText.textContent = 'Are you sure to delete?'
-			const rectDelete = Dom.svg('rect', {
-				x: 0.5,
-				y: boxHeight,
-				class: 'sqd-task-rect',
-				width: boxWidth,
-				height: 2 * boxHeight,
-				rx: RECT_RADIUS,
-				ry: RECT_RADIUS
-			});
-			
-			const rectDeleteYes = Dom.svg('rect', {
-				x: 15,
-				y: boxHeight * 1.8,
-				class: 'sqd-task-rect',
-				width: 50,
-				height: 25,
-				rx: RECT_RADIUS,
-				ry: RECT_RADIUS
-			});
-			const rectDeleteYesText = Dom.svg('text', {
-				class: 'sqd-task-text',
-						x: 30 ,
-						y: boxHeight * 2.1 ,
-					});
-				Dom.attrs(rectDeleteYesText, {
-						//class: 'sqd-hidden',
-						id:`rectDeleteYesText${Date.now()}`
-					})
-
-			rectDeleteYesText.textContent = 'Yes'
-			const rectDeleteYesCover = Dom.svg('rect', {
-				x: 15,
-				y: boxHeight * 1.8,
-				class: 'option select-field choice',
-				width: 50,
-				height: 25,
-				fill: "#fff",
-				stroke: "#a0a0a0",
-				rx: RECT_RADIUS,
-				ry: RECT_RADIUS,
-				id:`rectDeleteYesCover${Date.now()}`
-			});
-			Dom.attrs(
-				rectDeleteYesCover, {
-					opacity: 0.3
-				}
-
-			)	
-			const rectDeleteNo = Dom.svg('rect', {
-				x: 85,
-				y: boxHeight * 1.8,
-				class: 'sqd-task-rect',
-				width: 50,
-				height: 25,
-				rx: RECT_RADIUS,
-				ry: RECT_RADIUS
-			});
-			const rectDeleteNoText = Dom.svg('text', {
-				class: 'sqd-task-text',
-						x: 100,
-						y: boxHeight * 2.1,
-					});
-				Dom.attrs(rectDeleteNoText, {
-						//class: 'sqd-hidden',
-						id:`rectDeleteNoText${Date.now()}`
-					})
-			const rectDeleteNoCover = Dom.svg('rect', {
-				x: 85,
-				y: boxHeight * 1.8,
-				class: 'option select-field choice',
-				width: 50,
-				height: 25,
-				fill: "#fff",
-				stroke: "#a0a0a0",
-				rx: RECT_RADIUS,
-				ry: RECT_RADIUS,
-				id:`rectDeleteNoCover${Date.now()}`
-			});
-			Dom.attrs(
-				rectDeleteNoCover, {
-					opacity: 0.3
-				}
-
-			)	
-			rectDeleteNoText.textContent = 'No'
-			deleteDropdown.appendChild(deleteDropdownText)
-			deleteDropdown.insertBefore(rectDelete, deleteDropdownText)
-			deleteDropdown.appendChild(rectDeleteYesText)
-			deleteDropdown.insertBefore(rectDeleteYes, rectDeleteYesText)
-			deleteDropdown.appendChild(rectDeleteYesCover)
-			deleteDropdown.appendChild(rectDeleteNoText)
-			deleteDropdown.insertBefore(rectDeleteNo, rectDeleteNoText)
-			deleteDropdown.appendChild(rectDeleteNoCover)
 
 
 			//add dropdown
@@ -2651,13 +2639,13 @@
 			const dropdownBoxInnerText = Dom.svg('text', {
 				class: 'sqd-task-text',
 						x: ICON_SIZE + 5 * PADDING_X,
-						y: 1.35 * boxHeight,
+						y: 1.4 * boxHeight,
 					});
 			dropdownBoxInnerText.textContent = 'Select';
 			const dropdownBoxInnerText1 = Dom.svg('text', {
 				class: 'sqd-task-text',
 						x: ICON_SIZE + 5 * PADDING_X,
-						y: 1.9 * boxHeight,
+						y: 1.95 * boxHeight,
 					});
 			dropdownBoxInnerText1.textContent = 'Select';
 			const dropdownBoxShapeAfter = Dom.svg('rect', {
@@ -2702,7 +2690,7 @@
 			const dropdownBoxBottomShapeText = Dom.svg('text', {
 				class: 'sqd-task-text',
 						x: ICON_SIZE + 5 * PADDING_X,
-						y: 1.7 * boxHeight,
+						y: 1.4 * boxHeight + 15,
 					});
 			dropdownBoxBottomShapeText.textContent = 'Any list'
 			const dropdownBoxBottomShapecover = Dom.svg('rect', {
@@ -2735,7 +2723,7 @@
 			const dropdownBoxBottomShapeSText = Dom.svg('text', {
 				class: 'sqd-task-text',
 						x: ICON_SIZE + 5 * PADDING_X,
-						y: 2.05 * boxHeight,
+						y: 1.4 * boxHeight + 30,
 					});
 			dropdownBoxBottomShapeSText.textContent = 'List A'
 			const dropdownBoxBottomShapeScover = Dom.svg('rect', {
@@ -2767,7 +2755,7 @@
 			const dropdownBoxBottomShape1Text = Dom.svg('text', {
 			 	class: 'sqd-task-text',
 			 			x: ICON_SIZE + 5 * PADDING_X,
-			 			y: 2.25 * boxHeight,
+			 			y: 1.95 * boxHeight + 15,
 			 		});	
 			dropdownBoxBottomShape1Text.textContent = 'Once'
 			const dropdownBoxBottomShape1cover = Dom.svg('rect', {
@@ -2798,7 +2786,7 @@
 			const dropdownBoxBottomShape1SText = Dom.svg('text', {
 			 	class: 'sqd-task-text',
 			 			x: ICON_SIZE + 5 * PADDING_X,
-			 			y: 2.6 * boxHeight,
+			 			y: 1.95 * boxHeight + 30,
 			 		});				
 			dropdownBoxBottomShape1SText.textContent = 'Multiple '
 			const dropdownBoxBottomShape1Scover = Dom.svg('rect', {
@@ -2858,15 +2846,15 @@
 
 			gSubDropdown1.appendChild(gSubDropdownbox1)
 			gSubDropdown1.appendChild(gSubDropdownbox1Pop)
-			g.appendChild(icon);
+			//g.appendChild(icon);
 			g.appendChild(moreIcon);
 			g.appendChild(gRightPop3)
 			g.appendChild(gDropdown)
 			g.appendChild(gSubDropdown1)
 			g.appendChild(gSubDropdown)
 			g.appendChild(gRightPop3Reminder);
-			g.appendChild(deleteDropdown);
 			g.appendChild(gUpPop3)
+			g.appendChild(setUpReminder)
 			const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
 			const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
 			const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
@@ -2888,6 +2876,7 @@
 		}
 		setIsSelected(isSelected) {
 			Dom.toggleClass(this.rect, isSelected, 'sqd-selected');
+			Dom.toggleClass(this.g.childNodes[1], isSelected, 'sqd-selected');
 		}
 		setIsValid(isValid) {
 			this.validationErrorView.setIsHidden(isValid);
@@ -2902,6 +2891,7 @@
 			this.configuration = configuration;
 		}
 		static create(parent, step, parentSequence, configuration) {
+			//console.log(2885, parent, step, parentSequence, configuration)
 			const view = TaskStepComponentView.create(parent, step, configuration);
 			return new TaskStepComponent(view, step, parentSequence, configuration);
 		}
@@ -3122,7 +3112,25 @@
 			this.currentPlaceholder = undefined;
 
 			// Reload page 
+			
+			// for(let i = 0; i < this.context.definition.sequence.length; i++){
+			// 	if()
+			// } this.context.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes  childNodes[0].childNodes[2].childNodes[0]
+			
+			//this.context.provider.view.workspace.childNodes[0].childNodes[2].childNodes.forEach(e => console.log(3110, e))
+			//console.log(3112,this)
+			
+			//console.log(3117,this.context.provider.view.workspace.childNodes[0].childNodes[2].childNodes)
+			//console.log(3116,this.context.provider.view.workspace.childNodes[0].childNodes[2].childNodes[0])
 			this.context.provider.render();
+			// const child = this.context.provider.view.workspace.childNodes[0].childNodes[2].childNodes
+			// console.log(3105, child[0].childNodes[0].childNodes[2].childNodes[3])
+			// child[0].childNodes[0].childNodes[2].childNodes[3].innerHTML = 'change back'
+			
+			// if(this.context.provider.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes[2]){
+			// 	console.log(3111, this.context.provider.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes[2].childNodes[3])
+			// 	this.context.provider.view.canvas.childNodes[2].childNodes[0].childNodes[0].childNodes[2].childNodes[3].textContent = 'hello'
+			// }
 			// for (let component of this.context.definition.sequence) {
 			// 	if (component.componentType == "switch") {
 			// 		this.context.provider.render();
@@ -3385,7 +3393,7 @@
 		}
 		onStart() {
 			// Nothing to do.
-			this.context.openSmartEditor();	
+			//this.context.openSmartEditor();	
 		}
 		onMove(delta) {
 			// Modified: if/else block can't be moved
@@ -3651,7 +3659,7 @@
 				const dialogBox = Dom.element('dialog',{
 					class: 'triggers-list'
 				});
-				const triggers = ['Subscribe to a list', 'Unsubscribe from a list', 'Place a purchase', 
+				const triggers = ['Subscribe', 'Unsubscribe', 'Place a purchase', 
 					'Abandon checkout', 'Time trigger'];
 				const types = ['Subscribe', 'Unsubscribe', 'Purchase', 'Abandon','Time Trigger'];
 
@@ -3706,11 +3714,14 @@
 		}
 		// Render whole page
 		render(sequence, journeyID) {
+			
 			if (this.rootComponent) {
 				this.rootComponent.view.destroy();
 			}
 			this.rootComponent = StartComponent.create(this.foreground, sequence, this.configuration);
 			this.editStartComp(sequence, journeyID);
+
+			//console.log(3700, this.rootComponent)
 			this.refreshSize();
 		}
 		setPositionAndScale(position, scale) {
@@ -3807,6 +3818,7 @@
 			return workspace;
 		}
 		render() {
+			//console.log(3798, this.context.definition.sequence)
 			this.view.render(this.context.definition.sequence, this.context.definition.properties.journeyId);
 			this.trySelectStep(this.context.selectedStep);
 			this.revalidate();
@@ -3936,8 +3948,15 @@
 					const selectRunUpperId = clickedStep.view.g.childNodes[17].childNodes[1].childNodes[2].id.toString()
 					const selectRunUpper  = document.getElementById(selectRunUpperId);
 					selectRunUpper.onclick = function() {
-						console.log(3589, clickedStep)
+						//console.log(3589, clickedStep)
 						const showVal = clickedStep.view.g.childNodes[17].childNodes[1].childNodes[1].innerHTML
+						//console.log(3944, clickedStep.step.properties['Select List'])
+						//clickedStep.view.g.childNodes[17].childNodes[0].childNodes[2].textContent
+						// if(clickedStep.step.properties['Select List']){
+						//  	showVal = clickedStep.step.properties['Select List']
+						// }else{
+						// 	showVal = clickedStep.view.g.childNodes[17].childNodes[1].childNodes[1].innerHTML
+						// }
 						clickedStep.view.g.childNodes[17].childNodes[0].childNodes[2].textContent = showVal
 						clickedStep.view.g.childNodes[17].childNodes[1].classList.toggle('sqd-hidden');
 						clickedStep.step.properties['Select List'] = showVal
@@ -3997,165 +4016,184 @@
 				
 				if(clickedStep.step.componentType === 'task'){
 					//right popout delete button
-					if(clickedStep.view.g.childNodes[4].childNodes[1]){
-						const deleteButtonId = clickedStep.view.g.childNodes[4].childNodes[1].id.toString();
+					//clickedStep.view.g.childNodes[11].classList.remove('sqd-hidden')
+					clickedStep.view.g.childNodes[11].classList.add('sqd-hidden')
+					if(clickedStep.view.g.childNodes[11].childNodes[4]){
+						const OKButtonId = clickedStep.view.g.childNodes[11].childNodes[5].id.toString();
+						//console.log(3977, clickedStep.view.g.childNodes[11].childNodes)
+						const OKButton = document.getElementById(OKButtonId)
+						OKButton.onclick = function(){
+							console.log(3985, clickedStep.view.g.childNodes)
+							//clickedStep.view.g.childNodes[11].classList.add('sqd-hidden')
+							Dom.attrs(
+								clickedStep.view.g.childNodes[11],{
+									display: 'none'
+								}
+
+							)
+							}
+						}
+					
+
+					if(clickedStep.view.g.childNodes[5].childNodes[1]){
+						const deleteButtonId = clickedStep.view.g.childNodes[5].childNodes[1].id.toString();
 						const deleteButton = document.getElementById(deleteButtonId)
 						//add mouseover event
 						deleteButton.addEventListener('mouseover', function() {
 							//console.log(3752, clickedStep.view.g.childNodes)
-							clickedStep.view.g.childNodes[8].childNodes[2].classList.remove('sqd-hidden');
+							clickedStep.view.g.childNodes[9].childNodes[2].classList.remove('sqd-hidden');
 						})
 						deleteButton.addEventListener('mouseout', function() {
 							//console.log(3650, 'mouseout')
-							clickedStep.view.g.childNodes[8].childNodes[2].classList.add('sqd-hidden');
+							clickedStep.view.g.childNodes[9].childNodes[2].classList.add('sqd-hidden');
 						})
 						deleteButton.onclick = function(){
 							promptChoices(fakeThis, 'delete', null);
 							// clickedStep.view.g.childNodes[9].classList.toggle('sqd-hidden')
 							//fakeThis.tryDeleteStep(clickedStep.step, 2);
 						}
-						// const deleteButtonYesId = clickedStep.view.g.childNodes[9].childNodes[4].id.toString()
-						// const deleteButtonYes = document.getElementById(deleteButtonYesId)
-						// const deleteButtonNoId = clickedStep.view.g.childNodes[9].childNodes[7].id.toString()
-						// const deleteButtonNo = document.getElementById(deleteButtonNoId)
-						// //console.log(3766, deleteButtonYesId, deleteButtonNoId)
-						// deleteButtonYes.onclick = function() {
-						// 	console.log('3769', 'this is clicked')
-						// 	fakeThis.tryDeleteStep(clickedStep.step, 2);
-							
-						// }
-						// deleteButtonNo.onclick = function() {
-						// 	//console.log(3775, 'deleted')
-						// 	clickedStep.view.g.childNodes[9].classList.add('sqd-hidden')
-						// }
+					
 					}
+					if(clickedStep.view.g.childNodes[10].childNodes[1]){
+						const deleteButtonId = clickedStep.view.g.childNodes[10].childNodes[1].id.toString();
+						const deleteButton = document.getElementById(deleteButtonId)
+						deleteButton.onclick = function(){
+							promptChoices(fakeThis, 'delete', null);
+							// clickedStep.view.g.childNodes[9].classList.toggle('sqd-hidden')
+							//fakeThis.tryDeleteStep(clickedStep.step, 2);
+						}
+					}
+
+
 					//click right popout
-					if(clickedStep.view.g.childNodes[3]){
-							const moreid = clickedStep.view.g.childNodes[3].id.toString();
+					if(clickedStep.view.g.childNodes[4]){
+							const moreid = clickedStep.view.g.childNodes[4].id.toString();
 							const but = document.getElementById(moreid)
 							but.onclick = function(){
 								console.log(3542, clickedStep.view.g.childNodes[10].childNodes)
-								clickedStep.view.g.childNodes[4].classList.toggle('sqd-hidden');
+								clickedStep.view.g.childNodes[5].classList.toggle('sqd-hidden');
 							}
 						}
 					if(clickedStep.view.g.childNodes[10].childNodes[0]){
 						const checkButtonId = clickedStep.view.g.childNodes[10].childNodes[0].id.toString();
 						const checkButton =  document.getElementById(checkButtonId);
 						checkButton.onclick = function(e){
-							//console.log(4023, clickedStep.view.g.childNodes)
-							clickedStep.view.g.childNodes[5].classList.toggle('sqd-hidden');
-							clickedStep.view.g.childNodes[10].classList.toggle('sqd-hidden');
-							clickedStep.view.g.childNodes[6].classList.toggle('sqd-hidden');
-							clickedStep.view.g.childNodes[7].classList.toggle('sqd-hidden');
+							console.log(4071, clickedStep.view.g.childNodes)
+							 //clickedStep.view.g.childNodes[5].classList.toggle('sqd-hidden');
+							 clickedStep.view.g.childNodes[6].classList.toggle('sqd-hidden');
+							 clickedStep.view.g.childNodes[7].classList.toggle('sqd-hidden');
+							 clickedStep.view.g.childNodes[8].classList.toggle('sqd-hidden');
+							 clickedStep.view.g.childNodes[10].classList.toggle('sqd-hidden');
 						}
 					}
-					if(clickedStep.view.g.childNodes[10].childNodes[1]){
-						const deleteUpperButtonId = clickedStep.view.g.childNodes[10].childNodes[1].id.toString();
-						//console.log(4032,deleteUpperButtonId)
-						const deleteUpperButton =  document.getElementById(deleteUpperButtonId);
-						deleteUpperButton.onclick = function(e){
-							fakeThis.tryDeleteStep(clickedStep.step, 2);
-						}
-					}
-
 
 					//show dropdown
-					if(clickedStep.view.g.childNodes[4].childNodes[2].id){
-						const dropdownButId = clickedStep.view.g.childNodes[4].childNodes[2].id.toString();
+					if(clickedStep.view.g.childNodes[5].childNodes[2].id){
+						const dropdownButId = clickedStep.view.g.childNodes[5].childNodes[2].id.toString();
 						//add mouseover event
 						const dropdownBut = document.getElementById(dropdownButId);
 						dropdownBut.addEventListener('mouseover', function() {
-							clickedStep.view.g.childNodes[8].childNodes[0].classList.remove('sqd-hidden');
+							clickedStep.view.g.childNodes[9].childNodes[0].classList.remove('sqd-hidden');
 						})
 						dropdownBut.addEventListener('mouseout', function() {
-							clickedStep.view.g.childNodes[8].childNodes[0].classList.add('sqd-hidden');
+							clickedStep.view.g.childNodes[9].childNodes[0].classList.add('sqd-hidden');
 						})
 						dropdownBut.onclick = function(e){
 							e.stopPropagation();
-							console.log(3551,clickedStep.view.g.childNodes[10].childNodes[0])
-							clickedStep.view.g.childNodes[10].classList.toggle('sqd-hidden');
-							clickedStep.view.g.childNodes[4].classList.toggle('sqd-hidden');
 							clickedStep.view.g.childNodes[5].classList.toggle('sqd-hidden');
 							clickedStep.view.g.childNodes[6].classList.toggle('sqd-hidden');
 							clickedStep.view.g.childNodes[7].classList.toggle('sqd-hidden');
-							clickedStep.view.g.childNodes[9].classList.add('sqd-hidden');
+							clickedStep.view.g.childNodes[8].classList.toggle('sqd-hidden');
+							clickedStep.view.g.childNodes[10].classList.toggle('sqd-hidden');
 						}
 					}
 					//show subdropdown
-					if(clickedStep.view.g.childNodes[7].childNodes[1]){
-						const subDropdownButtonId = clickedStep.view.g.childNodes[7].childNodes[0].childNodes[3].id.toString();
+					if(clickedStep.view.g.childNodes[8].childNodes[1]){
+						const subDropdownButtonId = clickedStep.view.g.childNodes[8].childNodes[0].childNodes[3].id.toString();
 						const subDropdownButton = document.getElementById(subDropdownButtonId);
 						subDropdownButton.onclick = function(){
-							console.log(3562, clickedStep.view.g.childNodes[7])
-							clickedStep.view.g.childNodes[7].childNodes[1].classList.toggle('sqd-hidden');
+							console.log(3562, clickedStep.view.g.childNodes[8])
+							clickedStep.view.g.childNodes[8].childNodes[1].classList.toggle('sqd-hidden');
 						}
 					}
 					//show subdropdown1
-					if(clickedStep.view.g.childNodes[6].childNodes[1]){
-						const subDropdownButtonId1 = clickedStep.view.g.childNodes[6].childNodes[0].childNodes[3].id.toString();
+					if(clickedStep.view.g.childNodes[7].childNodes[1]){
+						const subDropdownButtonId1 = clickedStep.view.g.childNodes[7].childNodes[0].childNodes[3].id.toString();
 						const subDropdownButton1 = document.getElementById(subDropdownButtonId1);
 						subDropdownButton1.onclick = function(){
-							clickedStep.view.g.childNodes[6].childNodes[1].classList.toggle('sqd-hidden');
+							clickedStep.view.g.childNodes[7].childNodes[1].classList.toggle('sqd-hidden');
 						}	
 
 					}
 					//upper subdropdown
-					const selectRunUpperId = clickedStep.view.g.childNodes[7].childNodes[1].childNodes[2].id.toString()
+					const selectRunUpperId = clickedStep.view.g.childNodes[8].childNodes[1].childNodes[2].id.toString()
 					const selectRunUpper  = document.getElementById(selectRunUpperId);
+					//console.log(4125, clickedStep.view.g.childNodes[8].childNodes[1].childNodes[2])
 					selectRunUpper.onclick = function() {
-						console.log(3589, clickedStep)
-						const showVal = clickedStep.view.g.childNodes[7].childNodes[1].childNodes[1].innerHTML
-						clickedStep.view.g.childNodes[7].childNodes[0].childNodes[2].textContent = showVal
-						clickedStep.view.g.childNodes[7].childNodes[1].classList.toggle('sqd-hidden');
+						//console.log(4091, fakeThis)
+						 const showVal = clickedStep.view.g.childNodes[8].childNodes[1].childNodes[1].innerHTML
+						// clickedStep.view.g.childNodes[8].childNodes[0].childNodes[2].textContent = showVal
+						// clickedStep.view.g.childNodes[3].textContent = showVal
+						
+						//clickedStep.view.g.childNodes[17].childNodes[0].childNodes[2].textContent
+						// if(fakeThis.selectedStep.properties['Select List']){
+						// 	console.log('go in if')
+						//  	showVal = fakeThis.selectedStep.properties['Select List']
+						// }else{
+						// 	showVal = clickedStep.view.g.childNodes[8].childNodes[1].childNodes[1].innerHTML
+						// 	console.log('go in else')
+						// }
+
+						clickedStep.view.g.childNodes[8].childNodes[0].childNodes[2].textContent = showVal
+						clickedStep.view.g.childNodes[3].textContent = showVal
+						clickedStep.view.g.childNodes[8].childNodes[1].classList.toggle('sqd-hidden');
 						clickedStep.step.properties['Select List'] = showVal
 					}
-					const selectRunUpperId1 = clickedStep.view.g.childNodes[7].childNodes[1].childNodes[5].id.toString()
+					const selectRunUpperId1 = clickedStep.view.g.childNodes[8].childNodes[1].childNodes[5].id.toString()
 					const selectRunUpper1  = document.getElementById(selectRunUpperId1);
 					selectRunUpper1.onclick = function() {
 						
-						const showVal = clickedStep.view.g.childNodes[7].childNodes[1].childNodes[4].innerHTML
+						const showVal = clickedStep.view.g.childNodes[8].childNodes[1].childNodes[4].innerHTML
 
 						console.log(3589,showVal)
-						clickedStep.view.g.childNodes[7].childNodes[0].childNodes[2].textContent = showVal
-						clickedStep.view.g.childNodes[7].childNodes[1].classList.toggle('sqd-hidden');
+						clickedStep.view.g.childNodes[8].childNodes[0].childNodes[2].textContent = showVal
+						clickedStep.view.g.childNodes[3].textContent = showVal
+						clickedStep.view.g.childNodes[8].childNodes[1].classList.toggle('sqd-hidden');
 						clickedStep.step.properties['Select List'] = showVal
 					}
 
 
-
-
-
 					//lower subdropdown
-					const selectRunLowerId = clickedStep.view.g.childNodes[6].childNodes[1].childNodes[2].id.toString()
+					const selectRunLowerId = clickedStep.view.g.childNodes[7].childNodes[1].childNodes[2].id.toString()
 					const selectRunLower  = document.getElementById(selectRunLowerId);
 					selectRunLower.onclick = function() {
-						//console.log(3589, clickedStep.view.g.childNodes)
-						const showVal = clickedStep.view.g.childNodes[6].childNodes[1].childNodes[1].innerHTML
-						clickedStep.view.g.childNodes[6].childNodes[0].childNodes[2].textContent = showVal
-						clickedStep.view.g.childNodes[6].childNodes[1].classList.toggle('sqd-hidden');
+						//console.log(4117, clickedStep.view.g.childNodes)
+						const showVal = clickedStep.view.g.childNodes[7].childNodes[1].childNodes[1].innerHTML
+						clickedStep.view.g.childNodes[7].childNodes[0].childNodes[2].textContent = showVal
+						clickedStep.view.g.childNodes[7].childNodes[1].classList.toggle('sqd-hidden');
 						clickedStep.step.properties['Run'] = showVal
 					}
-					const selectRunLowerId1 = clickedStep.view.g.childNodes[6].childNodes[1].childNodes[5].id.toString()
+					const selectRunLowerId1 = clickedStep.view.g.childNodes[7].childNodes[1].childNodes[5].id.toString()
 					const selectRunLower1  = document.getElementById(selectRunLowerId1);
 					selectRunLower1.onclick = function() {
 						//console.log(3589, )
-						const showVal = clickedStep.view.g.childNodes[6].childNodes[1].childNodes[4].innerHTML
-						console.log(3596, clickedStep.view.g.childNodes[6].childNodes[0].childNodes[2])
-						clickedStep.view.g.childNodes[6].childNodes[0].childNodes[2].textContent = showVal
-						clickedStep.view.g.childNodes[6].childNodes[1].classList.toggle('sqd-hidden');
+						const showVal = clickedStep.view.g.childNodes[7].childNodes[1].childNodes[4].innerHTML
+						console.log(3596, clickedStep.view.g.childNodes[7].childNodes[0].childNodes[2])
+						clickedStep.view.g.childNodes[7].childNodes[0].childNodes[2].textContent = showVal
+						clickedStep.view.g.childNodes[7].childNodes[1].classList.toggle('sqd-hidden');
 						clickedStep.step.properties['Run'] = showVal
 					}
 
-					if(clickedStep.view.g.childNodes[4].childNodes[0]){
-						const duplicateId = clickedStep.view.g.childNodes[4].childNodes[0].id.toString();
+					if(clickedStep.view.g.childNodes[5].childNodes[0]){
+						const duplicateId = clickedStep.view.g.childNodes[5].childNodes[0].id.toString();
 						const duplicateBut = document.getElementById(duplicateId);
 						duplicateBut.addEventListener('mouseover', function() {
 							//console.log(3752, clickedStep.view.g.childNodes)
-							clickedStep.view.g.childNodes[8].childNodes[1].classList.remove('sqd-hidden');
+							clickedStep.view.g.childNodes[9].childNodes[1].classList.remove('sqd-hidden');
 						})
 						duplicateBut.addEventListener('mouseout', function() {
 							//console.log(3650, 'mouseout')
-							clickedStep.view.g.childNodes[8].childNodes[1].classList.add('sqd-hidden');
+							clickedStep.view.g.childNodes[9].childNodes[1].classList.add('sqd-hidden');
 						})
 						// console.log(duplicateId);
 						const tempContext = this.context;
@@ -4170,8 +4208,21 @@
 							// console.log(tempContext);							
 						}					
 					}
-
-
+					if(clickedStep.view.g.childNodes[10].childNodes[2]){
+						const duplicateId = clickedStep.view.g.childNodes[10].childNodes[2].id.toString();
+						const duplicateBut = document.getElementById(duplicateId);
+						const tempContext = this.context;
+						duplicateBut.onclick = function(e){
+							// e.preventDefault();
+							e.stopPropagation();
+							const duplicateStep = createStep(clickedStep.step);	
+							const pos = readMousePosition(e);
+							duplicateStep.id = "copy-" + clickedStep.step.id+"-at-"+Date.now();
+							// console.log("copy", duplicateStep.id);
+							tempContext.behaviorController.start(pos, DragStepBehavior.create(tempContext, duplicateStep));
+							// console.log(tempContext);				
+						}
+					}
 				}
 			} else {
 				console.log(3577, this)
@@ -4209,15 +4260,15 @@
 		trySelectStep(step) {
 			if (this.selectedStepComponent) {
 				this.selectedStepComponent.setState(StepComponentState.default);
-				console.log(3616, this.selectedStepComponent)
+				//console.log(3616, this.selectedStepComponent)
 				//this.selectedStepComponent
 				if(this.selectedStepComponent.step.componentType === "task"){
-					this.selectedStepComponent.view.g.childNodes[4].classList.add('sqd-hidden');
 					this.selectedStepComponent.view.g.childNodes[5].classList.add('sqd-hidden');
 					this.selectedStepComponent.view.g.childNodes[6].classList.add('sqd-hidden');
 					this.selectedStepComponent.view.g.childNodes[7].classList.add('sqd-hidden');
+					this.selectedStepComponent.view.g.childNodes[8].classList.add('sqd-hidden');
 				}else if(this.selectedStepComponent.step.componentType === "switch"){
-					console.log(3621, this.selectedStepComponent.view.g.childNodes)
+					//console.log(3621, this.selectedStepComponent.view.g.childNodes)
 					this.selectedStepComponent.view.g.childNodes[14].classList.add('sqd-hidden');
 					this.selectedStepComponent.view.g.childNodes[15].classList.add('sqd-hidden');
 					this.selectedStepComponent.view.g.childNodes[16].classList.add('sqd-hidden');
@@ -4227,11 +4278,12 @@
 			}
 			if (step) {
 				this.selectedStepComponent = this.getRootComponent().findById(step.id);
+				
 				if (!this.selectedStepComponent) {
 					throw new Error(`Cannot find a step component by id ${step.id}`);
 				}
 				this.selectedStepComponent.setState(StepComponentState.selected);
-				console.log(3811, this.selectedStepComponent)
+				//console.log(3811, this.selectedStepComponent.view.g.childNodes[3])
 			}
 		}
 		getRootComponent() {
