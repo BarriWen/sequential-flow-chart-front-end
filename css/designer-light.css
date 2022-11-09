@@ -129,6 +129,11 @@
 	stroke: #fff;
 	/* stroke-width: 2; */
 }
+#outside-circle{
+	fill: #cee2f0;
+	stroke: #cee2f0;
+}
+
 .sqd-theme-light .sqd-validation-error {
 	fill: #FFA200;
 }
