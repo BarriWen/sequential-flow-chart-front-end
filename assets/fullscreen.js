@@ -182,7 +182,7 @@ function onSaveClicked() {
 	// document.getElementsByClassName('dropdown-btn')[1].innerText = 'Draft		';
 	const target = document.getElementsByClassName('sqd-global-editor')[0].children[0].children[0];
 	console.log("save", target.value);
-	// makeReq("POST", "http://localhost:8080/journey/saveJourney", target.value, 200);
+	makeReq("POST", "http://localhost:8080/journey/saveJourney", target.value, 200);
 }
 function onActivateClicked() {
 	dropContent.classList.add("sqd-hidden");
@@ -191,7 +191,7 @@ function onActivateClicked() {
 	// document.getElementsByClassName('dropdown-btn')[2].innerText = 'Draft		';
 	const target = document.getElementsByClassName('sqd-global-editor')[0].children[0].children[0];
 	console.log("activate",target.value);
-	// makeReq("POST", "http://localhost:8080/journey/saveJourney", target.value, 200);
+	makeReq("POST", "http://localhost:8080/journey/activateJourney", target.value, 200);
 }
 
 // Make a request
