@@ -101,13 +101,15 @@ const configuration = {
 			});
 			return root;
 		}
+		
 	}
+	
 };
 
 // start from canvas with only start and end points
 const startDefinition = {
 	properties: {
-		journeyName:'test',
+		journeyName:'Automation: eCommerce Subscription and Welcoms',
 		createdAt: new Date(),
 		createdBy: "userID",
 		updatedAt: new Date(),
@@ -128,20 +130,19 @@ designer.onDefinitionChanged.subscribe((newDefinition) => {
 	console.log('the definition has changed', newDefinition);
 });
 
-// A drop down button on canvas
+
+
 const canvas = document.getElementsByClassName('sqd-designer')[0];
 const dropDiv = document.createElement('div');
 dropDiv.setAttribute('class', 'dropdown-div');
 const dropBtn = document.createElement('button');
 dropBtn.setAttribute('class','dropdown-btn');
-dropBtn.setAttribute('onClick','toggleContent()');
 dropBtn.innerText = 'Draft		';
 const icon = document.createElement('i');
 icon.setAttribute('class', 'fa fa-angle-down');
 dropBtn.appendChild(icon);
+dropBtn.setAttribute('onClick','toggleContent()');
 dropDiv.appendChild(dropBtn);
-
-// Save journey to backend
 const dropContent = document.createElement('div');
 dropContent.setAttribute('class', 'dropdown-content-div sqd-hidden');
 dropContent.setAttribute('id', 'dropdown-content');
@@ -158,10 +159,7 @@ butt2.setAttribute('onClick','onActivateClicked()');
 butt2.innerText = 'Activate Journey';
 dropContent.appendChild(butt2);
 dropDiv.appendChild(dropContent);
-
 canvas.appendChild(dropDiv);
-
-// Toggle drop down content
 function toggleContent(){
 	dropContent.classList.remove("sqd-hidden");
 }
@@ -173,7 +171,42 @@ window.onclick = function(e) {
 	}
 }
 
-// Button event listener
+const da = document.getElementsByClassName('sqd-global-editor')[0].children[0].children[0].value
+console.log(173, da)
+// function onSaveClicked() {
+// 		const data = {
+// 			"properties": {
+// 			  "journeyName": "test",
+// 			  "createdAt": "2022-11-10T07:08:44.009Z",
+// 			  "createdBy": "userID",
+// 			  "updatedAt": "2022-11-10T07:08:44.009Z",
+// 			  "updatedBy": "userID",
+// 			  "description": " ",
+// 			  "journeyId": "e56b42d4996f90d887042d66b8f12bb9"
+// 			},
+// 			"sequence": []
+// 		  }
+
+// 		fetch('http://localhost:8080/journey/saveJourney', {
+// 		method: 'POST', // or 'PUT'
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 		},
+// 		body: JSON.stringify(data),
+// 		})
+// 		.then((response) => response.json())
+// 		.then((data) => {
+// 			console.log('Success:', data);
+// 		})
+// 		.catch((error) => {
+// 			console.error('Error:', error);
+// 		});
+
+// }
+
+
+
+//Button event listener
 function onSaveClicked() {
 	dropContent.classList.add("sqd-hidden");
 	dropBtn.innerText = 'Save Journey ';
@@ -208,6 +241,7 @@ function makeReq(method, target, data, returnCode) {
 	httpRequest.open(method, target);
 	
 	if (data){
+		// console.log(data);
 		httpRequest.setRequestHeader('Content-Type', 'application/json');
 		httpRequest.send(data);
 	}
@@ -223,7 +257,8 @@ function makeHandler(httpRequest, returnCode) {
 			if (httpRequest.status === returnCode) {
 				console.log("recieved response text:  " + httpRequest.responseText);
 			} else {
-				alert("There was a problem with the request.  you'll need to refresh the page!");
+				console.log(httpRequest.responseText)
+				alert("There was a problem with the request. Please refresh the page!");
 			}
 		}
 	}
