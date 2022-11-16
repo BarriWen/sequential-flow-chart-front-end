@@ -24,18 +24,6 @@ function createIfStep(id, _true, _false) {
 }
 
 function toolboxGroup(name) {
-	// if (name == 'Trigger') {
-	// 	return {
-	// 		name,
-	// 		steps: [
-	// 			createTaskStep(null, 'text', 'Subscribe'),
-	// 			createTaskStep(null, 'text', 'Unsubscribe'),
-	// 			createTaskStep(null, 'task', 'Abandon'),
-	// 			createTaskStep(null, 'task', 'Purchase'),
-	// 			createTaskStep(null, 'task', 'Time Trigger')
-	// 		]
-	// 	};
-	// } else 
 	if (name == 'Filter') {
 		return {
 			name,
@@ -106,121 +94,153 @@ const configuration = {
 	
 };
 
-// start from canvas with only start and end points
-const startDefinition = {
-	properties: {
-		journeyName:'Automation: eCommerce Subscription and Welcoms',
-		createdAt: new Date(),
-		createdBy: "userID",
-		updatedAt: new Date(),
-		updatedBy: "userID",
-		description:" "
-	},
-	sequence: [
-		// createIfStep('00000000000000000000000000000001',
-		// 	[ createTaskStep('00000000000000000000000000000002', 'save', 'Save file') ],
-		// 	[ createTaskStep('00000000000000000000000000000003', 'text', 'Send email') ]
-		// )
-	]
-};
-
-const placeholder = document.getElementById('designer');
-designer = sequentialWorkflowDesigner.create(placeholder, startDefinition, configuration);
-designer.onDefinitionChanged.subscribe((newDefinition) => {
-	console.log('the definition has changed', newDefinition);
-});
-
-
-
-const canvas = document.getElementsByClassName('sqd-designer')[0];
-const dropDiv = document.createElement('div');
-dropDiv.setAttribute('class', 'dropdown-div');
-const dropBtn = document.createElement('button');
-dropBtn.setAttribute('class','dropdown-btn');
-dropBtn.innerText = 'Draft		';
-const icon = document.createElement('i');
-icon.setAttribute('class', 'fa fa-angle-down');
-dropBtn.appendChild(icon);
-dropBtn.setAttribute('onClick','toggleContent()');
-dropDiv.appendChild(dropBtn);
-const dropContent = document.createElement('div');
-dropContent.setAttribute('class', 'dropdown-content-div sqd-hidden');
-dropContent.setAttribute('id', 'dropdown-content');
-const butt1 = document.createElement('button');
-butt1.setAttribute('class','dropdown-btn');
-butt1.setAttribute('onClick','onSaveClicked()');
-butt1.innerText = 'Save Journey';
-dropContent.appendChild(butt1);
-butt1.insertAdjacentHTML("afterend", "</br>");
-// Activate journey
-const butt2 = document.createElement('button');
-butt2.setAttribute('class','dropdown-btn');
-butt2.setAttribute('onClick','onActivateClicked()');
-butt2.innerText = 'Activate Journey';
-dropContent.appendChild(butt2);
-dropDiv.appendChild(dropContent);
-canvas.appendChild(dropDiv);
-function toggleContent(){
-	dropContent.classList.remove("sqd-hidden");
+// Create steps
+function createStep(currElement) {
+	let step;
+	if (currElement.componentType == 'task') {
+		step = createTaskStep(currElement.id, currElement.type, currElement.name);
+		// Adding more properties
+		step.createdAt = currElement.createdAt;
+		step.createdBy = currElement.createdBy;
+		step.updatedAt = currElement.updatedAt;
+		step.updatedBy = currElement.updatedBy;
+		step.properties['Select List'] = currElement.properties['Select List'];
+		step.properties.Run = currElement.properties.Run;
+	} else {
+		console.log("Creating an if/else block", currElement);
+		const True = currElement.branches.True;
+		const False = currElement.branches.False;
+		let trueBranch = [];
+		let falseBranch = [];
+		for (let j = 0; j < True.length; j++){
+			step = createStep(True[j]);
+			trueBranch.push(step);
+		}
+		for (let j = 0; j < False.length; j++){
+			step = createStep(False[j]);
+			falseBranch.push(step);
+		}
+		step = createIfStep(currElement.id, trueBranch, falseBranch);
+		// Adding more properties
+		step.createdAt = currElement.createdAt;
+		step.createdBy = currElement.createdBy;
+		step.updatedAt = currElement.updatedAt;
+		step.updatedBy = currElement.updatedBy;
+		step.properties['Select List'] = currElement.properties['Select List'];
+		step.properties.Run = currElement.properties.Run;
+	}
+		
+	return step;
 }
-window.onclick = function(e) {
-	if (!e.target.matches('.dropdown-btn')) {
-	  if (!dropContent.classList.contains('sqd-hidden')) {
-		dropContent.classList.add('sqd-hidden');
-	  }
+
+// Return start definition
+function loadDefinition(input) {
+	let sequence = [];
+	
+	if (!(input.sequence === undefined)) {
+		const l = input.sequence.length;
+		for (let i = 0; i < l; i++) {
+			sequence.push(createStep(input.sequence[i]));
+		}
+	}
+	return {
+		properties: {
+			journeyName:input.properties.journeyName,
+			createdAt: new Date(input.properties.createdAt),
+			createdBy: input.properties.createdBy,
+			updatedAt: new Date(input.properties.updatedAt),
+			updatedBy: input.properties.updatedBy,
+			description:input.properties.description,
+			journeyId: input.properties.journeyId
+		},
+		sequence
+	};
+}
+
+function createDesinger(startDefinition){
+	const placeholder = document.getElementById('designer');
+	designer = sequentialWorkflowDesigner.create(placeholder, startDefinition, configuration);
+	drawButtons();
+	setTimeout(saver,timeout); 			// Auto saving starts
+	designer.onDefinitionChanged.subscribe((newDefinition) => {
+		clearTimeout(timeoutID);
+		console.log('the definition has changed', newDefinition);
+		designer.context.definition.properties.updatedAt = new Date();
+		console.log("Save journey when definition changes");
+		setTimeout(saver,0); 
+	});
+}
+
+
+function drawButtons(){
+	const canvas = document.getElementsByClassName('sqd-designer')[0];
+	const dropDiv = document.createElement('div');
+	dropDiv.setAttribute('class', 'dropdown-div');
+	const dropBtn = document.createElement('button');
+	dropBtn.setAttribute('class','dropdown-btn');
+	dropBtn.innerText = 'Draft		';
+	const icon = document.createElement('i');
+	icon.setAttribute('class', 'fa fa-angle-down');
+	dropBtn.appendChild(icon);
+	dropDiv.appendChild(dropBtn);
+	const dropContent = document.createElement('div');
+	dropContent.setAttribute('class', 'dropdown-content-div sqd-hidden');
+	dropContent.setAttribute('id', 'dropdown-content');
+	dropBtn.addEventListener('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		dropContent.classList.remove("sqd-hidden");
+	});
+	const butt1 = document.createElement('button');
+	butt1.setAttribute('class','dropdown-btn');
+	butt1.innerText = 'Save Journey';
+	dropContent.appendChild(butt1);
+	butt1.insertAdjacentHTML("afterend", "</br>");
+	// Activate journey
+	const butt2 = document.createElement('button');
+	butt2.setAttribute('class','dropdown-btn');
+	butt2.setAttribute('onClick','onActivateClicked()');
+	butt2.innerText = 'Activate Journey';
+	dropContent.appendChild(butt2);
+	dropDiv.appendChild(dropContent);
+	canvas.appendChild(dropDiv);
+
+	butt1.addEventListener('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		dropContent.classList.add("sqd-hidden");
+		document.getElementsByClassName('dropdown-btn')[0].appendChild(icon);
+		const target = JSON.stringify(designer.context.definition);
+		console.log("Auto save canceled");
+		window.clearTimeout(timeoutID);	
+		makeReq("POST", "http://localhost:8080/journey/saveJourney", target, 200);
+	});
+
+	butt2.addEventListener('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		dropContent.classList.add("sqd-hidden");
+		document.getElementsByClassName('dropdown-btn')[0].appendChild(icon);
+		const target = JSON.stringify(designer.context.definition);
+		console.log("Auto save canceled");
+		window.clearTimeout(timeoutID);	
+		makeReq("POST", "http://localhost:8080/journey/activateJourney", target, 200);
+	});
+
+	window.onclick = function(e) {
+		if (!e.target.matches('.dropdown-btn')) {
+		  if (!dropContent.classList.contains('sqd-hidden')) {
+			dropContent.classList.add('sqd-hidden');
+		  }
+		}
 	}
 }
 
-const da = document.getElementsByClassName('sqd-global-editor')[0].children[0].children[0].value
-console.log(173, da)
-// function onSaveClicked() {
-// 		const data = {
-// 			"properties": {
-// 			  "journeyName": "test",
-// 			  "createdAt": "2022-11-10T07:08:44.009Z",
-// 			  "createdBy": "userID",
-// 			  "updatedAt": "2022-11-10T07:08:44.009Z",
-// 			  "updatedBy": "userID",
-// 			  "description": " ",
-// 			  "journeyId": "e56b42d4996f90d887042d66b8f12bb9"
-// 			},
-// 			"sequence": []
-// 		  }
-
-// 		fetch('http://localhost:8080/journey/saveJourney', {
-// 		method: 'POST', // or 'PUT'
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 		},
-// 		body: JSON.stringify(data),
-// 		})
-// 		.then((response) => response.json())
-// 		.then((data) => {
-// 			console.log('Success:', data);
-// 		})
-// 		.catch((error) => {
-// 			console.error('Error:', error);
-// 		});
-
-// }
-
-
-
 //Button event listener
-function onSaveClicked() {
-	dropContent.classList.add("sqd-hidden");
-	dropBtn.innerText = 'Save Journey ';
-	dropBtn.appendChild(icon);
-	document.getElementsByClassName('dropdown-btn')[0].appendChild(icon);
-	// document.getElementsByClassName('dropdown-btn')[1].innerText = 'Draft		';
-	const target = document.getElementsByClassName('sqd-global-editor')[0].children[0].children[0];
-	console.log("save", target.value);
-	makeReq("POST", "http://localhost:8080/journey/saveJourney", target.value, 200);
-}
 function onActivateClicked() {
 	dropContent.classList.add("sqd-hidden");
-	dropBtn.innerText = 'Activate Journey ';
-	dropBtn.appendChild(icon);
+	// dropBtn.innerText = 'Activate Journey ';
+	// dropBtn.appendChild(icon);
 	// document.getElementsByClassName('dropdown-btn')[2].innerText = 'Draft		';
 	const target = document.getElementsByClassName('sqd-global-editor')[0].children[0].children[0];
 	console.log("activate",target.value);
@@ -236,7 +256,7 @@ function makeReq(method, target, data, returnCode) {
 		return false;
 	}
 
-	httpRequest.onreadystatechange = makeHandler(httpRequest, returnCode);
+	httpRequest.onreadystatechange = makeHandler(httpRequest, returnCode, method);
 
 	httpRequest.open(method, target);
 	
@@ -251,16 +271,71 @@ function makeReq(method, target, data, returnCode) {
 }
 
 // Handle request response
-function makeHandler(httpRequest, returnCode) {
+function makeHandler(httpRequest, returnCode, method) {
 	function handler() {
 		if (httpRequest.readyState === XMLHttpRequest.DONE) {
 			if (httpRequest.status === returnCode) {
-				console.log("recieved response text:  " + httpRequest.responseText);
+				console.log("succeed");
+				// console.log("recieved response text:  " + httpRequest.responseText);
+				if (method == "GET") {
+					startDefinition = loadDefinition(JSON.parse(httpRequest.responseText));
+					createDesinger(startDefinition);
+				}
 			} else {
-				console.log(httpRequest.responseText)
+				// console.log(httpRequest.responseText)
 				alert("There was a problem with the request. Please refresh the page!");
 			}
 		}
 	}
 	return handler;
 }
+
+let timeoutID;
+let timeout = 5 * 60 * 1000;
+let startDefinition;
+let journeyID;
+// journeyID = '37235ccc2fd34ad742c61e6e0bb3b000';
+
+if (journeyID) {
+	console.log("create from existing journey")
+	makeReq("GET", `http://localhost:8080/journey/get-saved-journey/${journeyID}`, null, 200)
+} else {
+	console.log("create empty canvas")
+	const input = {
+		properties: {
+			journeyName:'test',
+			createdAt: new Date(),
+			createdBy: "userID",
+			updatedAt: new Date(),
+			updatedBy: "userID",
+			description:" ",
+			journeyId: ""
+		},
+		sequence: [
+		]
+	};
+	createDesinger(input);
+}
+
+// Auto Save
+function saver(){
+	console.log("saving...", Date());
+	const target = JSON.stringify(designer.context.definition);
+	makeReq('POST', "http://localhost:8080/journey/saveJourney", target, 200);
+	timeoutID = setTimeout(saver, timeout)
+}
+// Save journey when user leaves the page
+document.addEventListener('visibilitychange', function () {
+	if (document.visibilityState == 'hidden') {
+		// Cancel auto save
+		clearTimeout(timeoutID);
+		console.log("saving from leaving the page", Date());
+		const target = JSON.stringify(designer.context.definition);
+		makeReq('POST', "http://localhost:8080/journey/saveJourney", target, 200);
+	} 
+	if (document.visibilityState == 'visible') {
+		// Auto save back on
+		setTimeout(saver, timeout);
+		console.log("Auto save is on when back to the page");
+	}
+});
