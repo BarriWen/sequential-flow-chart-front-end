@@ -282,8 +282,8 @@ function makeHandler(httpRequest, returnCode, method) {
 					createDesinger(startDefinition);
 				}
 			} else {
-				// console.log(httpRequest.responseText)
-				alert("There was a problem with the request. Please refresh the page!");
+				console.log("Failed", httpRequest.responseText)
+				// alert("There was a problem with the request. Please refresh the page!");
 			}
 		}
 	}
