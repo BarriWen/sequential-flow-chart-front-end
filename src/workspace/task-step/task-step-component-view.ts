@@ -24,6 +24,7 @@ export class TaskStepComponentView implements ComponentView {
     });
     parent.appendChild(g);
     //Add Time Delay Dropdown
+
     if (step.name === "Time Delay") {
       const boxHeight = ICON_SIZE + PADDING_Y;
       const text = Dom.svg("text", {

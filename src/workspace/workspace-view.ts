@@ -1,9 +1,10 @@
 import { Dom } from "../core/dom";
 import { readMousePosition, readTouchPosition } from "../core/event-readers";
 import { Vector } from "../core/vector";
-import { Sequence, ComponentType} from "../definition";
+import { ComponentType, Sequence } from "../definition";
 import { StepsConfiguration } from "../designer-configuration";
-import { StartStopComponent } from "./start-stop/start-stop-component";
+import { StartComponent } from "./start-stop/start-component";
+
 const GRID_SIZE = 48;
 
 let lastGridPatternId = 0;
@@ -60,7 +61,7 @@ export class WorkspaceView {
   }
 
   private onResizeHandler = () => this.onResize();
-  public rootComponent?: StartStopComponent;
+  public rootComponent?: StartComponent;
 
   private constructor(
     private readonly workspace: HTMLElement,
@@ -70,87 +71,93 @@ export class WorkspaceView {
     private readonly foreground: SVGGElement,
     private readonly configuration: StepsConfiguration
   ) {}
-  editStartComp(sequence: Sequence , journeyID: string) {
+
+  public editStartComp(sequence: Sequence, journeyID: string) {
     const start = document.getElementById("start");
-	if(start){
-    start.addEventListener("click", (e) => {
-      e.preventDefault();
-      const dialogBox = Dom.element("dialog", {
-        class: "triggers-list",
-      });
-      const triggers = [
-        "Subscribe",
-        "Unsubscribe",
-        "Place a Purchase",
-        "Abandon Checkout",
-        "Time Trigger",
-      ];
-      const types = [
-        "Subscribe",
-        "Unsubscribe",
-        "Purchase",
-        "Abandon",
-        "Time Trigger",
-      ];
+    const tempThis = this;
+    if (start != null) {
+      start.addEventListener("click", (e) => {
+        e.preventDefault();
+        const dialogBox = Dom.element("dialog", {
+          class: "triggers-list",
+        });
+        const triggers = [
+          "Subscribe",
+          "Unsubscribe",
+          "Place a Purchase",
+          "Abandon Checkout",
+          "Time Trigger",
+        ];
+        const types = [
+          "Subscribe",
+          "Unsubscribe",
+          "Purchase",
+          "Abandon",
+          "Time Trigger",
+        ];
 
-      const dialogForm = Dom.element("form", {
-        // class: 'triggers-list',
-        method: "dialog",
-      });
-
-      for (let i = 0; i < triggers.length; i++) {
-        const btn1 = Dom.element("button");
-        Dom.attrs(btn1, {
-          class: "triggers",
-          type: "submit",
-          name: "userChoice",
-          value: i,
+        const dialogForm = Dom.element("form", {
+          // class: 'triggers-list',
+          method: "dialog",
         });
 
-        btn1.innerText = triggers[i];
-        btn1.addEventListener("click", (e) => {
-          e.preventDefault();
-          sequence.unshift({
-			  id: `start-component-${journeyID}`,
-			  componentType: ComponentType.task,
-			  type: "save",
-			  name: triggers[Number((e.target as HTMLButtonElement).value)],
-			  createdAt: new Date(),
-			  createdBy: "userID",
-			  updatedAt: new Date(),
-			  updatedBy: "userID",
-			  properties: {},
-			  branches: undefined
-		  });
-          console.log(3722, sequence);
-          this.render(sequence);
-          dialogBox.close();
-        });
-        dialogForm.appendChild(btn1);
-        btn1.insertAdjacentHTML("afterend", "</br>");
-      }
-      dialogBox.appendChild(dialogForm);
-      // const root = document.getElementById("first-step");
-      start.appendChild(dialogBox);
+        for (let i = 0; i < triggers.length; i++) {
+          const btn1 = Dom.element("button");
+          Dom.attrs(btn1, {
+            class: "triggers",
+            type: "submit",
+            name: "userChoice",
+            value: i,
+          });
 
-      try {
-        dialogBox.showModal();
-      } catch (error) {
-        console.log(error);
-      }
-    });
-}
+          btn1.innerText = triggers[i];
+          btn1.addEventListener("click", function (e: MouseEvent) {
+            e.preventDefault();
+            const target = e.target as HTMLInputElement;
+            sequence.unshift({
+              id: `start-component-${journeyID}`,
+              componentType: ComponentType.task,
+              type: "save",
+              name: triggers[parseInt(target.value)],
+              createdAt: new Date().toUTCString(),
+              createdBy: "userID",
+              updatedAt: new Date().toUTCString(),
+              updatedBy: "userID",
+              properties: {},
+              branches: undefined,
+            });
+
+            console.log(3722, sequence);
+            tempThis.render(sequence, journeyID);
+            dialogBox.close();
+          });
+          dialogForm.appendChild(btn1);
+          btn1.insertAdjacentHTML("afterend", "</br>");
+        }
+        dialogBox.appendChild(dialogForm);
+        // const root = document.getElementById("first-step");
+        start.appendChild(dialogBox);
+
+        try {
+          dialogBox.showModal();
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    }
+    // console.log(document.getElementsByClassName('start-component')[0])
   }
-  public render(sequence: Sequence, journeyId?: string) {
+
+  public render(sequence: Sequence, journeyID: string) {
     if (this.rootComponent) {
       this.rootComponent.view.destroy();
     }
-    this.rootComponent = StartStopComponent.create(
+    this.rootComponent = StartComponent.create(
       this.foreground,
       sequence,
       this.configuration
     );
-    this.editStartComp(sequence, journeyId as string);
+    this.editStartComp(sequence, journeyID);
     this.refreshSize();
   }
 

@@ -697,7 +697,7 @@ export class Workspace implements DesignerComponentProvider {
                   "sqd-hidden"
                 );
                 clickedStep.step.properties["Select List"] = showVal;
-                clickedStep.step.updatedAt = new Date();
+                clickedStep.step.updatedAt = String(new Date());
               }
             };
           const selectRunUpperId1 =
@@ -717,7 +717,7 @@ export class Workspace implements DesignerComponentProvider {
                 "sqd-hidden"
               );
               clickedStep.step.properties["Select List"] = showVal;
-              clickedStep.step.updatedAt = new Date();
+              clickedStep.step.updatedAt = String(new Date());
             };
           }
           //lower subdropdown
@@ -885,171 +885,178 @@ export class Workspace implements DesignerComponentProvider {
     }
     throw new Error("Root component not found");
   }
-
 }
-function promptChoices(tempContext: DesignerContext, action: string, e?: MouseEvent) {
-		//console.log(controller);
-		let output: string | number | null  = null;
-		// Create a propmt window
-		const dialogBox = Dom.element("dialog", {
-		  class: "confirm-dialog",
-		  id: "dialog-box",
-		});
-	
-		const title = Dom.element("h3", {
-		  class: "confirm-dialog-content",
-		});
-	
-		let toDo;
-		const form = Dom.element("form", {
-			method: "dialog",
-			id: "dialog-form",
-		  });
-		if (tempContext.selectedStep?.componentType == "switch") {
-		  if (action == "delete") {
-			toDo = ["Delete true path", "Delete false path", "Delete both"];
-			title.innerText = "Which branch do you want to delete?";
-		  } else {
-			toDo = [
-			  "Copy true path",
-			  "Copy false path",
-			  "Copy both",
-			  "Copy condition only",
-			];
-			title.innerText = "Which branch do you want to duplicate?";
-		  }
-		 
-		  if (tempContext.selectedStep?.componentType == "switch") {
-			for (let i = 0; i < toDo.length; i++) {
-			  const radio = Dom.element("input", {
-				type: "radio",
-				name: "choice",
-				value: i,
-			  });
-	  
-			  const choice = Dom.element("label");
-			  choice.innerText = toDo[i];
-	  
-			  form.appendChild(radio);
-			  form.appendChild(choice);
-			  choice.insertAdjacentHTML("afterend", "</br>");
-			}
-		  }
-		} else {
-		  title.innerText = "Are you sure to delete this block?";
-		}
-		dialogBox.appendChild(title);
-	
-		// A form to include all choices
-		
-	
-		
-		// form.appendChild(wrapper);
-	
-		const btn1 = Dom.element("button", {
-		  type: "submit",
-		});
-		btn1.innerText = "Confirm";
-		form.appendChild(btn1);
-		const btn2 = Dom.element("button", {
-		  type: "submit",
-		});
-		btn2.innerText = "Cancel";
-		btn2.addEventListener("click", function (e) {
-		  e.preventDefault();
-		  e.stopPropagation();
-		  //console.log(tempContext.layoutController.parent.childNodes);
-		  const designer = document.getElementById("designer");
-		  designer?.removeChild(designer.childNodes[1]);
-		});
-		form.appendChild(btn2);
-		dialogBox.appendChild(form);
-	
-		tempContext.layoutController.parent.appendChild(dialogBox);
-		//console.log(dialogBox);
-		if (typeof dialogBox.showModal === "function") {
-		  dialogBox.showModal();
-		} else {
-		  prompt("Wow from prompt window", "ok");
-		}
-	
-		btn1.addEventListener("click", function (e) {
-		  e.preventDefault();
-		  e.stopPropagation();
-		  //console.log("close window triggered");
-		  if (tempContext.selectedStep?.componentType == "switch") {
-			var elem = document.getElementsByTagName("input");
-			for (let i = 0; i < elem.length; i++) {
-			  // console.log(570, elem);
-			  if (elem[i].type == "radio" && elem[i].checked) {
-				output = elem[i].value;
-			  }
-			}
-		  } else {
-			output = 2;
-		  }
-		  // Delete behavior
-		  if(tempContext.selectedStep){
-		  if (action == "delete") {
-			
-			tempContext.tryDeleteStep(tempContext.selectedStep, output);
-			
-		  }
-		  // Copy behavior
-		  else {
-			//console.log(tempContext.selectedStep);
-			//if(tempContext.selectedStep)
-			const duplicateStep = createStep(tempContext.selectedStep);
-			duplicateStep.branches.True = [];
-			duplicateStep.branches.False = [];
-			// Copy true branch
-			if (
-				tempContext.selectedStep?.branches.True.length > 0 &&
-			  (output == 0 || output == 2)
-			) {
-			  for (let i = 0; i < tempContext.selectedStep?.branches.True.length; i++) {
-				const step = createStep(tempContext.selectedStep?.branches.True[i]);
-				step.id =
-				  "copy-" +
-				  tempContext.selectedStep?.branches.True[i].id +
-				  "-at-" +
-				  Date.now();
-				duplicateStep.branches.True[i] = step;
-			  }
-			}
-			// Copy false branch
-			if (
-				tempContext.selectedStep?.branches.False.length > 0 &&
-			  (output == 1 || output == 2)
-			) {
-			  for (let i = 0; i < tempContext.selectedStep?.branches.False.length; i++) {
-				const step = createStep(tempContext.selectedStep?.branches.False[i]);
-				step.id =
-				  "copy-" +
-				  tempContext.selectedStep?.branches.False[i].id +
-				  "-at-" +
-				  Date.now();
-				duplicateStep.branches.False[i] = step;
-			  }
-			}
-			const pos = readMousePosition(e);
-			duplicateStep.id =
-			  "copy-" + tempContext.selectedStep?.id + "-at-" + Date.now();
-			  tempContext.behaviorController.start(
-			  pos,
-			  DragStepBehavior.create(tempContext, duplicateStep)
-			);
-		  }
-		  const designer = document.getElementById("designer");
-		  designer?.removeChild(designer.childNodes[1]);
-		}
-		});
-	  }
-	
-	  function createStep(step: StepDefinition): Step {
-		const newStep = ObjectCloner.deepClone(step) as Step;
-		newStep.id = Uid.next();
-		return newStep;
-	}
+export function promptChoices(
+  tempContext: DesignerContext,
+  action: string,
+  e?: MouseEvent
+) {
+  //console.log(controller);
+  let output: string | number | null = null;
+  // Create a propmt window
+  const dialogBox = Dom.element("dialog", {
+    class: "confirm-dialog",
+    id: "dialog-box",
+  });
 
+  const title = Dom.element("h3", {
+    class: "confirm-dialog-content",
+  });
 
+  let toDo;
+  const form = Dom.element("form", {
+    method: "dialog",
+    id: "dialog-form",
+  });
+  if (tempContext.selectedStep?.componentType == "switch") {
+    if (action == "delete") {
+      toDo = ["Delete true path", "Delete false path", "Delete both"];
+      title.innerText = "Which branch do you want to delete?";
+    } else {
+      toDo = [
+        "Copy true path",
+        "Copy false path",
+        "Copy both",
+        "Copy condition only",
+      ];
+      title.innerText = "Which branch do you want to duplicate?";
+    }
+
+    if (tempContext.selectedStep?.componentType == "switch") {
+      for (let i = 0; i < toDo.length; i++) {
+        const radio = Dom.element("input", {
+          type: "radio",
+          name: "choice",
+          value: i,
+        });
+
+        const choice = Dom.element("label");
+        choice.innerText = toDo[i];
+
+        form.appendChild(radio);
+        form.appendChild(choice);
+        choice.insertAdjacentHTML("afterend", "</br>");
+      }
+    }
+  } else {
+    title.innerText = "Are you sure to delete this block?";
+  }
+  dialogBox.appendChild(title);
+
+  // A form to include all choices
+
+  // form.appendChild(wrapper);
+
+  const btn1 = Dom.element("button", {
+    type: "submit",
+  });
+  btn1.innerText = "Confirm";
+  form.appendChild(btn1);
+  const btn2 = Dom.element("button", {
+    type: "submit",
+  });
+  btn2.innerText = "Cancel";
+  btn2.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    //console.log(tempContext.layoutController.parent.childNodes);
+    const designer = document.getElementById("designer");
+    designer?.removeChild(designer.childNodes[1]);
+  });
+  form.appendChild(btn2);
+  dialogBox.appendChild(form);
+
+  tempContext.layoutController.parent.appendChild(dialogBox);
+  //console.log(dialogBox);
+  if (typeof dialogBox.showModal === "function") {
+    dialogBox.showModal();
+  } else {
+    prompt("Wow from prompt window", "ok");
+  }
+
+  btn1.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    //console.log("close window triggered");
+    if (tempContext.selectedStep?.componentType == "switch") {
+      var elem = document.getElementsByTagName("input");
+      for (let i = 0; i < elem.length; i++) {
+        // console.log(570, elem);
+        if (elem[i].type == "radio" && elem[i].checked) {
+          output = elem[i].value;
+        }
+      }
+    } else {
+      output = 2;
+    }
+    // Delete behavior
+    if (tempContext.selectedStep) {
+      if (action == "delete") {
+        tempContext.tryDeleteStep(tempContext.selectedStep, output);
+      }
+      // Copy behavior
+      else {
+        //console.log(tempContext.selectedStep);
+        //if(tempContext.selectedStep)
+        const duplicateStep = createStep(tempContext.selectedStep);
+        duplicateStep.branches.True = [];
+        duplicateStep.branches.False = [];
+        // Copy true branch
+        if (
+          tempContext.selectedStep?.branches.True.length > 0 &&
+          (output == 0 || output == 2)
+        ) {
+          for (
+            let i = 0;
+            i < tempContext.selectedStep?.branches.True.length;
+            i++
+          ) {
+            const step = createStep(tempContext.selectedStep?.branches.True[i]);
+            step.id =
+              "copy-" +
+              tempContext.selectedStep?.branches.True[i].id +
+              "-at-" +
+              Date.now();
+            duplicateStep.branches.True[i] = step;
+          }
+        }
+        // Copy false branch
+        if (
+          tempContext.selectedStep?.branches.False.length > 0 &&
+          (output == 1 || output == 2)
+        ) {
+          for (
+            let i = 0;
+            i < tempContext.selectedStep?.branches.False.length;
+            i++
+          ) {
+            const step = createStep(
+              tempContext.selectedStep?.branches.False[i]
+            );
+            step.id =
+              "copy-" +
+              tempContext.selectedStep?.branches.False[i].id +
+              "-at-" +
+              Date.now();
+            duplicateStep.branches.False[i] = step;
+          }
+        }
+        const pos = readMousePosition(e);
+        duplicateStep.id =
+          "copy-" + tempContext.selectedStep?.id + "-at-" + Date.now();
+        tempContext.behaviorController.start(
+          pos,
+          DragStepBehavior.create(tempContext, duplicateStep)
+        );
+      }
+      const designer = document.getElementById("designer");
+      designer?.removeChild(designer.childNodes[1]);
+    }
+  });
+}
+
+function createStep(step: StepDefinition): Step {
+  const newStep = ObjectCloner.deepClone(step) as Step;
+  newStep.id = Uid.next();
+  return newStep;
+}
