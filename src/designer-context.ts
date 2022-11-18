@@ -126,7 +126,8 @@ export class DesignerContext {
 		return true;
 	}
 
-	public tryDeleteStep(step: Step): boolean {
+	public tryDeleteStep(step: Step, choice: string | number | null): boolean {
+		var _a;
 		const component = this.getProvider().getComponentByStepId(step.id);
 		const canDeleteStep = this.configuration.steps.canDeleteStep
 			? this.configuration.steps.canDeleteStep(component.step, component.parentSequence)
@@ -134,8 +135,14 @@ export class DesignerContext {
 		if (!canDeleteStep) {
 			return false;
 		}
-
-		SequenceModifier.deleteStep(component.step, component.parentSequence);
+		if (component.step.componentType == 'switch'){
+			console.log("delete a switch blocks");
+			SequenceModifier.deleteStep(component.step, component.parentSequence, choice);
+		} else {
+			SequenceModifier.deleteStep(component.step, component.parentSequence, '2');
+		} 
+		
+		//SequenceModifier.deleteStep(component.step, component.parentSequence);
 		this.notifiyDefinitionChanged(true);
 		if (this.selectedStep?.id === step.id) {
 			this.setSelectedStep(null);
