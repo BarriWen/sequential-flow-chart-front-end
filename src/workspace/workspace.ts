@@ -1,197 +1,1055 @@
-import { MoveViewPortBehavior } from '../behaviors/move-view-port-behavior';
-import { SelectStepBehavior } from '../behaviors/select-step-behavior';
-import { race } from '../core/simple-event-race';
-import { Vector } from '../core/vector';
-import { Step } from '../definition';
-import { DesignerComponentProvider, DesignerContext, ViewPort } from '../designer-context';
-import { Placeholder, StepComponent, StepComponentState } from './component';
-import { StartStopComponent } from './start-stop/start-stop-component';
-import { WorkspaceView } from './workspace-view';
-
+import { Dom } from "../core/dom";
+import { MoveViewPortBehavior } from "../behaviors/move-view-port-behavior";
+import { SelectStepBehavior } from "../behaviors/select-step-behavior";
+import { race } from "../core/simple-event-race";
+import { Vector } from "../core/vector";
+import { Step } from "../definition";
+import {
+  DesignerComponentProvider,
+  DesignerContext,
+  ViewPort,
+} from "../designer-context";
+import { Placeholder, StepComponent, StepComponentState } from "./component";
+import { StartStopComponent } from "./start-stop/start-stop-component";
+import { WorkspaceView } from "./workspace-view";
+import { readMousePosition } from "../core/event-readers";
+import { StepDefinition } from "../designer-configuration";
+import { ObjectCloner } from "../core/object-cloner";
+import { Uid } from "../core/uid";
+import { DragStepBehavior } from "../behaviors/drag-step-behavior";
 const WHEEL_DELTA = 0.1;
 const ZOOM_DELTA = 0.2;
 
 export class Workspace implements DesignerComponentProvider {
-	public static create(parent: HTMLElement, context: DesignerContext): Workspace {
-		const view = WorkspaceView.create(parent, context.configuration.steps);
+  public static create(
+    parent: HTMLElement,
+    context: DesignerContext
+  ): Workspace {
+    const view = WorkspaceView.create(parent, context.configuration.steps);
 
-		const workspace = new Workspace(view, context);
-		setTimeout(() => {
-			workspace.render();
-			workspace.resetViewPort();
-		});
+    const workspace = new Workspace(view, context);
+    setTimeout(() => {
+      workspace.render();
+      workspace.resetViewPort();
+    });
 
-		context.setProvider(workspace);
-		context.onViewPortChanged.subscribe(vp => workspace.onViewPortChanged(vp));
-		context.onIsDraggingChanged.subscribe(i => workspace.onIsDraggingChanged(i));
-		context.onIsSmartEditorCollapsedChanged.subscribe(() => workspace.onIsSmartEditorCollapsedChanged());
+    context.setProvider(workspace);
+    context.onViewPortChanged.subscribe((vp) =>
+      workspace.onViewPortChanged(vp)
+    );
+    context.onIsDraggingChanged.subscribe((i) =>
+      workspace.onIsDraggingChanged(i)
+    );
+    context.onIsSmartEditorCollapsedChanged.subscribe(() =>
+      workspace.onIsSmartEditorCollapsedChanged()
+    );
 
-		race(0, context.onDefinitionChanged, context.onSelectedStepChanged).subscribe(r => {
-			const [defChangedDetails, selectedStep] = r;
-			if (defChangedDetails) {
-				if (defChangedDetails.rerender) {
-					workspace.render();
-				} else {
-					workspace.revalidate();
-				}
-			} else if (selectedStep !== undefined) {
-				workspace.onSelectedStepChanged(selectedStep);
-			}
-		});
+    race(
+      0,
+      context.onDefinitionChanged,
+      context.onSelectedStepChanged
+    ).subscribe((r) => {
+      const [defChangedDetails, selectedStep] = r;
+      if (defChangedDetails) {
+        if (defChangedDetails.rerender) {
+          workspace.render();
+        } else {
+          workspace.revalidate();
+        }
+      } else if (selectedStep !== undefined) {
+        workspace.onSelectedStepChanged(selectedStep);
+      }
+    });
 
-		view.bindMouseDown((p, t, b) => workspace.onMouseDown(p, t, b));
-		view.bindTouchStart(e => workspace.onTouchStart(e));
-		view.bindContextMenu(e => workspace.onContextMenu(e));
-		view.bindWheel(e => workspace.onWheel(e));
-		return workspace;
-	}
+    view.bindMouseDown((p, t, b) => workspace.onMouseDown(p, t, b));
+    view.bindTouchStart((e) => workspace.onTouchStart(e));
+    view.bindContextMenu((e) => workspace.onContextMenu(e));
+    view.bindWheel((e) => workspace.onWheel(e));
+    return workspace;
+  }
 
-	public isValid = false;
+  public isValid = false;
 
-	private selectedStepComponent: StepComponent | null = null;
+  private selectedStepComponent: StepComponent | null = null;
 
-	private constructor(private readonly view: WorkspaceView, private readonly context: DesignerContext) {}
+  private constructor(
+    private readonly view: WorkspaceView,
+    private readonly context: DesignerContext
+  ) {}
 
-	public render() {
-		this.view.render(this.context.definition.sequence);
-		this.trySelectStep(this.context.selectedStep);
-		this.revalidate();
-	}
+  public render() {
+    this.view.render(
+      this.context.definition.sequence,
+      String(this.context.definition.properties.journeyId)
+    );
+    this.trySelectStep(this.context.selectedStep);
+    this.revalidate();
+  }
 
-	public getPlaceholders(): Placeholder[] {
-		const result: Placeholder[] = [];
-		this.getRootComponent().getPlaceholders(result);
-		return result;
-	}
+  public getPlaceholders(): Placeholder[] {
+    const result: Placeholder[] = [];
+    this.getRootComponent().getPlaceholders(result);
+    return result;
+  }
 
-	public getSelectedStepComponent(): StepComponent {
-		if (this.selectedStepComponent) {
-			return this.selectedStepComponent;
-		}
-		throw new Error('Nothing selected');
-	}
+  public getSelectedStepComponent(): StepComponent {
+    if (this.selectedStepComponent) {
+      return this.selectedStepComponent;
+    }
+    throw new Error("Nothing selected");
+  }
 
-	public getComponentByStepId(stepId: string): StepComponent {
-		const component = this.getRootComponent().findById(stepId);
-		if (!component) {
-			throw new Error(`Cannot find component for step id: ${stepId}`);
-		}
-		return component;
-	}
+  public getComponentByStepId(stepId: string): StepComponent {
+    const component = this.getRootComponent().findById(stepId);
+    if (!component) {
+      throw new Error(`Cannot find component for step id: ${stepId}`);
+    }
+    return component;
+  }
 
-	public resetViewPort() {
-		const rcv = this.getRootComponent().view;
-		const clientSize = this.view.getClientSize();
-		const x = Math.max(0, (clientSize.x - rcv.width) / 2);
-		const y = Math.max(0, (clientSize.y - rcv.height) / 2);
+  public resetViewPort() {
+    const rcv = this.getRootComponent().view;
+    const clientSize = this.view.getClientSize();
+    const x = Math.max(0, (clientSize.x - rcv.width) / 2);
+    const y = Math.max(0, (clientSize.y - rcv.height) / 2);
 
-		this.context.setViewPort(new Vector(x, y), 1);
-	}
+    this.context.setViewPort(new Vector(x, y), 1);
+  }
 
-	public zoom(direction: boolean): void {
-		const delta = direction ? ZOOM_DELTA : -ZOOM_DELTA;
-		const scale = this.context.limitScale(this.context.viewPort.scale + delta);
-		this.context.setViewPort(this.context.viewPort.position, scale);
-	}
+  public zoom(direction: boolean): void {
+    const delta = direction ? ZOOM_DELTA : -ZOOM_DELTA;
+    const scale = this.context.limitScale(this.context.viewPort.scale + delta);
+    this.context.setViewPort(this.context.viewPort.position, scale);
+  }
 
-	public moveViewPortToStep(stepComponent: StepComponent) {
-		const vp = this.context.viewPort;
-		const componentPosition = stepComponent.view.getClientPosition();
-		const clientSize = this.view.getClientSize();
+  public moveViewPortToStep(stepComponent: StepComponent) {
+    const vp = this.context.viewPort;
+    const componentPosition = stepComponent.view.getClientPosition();
+    const clientSize = this.view.getClientSize();
 
-		const realPos = vp.position.divideByScalar(vp.scale).subtract(componentPosition.divideByScalar(vp.scale));
-		const componentOffset = new Vector(stepComponent.view.width, stepComponent.view.height).divideByScalar(2);
+    const realPos = vp.position
+      .divideByScalar(vp.scale)
+      .subtract(componentPosition.divideByScalar(vp.scale));
+    const componentOffset = new Vector(
+      stepComponent.view.width,
+      stepComponent.view.height
+    ).divideByScalar(2);
 
-		this.context.animateViewPort(realPos.add(clientSize.divideByScalar(2)).subtract(componentOffset), 1);
-	}
+    this.context.animateViewPort(
+      realPos.add(clientSize.divideByScalar(2)).subtract(componentOffset),
+      1
+    );
+  }
 
-	public destroy() {
-		this.view.destroy();
-	}
+  public destroy() {
+    this.view.destroy();
+  }
 
-	private revalidate() {
-		this.isValid = this.getRootComponent().validate();
-	}
+  private revalidate() {
+    this.isValid = this.getRootComponent().validate();
+  }
 
-	private onMouseDown(position: Vector, target: Element, button: number) {
-		const isPrimaryButton = button === 0;
-		const isMiddleButton = button === 1;
-		if (isPrimaryButton || isMiddleButton) {
-			this.startBehavior(target, position, isMiddleButton);
-		}
-	}
+  private onMouseDown(position: Vector, target: Element, button: number) {
+    const isPrimaryButton = button === 0;
+    const isMiddleButton = button === 1;
+    if (isPrimaryButton || isMiddleButton) {
+      this.startBehavior(target, position, isMiddleButton);
+    }
+  }
 
-	private onTouchStart(position: Vector) {
-		const element = document.elementFromPoint(position.x, position.y);
-		if (element) {
-			this.startBehavior(element, position, false);
-		}
-	}
+  private onTouchStart(position: Vector) {
+    const element = document.elementFromPoint(position.x, position.y);
+    if (element) {
+      this.startBehavior(element, position, false);
+    }
+  }
 
-	private onContextMenu(e: MouseEvent) {
-		e.preventDefault();
-	}
+  private onContextMenu(e: MouseEvent) {
+    e.preventDefault();
+  }
 
-	private startBehavior(target: Element, position: Vector, forceMoveMode: boolean) {
-		const clickedStep =
-			!forceMoveMode && !this.context.isMoveModeEnabled ? this.getRootComponent().findByElement(target as Element) : null;
+  private startBehavior(
+    target: Element,
+    position: Vector,
+    forceMoveMode: boolean
+  ) {
+    const title = document.getElementsByClassName("info-box-title")[0];
+    this.context.definition.properties.journeyName = String(title.textContent);
+    const clickedStep =
+      !forceMoveMode && !this.context.isMoveModeEnabled
+        ? this.getRootComponent().findByElement(target as Element)
+        : null;
 
-		if (clickedStep) {
-			this.context.behaviorController.start(position, SelectStepBehavior.create(clickedStep, this.context));
-		} else {
-			this.context.behaviorController.start(position, MoveViewPortBehavior.create(this.context));
-		}
-	}
+    if (clickedStep) {
+      this.context.behaviorController.start(
+        position,
+        SelectStepBehavior.create(clickedStep, this.context)
+      );
+      const fakeThis = this.context;
+      if (clickedStep.step.componentType === "switch") {
+        //click right popout
+        const switchMoreButtonId =
+          clickedStep.view.g.children[13].children[3].id;
+        const switchMoreButton = document.getElementById(switchMoreButtonId);
+        if (switchMoreButton) {
+          switchMoreButton.onclick = function () {
+            console.log(3467, clickedStep.view.g.children);
+            clickedStep.view.g.children[14].classList.toggle("sqd-hidden");
+          };
+        }
+        //right popout delete
+        if (clickedStep.view.g.children[14].children[1].id) {
+          const deleteButtonId = clickedStep.view.g.children[14].children[1].id;
+          const deleteButton = document.getElementById(deleteButtonId);
+          if (deleteButton) {
+            deleteButton.onclick = function () {
+              promptChoices(fakeThis, "delete");
+            };
+          }
+        }
+        //dropdown
+        if (clickedStep.view.g.children[14].children[2].id) {
+          const dropdownButId = clickedStep.view.g.children[14].children[2].id;
+          const dropdownBut = document.getElementById(dropdownButId);
+          if (dropdownBut) {
+            dropdownBut.onclick = function (e) {
+              e.stopPropagation();
+              clickedStep.view.g.children[15].classList.toggle("sqd-hidden");
+              clickedStep.view.g.children[16].classList.toggle("sqd-hidden");
+              clickedStep.view.g.children[17].classList.toggle("sqd-hidden");
+            };
+          }
+        }
+        //subdropdown
+        if (clickedStep.view.g.children[17].children[0].children[3].id) {
+          const dropdownButId =
+            clickedStep.view.g.children[17].children[0].children[3].id.toString();
+          const dropdownBut = document.getElementById(dropdownButId);
+          if (dropdownBut) {
+            dropdownBut.onclick = function (e) {
+              console.log(3498, clickedStep.view.g.children[17].children);
+              e.stopPropagation();
+              clickedStep.view.g.children[17].children[1].classList.toggle(
+                "sqd-hidden"
+              );
+            };
+          }
+        }
+        //subdropdown1
+        if (clickedStep.view.g.children[16].children[0].children[3].id) {
+          const dropdownButId =
+            clickedStep.view.g.children[16].children[0].children[3].id.toString();
+          const dropdownBut = document.getElementById(dropdownButId);
+          if (dropdownBut) {
+            dropdownBut.onclick = function (e) {
+              console.log(3498, clickedStep.view.g.children[16].children);
+              e.stopPropagation();
+              clickedStep.view.g.children[16].children[1].classList.toggle(
+                "sqd-hidden"
+              );
+            };
+          }
+        }
+        //upper subdropdown
+        console.log(3741, clickedStep.view.g.children);
+        const selectRunUpperId =
+          clickedStep.view.g.children[17].children[1].children[2].id.toString();
+        const selectRunUpper = document.getElementById(selectRunUpperId);
+        if (selectRunUpper) {
+          selectRunUpper.onclick = function () {
+            //console.log(3589, clickedStep)
+            const showVal =
+              clickedStep.view.g.children[17].children[1].children[1].innerHTML;
+            clickedStep.view.g.children[17].children[0].children[2].textContent =
+              showVal;
+            clickedStep.view.g.children[17].children[1].classList.toggle(
+              "sqd-hidden"
+            );
+            clickedStep.step.properties["Select List"] = showVal;
+          };
+        }
+        const selectRunUpperId1 =
+          clickedStep.view.g.children[17].children[1].children[5].id.toString();
+        const selectRunUpper1 = document.getElementById(selectRunUpperId1);
+        if (selectRunUpper1) {
+          selectRunUpper1.onclick = function () {
+            const showVal =
+              clickedStep.view.g.children[17].children[1].children[4].innerHTML;
+            clickedStep.view.g.children[17].children[0].children[2].textContent =
+              showVal;
+            clickedStep.view.g.children[17].children[1].classList.toggle(
+              "sqd-hidden"
+            );
+            clickedStep.step.properties["Select List"] = showVal;
+          };
+        }
+        //lower subdropdown
+        const selectRunLowerId =
+          clickedStep.view.g.children[16].children[1].children[2].id.toString();
+        const selectRunLower = document.getElementById(selectRunLowerId);
+        if (selectRunLower) {
+          selectRunLower.onclick = function () {
+            //console.log(3589, clickedStep.view.g.children)
+            const showVal =
+              clickedStep.view.g.children[16].children[1].children[1].innerHTML;
+            clickedStep.view.g.children[16].children[0].children[2].textContent =
+              showVal;
+            clickedStep.view.g.children[16].children[1].classList.toggle(
+              "sqd-hidden"
+            );
+            clickedStep.step.properties["Run"] = showVal;
+          };
+        }
+        const selectRunLowerId1 =
+          clickedStep.view.g.children[16].children[1].children[5].id.toString();
+        const selectRunLower1 = document.getElementById(selectRunLowerId1);
+        if (selectRunLower1) {
+          selectRunLower1.onclick = function () {
+            //console.log(3589, )
+            const showVal =
+              clickedStep.view.g.children[16].children[1].children[4].innerHTML;
+            console.log(
+              3596,
+              clickedStep.view.g.children[16].children[0].children[2]
+            );
+            clickedStep.view.g.children[16].children[0].children[2].textContent =
+              showVal;
+            clickedStep.view.g.children[16].children[1].classList.toggle(
+              "sqd-hidden"
+            );
+            clickedStep.step.properties["Run"] = showVal;
+          };
+        }
+        if (clickedStep.view.g.children[14].children[0]) {
+          console.log(
+            "duplicate if",
+            clickedStep.view.g.children[14].children[0].id
+          );
+          const duplicateId =
+            clickedStep.view.g.children[14].children[0].id.toString();
+          const duplicateBut = document.getElementById(duplicateId);
 
-	private onWheel(e: WheelEvent) {
-		const viewPort = this.context.viewPort;
-		const mousePoint = new Vector(e.pageX, e.pageY).subtract(this.view.getClientPosition());
-		// The real point is point on canvas with no scale.
-		const mouseRealPoint = mousePoint.divideByScalar(viewPort.scale).subtract(viewPort.position.divideByScalar(viewPort.scale));
+          const tempContext = this.context;
+          if (duplicateBut) {
+            duplicateBut.onclick = function (e) {
+              e.stopPropagation();
+              promptChoices(tempContext, "copy", e);
+            };
+          }
+        }
+      }
 
-		const wheelDelta = e.deltaY > 0 ? -WHEEL_DELTA : WHEEL_DELTA;
-		const newScale = this.context.limitScale(viewPort.scale + wheelDelta);
+      function handleTimedelayDropdownButtonClick(
+        id: string,
+        toggleclass: HTMLElement,
+        show?: HTMLElement,
+        textString?: string,
+        nodeContext?: string,
+        inputval?: HTMLElement,
+        toggleClass1?: HTMLElement,
+        toggleClass2?: HTMLElement
+      ) {
+        const button = document.getElementById(id);
+        if (button) {
+          button.onclick = function () {
+            toggleclass.classList.toggle("sqd-hidden");
+            //console.log(4249, toggleClass1)
+            if (typeof toggleClass1 !== "undefined") {
+              toggleClass1.classList.add("sqd-hidden");
+            }
+            if (typeof toggleClass2 !== "undefined") {
+              toggleClass2.classList.remove("sqd-hidden");
+            }
+            if (typeof show !== "undefined") {
+              // show.textContent = textString;
+              if (show && inputval) {
+                //nodeContext.textContent = 'Delay for ' + document.getElementById('timedelayinput').value + ' ' + textString
+                if (clickedStep) {
+                  const timedelayinput = document.getElementById(
+                    "timedelayinput"
+                  ) as HTMLInputElement | null;
+                  if (timedelayinput) {
+                    clickedStep.step.properties["Time"] = timedelayinput.value;
+                    clickedStep.step.properties["Delay"] =
+                      textString !== undefined ? textString : "";
+                  }
+                }
+              }
+            }
+          };
+        }
+      }
+      function handleMouseover(
+        button: HTMLElement,
+        action: string,
+        classes: HTMLElement
+      ) {
+        if (action === "mouseover") {
+          button.addEventListener(action, function () {
+            classes.classList.remove("sqd-hidden");
+          });
+        } else {
+          button.addEventListener(action, function () {
+            classes.classList.add("sqd-hidden");
+          });
+        }
+      }
 
-		const position = mouseRealPoint.multiplyByScalar(-newScale).add(mousePoint);
-		const scale = newScale;
+      if (clickedStep.step.componentType === "task") {
+        //check if the clicked step is time delay
+        console.log(4233, clickedStep.view.g.children);
+        if (clickedStep.step.name == "Time Delay") {
+          const timedelaydropdownId =
+            clickedStep.view.g.children[6].children[7].id;
+          const timedelaydropdownClassList =
+            clickedStep.view.g.children[6].children[8];
+          const timedelaySubdropdownDayId =
+            clickedStep.view.g.children[6].children[8].children[2].id;
+          const timedelaySubdropdownHourId =
+            clickedStep.view.g.children[6].children[8].children[5].id;
+          const timedelaySubdropdownMinuteId =
+            clickedStep.view.g.children[6].children[8].children[8].id;
+          const timedelaydropdownShow =
+            clickedStep.view.g.children[6].children[5];
+          const timedelayDayString =
+            clickedStep.view.g.children[6].children[8].children[1].innerHTML;
+          const timedelayHourString =
+            clickedStep.view.g.children[6].children[8].children[4].innerHTML;
+          const timedelayMinuteString =
+            clickedStep.view.g.children[6].children[8].children[7].innerHTML;
+          const nodeContext = clickedStep.view.g.children[3];
+          const inputval = document.getElementById("timedelayinput");
+          const moreIconId = clickedStep.view.g.children[4].id;
+          const rightPop = clickedStep.view.g.children[5];
+          console.log(4343, clickedStep);
+          const showDropdownButtonId =
+            clickedStep.view.g.children[5].children[2].children[1].id;
 
-		this.context.setViewPort(position, scale);
-	}
+          const showDropdownButton =
+            document.getElementById(showDropdownButtonId);
+          const showDropdownContent = clickedStep.view.g.children[6];
+          const copyButtonId =
+            clickedStep.view.g.children[5].children[0].children[1].id;
+          const uppopup = clickedStep.view.g.children[8];
+          //click pop dropdown
+          handleTimedelayDropdownButtonClick(
+            moreIconId,
+            rightPop as HTMLElement
+          );
+          handleTimedelayDropdownButtonClick(
+            showDropdownButtonId,
+            showDropdownContent as HTMLElement,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            rightPop as HTMLElement,
+            uppopup as HTMLElement
+          );
+          handleTimedelayDropdownButtonClick(
+            timedelaydropdownId,
+            timedelaydropdownClassList as HTMLElement
+          );
+          //duplicate
+          const uppopupCheckButId =
+            clickedStep.view.g.children[8].children[0].children[1].id;
+          //const uppopupCheckBut = document.getElementById(uppopupCheckButId);
+          handleTimedelayDropdownButtonClick(
+            uppopupCheckButId,
+            clickedStep.view.g.children[6] as HTMLElement,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            uppopup as HTMLElement,
+            undefined
+          );
+          const duplicateBut = document.getElementById(copyButtonId);
+          const uppopupduplicateButId =
+            clickedStep.view.g.children[8].children[2].children[1].id;
+          const uppopupduplicateBut = document.getElementById(
+            uppopupduplicateButId
+          );
+          const tempContext = this.context;
+          if (uppopupduplicateBut) {
+            uppopupduplicateBut.onclick = function (e) {
+              console.log(4313, "clicked");
+              e.preventDefault();
+              e.stopPropagation();
+              const duplicateStep = createStep(clickedStep.step);
+              const pos = readMousePosition(e);
+              duplicateStep.id =
+                "copy-" + clickedStep.step.id + "-at-" + Date.now();
+              // console.log("copy", duplicateStep.id);
+              tempContext.behaviorController.start(
+                pos,
+                DragStepBehavior.create(tempContext, duplicateStep)
+              );
+              // console.log(tempContext);
+            };
+          }
+          if (duplicateBut) {
+            duplicateBut.onclick = function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              const duplicateStep = createStep(clickedStep.step);
+              const pos = readMousePosition(e);
+              duplicateStep.id =
+                "copy-" + clickedStep.step.id + "-at-" + Date.now();
+              // console.log("copy", duplicateStep.id);
+              tempContext.behaviorController.start(
+                pos,
+                DragStepBehavior.create(tempContext, duplicateStep)
+              );
+              // console.log(tempContext);
+            };
+          }
+          //delete
+          const deleteButtonId =
+            clickedStep.view.g.children[5].children[1].children[1].id.toString();
+          const deleteButton = document.getElementById(deleteButtonId);
+          const uppopupdeleteButtonId =
+            clickedStep.view.g.children[8].children[1].children[1].id;
+          const uppopupdeleteButton = document.getElementById(
+            uppopupdeleteButtonId
+          );
+          handleMouseover(
+            deleteButton as HTMLElement,
+            "mouseover",
+            clickedStep.view.g.children[7].children[2] as HTMLElement
+          );
+          handleMouseover(
+            deleteButton as HTMLElement,
+            "mouseout",
+            clickedStep.view.g.children[7].children[2] as HTMLElement
+          );
+          handleMouseover(
+            duplicateBut as HTMLElement,
+            "mouseover",
+            clickedStep.view.g.children[7].children[1] as HTMLElement
+          );
+          handleMouseover(
+            duplicateBut as HTMLElement,
+            "mouseout",
+            clickedStep.view.g.children[7].children[1] as HTMLElement
+          );
+          handleMouseover(
+            showDropdownButton as HTMLElement,
+            "mouseover",
+            clickedStep.view.g.children[7].children[0] as HTMLElement
+          );
+          handleMouseover(
+            showDropdownButton as HTMLElement,
+            "mouseout",
+            clickedStep.view.g.children[7].children[0] as HTMLElement
+          );
+          console.log(4993, clickedStep.view.g.children);
+          if (deleteButton) {
+            deleteButton.onclick = function () {
+              promptChoices(fakeThis, "delete");
+            };
+          }
+          if (uppopupdeleteButton) {
+            uppopupdeleteButton.onclick = function () {
+              promptChoices(fakeThis, "delete");
+            };
+          }
+          //click select collapse
 
-	private onIsDraggingChanged(isDragging: boolean) {
-		this.getRootComponent().setIsDragging(isDragging);
-	}
+          handleTimedelayDropdownButtonClick(
+            timedelaySubdropdownDayId,
+            timedelaydropdownClassList as HTMLElement,
+            timedelaydropdownShow as HTMLElement,
+            timedelayDayString,
+            undefined,
+            inputval as HTMLElement
+          );
+          //click select collapse
+          handleTimedelayDropdownButtonClick(
+            timedelaySubdropdownHourId,
+            timedelaydropdownClassList as HTMLElement,
+            timedelaydropdownShow as HTMLElement,
+            timedelayHourString,
+            undefined,
+            inputval as HTMLElement
+          );
+          //click select collapse
+          handleTimedelayDropdownButtonClick(
+            timedelaySubdropdownMinuteId,
+            timedelaydropdownClassList as HTMLElement,
+            timedelaydropdownShow as HTMLElement,
+            timedelayMinuteString,
+            undefined,
+            inputval as HTMLElement
+          );
+          //copy node
+        } else {
+          if (clickedStep.view.g.children[5].children[1]) {
+            const deleteButtonId =
+              clickedStep.view.g.children[5].children[1].id.toString();
+            const deleteButton = document.getElementById(deleteButtonId);
+            //add mouseover event
+            if (deleteButton) {
+              deleteButton.addEventListener("mouseover", function () {
+                //console.log(3752, clickedStep.view.g.children)
+                clickedStep.view.g.children[7].children[2].classList.remove(
+                  "sqd-hidden"
+                );
+              });
 
-	private onIsSmartEditorCollapsedChanged() {
-		setTimeout(() => this.view.refreshSize());
-	}
+              deleteButton.addEventListener("mouseout", function () {
+                //console.log(3650, 'mouseout')
+                clickedStep.view.g.children[7].children[2].classList.add(
+                  "sqd-hidden"
+                );
+              });
+              deleteButton.onclick = function () {
+                promptChoices(fakeThis, "delete");
+                // clickedStep.view.g.children[9].classList.toggle('sqd-hidden')
+                //fakeThis.tryDeleteStep(clickedStep.step, 2);
+              };
+            }
+          }
 
-	private onViewPortChanged(viewPort: ViewPort) {
-		this.view.setPositionAndScale(viewPort.position, viewPort.scale);
-	}
+          //click right popout
+          if (clickedStep.view.g.children[4]) {
+            const moreid = clickedStep.view.g.children[4].id.toString();
+            const but = document.getElementById(moreid);
+            if (but) {
+              but.onclick = function () {
+                console.log(3542, clickedStep.view.g.children[10].children);
+                clickedStep.view.g.children[5].classList.toggle("sqd-hidden");
+              };
+            }
+          }
+          //show dropdown
+          if (clickedStep.view.g.children[5].children[2].id) {
+            const dropdownButId =
+              clickedStep.view.g.children[5].children[2].id.toString();
+            //add mouseover event
+            const dropdownBut = document.getElementById(dropdownButId);
+            if (dropdownBut) {
+              dropdownBut.addEventListener("mouseover", function () {
+                clickedStep.view.g.children[7].children[0].classList.remove(
+                  "sqd-hidden"
+                );
+              });
+              dropdownBut.addEventListener("mouseout", function () {
+                clickedStep.view.g.children[7].children[0].classList.add(
+                  "sqd-hidden"
+                );
+              });
+              dropdownBut.onclick = function (e) {
+                e.stopPropagation();
+                clickedStep.view.g.children[5].classList.toggle("sqd-hidden");
+                clickedStep.view.g.children[6].classList.toggle("sqd-hidden");
+                clickedStep.view.g.children[8].classList.toggle("sqd-hidden");
+                clickedStep.view.g.children[10].classList.toggle("sqd-hidden");
+                clickedStep.view.g.children[11].classList.toggle("sqd-hidden");
+              };
+            }
+          }
+          //show subdropdown
+          if (clickedStep.view.g.children[10].children[1]) {
+            const subDropdownButtonId =
+              clickedStep.view.g.children[10].children[0].children[3].id.toString();
+            const subDropdownButton =
+              document.getElementById(subDropdownButtonId);
+            if (subDropdownButton) {
+              subDropdownButton.onclick = function () {
+                console.log(3562, clickedStep.view.g.children[8]);
+                clickedStep.view.g.children[10].children[1].classList.toggle(
+                  "sqd-hidden"
+                );
+              };
+            }
+          }
+          //show subdropdown1
+          if (clickedStep.view.g.children[11].children[1]) {
+            const subDropdownButtonId1 =
+              clickedStep.view.g.children[11].children[0].children[3].id.toString();
+            const subDropdownButton1 =
+              document.getElementById(subDropdownButtonId1);
+            if (subDropdownButton1) {
+              subDropdownButton1.onclick = function () {
+                clickedStep.view.g.children[11].children[1].classList.toggle(
+                  "sqd-hidden"
+                );
+              };
+            }
+          }
+          //upper subdropdown
+          const selectRunUpperId =
+            clickedStep.view.g.children[11].children[1].children[2].id.toString();
+          const selectRunUpper = document.getElementById(selectRunUpperId);
+          //console.log(4125, clickedStep.view.g.children[8].children[1].children[2])
+          if (selectRunUpper)
+            selectRunUpper.onclick = function () {
+              {
+                //console.log(4091, fakeThis)
+                const showVal =
+                  clickedStep.view.g.children[11].children[1].children[1]
+                    .innerHTML;
+                clickedStep.view.g.children[11].children[0].children[2].textContent =
+                  showVal;
+                clickedStep.view.g.children[3].textContent = showVal;
+                clickedStep.view.g.children[8].children[1].classList.toggle(
+                  "sqd-hidden"
+                );
+                clickedStep.step.properties["Select List"] = showVal;
+                clickedStep.step.updatedAt = new Date();
+              }
+            };
+          const selectRunUpperId1 =
+            clickedStep.view.g.children[11].children[1].children[5].id.toString();
+          const selectRunUpper1 = document.getElementById(selectRunUpperId1);
+          if (selectRunUpper1) {
+            selectRunUpper1.onclick = function () {
+              const showVal =
+                clickedStep.view.g.children[11].children[1].children[4]
+                  .innerHTML;
 
-	private onSelectedStepChanged(step: Step | null) {
-		this.trySelectStep(step);
-	}
+              console.log(3589, showVal);
+              clickedStep.view.g.children[11].children[0].children[2].textContent =
+                showVal;
+              clickedStep.view.g.children[3].textContent = showVal;
+              clickedStep.view.g.children[11].children[1].classList.toggle(
+                "sqd-hidden"
+              );
+              clickedStep.step.properties["Select List"] = showVal;
+              clickedStep.step.updatedAt = new Date();
+            };
+          }
+          //lower subdropdown
+          const selectRunLowerId =
+            clickedStep.view.g.children[10].children[1].children[2].id.toString();
+          const selectRunLower = document.getElementById(selectRunLowerId);
+          if (selectRunLower) {
+            selectRunLower.onclick = function () {
+              //console.log(4117, clickedStep.view.g.children)
+              const showVal =
+                clickedStep.view.g.children[10].children[1].children[1]
+                  .innerHTML;
+              clickedStep.view.g.children[10].children[0].children[2].textContent =
+                showVal;
+              clickedStep.view.g.children[10].children[1].classList.toggle(
+                "sqd-hidden"
+              );
+              clickedStep.step.properties["Run"] = showVal;
+            };
+          }
+          const selectRunLowerId1 =
+            clickedStep.view.g.children[10].children[1].children[5].id.toString();
+          const selectRunLower1 = document.getElementById(selectRunLowerId1);
+          if (selectRunLower1) {
+            selectRunLower1.onclick = function () {
+              //console.log(3589, )
+              const showVal =
+                clickedStep.view.g.children[10].children[1].children[4]
+                  .innerHTML;
+              console.log(
+                3596,
+                clickedStep.view.g.children[10].children[0].children[2]
+              );
+              clickedStep.view.g.children[10].children[0].children[2].textContent =
+                showVal;
+              clickedStep.view.g.children[10].children[1].classList.toggle(
+                "sqd-hidden"
+              );
+              clickedStep.step.properties["Run"] = showVal;
+            };
+          }
+          if (clickedStep.view.g.children[5].children[0]) {
+            const duplicateId =
+              clickedStep.view.g.children[5].children[0].id.toString();
+            const duplicateBut = document.getElementById(duplicateId);
+            if (duplicateBut) {
+              duplicateBut.addEventListener("mouseover", function () {
+                console.log(3752, clickedStep.view.g.children);
+                clickedStep.view.g.children[7].children[1].classList.remove(
+                  "sqd-hidden"
+                );
+              });
+              duplicateBut.addEventListener("mouseout", function () {
+                //console.log(3650, 'mouseout')
+                clickedStep.view.g.children[7].children[1].classList.add(
+                  "sqd-hidden"
+                );
+              });
+              // console.log(duplicateId);
+              const tempContext = this.context;
+              duplicateBut.onclick = function (e) {
+                // e.preventDefault();
+                e.stopPropagation();
+                const duplicateStep = createStep(clickedStep.step);
+                const pos = readMousePosition(e);
+                duplicateStep.id =
+                  "copy-" + clickedStep.step.id + "-at-" + Date.now();
+                // console.log("copy", duplicateStep.id);
+                tempContext.behaviorController.start(
+                  pos,
+                  DragStepBehavior.create(tempContext, duplicateStep)
+                );
+                // console.log(tempContext);
+              };
+            }
+          }
+          if (clickedStep.view.g.children[8].children[2]) {
+            const duplicateId =
+              clickedStep.view.g.children[8].children[2].id.toString();
+            const duplicateBut = document.getElementById(duplicateId);
+            const tempContext = this.context;
+            if (duplicateBut) {
+              duplicateBut.onclick = function (e) {
+                // e.preventDefault();
+                e.stopPropagation();
+                const duplicateStep = createStep(clickedStep.step);
+                const pos = readMousePosition(e);
+                duplicateStep.id =
+                  "copy-" + clickedStep.step.id + "-at-" + Date.now();
+                // console.log("copy", duplicateStep.id);
+                tempContext.behaviorController.start(
+                  pos,
+                  DragStepBehavior.create(tempContext, duplicateStep)
+                );
+                // console.log(tempContext);
+              };
+            }
+          }
+        }
+      }
+    } else {
+      var but = document.querySelectorAll(".Collapsed");
+      if (but) {
+        but.forEach((e) => e.classList.add("sqd-hidden"));
+      }
+      this.context.behaviorController.start(
+        position,
+        MoveViewPortBehavior.create(this.context)
+      );
+    }
+  }
 
-	private trySelectStep(step: Step | null) {
-		if (this.selectedStepComponent) {
-			this.selectedStepComponent.setState(StepComponentState.default);
-			this.selectedStepComponent = null;
-		}
-		if (step) {
-			this.selectedStepComponent = this.getRootComponent().findById(step.id);
-			if (!this.selectedStepComponent) {
-				throw new Error(`Cannot find a step component by id ${step.id}`);
-			}
-			this.selectedStepComponent.setState(StepComponentState.selected);
-		}
-	}
+  private onWheel(e: WheelEvent) {
+    const viewPort = this.context.viewPort;
+    const mousePoint = new Vector(e.pageX, e.pageY).subtract(
+      this.view.getClientPosition()
+    );
+    // The real point is point on canvas with no scale.
+    const mouseRealPoint = mousePoint
+      .divideByScalar(viewPort.scale)
+      .subtract(viewPort.position.divideByScalar(viewPort.scale));
 
-	private getRootComponent(): StartStopComponent {
-		if (this.view.rootComponent) {
-			return this.view.rootComponent;
-		}
-		throw new Error('Root component not found');
-	}
+    const wheelDelta = e.deltaY > 0 ? -WHEEL_DELTA : WHEEL_DELTA;
+    const newScale = this.context.limitScale(viewPort.scale + wheelDelta);
+
+    const position = mouseRealPoint.multiplyByScalar(-newScale).add(mousePoint);
+    const scale = newScale;
+
+    this.context.setViewPort(position, scale);
+  }
+
+  private onIsDraggingChanged(isDragging: boolean) {
+    this.getRootComponent().setIsDragging(isDragging);
+  }
+
+  private onIsSmartEditorCollapsedChanged() {
+    setTimeout(() => this.view.refreshSize());
+  }
+
+  private onViewPortChanged(viewPort: ViewPort) {
+    this.view.setPositionAndScale(viewPort.position, viewPort.scale);
+  }
+
+  private onSelectedStepChanged(step: Step | null) {
+    this.trySelectStep(step);
+  }
+
+  private trySelectStep(step: Step | null) {
+    if (this.selectedStepComponent) {
+      this.selectedStepComponent.setState(StepComponentState.default);
+      this.selectedStepComponent = null;
+    }
+    if (step) {
+      this.selectedStepComponent = this.getRootComponent().findById(step.id);
+      if (!this.selectedStepComponent) {
+        throw new Error(`Cannot find a step component by id ${step.id}`);
+      }
+      this.selectedStepComponent.setState(StepComponentState.selected);
+    }
+  }
+
+  private getRootComponent(): StartStopComponent {
+    if (this.view.rootComponent) {
+      return this.view.rootComponent;
+    }
+    throw new Error("Root component not found");
+  }
+
 }
+function promptChoices(tempContext: DesignerContext, action: string, e?: MouseEvent) {
+		//console.log(controller);
+		let output: string | number | null  = null;
+		// Create a propmt window
+		const dialogBox = Dom.element("dialog", {
+		  class: "confirm-dialog",
+		  id: "dialog-box",
+		});
+	
+		const title = Dom.element("h3", {
+		  class: "confirm-dialog-content",
+		});
+	
+		let toDo;
+		const form = Dom.element("form", {
+			method: "dialog",
+			id: "dialog-form",
+		  });
+		if (tempContext.selectedStep?.componentType == "switch") {
+		  if (action == "delete") {
+			toDo = ["Delete true path", "Delete false path", "Delete both"];
+			title.innerText = "Which branch do you want to delete?";
+		  } else {
+			toDo = [
+			  "Copy true path",
+			  "Copy false path",
+			  "Copy both",
+			  "Copy condition only",
+			];
+			title.innerText = "Which branch do you want to duplicate?";
+		  }
+		 
+		  if (tempContext.selectedStep?.componentType == "switch") {
+			for (let i = 0; i < toDo.length; i++) {
+			  const radio = Dom.element("input", {
+				type: "radio",
+				name: "choice",
+				value: i,
+			  });
+	  
+			  const choice = Dom.element("label");
+			  choice.innerText = toDo[i];
+	  
+			  form.appendChild(radio);
+			  form.appendChild(choice);
+			  choice.insertAdjacentHTML("afterend", "</br>");
+			}
+		  }
+		} else {
+		  title.innerText = "Are you sure to delete this block?";
+		}
+		dialogBox.appendChild(title);
+	
+		// A form to include all choices
+		
+	
+		
+		// form.appendChild(wrapper);
+	
+		const btn1 = Dom.element("button", {
+		  type: "submit",
+		});
+		btn1.innerText = "Confirm";
+		form.appendChild(btn1);
+		const btn2 = Dom.element("button", {
+		  type: "submit",
+		});
+		btn2.innerText = "Cancel";
+		btn2.addEventListener("click", function (e) {
+		  e.preventDefault();
+		  e.stopPropagation();
+		  //console.log(tempContext.layoutController.parent.childNodes);
+		  const designer = document.getElementById("designer");
+		  designer?.removeChild(designer.childNodes[1]);
+		});
+		form.appendChild(btn2);
+		dialogBox.appendChild(form);
+	
+		tempContext.layoutController.parent.appendChild(dialogBox);
+		//console.log(dialogBox);
+		if (typeof dialogBox.showModal === "function") {
+		  dialogBox.showModal();
+		} else {
+		  prompt("Wow from prompt window", "ok");
+		}
+	
+		btn1.addEventListener("click", function (e) {
+		  e.preventDefault();
+		  e.stopPropagation();
+		  //console.log("close window triggered");
+		  if (tempContext.selectedStep?.componentType == "switch") {
+			var elem = document.getElementsByTagName("input");
+			for (let i = 0; i < elem.length; i++) {
+			  // console.log(570, elem);
+			  if (elem[i].type == "radio" && elem[i].checked) {
+				output = elem[i].value;
+			  }
+			}
+		  } else {
+			output = 2;
+		  }
+		  // Delete behavior
+		  if(tempContext.selectedStep){
+		  if (action == "delete") {
+			
+			tempContext.tryDeleteStep(tempContext.selectedStep, output);
+			
+		  }
+		  // Copy behavior
+		  else {
+			//console.log(tempContext.selectedStep);
+			//if(tempContext.selectedStep)
+			const duplicateStep = createStep(tempContext.selectedStep);
+			duplicateStep.branches.True = [];
+			duplicateStep.branches.False = [];
+			// Copy true branch
+			if (
+				tempContext.selectedStep?.branches.True.length > 0 &&
+			  (output == 0 || output == 2)
+			) {
+			  for (let i = 0; i < tempContext.selectedStep?.branches.True.length; i++) {
+				const step = createStep(tempContext.selectedStep?.branches.True[i]);
+				step.id =
+				  "copy-" +
+				  tempContext.selectedStep?.branches.True[i].id +
+				  "-at-" +
+				  Date.now();
+				duplicateStep.branches.True[i] = step;
+			  }
+			}
+			// Copy false branch
+			if (
+				tempContext.selectedStep?.branches.False.length > 0 &&
+			  (output == 1 || output == 2)
+			) {
+			  for (let i = 0; i < tempContext.selectedStep?.branches.False.length; i++) {
+				const step = createStep(tempContext.selectedStep?.branches.False[i]);
+				step.id =
+				  "copy-" +
+				  tempContext.selectedStep?.branches.False[i].id +
+				  "-at-" +
+				  Date.now();
+				duplicateStep.branches.False[i] = step;
+			  }
+			}
+			const pos = readMousePosition(e);
+			duplicateStep.id =
+			  "copy-" + tempContext.selectedStep?.id + "-at-" + Date.now();
+			  tempContext.behaviorController.start(
+			  pos,
+			  DragStepBehavior.create(tempContext, duplicateStep)
+			);
+		  }
+		  const designer = document.getElementById("designer");
+		  designer?.removeChild(designer.childNodes[1]);
+		}
+		});
+	  }
+	
+	  function createStep(step: StepDefinition): Step {
+		const newStep = ObjectCloner.deepClone(step) as Step;
+		newStep.id = Uid.next();
+		return newStep;
+	}
+
+
