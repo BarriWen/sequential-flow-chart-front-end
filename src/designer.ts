@@ -1,86 +1,113 @@
-import { BehaviorController } from './behaviors/behavior-controller';
-import { ObjectCloner } from './core/object-cloner';
-import { SimpleEvent } from './core/simple-event';
-import { Definition } from './definition';
-import { DesignerConfiguration } from './designer-configuration';
-import { DesignerContext } from './designer-context';
-import { DesignerView } from './designer-view';
-import { LayoutController } from './layout-controller';
-import { Utils } from './utils';
+import { BehaviorController } from "./behaviors/behavior-controller";
+import { ObjectCloner } from "./core/object-cloner";
+import { SimpleEvent } from "./core/simple-event";
+import { Definition } from "./definition";
+import { DesignerConfiguration } from "./designer-configuration";
+import { DesignerContext } from "./designer-context";
+import { DesignerView } from "./designer-view";
+import { LayoutController } from "./layout-controller";
+import { Utils } from "./utils";
 
 export default class Designer {
-	public static readonly utils = Utils;
+  public static readonly utils = Utils;
 
-	public static create(parent: HTMLElement, startDefinition: Definition, configuration: DesignerConfiguration): Designer {
-		const definition = ObjectCloner.deepClone(startDefinition);
+  public static create(
+    parent: HTMLElement,
+    startDefinition: Definition,
+    configuration: DesignerConfiguration
+  ): Designer {
+    if (startDefinition.properties.journeyId == "") {
+      startDefinition.properties.journeyId = Utils.nextId();
+    }
 
-		const behaviorController = new BehaviorController();
-		const layoutController = new LayoutController(parent);
-		const isMobile = layoutController.isMobile();
-		const context = new DesignerContext(definition, behaviorController, layoutController, configuration, isMobile, isMobile);
+    const definition = ObjectCloner.deepClone(startDefinition);
 
-		const view = DesignerView.create(parent, context, configuration);
-		const designer = new Designer(view, context);
-		view.bindKeyUp(e => designer.onKeyUp(e));
-		context.onDefinitionChanged.subscribe(() => designer.onDefinitionChanged.forward(context.definition));
-		return designer;
-	}
+    const behaviorController = new BehaviorController();
+    const layoutController = new LayoutController(parent);
+    const isMobile = layoutController.isMobile();
+    const context = new DesignerContext(
+      definition,
+      behaviorController,
+      layoutController,
+      configuration,
+      isMobile,
+      isMobile
+    );
 
-	private constructor(private readonly view: DesignerView, private readonly context: DesignerContext) {}
+    const view = DesignerView.create(parent, context, configuration);
+    const designer = new Designer(view, context);
+    view.bindKeyUp((e) => designer.onKeyUp(e));
+    context.onDefinitionChanged.subscribe(() =>
+      designer.onDefinitionChanged.forward(context.definition)
+    );
+    return designer;
+  }
 
-	public readonly onDefinitionChanged = new SimpleEvent<Definition>();
+  private constructor(
+    private readonly view: DesignerView,
+    private readonly context: DesignerContext
+  ) {}
 
-	public getDefinition(): Definition {
-		return this.context.definition;
-	}
+  public readonly onDefinitionChanged = new SimpleEvent<Definition>();
 
-	public isValid(): boolean {
-		return this.view.workspace.isValid;
-	}
+  public getDefinition(): Definition {
+    return this.context.definition;
+  }
 
-	public isReadonly(): boolean {
-		return this.context.isReadonly;
-	}
+  public isValid(): boolean {
+    return this.view.workspace.isValid;
+  }
 
-	public setIsReadonly(isReadonly: boolean) {
-		this.context.setIsReadonly(isReadonly);
-	}
+  public isReadonly(): boolean {
+    return this.context.isReadonly;
+  }
 
-	public getSelectedStepId(): string | null {
-		return this.context.selectedStep?.id || null;
-	}
+  public setIsReadonly(isReadonly: boolean) {
+    this.context.setIsReadonly(isReadonly);
+  }
 
-	public selectStepById(stepId: string) {
-		this.context.selectStepById(stepId);
-	}
+  public getSelectedStepId(): string | null {
+    return this.context.selectedStep?.id || null;
+  }
 
-	public clearSelectedStep() {
-		this.context.setSelectedStep(null);
-	}
+  public selectStepById(stepId: string) {
+    this.context.selectStepById(stepId);
+  }
 
-	public moveViewPortToStep(stepId: string) {
-		this.context.moveViewPortToStep(stepId);
-	}
+  public clearSelectedStep() {
+    this.context.setSelectedStep(null);
+  }
 
-	public destroy() {
-		this.view.destroy();
-	}
+  public moveViewPortToStep(stepId: string) {
+    this.context.moveViewPortToStep(stepId);
+  }
 
-	private onKeyUp(e: KeyboardEvent) {
-		const supportedKeys = ['Backspace', 'Delete'];
-		if (!supportedKeys.includes(e.key)) {
-			return;
-		}
-		const ignoreTagNames = ['input', 'textarea'];
-		if (document.activeElement && ignoreTagNames.includes(document.activeElement.tagName.toLowerCase())) {
-			return;
-		}
-		if (!this.context.selectedStep || this.context.isReadonly || this.context.isDragging) {
-			return;
-		}
+  public destroy() {
+    this.view.destroy();
+  }
 
-		e.preventDefault();
-		e.stopPropagation();
-		this.context.tryDeleteStep(this.context.selectedStep);
-	}
+  private onKeyUp(e: KeyboardEvent) {
+    const supportedKeys = ["Backspace", "Delete"];
+    if (!supportedKeys.includes(e.key)) {
+      return;
+    }
+    const ignoreTagNames = ["input", "textarea"];
+    if (
+      document.activeElement &&
+      ignoreTagNames.includes(document.activeElement.tagName.toLowerCase())
+    ) {
+      return;
+    }
+    if (
+      !this.context.selectedStep ||
+      this.context.isReadonly ||
+      this.context.isDragging
+    ) {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+    this.context.tryDeleteStep(this.context.selectedStep);
+  }
 }

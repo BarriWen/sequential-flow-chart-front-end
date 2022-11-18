@@ -6,17 +6,16 @@ export interface Definition {
 export type Sequence = Step[];
 
 export interface Step {
+  branches: any;
   id: string;
   componentType: ComponentType;
   type: string;
   name: string;
-  properties: Properties;
-  createdAt: Date;
-  createdBy: String;
-  updatedAt: Date;
+  createdAt: string;
+  createdBy: string;
+  updatedAt: string;
   updatedBy: string;
-  branches: any;
-  //branches: any;
+  properties: Properties;
 }
 
 export enum ComponentType {
@@ -45,4 +44,13 @@ export interface Branches {
 
 export interface Properties {
   [name: string]: string | number;
+}
+export interface journeyProperties {
+  journeyName: string;
+  createdAt: string;
+  createdBy: string;
+  updatedAt: string;
+  updatedBy: string;
+  description: string;
+  journeyId: string;
 }
