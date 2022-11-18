@@ -24,7 +24,7 @@
 }
 .sqd-toolbox {
 	position: absolute;
-	top: 100px;
+	top: 200px;
 	left: 10px;
 	z-index: 20;
 	box-sizing: border-box;
@@ -165,7 +165,9 @@
 .sqd-join {
 	stroke-width: 2;
 }
-
+.sqd-join-right {
+	stroke-width: 2;
+}
 /* .sqd-smart-editor */
 
 .sqd-smart-editor-toggle {
@@ -222,7 +224,7 @@
 	stroke-width: 1;
 }
 .sqd-task-rect.sqd-selected {
-	stroke-width: 2;
+	stroke-width: 2.5;
 }
 .sqd-task-text {
 	text-anchor: left;
@@ -256,7 +258,7 @@
 	stroke-width: 1;
 	/* stroke-dasharray: 3; */
 }
-.more {
+.moreIcon {
 	position: relative;
 	display: inline-block;
 	border-radius: 5px;
@@ -278,12 +280,21 @@
 	width: 22px;
 	cursor: pointer;
 }
-.moreicon:hover {
-	display: block;
-	cursor: pointer;
-}
 .sqd-task-rect-dropdown{
 	position: fixed;
+}
+.sub-dropdownbox-pop{
+	cursor: pointer;
+}
+.sub-dropdownbox{
+	cursor: pointer;
+}
+.choice {
+	cursor: pointer;
+	stroke-width: 1;
+}
+.choice:hover {
+	fill: blue;
 }
 
 /* Start component */
@@ -294,25 +305,87 @@
 .info-box{
 	position: absolute;
 	top: 10px;
-	left: 10px;
+	left: 150px;
 	margin: 12px 0 0 12px;
 }
 .info-box-rect{
 	position: relative;
 	top: 80px;
 	fill:#5495d4;
+	/* position: absolute;
+	width: 525px;
+	height: 60px;
+	left: 170px;
+	top: 59px; 
+	fill: #FFFFFF; */
 }
 .info-box-title{
 	position:relative;
 	fill:white;
 	text-anchor: middle;
 }
-
+/* avatar */
+.avatar-box {
+	position: absolute;
+	top: 10px;
+	right: 50px;
+	margin: 12px 0 0 12px;
+}
 /* title-box prompt */
 .info-box-prompt{
 	position: absolute;
+	top: 65px;
+	left: 170px;
+	border-radius: 10px;
+	border: 2px solid #5495d4;
+	width: 300px;
+	height: 150px;
+	background: white;
+}
+.info-box-prompt-input{
+	position: relative;
+	outline: 0;
+	width: 270px;
 	top: 10px;
 	left: 10px;
+	border-width: 0 0 1px;
+	border-color:#5495d4;
+	margin-bottom: 10px;
+}
+.info-box-prompt-input:focus{
+	border-color:#5495d4;
+}
+.info-box-prompt-column{
+	position: relative;
+	float: left;
+	width: 33.33%;
+	top: 10px;
+	left: 5px; 
+}
+.info-box-prompt-column-text{
+	position: relative;
+	display: inline-block;
+	margin: 2px 0px 2px 1px;
+}
+.input-box-prompt-textarea{
+	position: relative;
+	float: left;
+	width: 70%;
+	height: 50px;
+	padding: 3px 3px;
+	border: 1px solid #5495d4;
+	resize: none;
+	border-radius: 5px;
+}
+
+/* Buttons */
+.info-box-prompt-btn-div{
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+}
+.info-box-prompt-btn{
+	margin-left: 3px;
 }
 
 /* Triggers list */
@@ -338,7 +411,28 @@
 	padding: 5px;
 }
 
-/* Export journey button */
+/* Export panel */
+.export-panel{
+	position: absolute;
+	border-radius: 10px;
+	border: none;
+	background-color: white;
+	top: 70px;
+	left: 490px;
+	height: 100px;
+	width: 135px;
+	padding: 5px 2px 5px 2px;
+}
+
+/* Confirm dialog */
+.confirm-dialog{
+	border: transparent;
+  	border-radius: 10px;
+	background-color: #edf1f4;
+}
+.sqd-task-line{
+	stroke-width: 1;
+}
 .dropdown-div{
 	border: #5495d4;
 	background-color: #5495d4;
@@ -346,7 +440,7 @@
 	border-radius: 20px;
 	position: absolute;
 	top: 10px;
-	left: 350px;
+	left: 500px;
 	margin-top: 10px;
 	padding: 15px 15px 15px 15px;
 }
@@ -362,4 +456,26 @@
 	display: none;
 	position: absolute;
 	background-color: #edf1f4;
+}
+/* for delet container */
+.sqd-task-ImgContainerCircle{
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	left: 1164px;
+	top: 291px;
+	fill: #FFFFFF;
+	/* Black shadow 
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);*/
+	border-radius: 40px;
+	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2));
+	stroke-width: 2px;
+	cursor: pointer;
+	/*stroke: #5495d4;*/
+}
+
+.sqd-task-ImgContainerCircle :hover{
+	fill: #FFFFFF;
+  	stroke-width: 1px;
+	stroke: #5495d4;
 }

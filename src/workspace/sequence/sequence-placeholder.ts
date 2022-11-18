@@ -7,5 +7,6 @@ export class SequencePlaceholder implements Placeholder {
 
 	public setIsHover(isHover: boolean) {
 		Dom.toggleClass(this.element, isHover, 'sqd-hover');
+		Dom.toggleClass((<Element>this.element.childNodes[0]),!isHover,'sqd-hidden');
 	}
 }

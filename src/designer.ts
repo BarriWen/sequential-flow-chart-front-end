@@ -12,8 +12,11 @@ export default class Designer {
 	public static readonly utils = Utils;
 
 	public static create(parent: HTMLElement, startDefinition: Definition, configuration: DesignerConfiguration): Designer {
+		// Generate a unique ID for every journey
+		if (startDefinition.properties.journeyId == "") {
+			startDefinition.properties.journeyId = Utils.nextId();
+		}
 		const definition = ObjectCloner.deepClone(startDefinition);
-
 		const behaviorController = new BehaviorController();
 		const layoutController = new LayoutController(parent);
 		const isMobile = layoutController.isMobile();

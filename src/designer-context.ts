@@ -3,10 +3,11 @@ import { animate, Animation } from './core/animation';
 import { SequenceModifier } from './core/sequence-modifier';
 import { SimpleEvent } from './core/simple-event';
 import { Vector } from './core/vector';
-import { Definition, Sequence, Step } from './definition';
+import { ComponentType, Definition, Sequence, Step, SwitchStep } from './definition';
 import { DesignerConfiguration } from './designer-configuration';
 import { LayoutController } from './layout-controller';
 import { Placeholder, StepComponent } from './workspace/component';
+import { Dom } from './core/dom';
 
 const MIN_SCALE = 0.1;
 const MAX_SCALE = 3;
@@ -35,7 +36,7 @@ export class DesignerContext {
 	public isMoveModeEnabled = false;
 
 	private viewPortAnimation?: Animation;
-	private provider?: DesignerComponentProvider;
+	public provider?: DesignerComponentProvider;
 
 	public constructor(
 		public readonly definition: Definition,
@@ -134,9 +135,10 @@ export class DesignerContext {
 		if (!canDeleteStep) {
 			return false;
 		}
-
-		SequenceModifier.deleteStep(component.step, component.parentSequence);
+		promptChoices(this, component);
+		
 		this.notifiyDefinitionChanged(true);
+		
 		if (this.selectedStep?.id === step.id) {
 			this.setSelectedStep(null);
 		}
@@ -199,4 +201,106 @@ export interface DesignerComponentProvider {
 	resetViewPort(): void;
 	zoom(direction: boolean): void;
 	moveViewPortToStep(stepComponent: StepComponent): void;
+	render(): void;
+}
+
+function promptChoices(context: DesignerContext, component: StepComponent){
+	//console.log(controller);
+	let output = "";
+	// Create a propmt window
+	const dialogBox = Dom.element('dialog',{
+		class: 'confirm-dialog',
+		id: 'dialog-box'
+	});
+
+	const title = Dom.element('h3',{
+		class: 'confirm-dialog-content'
+	})
+
+	let toDo;
+	// A form to include all choices
+	const form = Dom.element('form', {
+		method: 'dialog',
+		id: 'dialog-form'
+	});
+	
+	if (component.step.componentType == ComponentType.switch) {
+		toDo = ['Delete true path', 'Delete false path', 'Delete both'];
+		title.innerText = "Which branch do you want to delete?";
+		for (let i = 0; i < toDo.length; i++) {
+			const radio = Dom.element('input', {
+				type: 'radio',
+				name: 'choice',
+				value: i
+			});
+			
+			const choice = Dom.element('label');
+			choice.innerText = toDo[i];
+
+			form.appendChild(radio);
+			form.appendChild(choice);
+			choice.insertAdjacentHTML("afterend", "</br>");
+		}
+	
+	} else {
+		title.innerText = "Are you sure to delete this block?";
+	}
+	dialogBox.appendChild(title);
+
+	const btn1 = Dom.element('button',{
+		type: 'submit'
+	});
+	btn1.innerText = 'Confirm';
+	form.appendChild(btn1);
+	const btn2 = Dom.element('button',{
+		type: 'submit'
+	});
+	btn2.innerText = 'Cancel';
+	btn2.addEventListener('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		console.log(context.layoutController.getParent().childNodes);
+		const designer = document.getElementById('designer');
+		if (designer != null) {
+			designer.removeChild(designer.childNodes[1]);
+		}
+	});
+	form.appendChild(btn2);
+	dialogBox.appendChild(form);
+	context.layoutController.getParent().appendChild(dialogBox);
+
+	//console.log(dialogBox);
+	if (typeof dialogBox.showModal === "function") {
+		dialogBox.showModal();
+	} else {
+		prompt("Wow from prompt window", 'ok');
+	}
+
+	btn1.addEventListener('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		console.log(component);
+		if (component.step.componentType == "switch") {
+			var elem = document.getElementsByTagName('input');
+			for (let i = 0; i < elem.length; i++){
+				// console.log(570, elem);
+				if (elem[i].type == 'radio' && elem[i].checked) {
+					output = elem[i].value;	
+				}
+			}
+			// SequenceModifier.deleteSwitchStep(component.step, component.parentSequence, output); 
+		} else {
+			// Delete behavior
+			output = "2";
+		}
+		SequenceModifier.deleteStep(component.step, component.parentSequence, output); 
+		if (context.provider != undefined) {
+			context.provider.render();
+		}
+		
+		const designer = document.getElementById('designer');
+		if (designer != null) {
+			designer.removeChild(designer.childNodes[1]);
+		}
+	});
 }

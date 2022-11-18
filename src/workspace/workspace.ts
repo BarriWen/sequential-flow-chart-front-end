@@ -5,7 +5,7 @@ import { Vector } from '../core/vector';
 import { Step } from '../definition';
 import { DesignerComponentProvider, DesignerContext, ViewPort } from '../designer-context';
 import { Placeholder, StepComponent, StepComponentState } from './component';
-import { StartStopComponent } from './start-stop/start-stop-component';
+import { StartComponent } from './start-stop/start-component';
 import { WorkspaceView } from './workspace-view';
 
 const WHEEL_DELTA = 0.1;
@@ -53,7 +53,7 @@ export class Workspace implements DesignerComponentProvider {
 	private constructor(private readonly view: WorkspaceView, private readonly context: DesignerContext) {}
 
 	public render() {
-		this.view.render(this.context.definition.sequence);
+		this.view.render(this.context.definition.sequence, this.context.definition.properties.journeyId);
 		this.trySelectStep(this.context.selectedStep);
 		this.revalidate();
 	}
@@ -188,7 +188,7 @@ export class Workspace implements DesignerComponentProvider {
 		}
 	}
 
-	private getRootComponent(): StartStopComponent {
+	private getRootComponent(): StartComponent {
 		if (this.view.rootComponent) {
 			return this.view.rootComponent;
 		}

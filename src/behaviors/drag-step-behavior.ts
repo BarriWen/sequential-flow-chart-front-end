@@ -1,5 +1,5 @@
 import { Vector } from '../core/vector';
-import { Step } from '../definition';
+import { ComponentType, Step } from '../definition';
 import { DesignerContext } from '../designer-context';
 import { Placeholder, StepComponent, StepComponentState } from '../workspace/component';
 import { Behavior } from './behavior';
@@ -28,6 +28,10 @@ export class DragStepBehavior implements Behavior {
 
 	public onStart(position: Vector) {
 		let offset: Vector;
+		this.step["createdAt"] = new Date().toUTCString();
+		this.step["createdBy"] = "userID";
+		this.step["updatedAt"] = new Date().toUTCString();
+		this.step["updatedBy"] = "userID";
 		if (this.movingStepComponent) {
 			this.movingStepComponent.setState(StepComponentState.dragging);
 
@@ -90,6 +94,8 @@ export class DragStepBehavior implements Behavior {
 			} else {
 				modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
 			}
+		} else if(this.step.id.startsWith("copy-") && this.currentPlaceholder) {
+			modified = this.context.tryInsertStep(this.step, this.currentPlaceholder.parentSequence, this.currentPlaceholder.index);
 		}
 		if (!modified) {
 			if (this.movingStepComponent) {
@@ -100,5 +106,11 @@ export class DragStepBehavior implements Behavior {
 			}
 		}
 		this.currentPlaceholder = undefined;
+
+		if (this.context.provider != undefined) {
+			// console.log(this.context.provider);
+			this.context.provider.render();
+		}
+		
 	}
 }

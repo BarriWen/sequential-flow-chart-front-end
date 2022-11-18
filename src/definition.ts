@@ -1,15 +1,20 @@
 export interface Definition {
 	sequence: Sequence;
-	properties: Properties;
+	properties: journeyProperties;
 }
 
 export type Sequence = Step[];
 
 export interface Step {
+	branches: any;
 	id: string;
 	componentType: ComponentType;
 	type: string;
 	name: string;
+	createdAt: string;
+    createdBy: string;
+    updatedAt: string;
+    updatedBy: string;
 	properties: Properties;
 }
 
@@ -39,4 +44,13 @@ export interface Branches {
 
 export interface Properties {
 	[name: string]: string | number;
+}
+export interface journeyProperties {
+	journeyName: string;
+	createdAt: string;
+    createdBy: string;
+    updatedAt: string;
+    updatedBy: string;
+	description: string;
+	journeyId: string;
 }
