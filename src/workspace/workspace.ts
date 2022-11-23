@@ -353,7 +353,7 @@ export class Workspace implements DesignerComponentProvider {
           });
         }
       }
-
+      // let noTag = (clickedStep.step.name != "Add Tag" && clickedStep.step.name != "Remove Tag");
       if (clickedStep.step.componentType === "task") {
         //check if the clicked step is time delay
 
@@ -455,7 +455,98 @@ export class Workspace implements DesignerComponentProvider {
               promptChoices(fakeThis, "delete");
             };
           }
-        } else {
+        } 
+        else if (clickedStep.step.name == "Add Tag" || clickedStep.step.name == "Remove Tag") {
+  
+          const upduplicateBut = document.getElementById("tagUpCopyIcon");
+          const rightduplicateBut = document.getElementById(
+            "tagRightCopyIcon"
+          );
+          const deleteButton = document.getElementById(
+            "tagRightDeleteIcon"
+          );
+          const rightEditBut = document.getElementById(
+            "tagRightEditIcon"
+          );
+          const tempContext = this.context;
+          if (upduplicateBut) {
+            upduplicateBut.onclick = function (e) {
+              console.log(4313, "clicked");
+              e.preventDefault();
+              e.stopPropagation();
+              const duplicateStep = createStep(clickedStep.step);
+              const pos = readMousePosition(e);
+              duplicateStep.id =
+                "copy-" + clickedStep.step.id + "-at-" + Date.now();
+              tempContext.behaviorController.start(
+                pos,
+                DragStepBehavior.create(tempContext, duplicateStep)
+              );
+            };
+          }
+          if (rightduplicateBut) {
+            rightduplicateBut.onclick = function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              const duplicateStep = createStep(clickedStep.step);
+              const pos = readMousePosition(e);
+              duplicateStep.id =
+                "copy-" + clickedStep.step.id + "-at-" + Date.now();
+              // console.log("copy", duplicateStep.id);
+              tempContext.behaviorController.start(
+                pos,
+                DragStepBehavior.create(tempContext, duplicateStep)
+              );
+            };
+          }
+
+          //delete
+          const uppopupdeleteButton = document.getElementById(
+            "timeDelayUpDeleteIcon"
+          );
+          handleMouseover(
+            deleteButton as HTMLElement,
+            "mouseover",
+            clickedStep.view.g.children[7].children[2] as HTMLElement
+          );
+          handleMouseover(
+            deleteButton as HTMLElement,
+            "mouseout",
+            clickedStep.view.g.children[7].children[2] as HTMLElement
+          );
+          handleMouseover(
+            rightduplicateBut as HTMLElement,
+            "mouseover",
+            clickedStep.view.g.children[7].children[1] as HTMLElement
+          );
+          handleMouseover(
+            rightduplicateBut as HTMLElement,
+            "mouseout",
+            clickedStep.view.g.children[7].children[1] as HTMLElement
+          );
+          handleMouseover(
+            rightEditBut as HTMLElement,
+            "mouseover",
+            clickedStep.view.g.children[7].children[0] as HTMLElement
+          );
+          handleMouseover(
+            rightEditBut as HTMLElement,
+            "mouseout",
+            clickedStep.view.g.children[7].children[0] as HTMLElement
+          );
+          //console.log(4993, clickedStep.view.g.children);
+          if (deleteButton) {
+            deleteButton.onclick = function () {
+              promptChoices(fakeThis, "delete");
+            };
+          }
+          if (uppopupdeleteButton) {
+            uppopupdeleteButton.onclick = function () {
+              promptChoices(fakeThis, "delete");
+            };
+          }
+        }
+        else {
           if (clickedStep.view.g.children[5].children[1]) {
             const deleteButtonId =
               clickedStep.view.g.children[5].children[1].id.toString();
@@ -481,12 +572,13 @@ export class Workspace implements DesignerComponentProvider {
           }
 
           //click right popout
+          console.log("workspace",clickedStep.view.g.children)
           if (clickedStep.view.g.children[4]) {
             const moreid = clickedStep.view.g.children[4].id.toString();
             const but = document.getElementById(moreid);
             if (but) {
               but.onclick = function () {
-                console.log(3542, clickedStep.view.g.children[10].children);
+                console.log(3542, clickedStep.view.g.children[5]);
                 clickedStep.view.g.children[5].classList.toggle("sqd-hidden");
               };
             }
