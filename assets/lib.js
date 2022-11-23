@@ -18,7 +18,8 @@ const baseUrl = isTestEnv()
 	? '..'
 	: '.';
 
-embedScript(`${baseUrl}/src/designer.js`);
+// embedScript(`${baseUrl}/src/designer.js`);
+embedScript(`${baseUrl}/lib/designer.js`);
 embedStylesheet(`${baseUrl}/css/designer.css`);
 embedStylesheet(`${baseUrl}/css/designer-light.css`);
 embedStylesheet(`${baseUrl}/css/designer-dark.css`);
