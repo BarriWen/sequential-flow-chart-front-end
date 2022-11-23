@@ -3,6 +3,7 @@ import { StepsConfiguration } from "../../designer-configuration";
 import { StepComponent, StepComponentState } from "../component";
 import { TaskStepComponentView } from "./task-step-component-view";
 import { TimeDelayTaskStepComponentView } from "./time-delay-component-view";
+import { TagComponentView } from "./tag-component-view";
 
 export class TaskStepComponent implements StepComponent {
   public static create(
@@ -15,16 +16,18 @@ export class TaskStepComponent implements StepComponent {
     let view;
     if (step.name === "Time Delay") {
       view = TimeDelayTaskStepComponentView.create(parent, step, configuration);
-    } else {
+    } 
+    else if (step.name === "Add Tag" || step.name === "Remove Tag") {
+			view = TagComponentView.create(parent, step, configuration);
+		}
+    else {
       view = TaskStepComponentView.create(parent, step, configuration);
     }
     return new TaskStepComponent(view, step, parentSequence, configuration);
   }
 
   private constructor(
-    public readonly view:
-      | TaskStepComponentView
-      | TimeDelayTaskStepComponentView,
+    public readonly view: TaskStepComponentView | TimeDelayTaskStepComponentView | TagComponentView,
     public readonly step: Step,
     public readonly parentSequence: Sequence,
     private readonly configuration: StepsConfiguration
