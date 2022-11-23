@@ -480,3 +480,21 @@
   	stroke-width: 1px;
 	stroke: #5495d4;
 }
+
+/* Create new Tag */
+.create-tag{
+	border: none;
+	stroke: none;
+	fill: none;
+}
+.create-tag :hover{
+	cursor: pointer;
+}
+.new-tag-text {
+	stroke: #5495d4;
+	fill:#5495d4;
+}
+.new-tag-input{
+	width: 160;
+	height: 15;
+}
