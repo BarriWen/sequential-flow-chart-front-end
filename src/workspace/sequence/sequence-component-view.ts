@@ -7,7 +7,7 @@ import { Component, ComponentView } from "../component";
 import { StepComponentFactory } from "../step-component-factory";
 
 const PH_WIDTH = 100;
-const PH_HEIGHT = 120;
+const PH_HEIGHT = 150;
 const SIZE = 30;
 
 function addStop() {

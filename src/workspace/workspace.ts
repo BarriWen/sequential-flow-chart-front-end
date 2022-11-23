@@ -338,47 +338,6 @@ export class Workspace implements DesignerComponentProvider {
           }
         }
       }
-
-      function handleTimedelayDropdownButtonClick(
-        id: string,
-        toggleclass: HTMLElement,
-        show?: HTMLElement,
-        textString?: string,
-        nodeContext?: string,
-        inputval?: HTMLElement,
-        toggleClass1?: HTMLElement,
-        toggleClass2?: HTMLElement
-      ) {
-        const button = document.getElementById(id);
-        if (button) {
-          button.onclick = function () {
-            toggleclass.classList.toggle("sqd-hidden");
-            //console.log(4249, toggleClass1)
-            if (typeof toggleClass1 !== "undefined") {
-              toggleClass1.classList.add("sqd-hidden");
-            }
-            if (typeof toggleClass2 !== "undefined") {
-              toggleClass2.classList.remove("sqd-hidden");
-            }
-            if (typeof show !== "undefined") {
-              // show.textContent = textString;
-              if (show && inputval) {
-                //nodeContext.textContent = 'Delay for ' + document.getElementById('timedelayinput').value + ' ' + textString
-                if (clickedStep) {
-                  const timedelayinput = document.getElementById(
-                    "timedelayinput"
-                  ) as HTMLInputElement | null;
-                  if (timedelayinput) {
-                    clickedStep.step.properties["Time"] = timedelayinput.value;
-                    clickedStep.step.properties["Delay"] =
-                      textString !== undefined ? textString : "";
-                  }
-                }
-              }
-            }
-          };
-        }
-      }
       function handleMouseover(
         button: HTMLElement,
         action: string,
@@ -397,82 +356,31 @@ export class Workspace implements DesignerComponentProvider {
 
       if (clickedStep.step.componentType === "task") {
         //check if the clicked step is time delay
-        console.log(4233, clickedStep.view.g.children);
-        if (clickedStep.step.name == "Time Delay") {
-          const timedelaydropdownId =
-            clickedStep.view.g.children[6].children[7].id;
-          const timedelaydropdownClassList =
-            clickedStep.view.g.children[6].children[8];
-          const timedelaySubdropdownDayId =
-            clickedStep.view.g.children[6].children[8].children[2].id;
-          const timedelaySubdropdownHourId =
-            clickedStep.view.g.children[6].children[8].children[5].id;
-          const timedelaySubdropdownMinuteId =
-            clickedStep.view.g.children[6].children[8].children[8].id;
-          const timedelaydropdownShow =
-            clickedStep.view.g.children[6].children[5];
-          const timedelayDayString =
-            clickedStep.view.g.children[6].children[8].children[1].innerHTML;
-          const timedelayHourString =
-            clickedStep.view.g.children[6].children[8].children[4].innerHTML;
-          const timedelayMinuteString =
-            clickedStep.view.g.children[6].children[8].children[7].innerHTML;
-          const nodeContext = clickedStep.view.g.children[3];
-          const inputval = document.getElementById("timedelayinput");
-          const moreIconId = clickedStep.view.g.children[4].id;
-          const rightPop = clickedStep.view.g.children[5];
-          console.log(4343, clickedStep);
-          const showDropdownButtonId =
-            clickedStep.view.g.children[5].children[2].children[1].id;
 
-          const showDropdownButton =
-            document.getElementById(showDropdownButtonId);
-          const showDropdownContent = clickedStep.view.g.children[6];
-          const copyButtonId =
-            clickedStep.view.g.children[5].children[0].children[1].id;
-          const uppopup = clickedStep.view.g.children[8];
-          //click pop dropdown
-          handleTimedelayDropdownButtonClick(
-            moreIconId,
-            rightPop as HTMLElement
+        if (clickedStep.step.name == "Time Delay") {
+          const sendOntimeSelected = document.querySelector(
+            ".timedelaydivTagInput"
+          ) as HTMLInputElement;
+          const timeSelected = document.querySelector(
+            ".timedelaydivTagInputTimes"
+          ) as HTMLInputElement;
+          const timeSelectedUnit = document.querySelector(
+            ".timedelayselect"
+          ) as HTMLInputElement;
+          const upCheckBut = document.getElementById("timeDelayUpCheckIcon");
+          const upduplicateBut = document.getElementById("timeDelayUpCopyIcon");
+          const rightduplicateBut = document.getElementById(
+            "timeDelayRightCopyIcon"
           );
-          handleTimedelayDropdownButtonClick(
-            showDropdownButtonId,
-            showDropdownContent as HTMLElement,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            rightPop as HTMLElement,
-            uppopup as HTMLElement
+          const deleteButton = document.getElementById(
+            "timeDelayRightDeleteIcon"
           );
-          handleTimedelayDropdownButtonClick(
-            timedelaydropdownId,
-            timedelaydropdownClassList as HTMLElement
-          );
-          //duplicate
-          const uppopupCheckButId =
-            clickedStep.view.g.children[8].children[0].children[1].id;
-          //const uppopupCheckBut = document.getElementById(uppopupCheckButId);
-          handleTimedelayDropdownButtonClick(
-            uppopupCheckButId,
-            clickedStep.view.g.children[6] as HTMLElement,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            uppopup as HTMLElement,
-            undefined
-          );
-          const duplicateBut = document.getElementById(copyButtonId);
-          const uppopupduplicateButId =
-            clickedStep.view.g.children[8].children[2].children[1].id;
-          const uppopupduplicateBut = document.getElementById(
-            uppopupduplicateButId
+          const rightEditBut = document.getElementById(
+            "timeDelayRightEditIcon"
           );
           const tempContext = this.context;
-          if (uppopupduplicateBut) {
-            uppopupduplicateBut.onclick = function (e) {
+          if (upduplicateBut) {
+            upduplicateBut.onclick = function (e) {
               console.log(4313, "clicked");
               e.preventDefault();
               e.stopPropagation();
@@ -480,16 +388,14 @@ export class Workspace implements DesignerComponentProvider {
               const pos = readMousePosition(e);
               duplicateStep.id =
                 "copy-" + clickedStep.step.id + "-at-" + Date.now();
-              // console.log("copy", duplicateStep.id);
               tempContext.behaviorController.start(
                 pos,
                 DragStepBehavior.create(tempContext, duplicateStep)
               );
-              // console.log(tempContext);
             };
           }
-          if (duplicateBut) {
-            duplicateBut.onclick = function (e) {
+          if (rightduplicateBut) {
+            rightduplicateBut.onclick = function (e) {
               e.preventDefault();
               e.stopPropagation();
               const duplicateStep = createStep(clickedStep.step);
@@ -501,17 +407,12 @@ export class Workspace implements DesignerComponentProvider {
                 pos,
                 DragStepBehavior.create(tempContext, duplicateStep)
               );
-              // console.log(tempContext);
             };
           }
+
           //delete
-          const deleteButtonId =
-            clickedStep.view.g.children[5].children[1].children[1].id.toString();
-          const deleteButton = document.getElementById(deleteButtonId);
-          const uppopupdeleteButtonId =
-            clickedStep.view.g.children[8].children[1].children[1].id;
           const uppopupdeleteButton = document.getElementById(
-            uppopupdeleteButtonId
+            "timeDelayUpDeleteIcon"
           );
           handleMouseover(
             deleteButton as HTMLElement,
@@ -524,26 +425,26 @@ export class Workspace implements DesignerComponentProvider {
             clickedStep.view.g.children[7].children[2] as HTMLElement
           );
           handleMouseover(
-            duplicateBut as HTMLElement,
+            rightduplicateBut as HTMLElement,
             "mouseover",
             clickedStep.view.g.children[7].children[1] as HTMLElement
           );
           handleMouseover(
-            duplicateBut as HTMLElement,
+            rightduplicateBut as HTMLElement,
             "mouseout",
             clickedStep.view.g.children[7].children[1] as HTMLElement
           );
           handleMouseover(
-            showDropdownButton as HTMLElement,
+            rightEditBut as HTMLElement,
             "mouseover",
             clickedStep.view.g.children[7].children[0] as HTMLElement
           );
           handleMouseover(
-            showDropdownButton as HTMLElement,
+            rightEditBut as HTMLElement,
             "mouseout",
             clickedStep.view.g.children[7].children[0] as HTMLElement
           );
-          console.log(4993, clickedStep.view.g.children);
+          //console.log(4993, clickedStep.view.g.children);
           if (deleteButton) {
             deleteButton.onclick = function () {
               promptChoices(fakeThis, "delete");
@@ -554,35 +455,6 @@ export class Workspace implements DesignerComponentProvider {
               promptChoices(fakeThis, "delete");
             };
           }
-          //click select collapse
-
-          handleTimedelayDropdownButtonClick(
-            timedelaySubdropdownDayId,
-            timedelaydropdownClassList as HTMLElement,
-            timedelaydropdownShow as HTMLElement,
-            timedelayDayString,
-            undefined,
-            inputval as HTMLElement
-          );
-          //click select collapse
-          handleTimedelayDropdownButtonClick(
-            timedelaySubdropdownHourId,
-            timedelaydropdownClassList as HTMLElement,
-            timedelaydropdownShow as HTMLElement,
-            timedelayHourString,
-            undefined,
-            inputval as HTMLElement
-          );
-          //click select collapse
-          handleTimedelayDropdownButtonClick(
-            timedelaySubdropdownMinuteId,
-            timedelaydropdownClassList as HTMLElement,
-            timedelaydropdownShow as HTMLElement,
-            timedelayMinuteString,
-            undefined,
-            inputval as HTMLElement
-          );
-          //copy node
         } else {
           if (clickedStep.view.g.children[5].children[1]) {
             const deleteButtonId =
@@ -596,7 +468,6 @@ export class Workspace implements DesignerComponentProvider {
                   "sqd-hidden"
                 );
               });
-
               deleteButton.addEventListener("mouseout", function () {
                 //console.log(3650, 'mouseout')
                 clickedStep.view.g.children[7].children[2].classList.add(
@@ -605,8 +476,6 @@ export class Workspace implements DesignerComponentProvider {
               });
               deleteButton.onclick = function () {
                 promptChoices(fakeThis, "delete");
-                // clickedStep.view.g.children[9].classList.toggle('sqd-hidden')
-                //fakeThis.tryDeleteStep(clickedStep.step, 2);
               };
             }
           }
@@ -686,7 +555,6 @@ export class Workspace implements DesignerComponentProvider {
           if (selectRunUpper)
             selectRunUpper.onclick = function () {
               {
-                //console.log(4091, fakeThis)
                 const showVal =
                   clickedStep.view.g.children[11].children[1].children[1]
                     .innerHTML;
@@ -771,26 +639,21 @@ export class Workspace implements DesignerComponentProvider {
                 );
               });
               duplicateBut.addEventListener("mouseout", function () {
-                //console.log(3650, 'mouseout')
                 clickedStep.view.g.children[7].children[1].classList.add(
                   "sqd-hidden"
                 );
               });
-              // console.log(duplicateId);
               const tempContext = this.context;
               duplicateBut.onclick = function (e) {
-                // e.preventDefault();
                 e.stopPropagation();
                 const duplicateStep = createStep(clickedStep.step);
                 const pos = readMousePosition(e);
                 duplicateStep.id =
                   "copy-" + clickedStep.step.id + "-at-" + Date.now();
-                // console.log("copy", duplicateStep.id);
                 tempContext.behaviorController.start(
                   pos,
                   DragStepBehavior.create(tempContext, duplicateStep)
                 );
-                // console.log(tempContext);
               };
             }
           }
@@ -801,35 +664,31 @@ export class Workspace implements DesignerComponentProvider {
             const tempContext = this.context;
             if (duplicateBut) {
               duplicateBut.onclick = function (e) {
-                // e.preventDefault();
                 e.stopPropagation();
                 const duplicateStep = createStep(clickedStep.step);
                 const pos = readMousePosition(e);
                 duplicateStep.id =
                   "copy-" + clickedStep.step.id + "-at-" + Date.now();
-                // console.log("copy", duplicateStep.id);
                 tempContext.behaviorController.start(
                   pos,
                   DragStepBehavior.create(tempContext, duplicateStep)
                 );
-                // console.log(tempContext);
               };
             }
           }
         }
+      } else {
+        var but = document.querySelectorAll(".Collapsed");
+        if (but) {
+          but.forEach((e) => e.classList.add("sqd-hidden"));
+        }
+        this.context.behaviorController.start(
+          position,
+          MoveViewPortBehavior.create(this.context)
+        );
       }
-    } else {
-      var but = document.querySelectorAll(".Collapsed");
-      if (but) {
-        but.forEach((e) => e.classList.add("sqd-hidden"));
-      }
-      this.context.behaviorController.start(
-        position,
-        MoveViewPortBehavior.create(this.context)
-      );
     }
   }
-
   private onWheel(e: WheelEvent) {
     const viewPort = this.context.viewPort;
     const mousePoint = new Vector(e.pageX, e.pageY).subtract(
@@ -891,7 +750,6 @@ export function promptChoices(
   action: string,
   e?: MouseEvent
 ) {
-  //console.log(controller);
   let output: string | number | null = null;
   // Create a propmt window
   const dialogBox = Dom.element("dialog", {
@@ -921,7 +779,6 @@ export function promptChoices(
       ];
       title.innerText = "Which branch do you want to duplicate?";
     }
-
     if (tempContext.selectedStep?.componentType == "switch") {
       for (let i = 0; i < toDo.length; i++) {
         const radio = Dom.element("input", {
@@ -929,10 +786,8 @@ export function promptChoices(
           name: "choice",
           value: i,
         });
-
         const choice = Dom.element("label");
         choice.innerText = toDo[i];
-
         form.appendChild(radio);
         form.appendChild(choice);
         choice.insertAdjacentHTML("afterend", "</br>");
@@ -942,11 +797,6 @@ export function promptChoices(
     title.innerText = "Are you sure to delete this block?";
   }
   dialogBox.appendChild(title);
-
-  // A form to include all choices
-
-  // form.appendChild(wrapper);
-
   const btn1 = Dom.element("button", {
     type: "submit",
   });
@@ -959,7 +809,6 @@ export function promptChoices(
   btn2.addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    //console.log(tempContext.layoutController.parent.childNodes);
     const designer = document.getElementById("designer");
     designer?.removeChild(designer.childNodes[1]);
   });
@@ -967,21 +816,17 @@ export function promptChoices(
   dialogBox.appendChild(form);
 
   tempContext.layoutController.parent.appendChild(dialogBox);
-  //console.log(dialogBox);
   if (typeof dialogBox.showModal === "function") {
     dialogBox.showModal();
   } else {
     prompt("Wow from prompt window", "ok");
   }
-
   btn1.addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    //console.log("close window triggered");
     if (tempContext.selectedStep?.componentType == "switch") {
       var elem = document.getElementsByTagName("input");
       for (let i = 0; i < elem.length; i++) {
-        // console.log(570, elem);
         if (elem[i].type == "radio" && elem[i].checked) {
           output = elem[i].value;
         }
@@ -989,19 +834,13 @@ export function promptChoices(
     } else {
       output = 2;
     }
-    // Delete behavior
     if (tempContext.selectedStep) {
       if (action == "delete") {
         tempContext.tryDeleteStep(tempContext.selectedStep, output);
-      }
-      // Copy behavior
-      else {
-        //console.log(tempContext.selectedStep);
-        //if(tempContext.selectedStep)
+      } else {
         const duplicateStep = createStep(tempContext.selectedStep);
         duplicateStep.branches.True = [];
         duplicateStep.branches.False = [];
-        // Copy true branch
         if (
           tempContext.selectedStep?.branches.True.length > 0 &&
           (output == 0 || output == 2)
@@ -1054,7 +893,6 @@ export function promptChoices(
     }
   });
 }
-
 function createStep(step: StepDefinition): Step {
   const newStep = ObjectCloner.deepClone(step) as Step;
   newStep.id = Uid.next();
