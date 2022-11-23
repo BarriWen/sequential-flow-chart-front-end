@@ -239,7 +239,7 @@ export interface DesignerComponentProvider {
   render(): void;
 }
 
-function promptChoices(context: DesignerContext, component: StepComponent) {
+export function promptChoices(context: DesignerContext, component: StepComponent) {
   //console.log(controller);
   let output = "";
   // Create a propmt window
