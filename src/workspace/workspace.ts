@@ -677,16 +677,16 @@ export class Workspace implements DesignerComponentProvider {
             }
           }
         }
-      } else {
-        var but = document.querySelectorAll(".Collapsed");
-        if (but) {
-          but.forEach((e) => e.classList.add("sqd-hidden"));
-        }
-        this.context.behaviorController.start(
-          position,
-          MoveViewPortBehavior.create(this.context)
-        );
       }
+    } else {
+      var but = document.querySelectorAll(".Collapsed");
+      if (but) {
+        but.forEach((e) => e.classList.add("sqd-hidden"));
+      }
+      this.context.behaviorController.start(
+        position,
+        MoveViewPortBehavior.create(this.context)
+      );
     }
   }
   private onWheel(e: WheelEvent) {
