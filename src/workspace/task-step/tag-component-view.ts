@@ -637,39 +637,62 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
   dropdownBoxShapeAfter.addEventListener("click", function (e) {
     e.stopPropagation();
     gSubDropdownboxPop.classList.toggle("sqd-hidden");
+    getTags().then(tags => {
+      console.log("Fetching", tags);
+      if (typeof(tags) !== 'number') {
+        editTags(tags);
+      }
+    }).catch(console.log);
   });
-  // Contains every tag
-  const tags = ["Food", "Electronics", "Clothes"];
 
-  for(let i = 0; i < tags.length; i++){
-    const dropdownBoxBottomShape = createRect("option select-field", startX - PADDING_X / 2, startY + 15 * (i + 1), 160, 15);
-    Dom.attrs(dropdownBoxBottomShape, {
-      fill: "#fff",
-      stroke: "#a0a0a0",
-    });
-    const dropdownBoxBottomShapeText = addTxt(tags[i], startX, startY + 15 * (i + 1) + 8);
-    
-    const dropdownBoxBottomShapecover = createRect("option select-field choice", startX - PADDING_X / 2, startY + 15 * (i + 1), 160, 15, `dropdownBoxBottomShapecover${Date.now()}`);
-    Dom.attrs(dropdownBoxBottomShapecover, {
-      fill: "#fff",
-      stroke: "#a0a0a0",
-      opacity: 0.3,
-    });
-
-    gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
-    gSubDropdownboxPop.insertBefore(
-      dropdownBoxBottomShape,
-      dropdownBoxBottomShapeText
-    );
-    gSubDropdownboxPop.appendChild(dropdownBoxBottomShapecover);
-
-    // Add Event Listeners
-    dropdownBoxBottomShapecover.addEventListener("click", function(e) {
-      e.stopPropagation();
-      dropdownBoxInnerText.textContent = tags[i];
-      gSubDropdownboxPop.classList.toggle("sqd-hidden");
-      textToChange.textContent = tags[i];
-    });
+  // Fetch tags from backend
+  const userID = 1; //Need to be changed to current user
+  const request = new Request(`http://localhost:8080/tag/${userID}`, {method: 'GET'});
+  let tags: string[] = [];
+  // Async way to fetch tags
+  const getTags = async () => {
+    const response = await fetch(request);
+    if (response.ok) {
+      const val = await response.json();
+      tags = val;
+      return tags;
+    } else {
+      return Promise.reject(response.status);
+    }
+  };
+  
+  // const tags = ["Food", "Electronics", "Clothes"];
+  const editTags = function (tags: string[]) {
+    for(let i = 0; i < tags.length; i++){
+      const dropdownBoxBottomShape = createRect("option select-field", startX - PADDING_X / 2, startY + 15 * (i + 1), 160, 15);
+      Dom.attrs(dropdownBoxBottomShape, {
+        fill: "#fff",
+        stroke: "#a0a0a0",
+      });
+      const dropdownBoxBottomShapeText = addTxt(tags[i], startX, startY + 15 * (i + 1) + 8);
+      
+      const dropdownBoxBottomShapecover = createRect("option select-field choice", startX - PADDING_X / 2, startY + 15 * (i + 1), 160, 15, `dropdownBoxBottomShapecover${Date.now()}`);
+      Dom.attrs(dropdownBoxBottomShapecover, {
+        fill: "#fff",
+        stroke: "#a0a0a0",
+        opacity: 0.3,
+      });
+  
+      gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
+      gSubDropdownboxPop.insertBefore(
+        dropdownBoxBottomShape,
+        dropdownBoxBottomShapeText
+      );
+      gSubDropdownboxPop.appendChild(dropdownBoxBottomShapecover);
+  
+      // Add Event Listeners
+      dropdownBoxBottomShapecover.addEventListener("click", function(e) {
+        e.stopPropagation();
+        dropdownBoxInnerText.textContent = tags[i];
+        gSubDropdownboxPop.classList.toggle("sqd-hidden");
+        textToChange.textContent = tags[i];
+      });
+    };
   };
 }
 function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement) {
@@ -736,9 +759,29 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
     if (input.value) {
       e.stopPropagation();
       console.log('Will be sending to back end',input.value);
+      // Post tag to backend
+      const userID = 1;      //Need to be changed to an existing user
+      const journeyID = 4;  //Need to be changed to an existing journey
+      const data = {"tag_name": `${input.value}`};
+      const request = new Request(`http://localhost:8080/tags/${userID}/${journeyID}`, {
+        method: 'POST', 
+        headers: {
+          "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      // Send tag to backend 
       textToChange.textContent = input.value;
       container.classList.toggle('sqd-hidden');
       input.value = "";
+      fetch(request).then((response) => {
+        if (!response.ok) {
+          console.log("Connection error", response.status);
+        }
+      });
     }
   });
+}
+function checkText(tags: string[], text: string) {
+  return tags.includes(text);
 }

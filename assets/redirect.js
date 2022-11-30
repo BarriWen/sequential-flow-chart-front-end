@@ -293,23 +293,15 @@ function makeHandler(httpRequest, returnCode, method) {
 let timeoutID;
 let timeout = 5 * 60 * 1000;
 let startDefinition;
-let journeyID;
 
-console.log("create empty canvas")
-const input = {
-	properties: {
-		journeyName:'test',
-		createdAt: new Date(),
-		createdBy: "userID",
-		updatedAt: new Date(),
-		updatedBy: "userID",
-		description:" ",
-		journeyId: ""
-	},
-	sequence: [
-	]
-};
-createDesinger(input);
+var url = window.location.pathname;
+const journeyID = url.slice(1);
+console.log("create from existing journey", journeyID);
+makeReq("GET", `http://localhost:8080/journey/get-saved-journey/${journeyID}`, null, 200);
+
+
+// window.location = `http://http://localhost:3001`;
+
 
 // Auto Save
 function saver(){
