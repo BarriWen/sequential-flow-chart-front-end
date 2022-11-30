@@ -10,7 +10,7 @@ import {
   ViewPort,
 } from "../designer-context";
 import { Placeholder, StepComponent, StepComponentState } from "./component";
-import { StartStopComponent } from "./start-stop/start-stop-component";
+import { StartComponent } from "./start-stop/start-component";
 import { WorkspaceView } from "./workspace-view";
 import { readMousePosition } from "../core/event-readers";
 import { StepDefinition } from "../designer-configuration";
@@ -830,7 +830,7 @@ export class Workspace implements DesignerComponentProvider {
     }
   }
 
-  private getRootComponent(): StartStopComponent {
+  private getRootComponent(): StartComponent {
     if (this.view.rootComponent) {
       return this.view.rootComponent;
     }

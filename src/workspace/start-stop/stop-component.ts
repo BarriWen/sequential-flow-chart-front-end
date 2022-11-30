@@ -1,15 +1,15 @@
 import { Sequence } from '../../definition';
 import { StepsConfiguration } from '../../designer-configuration';
 import { Component, Placeholder, StepComponent } from '../component';
-import { StartStopComponentView } from './start-stop-component-view';
+import { StopComponentView } from './stop-component-view';
 
-export class StartStopComponent implements Component {
-	public static create(parent: SVGElement, sequence: Sequence, configuration: StepsConfiguration): StartStopComponent {
-		const view = StartStopComponentView.create(parent, sequence, configuration);
-		return new StartStopComponent(view);
+export class StopComponent implements Component {
+	public static create(parent: SVGElement, sequence: Sequence, configuration: StepsConfiguration): StopComponent {
+		const view = StopComponentView.create(parent, sequence, configuration);
+		return new StopComponent(view);
 	}
 
-	private constructor(public readonly view: StartStopComponentView) {}
+	private constructor(public view: StopComponentView) {}
 
 	public findByElement(element: Element): StepComponent | null {
 		return this.view.component.findByElement(element);

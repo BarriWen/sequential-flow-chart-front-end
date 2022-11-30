@@ -3,7 +3,7 @@ import { readMousePosition, readTouchPosition } from "../core/event-readers";
 import { Vector } from "../core/vector";
 import { ComponentType, Sequence } from "../definition";
 import { StepsConfiguration } from "../designer-configuration";
-import { StartStopComponent } from "./start-stop/start-stop-component";
+import { StartComponent } from "./start-stop/start-component";
 
 const GRID_SIZE = 48;
 
@@ -61,7 +61,7 @@ export class WorkspaceView {
   }
 
   private onResizeHandler = () => this.onResize();
-  public rootComponent?: StartStopComponent;
+  public rootComponent?: StartComponent;
 
   private constructor(
     private readonly workspace: HTMLElement,
@@ -152,7 +152,7 @@ export class WorkspaceView {
     if (this.rootComponent) {
       this.rootComponent.view.destroy();
     }
-    this.rootComponent = StartStopComponent.create(
+    this.rootComponent = StartComponent.create(
       this.foreground,
       sequence,
       this.configuration

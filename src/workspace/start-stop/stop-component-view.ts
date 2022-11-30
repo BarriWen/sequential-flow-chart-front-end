@@ -7,25 +7,19 @@ import { SequenceComponent } from '../sequence/sequence-component';
 
 const SIZE = 30;
 
-export class StartStopComponentView implements ComponentView {
-	public static create(parent: SVGElement, sequence: Sequence, configuration: StepsConfiguration): StartStopComponentView {
+export class StopComponentView implements ComponentView {
+	public static create(parent: SVGElement, sequence: Sequence, configuration: StepsConfiguration): StopComponentView {
 		const g = Dom.svg('g');
 		parent.appendChild(g);
 
 		const sequenceComponent = SequenceComponent.create(g, sequence, configuration);
 		const view = sequenceComponent.view;
 
-		const startCircle = createCircle(true);
-		Dom.translate(startCircle, view.joinX - SIZE / 2, 0);
-		g.appendChild(startCircle);
+		const endCircle = createCircle(false);
+		Dom.translate(endCircle, view.joinX - SIZE / 2, SIZE + view.height);
+		g.appendChild(endCircle);
 
-		Dom.translate(view.g, 0, SIZE);
-
-		// const endCircle = createCircle(false);
-		// Dom.translate(endCircle, view.joinX - SIZE / 2, SIZE + view.height);
-		// g.appendChild(endCircle);
-
-		return new StartStopComponentView(g, view.width, view.height + SIZE * 2, view.joinX, sequenceComponent);
+		return new StopComponentView(g, view.width, view.height + SIZE * 2, view.joinX, sequenceComponent);
 	}
 
 	private constructor(
@@ -67,6 +61,16 @@ function createCircle(isStart: boolean): SVGGElement {
 		});
 		g.appendChild(start);
 	} else {
+		// const stop = Dom.svg('rect', {
+		//     class: 'sqd-start-stop-icon',
+		//     x: m,
+		//     y: m,
+		//     width: s,
+		//     height: s,
+		//     rx: 4,
+		//     ry: 4
+		// });
+		// g.appendChild(stop);
 		createEndPoint(g);
 	}
 	return g;
