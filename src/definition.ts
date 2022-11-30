@@ -20,8 +20,7 @@ export interface Step {
 
 export enum ComponentType {
   task = "task",
-  switch = "switch",
-  container = "container",
+  switch = "switch"
 }
 
 export interface TaskStep extends Step {
@@ -33,10 +32,7 @@ export interface SwitchStep extends Step {
   branches: Branches;
 }
 
-export interface ContainerStep extends Step {
-  componentType: ComponentType.container;
-  sequence: Sequence;
-}
+
 
 export interface Branches {
   [branchName: string]: Sequence;

@@ -21,9 +21,9 @@ export class StartStopComponentView implements ComponentView {
 
 		Dom.translate(view.g, 0, SIZE);
 
-		const endCircle = createCircle(false);
-		Dom.translate(endCircle, view.joinX - SIZE / 2, SIZE + view.height);
-		g.appendChild(endCircle);
+		// const endCircle = createCircle(false);
+		// Dom.translate(endCircle, view.joinX - SIZE / 2, SIZE + view.height);
+		// g.appendChild(endCircle);
 
 		return new StartStopComponentView(g, view.width, view.height + SIZE * 2, view.joinX, sequenceComponent);
 	}
@@ -67,16 +67,6 @@ function createCircle(isStart: boolean): SVGGElement {
 		});
 		g.appendChild(start);
 	} else {
-		// const stop = Dom.svg('rect', {
-		//     class: 'sqd-start-stop-icon',
-		//     x: m,
-		//     y: m,
-		//     width: s,
-		//     height: s,
-		//     rx: 4,
-		//     ry: 4
-		// });
-		// g.appendChild(stop);
 		createEndPoint(g);
 	}
 	return g;

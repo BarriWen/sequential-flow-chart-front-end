@@ -1,4 +1,4 @@
-import { ComponentType, ContainerStep, Definition, Sequence, Step, SwitchStep } from '../definition';
+import { ComponentType, Definition, Sequence, Step, SwitchStep } from '../definition';
 
 function find(sequence: Sequence, needle: Sequence | Step, result: StepOrName[]): boolean {
 	for (const step of sequence) {
@@ -23,15 +23,6 @@ function find(sequence: Sequence, needle: Sequence | Step, result: StepOrName[])
 							result.push(step);
 							return true;
 						}
-					}
-				}
-				break;
-			case ComponentType.container:
-				{
-					const containerStep = step as ContainerStep;
-					if (containerStep.sequence === needle || find(containerStep.sequence, needle, result)) {
-						result.push(step);
-						return true;
 					}
 				}
 				break;
