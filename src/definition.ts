@@ -11,9 +11,9 @@ export interface Step {
   componentType: ComponentType;
   type: string;
   name: string;
-  createdAt: string;
+  createdAt: Date;
   createdBy: string;
-  updatedAt: string;
+  updatedAt: Date;
   updatedBy: string;
   properties: Properties;
 }

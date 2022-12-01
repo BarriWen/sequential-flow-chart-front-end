@@ -520,6 +520,7 @@ export class TagComponentView implements ComponentView {
       if (newTag.textContent) {
         textRight.textContent = newTag.textContent;
         step.properties["tag"] = textRight.textContent;
+        step["updatedAt"] = new Date();
       }
     });
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);

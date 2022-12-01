@@ -527,12 +527,14 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     divTagInput.setAttribute("type", "datetime-local");
     if (step.properties.sendOn) {
       divTagInput.value = step.properties.sendOn.toString();
+      step["updatedAt"] = new Date();
     }
     var divTagInputTimes = document.createElement("INPUT") as HTMLInputElement;
     divTagInputTimes.setAttribute("class", "timedelaydivTagInputTimes");
     divTagInputTimes.setAttribute("placeholder", "Enter");
     if (step.properties.waitFor) {
       divTagInputTimes.value = step.properties.waitFor.toString();
+      step["updatedAt"] = new Date();
     }
     divTagPickTime.appendChild(divTagInput);
     var divTagWaitTime = document.createElementNS(

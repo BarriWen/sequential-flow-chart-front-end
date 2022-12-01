@@ -657,7 +657,7 @@ export class Workspace implements DesignerComponentProvider {
                   "sqd-hidden"
                 );
                 clickedStep.step.properties["Select List"] = showVal;
-                clickedStep.step.updatedAt = String(new Date());
+                clickedStep.step.updatedAt = new Date();
               }
             };
           const selectRunUpperId1 =
@@ -677,7 +677,7 @@ export class Workspace implements DesignerComponentProvider {
                 "sqd-hidden"
               );
               clickedStep.step.properties["Select List"] = showVal;
-              clickedStep.step.updatedAt = String(new Date());
+              clickedStep.step.updatedAt = new Date();
             };
           }
           //lower subdropdown
