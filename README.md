@@ -12,7 +12,7 @@
  
 ### To run on localhost
    1. Install <a href="https://nodejs.org/en/">Node.js</a> first
-   2.Open terminal in project folder, run the following commands:
+   2. Open terminal in project folder, run the following commands:
       ```
       npm install express
       ```
