@@ -60,7 +60,12 @@ export class TaskStepComponentView implements ComponentView {
       y: boxHeight / 2,
       class: "sqd-task-text",
     });
-    textRight.textContent = "Default list";
+    if (step.properties["Select List"]) {
+      textRight.textContent = step.properties["Select List"].toString();
+    } else {
+      textRight.textContent = "Default list";
+    }
+    
     g.appendChild(textRight);
 
     g.insertBefore(rectLeft, text);

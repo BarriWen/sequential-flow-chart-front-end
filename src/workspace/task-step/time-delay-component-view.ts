@@ -67,7 +67,14 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
       y: boxHeight / 1.7,
       class: "sqd-task-text",
     });
-    textRight.textContent = "Default list";
+    if (step.properties.sendOn) {
+      textRight.textContent = step.properties.sendOn.toString();
+    }
+    else if(step.properties.waitFor){
+      textRight.textContent = step.properties.waitFor.toString();
+    } else {
+      textRight.textContent = "Select time";
+    }
     g.appendChild(textRight);
 
     g.insertBefore(rectLeft, text);
@@ -515,12 +522,18 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
       "div"
     );
     divTagPickTime.setAttribute("class", "sqd-hidden");
-    var divTagInput = document.createElement("INPUT");
+    var divTagInput = document.createElement("INPUT") as HTMLInputElement;
     divTagInput.setAttribute("class", "timedelaydivTagInput");
     divTagInput.setAttribute("type", "datetime-local");
-    var divTagInputTimes = document.createElement("INPUT");
+    if (step.properties.sendOn) {
+      divTagInput.value = step.properties.sendOn.toString();
+    }
+    var divTagInputTimes = document.createElement("INPUT") as HTMLInputElement;
     divTagInputTimes.setAttribute("class", "timedelaydivTagInputTimes");
     divTagInputTimes.setAttribute("placeholder", "Enter");
+    if (step.properties.waitFor) {
+      divTagInputTimes.value = step.properties.waitFor.toString();
+    }
     divTagPickTime.appendChild(divTagInput);
     var divTagWaitTime = document.createElementNS(
       "http://www.w3.org/1999/xhtml",
@@ -573,6 +586,18 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
       gDropdown.classList.toggle("sqd-hidden");
 
       gUpPop3.classList.toggle("sqd-hidden");
+      if (divTagInputTimes.value) {
+        textRight.textContent = divTagInputTimes.value;
+        step.properties.waitFor = divTagInputTimes.value;
+        step.properties.sendOn = "";
+        divTagInput.value = "";
+      } 
+      if (divTagInput.value) {
+        textRight.textContent = divTagInput.value;
+        step.properties.sendOn = divTagInput.value;
+        step.properties.waitFor = "";
+        divTagInputTimes.value = "";
+      }
     });
     //create dropdown day/ hour/min
     //this is dropdown day

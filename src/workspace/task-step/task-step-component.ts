@@ -4,6 +4,7 @@ import { StepComponent, StepComponentState } from "../component";
 import { TaskStepComponentView } from "./task-step-component-view";
 import { TimeDelayTaskStepComponentView } from "./time-delay-component-view";
 import { TagComponentView } from "./tag-component-view";
+import { TimeTriggerTaskStepComponentView } from "./time-trigger-component-view";
 
 export class TaskStepComponent implements StepComponent {
   public static create(
@@ -20,6 +21,9 @@ export class TaskStepComponent implements StepComponent {
     else if (step.name === "Add Tag" || step.name === "Remove Tag") {
 			view = TagComponentView.create(parent, step, configuration);
 		}
+    else if (step.name === "Time Trigger") {
+			view = TimeTriggerTaskStepComponentView.create(parent, step, configuration);
+		}
     else {
       view = TaskStepComponentView.create(parent, step, configuration);
     }
@@ -27,7 +31,7 @@ export class TaskStepComponent implements StepComponent {
   }
 
   private constructor(
-    public readonly view: TaskStepComponentView | TimeDelayTaskStepComponentView | TagComponentView,
+    public readonly view: TaskStepComponentView | TimeDelayTaskStepComponentView | TagComponentView | TimeTriggerTaskStepComponentView,
     public readonly step: Step,
     public readonly parentSequence: Sequence,
     private readonly configuration: StepsConfiguration

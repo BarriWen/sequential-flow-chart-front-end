@@ -66,7 +66,12 @@ export class TagComponentView implements ComponentView {
       y: boxHeight / 1.7,
       class: "sqd-task-text",
     });
-    textRight.textContent = "Any tag";
+    if (step.properties["tag"]) {
+      textRight.textContent = step.properties["tag"].toString();
+    }
+    else {
+      textRight.textContent = "Any tag";
+    }
     g.appendChild(textRight);
 
     g.insertBefore(rectLeft, text);
@@ -510,7 +515,12 @@ export class TagComponentView implements ComponentView {
     });
     upCheckIcon.addEventListener("click", function(e){
       e.stopPropagation();
-      textRight.textContent = newTag.textContent;
+      gDropdown.classList.toggle("sqd-hidden");
+      gUpPop3.classList.toggle("sqd-hidden");
+      if (newTag.textContent) {
+        textRight.textContent = newTag.textContent;
+        step.properties["tag"] = textRight.textContent;
+      }
     });
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
     const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
