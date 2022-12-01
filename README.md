@@ -1,6 +1,6 @@
 # sequential-flow-chart-front-end
 
-### To build all typescript files
+### To run this project, build first
    1. Open terminal in project folder, run the following commands:
       ```
       npm install rollup
