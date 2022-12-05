@@ -12,7 +12,7 @@ const MIN_TEXT_WIDTH = 70;
 const ICON_SIZE = 22;
 const RECT_RADIUS = 15;
 
-export class TagComponentView implements ComponentView {
+export class EmailComponentView implements ComponentView {
   private constructor(
     public g: SVGGElement,
     public width: number,
@@ -27,7 +27,7 @@ export class TagComponentView implements ComponentView {
     parent: SVGElement,
     step: TaskStep,
     configuration: StepsConfiguration
-  ): TagComponentView {
+  ): EmailComponentView {
     const g = Dom.svg("g", {
       class: `sqd-task-group sqd-type-${step.type}`,
     });
@@ -66,11 +66,11 @@ export class TagComponentView implements ComponentView {
       y: boxHeight / 1.7,
       class: "sqd-task-text",
     });
-    if (step.properties["tag"]) {
-      textRight.textContent = step.properties["tag"].toString();
+    if (step.properties["subject"]) {
+      textRight.textContent = step.properties["subject"].toString();
     }
     else {
-      textRight.textContent = "Any tag";
+      textRight.textContent = "Empty Subject";
     }
     g.appendChild(textRight);
 
@@ -135,6 +135,25 @@ export class TagComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
+    // Right side buttons
+    const magnidyIconUrl = "./assets/magnify.svg";
+    const magnidyIcon = magnidyIconUrl
+      ? Dom.svg("image", {
+          href: magnidyIconUrl,
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
+    Dom.attrs(magnidyIcon, {
+      class: "magnidyIcon",
+      id: `magnidyIcon-${step.id}`,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 90,
+      y: PADDING_Y,
+      width: ICON_SIZE,
+      height: ICON_SIZE,
+    });
     const moreUrl = "./assets/more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
@@ -147,6 +166,7 @@ export class TagComponentView implements ComponentView {
         });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
+      // id: `tagMoreIcon`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22,
       y: 5,
       width: ICON_SIZE,
@@ -280,7 +300,6 @@ export class TagComponentView implements ComponentView {
         });
     Dom.attrs(upCheckIcon, {
       class: "moreicon",
-      // id: `tagUpCheckIcon`,
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
       y: PADDING_Y - 37,
       width: 22,
@@ -462,6 +481,7 @@ export class TagComponentView implements ComponentView {
     gRightPop3.appendChild(rightCopyImgContainer);
     gRightPop3.appendChild(rightDeleteImgContainer);
     gRightPop3.appendChild(rightEditImgContainer);
+    gRightPop3.appendChild(magnidyIcon);
     gUpPop3.appendChild(checkImgContainer);
     gUpPop3.appendChild(deleteImgContainer);
     gUpPop3.appendChild(copyImgContainer);
@@ -469,31 +489,18 @@ export class TagComponentView implements ComponentView {
     //**************************************************//
     //***********start with general node****************//
     const gDropdown = Dom.svg("g", {
-      class: `sqd-task-group dropdown sqd-hidden Collapsed`,
+      class: `sqd-task-group dropdown sqd-hidden Collapsed`
     });
-    // const rect1 = Dom.svg("rect", {
-    //   x: 0.5,
-    //   y: boxHeight,
-    //   class: "sqd-task-rect",
-    //   width: boxWidth,
-    //   height: 4 * boxHeight,
-    //   rx: RECT_RADIUS,
-    //   ry: RECT_RADIUS,
-    // });
-    // Dom.attrs(rect1, {
-    //   id: `dropdown${Date.now()}`,
-    // });
     
     g.appendChild(moreIcon);
     g.appendChild(gRightPop3);
     g.appendChild(gDropdown);
-    const newTag = Dom.svg("text", {
-      class: "sqd-task-text",
-    });
-    tagDropDown(gDropdown, boxHeight, boxWidth, newTag);
-    if (step.name === "Add Tag") {
-      addNewTag(gDropdown, boxHeight, boxWidth, upCheckIcon, newTag);
-    }
+    // Send Email Drop Down Menu set up
+    const newSend = Dom.svg("text", {class: "sqd-task-text",});
+    const newSub = Dom.svg("text", {class: "sqd-task-text",});
+    const newCont = Dom.svg("text", {class: "sqd-task-text",});
+    addDropDown(gDropdown, boxHeight, boxWidth, upCheckIcon, newSend, newSub, newCont);
+
     g.appendChild(gRightPop3Reminder);
     g.appendChild(gUpPop3);
     g.appendChild(setUpReminder);
@@ -502,6 +509,12 @@ export class TagComponentView implements ComponentView {
     moreIcon.addEventListener("click", function (e) {
       e.stopPropagation();
       gRightPop3.classList.toggle("sqd-hidden");
+      if (!gUpPop3.classList.contains("sqd-hidden")) {
+        gUpPop3.classList.toggle("sqd-hidden");
+      }
+      if (!gDropdown.classList.contains("sqd-hidden")) {
+        gDropdown.classList.toggle("sqd-hidden");
+      }
     });
     
     // Edit
@@ -510,16 +523,27 @@ export class TagComponentView implements ComponentView {
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
       gRightPop3.classList.toggle("sqd-hidden");
+      const elemt = document.getElementsByClassName("email-field");
+      if (step.properties.sender) {
+        Dom.attrs(elemt[0], {value: step.properties.sender.toString()});
+      }
+      if (step.properties.sender) {
+        Dom.attrs(elemt[1], {value: step.properties.subject.toString()});
+      }
     });
+    // check button clicked
     upCheckIcon.addEventListener("click", function(e){
       e.stopPropagation();
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
-      if (newTag.textContent) {
-        textRight.textContent = newTag.textContent;
-        step.properties["tag"] = textRight.textContent;
-        step["updatedAt"] = new Date();
+      if (newSend.textContent) {
+        step.properties.sender = newSend.textContent;
       }
+      if (newSub.textContent) {
+        textRight.textContent = newSub.textContent; 
+        step.properties.subject = textRight.textContent;
+      }
+      step["updatedAt"] = new Date();
     });
 
      // Show hints
@@ -541,10 +565,11 @@ export class TagComponentView implements ComponentView {
     deleteIcon.addEventListener("mouseout", () => {
       gRightPop3Reminder3.classList.toggle("sqd-hidden");
     });
+
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
     const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
     const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
-    return new TagComponentView(
+    return new EmailComponentView(
       g,
       boxWidth,
       boxHeight,
@@ -619,195 +644,112 @@ function createRect(className: string, xVal: number, yVal: number, w: number, h:
   }
   return rect;
 }
-function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: SVGElement) {
+function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElement, send: SVGElement, sub: SVGElement, cont: SVGElement) {
   const gSubDropdownbox = Dom.svg("g", {
-    class: `sqd-task-group sub-dropdownbox`,
+    class: `sqd-task-group sub-dropdownbox`
   });
   dropdown.appendChild(gSubDropdownbox);
+  
+  const rect1 = createRect("sqd-task-rect", 0.5, h, w, 4 * h + PADDING_Y, `dropdown${Date.now()}`, RECT_RADIUS);
+  gSubDropdownbox.appendChild(rect1);
+  let startX = rect1.getBBox().x;
+  let startY = rect1.getBBox().y;
+  let wid = rect1.getBBox().width;
   // Field names
-  const rect1 = createRect("sqd-task-rect", 0.5, h, w, 2.5 * h, `dropdown${Date.now()}`, RECT_RADIUS);
-  const nameText = addTxt("Select tag: ", PADDING_X, 1.5 * h);  
+  const sendTo = addTxt("Send from: ", startX+PADDING_X, startY+PADDING_Y);  
+  gSubDropdownbox.appendChild(sendTo);
+  startX = sendTo.getBBox().x;
+  startY = sendTo.getBBox().y;
+  wid = sendTo.getBBox().width;
   
-  gSubDropdownbox.appendChild(nameText);
-  gSubDropdownbox.insertBefore(rect1, nameText);
+  const subject = addTxt("Subject: ", startX, startY + h);  
+  gSubDropdownbox.appendChild(subject);
+  startY = subject.getBBox().y;
 
-  let startX = nameText.getBBox().x;
-  let startY = nameText.getBBox().y;
-  let wid = nameText.getBBox().width;
+  const content = addTxt("Choose Content", startX, startY + h);  
+  gSubDropdownbox.appendChild(content);
 
-  const dropdownBoxShape = createRect("option select-field", startX + wid + PADDING_X, startY, 160, 15);
-  Dom.attrs(dropdownBoxShape, {
-    fill: "#fff",
-    stroke: "#a0a0a0",
+   // add input fields
+   startY = sendTo.getBBox().y;
+   let height = sendTo.getBBox().height + PADDING_Y;
+   const sendWrapper = Dom.svg("foreignObject", {
+    x: startX + wid + PADDING_X,
+    y: startY,
+    width: 150,
+    height: height
   });
-  const dropdownBoxShapeAfter = createRect("option select-field", startX + wid + PADDING_X, startY, 160, 15, `dropdownBoxShape${Date.now()}`);
-  Dom.attrs(dropdownBoxShapeAfter, {
-    fill: "#fff",
-    stroke: "#a0a0a0",
-    opacity: 0,
-  });
-  // Default value
-  const dropdownBoxInnerText = addTxt("Any Tag", startX + wid + PADDING_X + PADDING_X / 2, startY + 6.5);
-  gSubDropdownbox.appendChild(dropdownBoxInnerText);
-  wid = wid + dropdownBoxInnerText.getBBox().width;
-  const dropdownRightButton = addTxt("▼ ", startX + wid + PADDING_X * 9, startY + 6.5);
-  startX = dropdownBoxInnerText.getBBox().x;
-
-  gSubDropdownbox.appendChild(dropdownRightButton);
-  gSubDropdownbox.insertBefore(dropdownBoxShape, dropdownBoxInnerText);
-  gSubDropdownbox.appendChild(dropdownBoxShapeAfter);
-  
-  // Selection list field
-  const gSubDropdownboxPop = Dom.svg("g", {
-    class: `sqd-task-group sub-dropdownbox-pop sqd-hidden`,
-  });
-  dropdown.appendChild(gSubDropdownboxPop);
-
-  dropdownBoxShapeAfter.addEventListener("click", function (e) {
-    e.stopPropagation();
-    gSubDropdownboxPop.classList.toggle("sqd-hidden");
-    getTags().then(tags => {
-      console.log("Fetching", tags);
-      if (typeof(tags) !== 'number') {
-        editTags(tags);
-      }
-    }).catch(console.log);
-  });
-
-  // Fetch tags from backend
-  const userID = 1; //Need to be changed to current user
-  const request = new Request(`http://localhost:8080/tag/${userID}`, {method: 'GET'});
-  let tags: string[] = [];
-  // Async way to fetch tags
-  const getTags = async () => {
-    const response = await fetch(request);
-    if (response.ok) {
-      const val = await response.json();
-      tags = val;
-      return tags;
-    } else {
-      return Promise.reject(response.status);
-    }
-  };
-  
-  // const tags = ["Food", "Electronics", "Clothes"];
-  const editTags = function (tags: string[]) {
-    for(let i = 0; i < tags.length; i++){
-      const dropdownBoxBottomShape = createRect("option select-field", startX - PADDING_X / 2, startY + 15 * (i + 1), 160, 15);
-      Dom.attrs(dropdownBoxBottomShape, {
-        fill: "#fff",
-        stroke: "#a0a0a0",
-      });
-      const dropdownBoxBottomShapeText = addTxt(tags[i], startX, startY + 15 * (i + 1) + 8);
-      
-      const dropdownBoxBottomShapecover = createRect("option select-field choice", startX - PADDING_X / 2, startY + 15 * (i + 1), 160, 15, `dropdownBoxBottomShapecover${Date.now()}`);
-      Dom.attrs(dropdownBoxBottomShapecover, {
-        fill: "#fff",
-        stroke: "#a0a0a0",
-        opacity: 0.3,
-      });
-  
-      gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
-      gSubDropdownboxPop.insertBefore(
-        dropdownBoxBottomShape,
-        dropdownBoxBottomShapeText
-      );
-      gSubDropdownboxPop.appendChild(dropdownBoxBottomShapecover);
-  
-      // Add Event Listeners
-      dropdownBoxBottomShapecover.addEventListener("click", function(e) {
-        e.stopPropagation();
-        dropdownBoxInnerText.textContent = tags[i];
-        gSubDropdownboxPop.classList.toggle("sqd-hidden");
-        textToChange.textContent = tags[i];
-      });
-    };
-  };
-}
-function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement) {
-  const g = Dom.svg("g", {
-    class: `create-tag`,
-  });
-  parent.insertBefore(g, parent.lastChild);
-  const nameText = Dom.svg("text", {
-    class: "new-tag-text",
-    x: w / 4 + PADDING_X,
-    y: h + 5 * PADDING_Y,
-  });
-  nameText.textContent = "+Create a New Tag"
-  g.appendChild(nameText);
-
-  // Text wrapper
-  const rect = createRect("create-tag", nameText.getBBox().x, nameText.getBBox().y, nameText.getBBox().width, nameText.getBBox().height, `newTag${Date.now()}`);
-  g.insertBefore(rect, nameText);
-
-  // Page to input new tag
-  const container = Dom.svg("g", {
-    class: `sqd-task-group sub-dropdownbox sqd-hidden`,
-  });
-  parent.appendChild(container);
-  const rect1 = createRect("sqd-task-rect", 0.5, h, w, 2.5 * h, `dropdown${Date.now()}`, RECT_RADIUS);
-  container.appendChild(rect1);
-  
-  const inputArea = Dom.svg("foreignObject", {
-    class: "new-tag-input",
-    x: 1 + 2 * PADDING_X,
-    y: h + 2 * PADDING_Y,
-    width: 180,
-    height: 30
-  });
-  const input = Dom.element("input", {
-    class: "new-tag-input",
-    name: "newTag",
+  const sendInput = Dom.element("input", {
+    class: "new-tag-input email-field",
+    name: "sender",
     type: "text",
-    placeholder: "Name your new tag",
-    value: ""
+    placeholder: "Send from",
   });
-  inputArea.appendChild(input);
-  container.appendChild(inputArea);
+  if (send.textContent) {
+    Dom.attrs(sendInput, {
+      value: send.textContent
+    });
+  }
+  gSubDropdownbox.appendChild(sendWrapper);
+  sendWrapper.appendChild(sendInput);
+
+  startX = subject.getBBox().x;
+  startY = subject.getBBox().y;
+  
+  const subjectWrapper = Dom.svg("foreignObject", {
+    x: startX + wid + PADDING_X,
+    y: startY,
+    width: 150,
+    height: height
+  });
+  const subjectInput = Dom.element("input", {
+    class: "new-tag-input email-field",
+    name: "subject",
+    type: "text",
+    placeholder: "Empty Subject"
+  });
+  if (sub.textContent) {
+    Dom.attrs(subjectInput, {
+      value: sub.textContent
+    });
+  }
+  gSubDropdownbox.appendChild(subjectWrapper);
+  subjectWrapper.appendChild(subjectInput);
   
 
-  const backText = Dom.svg("text", {
-    class: "new-tag-text",
-    x: w / 4 + PADDING_X,
-    y: h + 6 * PADDING_Y,
-  });
-  backText.textContent = "< Back to Selection"
-  container.appendChild(backText);
-  // Add event listener
-  g.addEventListener("click", function(e) {
-    e.stopPropagation();
-    container.classList.toggle('sqd-hidden');
-  });
-  backText.addEventListener("click", function(e) {
-    container.classList.toggle('sqd-hidden');
-    input.value = "";
-  });
+  // Add content option 1
+  startY = content.getBBox().y;
+  height = content.getBBox().height;
+  const tem = addTxt('Template', startX + 10, startY + PADDING_Y * 5);
+  gSubDropdownbox.appendChild(tem);
+  Dom.attrs(tem, {class: "content-text"});
+  const template = createRect("content-option", startX, startY + height + PADDING_Y / 2, 75 , 60, "", RECT_RADIUS);
+  gSubDropdownbox.insertBefore(template, tem);
+
+  // Add content option 2
+  startX = template.getBBox().x + template.getBBox().width + PADDING_X;
+  const txt = addTxt('Text Only', startX + 3, startY + PADDING_Y * 5);
+  gSubDropdownbox.appendChild(txt);
+  Dom.attrs(txt, {class: "content-text"});
+  const txtWrapper = createRect("content-option", startX - PADDING_X / 2, startY + height + PADDING_Y / 2, 75 , 60, "", RECT_RADIUS);
+  gSubDropdownbox.insertBefore(txtWrapper, txt);
   
-  upCheckBut.addEventListener("click", function(e){
-    if (input.value) {
-      e.stopPropagation();
-      console.log('Will be sending to back end',input.value);
-      // Post tag to backend
-      const userID = 1;      //Need to be changed to an existing user
-      const journeyID = 4;  //Need to be changed to an existing journey
-      const data = {"tag_name": `${input.value}`};
-      const request = new Request(`http://localhost:8080/tags/${userID}/${journeyID}`, {
-        method: 'POST', 
-        headers: {
-          "Content-Type": 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-      // Send tag to backend 
-      textToChange.textContent = input.value;
-      container.classList.toggle('sqd-hidden');
-      input.value = "";
-      fetch(request).then((response) => {
-        if (!response.ok) {
-          console.log("Connection error", response.status);
-        }
-      });
+  // Add content option 3
+  startX = txtWrapper.getBBox().x + txtWrapper.getBBox().width + PADDING_X * 2;
+  const html = addTxt('HTML', startX, startY + PADDING_Y * 5);
+  gSubDropdownbox.appendChild(html);
+  Dom.attrs(html, {class: "content-text"});
+  const htmlWrapper = createRect("content-option", startX - 3 * PADDING_X / 2 , startY + height + PADDING_Y /2 , 75 , 60, "", RECT_RADIUS);
+  gSubDropdownbox.insertBefore(htmlWrapper, html);
+
+  // Add Event Listeners
+  button.addEventListener("click", function(e) {
+    e.stopPropagation();
+    if (subjectInput.value) {
+      sub.textContent = subjectInput.value;
+    }
+    if (sendInput.value) {
+      send.textContent = sendInput.value;
     }
   });
+
 }

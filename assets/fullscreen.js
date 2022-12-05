@@ -104,8 +104,9 @@ function createStep(currElement) {
 		step.createdBy = currElement.createdBy;
 		step.updatedAt = currElement.updatedAt;
 		step.updatedBy = currElement.updatedBy;
-		step.properties['Select List'] = currElement.properties['Select List'];
-		step.properties.Run = currElement.properties.Run;
+		console.log(currElement.properties);
+		step.properties = currElement.properties;
+		// step.properties.Run = currElement.properties.Run;
 	} else {
 		console.log("Creating an if/else block", currElement);
 		const True = currElement.branches.True;
@@ -126,8 +127,8 @@ function createStep(currElement) {
 		step.createdBy = currElement.createdBy;
 		step.updatedAt = currElement.updatedAt;
 		step.updatedBy = currElement.updatedBy;
-		step.properties['Select List'] = currElement.properties['Select List'];
-		step.properties.Run = currElement.properties.Run;
+		step.properties = currElement.properties;
+		// step.properties.Run = currElement.properties.Run;
 	}
 		
 	return step;

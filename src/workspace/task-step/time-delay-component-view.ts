@@ -150,7 +150,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
-      id: `timeDelayMoreIcon`,
+      // id: `timeDelayMoreIcon`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22,
       y: 5,
       width: ICON_SIZE,
@@ -182,7 +182,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(copyIcon, {
       class: "moreicon",
-      id: `timeDelayRightCopyIcon`,
+      id: `RightCopyIcon-${step.id}`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 64,
       y: PADDING_Y - 2,
       width: ICON_SIZE,
@@ -216,7 +216,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(deleteIcon, {
       class: "moreicon",
-      id: `timeDelayRightDeleteIcon`,
+      id: `RightDeleteIcon-${step.id}`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 50,
       y: PADDING_Y + 30,
       width: 22,
@@ -250,7 +250,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(editIcon, {
       class: "moreicon",
-      id: `timeDelayRightEditIcon`,
+      // id: `timeDelayRightEditIcon`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 53,
       y: PADDING_Y - 36,
       width: ICON_SIZE,
@@ -285,7 +285,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(upCheckIcon, {
       class: "moreicon",
-      id: `timeDelayUpCheckIcon`,
+      // id: `timeDelayUpCheckIcon`,
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
       y: PADDING_Y - 37,
       width: 22,
@@ -319,7 +319,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(upDeleteIcon, {
       class: "moreicon",
-      id: `timeDelayUpDeleteIcon`,
+      id: `UpDeleteIcon-${step.id}`,
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 44 + 110,
       y: PADDING_Y - 37,
       width: ICON_SIZE,
@@ -354,7 +354,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(upCopyIcon, {
       class: "moreicon",
-      id: `timeDelayUpCopyIcon`,
+      id: `UpCopyIcon-${step.id}`,
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 22 + 102,
       y: PADDING_Y - 37,
       width: ICON_SIZE,
@@ -593,14 +593,37 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
         step.properties.waitFor = divTagInputTimes.value;
         step.properties.sendOn = "";
         divTagInput.value = "";
+        step["updatedAt"] = new Date();
       } 
       if (divTagInput.value) {
         textRight.textContent = divTagInput.value;
         step.properties.sendOn = divTagInput.value;
         step.properties.waitFor = "";
         divTagInputTimes.value = "";
+        step["updatedAt"] = new Date();
       }
     });
+
+     // Show hints
+     editIcon.addEventListener("mouseover", function(){
+      gRightPop3Reminder1.classList.toggle("sqd-hidden");
+    });
+    editIcon.addEventListener("mouseout", function(){
+      gRightPop3Reminder1.classList.toggle("sqd-hidden");
+    });
+    copyIcon.addEventListener("mouseover", () => {
+      gRightPop3Reminder2.classList.toggle("sqd-hidden");
+    });
+    copyIcon.addEventListener("mouseout", () => {
+      gRightPop3Reminder2.classList.toggle("sqd-hidden");
+    });
+    deleteIcon.addEventListener("mouseover", () => {
+      gRightPop3Reminder3.classList.toggle("sqd-hidden");
+    });
+    deleteIcon.addEventListener("mouseout", () => {
+      gRightPop3Reminder3.classList.toggle("sqd-hidden");
+    });
+
     //create dropdown day/ hour/min
     //this is dropdown day
     const dropdownNameLabelText1 = Dom.svg("text", {

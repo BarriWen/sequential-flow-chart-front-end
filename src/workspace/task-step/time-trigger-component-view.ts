@@ -70,7 +70,17 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       y: boxHeight / 1.7,
       class: "sqd-task-text",
     });
-    textRight.textContent = "Default list";
+    if (step.properties.send) {
+      if(step.properties.frequency == "Once") {
+        textRight.textContent = step.properties.send.toString();
+      } 
+      else {
+        textRight.textContent = "Every " + step.properties.send.toString();
+      }
+    } else {
+      textRight.textContent = "Select time";
+    }
+    
     g.appendChild(textRight);
 
     g.insertBefore(rectLeft, text);
@@ -146,7 +156,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
-      id: `timeDelayMoreIcon`,
+      // id: `timeDelayMoreIcon`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22,
       y: 5,
       width: ICON_SIZE,
@@ -166,26 +176,26 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const copyUrl = "./assets/copy.svg";
-    const copyIcon = copyUrl
+    const changeUrl = "./assets/change.svg";
+    const changeIcon = changeUrl
       ? Dom.svg("image", {
-          href: copyUrl,
+          href: changeUrl,
         })
       : Dom.svg("rect", {
           class: "sqd-task-empty-icon",
           rx: 4,
           ry: 4,
         });
-    Dom.attrs(copyIcon, {
+    Dom.attrs(changeIcon, {
       class: "moreicon",
-      id: `timeDelayRightCopyIcon`,
+      id: `RightChangeIcon-${step.id}`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 64,
       y: PADDING_Y - 2,
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
     rightCopyImgContainer.appendChild(rightCopyImgContainerCircle);
-    rightCopyImgContainer.appendChild(copyIcon);
+    rightCopyImgContainer.appendChild(changeIcon);
     const rightDeleteImgContainer = Dom.svg("g", {
       class: "sqd-task-deleteImgContainer",
     });
@@ -212,7 +222,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(deleteIcon, {
       class: "moreicon",
-      id: `timeDelayRightDeleteIcon`,
+      id: `RightDeleteIcon-${step.id}`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 50,
       y: PADDING_Y + 30,
       width: 22,
@@ -246,7 +256,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(editIcon, {
       class: "moreicon",
-      id: `timeDelayRightEditIcon`,
+      // id: `timeDelayRightEditIcon`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 53,
       y: PADDING_Y - 36,
       width: ICON_SIZE,
@@ -281,7 +291,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(upCheckIcon, {
       class: "moreicon",
-      id: `timeDelayUpCheckIcon`,
+      // id: `timeDelayUpCheckIcon`,
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
       y: PADDING_Y - 37,
       width: 22,
@@ -315,7 +325,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(upDeleteIcon, {
       class: "moreicon",
-      id: `timeDelayUpDeleteIcon`,
+      id: `UpDeleteIcon-${step.id}`,
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 44 + 110,
       y: PADDING_Y - 37,
       width: ICON_SIZE,
@@ -338,26 +348,26 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCopyIconUrl = "./assets/copy.svg";
-    const upCopyIcon = upCopyIconUrl
+    const upchangeUrl = "./assets/change.svg";
+    const upchangeIcon = upchangeUrl
       ? Dom.svg("image", {
-          href: upCopyIconUrl,
+          href: upchangeUrl,
         })
       : Dom.svg("rect", {
           class: "sqd-task-empty-icon",
           rx: 4,
           ry: 4,
         });
-    Dom.attrs(upCopyIcon, {
+    Dom.attrs(upchangeIcon, {
       class: "moreicon",
-      id: `timeDelayUpCopyIcon`,
+      id: `UpChangeIcon-${step.id}`,
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 22 + 102,
       y: PADDING_Y - 37,
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
     copyImgContainer.appendChild(copyImgContainerCircle);
-    copyImgContainer.appendChild(upCopyIcon);
+    copyImgContainer.appendChild(upchangeIcon);
     const gRightPop3 = Dom.svg("g", {
       class: `sqd-task-group right-popup sqd-hidden Collapsed`,
     });
@@ -387,7 +397,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       ry: RECT_RADIUS,
     });
     Dom.attrs(reminder1, {
-      id: `reminder1${Date.now()}`,
+      // id: `reminder1${Date.now()}`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
       y: PADDING_Y - 35,
     });
@@ -396,10 +406,10 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 72.5,
       y: PADDING_Y - 23,
     });
-    Dom.attrs(reminderText1, {
-      //class: 'sqd-hidden',
-      id: `reminderText${Date.now()}`,
-    });
+    // Dom.attrs(reminderText1, {
+    //   //class: 'sqd-hidden',
+    //   id: `reminderText${Date.now()}`,
+    // });
     reminderText1.textContent = "Edit";
     const reminder2 = Dom.svg("rect", {
       x: 0.5,
@@ -411,7 +421,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       ry: RECT_RADIUS,
     });
     Dom.attrs(reminder2, {
-      id: `reminder2${Date.now()}`,
+      // id: `reminder2${Date.now()}`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 75,
       y: PADDING_Y,
     });
@@ -421,11 +431,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 80,
       y: PADDING_Y + 12,
     });
-    Dom.attrs(reminderText2, {
-      //class: 'sqd-hidden',
-      id: `reminderText2${Date.now()}`,
-    });
-    reminderText2.textContent = "Copy";
+    // Dom.attrs(reminderText2, {
+    //   //class: 'sqd-hidden',
+    //   id: `reminderText2${Date.now()}`,
+    // });
+    reminderText2.textContent = "Reset";
     const reminder3 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
@@ -436,7 +446,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       ry: RECT_RADIUS,
     });
     Dom.attrs(reminder3, {
-      id: `reminder3${Date.now()}`,
+      // id: `reminder3${Date.now()}`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
       y: PADDING_Y + 35,
     });
@@ -446,10 +456,10 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 67,
       y: PADDING_Y + 47,
     });
-    Dom.attrs(reminderText3, {
-      //class: 'sqd-hidden',
-      id: `reminderText3${Date.now()}`,
-    });
+    // Dom.attrs(reminderText3, {
+    //   //class: 'sqd-hidden',
+    //   id: `reminderText3${Date.now()}`,
+    // });
     reminderText3.textContent = "Delete";
     gRightPop3Reminder1.appendChild(reminderText1);
     gRightPop3Reminder1.insertBefore(reminder1, reminderText1);
@@ -477,7 +487,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       y: boxHeight,
       class: "sqd-task-rect",
       width: boxWidth,
-      height: 5 * boxHeight,
+      height: 4 * boxHeight,
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,
     });
@@ -551,7 +561,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       optional.innerText = sendTimes[i];
       sendTimeSelect.appendChild(optional);
     }
-    var divTagInput = document.createElement("INPUT");
+    var divTagInput = document.createElement("INPUT") as HTMLInputElement;
     divTagInput.setAttribute("class", "timeTriggerdivTagInput");
     divTagInput.setAttribute("type", "datetime-local");
     let week = [
@@ -600,11 +610,63 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
       gRightPop3.classList.toggle("sqd-hidden");
+
+      if (step.properties.list){
+        const index = selectList.findIndex(a => a === step.properties.list.toString());
+        selectListSelect.selectedIndex = index;
+      }
+      if (step.properties.frequency) {
+        const index = sendTimes.findIndex(a => a === step.properties.frequency.toString());
+        sendTimeSelect.selectedIndex = index;
+      }
+
+      if (step.properties.frequency == "Once" && divTagInput.value) {
+        divTagInput.value = step.properties.send.toString();
+        divTagInput.classList.remove("sqd-hidden");
+        weekSelect.classList.add("sqd-hidden");
+      }
+      else if (step.properties.frequency == "Recurring" && weekSelect.value) {
+        const index = week.findIndex(a => a === step.properties.send.toString());
+        weekSelect.selectedIndex = index;
+        divTagInput.classList.add("sqd-hidden");
+        weekSelect.classList.remove("sqd-hidden");
+      }
     });
     upCheckIcon.addEventListener("click", function () {
       gDropdown.classList.toggle("sqd-hidden");
-
       gUpPop3.classList.toggle("sqd-hidden");
+      if (sendTimeSelect.value == "Once" && divTagInput.value) {
+        step.properties.send = divTagInput.value;
+        textRight.textContent = divTagInput.value;
+        weekSelect.value = "";
+      }
+      else if (sendTimeSelect.value == "Recurring" && weekSelect.value){
+        step.properties.send = weekSelect.value;
+        textRight.textContent = "Every " + weekSelect.value;
+        divTagInput.value = "";
+      }
+      step.properties.frequency = sendTimeSelect.value;
+      step.properties.list = selectList[parseInt(selectListSelect.value)];
+      step["updatedAt"] = new Date();
+    });
+    // Show hints
+    editIcon.addEventListener("mouseover", function(){
+      gRightPop3Reminder1.classList.toggle("sqd-hidden");
+    });
+    editIcon.addEventListener("mouseout", function(){
+      gRightPop3Reminder1.classList.toggle("sqd-hidden");
+    });
+    changeIcon.addEventListener("mouseover", () => {
+      gRightPop3Reminder2.classList.toggle("sqd-hidden");
+    });
+    changeIcon.addEventListener("mouseout", () => {
+      gRightPop3Reminder2.classList.toggle("sqd-hidden");
+    });
+    deleteIcon.addEventListener("mouseover", () => {
+      gRightPop3Reminder3.classList.toggle("sqd-hidden");
+    });
+    deleteIcon.addEventListener("mouseout", () => {
+      gRightPop3Reminder3.classList.toggle("sqd-hidden");
     });
     g.appendChild(moreIcon);
     g.appendChild(gRightPop3);

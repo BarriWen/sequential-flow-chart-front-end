@@ -458,7 +458,7 @@
 	position: absolute;
 	background-color: #edf1f4;
 }
-/* for delet container */
+/* For pop-up buttons container */
 .sqd-task-ImgContainerCircle{
 	position: absolute;
 	width: 30px;
@@ -497,4 +497,12 @@
 .new-tag-input{
 	width: 160;
 	height: 15;
+}
+/* Email conten */
+.content-option {
+	stroke:#5495d4;
+	fill: none;
+}
+.content-text {
+	fill:#5495d4;
 }

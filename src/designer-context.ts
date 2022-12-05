@@ -159,7 +159,7 @@ export class DesignerContext {
     return true;
   }
 
-  public tryDeleteStep(step: Step, choice?: string | number | null): boolean {
+  public tryDeleteStep(step: Step): boolean {
     const component = this.getProvider().getComponentByStepId(step.id);
     const canDeleteStep = this.configuration.steps.canDeleteStep
       ? this.configuration.steps.canDeleteStep(
@@ -290,30 +290,32 @@ export function promptChoices(context: DesignerContext, component: StepComponent
     type: "submit",
   });
   btn2.innerText = "Cancel";
+  
   btn2.addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log(context.layoutController.getParent().childNodes);
+    // console.log(context.layoutController.getParent().childNodes);
     const designer = document.getElementById("designer");
-    if (designer != null) {
-      designer.removeChild(designer.childNodes[1]);
+    while (designer?.childNodes[1]) {
+      designer?.removeChild(designer.childNodes[1]);
     }
   });
   form.appendChild(btn2);
   dialogBox.appendChild(form);
-  context.layoutController.getParent().appendChild(dialogBox);
+ context.layoutController.parent.appendChild(dialogBox);
 
-  //console.log(dialogBox);
+
+  console.log(dialogBox);
   if (typeof dialogBox.showModal === "function") {
     dialogBox.showModal();
   } else {
-    prompt("Wow from prompt window", "ok");
+    prompt("Wrong window", "ok");
   }
 
   btn1.addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log(component);
+    // console.log(component);
     if (component.step.componentType == "switch") {
       var elem = document.getElementsByTagName("input");
       for (let i = 0; i < elem.length; i++) {
@@ -322,11 +324,10 @@ export function promptChoices(context: DesignerContext, component: StepComponent
           output = elem[i].value;
         }
       }
-      // SequenceModifier.deleteSwitchStep(component.step, component.parentSequence, output);
     } else {
-      // Delete behavior
       output = "2";
     }
+    console.log("designer context", output);
     SequenceModifier.deleteStep(
       component.step,
       component.parentSequence,
@@ -337,8 +338,8 @@ export function promptChoices(context: DesignerContext, component: StepComponent
     }
 
     const designer = document.getElementById("designer");
-    if (designer != null) {
-      designer.removeChild(designer.childNodes[1]);
+    while (designer?.childNodes[1]) {
+      designer?.removeChild(designer.childNodes[1]);
     }
   });
 }

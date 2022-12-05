@@ -175,7 +175,7 @@ export class SwitchStepComponentView implements ComponentView {
         });
     Dom.attrs(icon1, {
       class: "moreicon",
-      id: `icon1${Date.now()}`,
+      id: `RightCopyIcon-${step.id}`,
       x: containerWidths[0] + 2 * PADDING_X + ICON_SIZE + 30,
       y: PADDING_TOP * 1.5,
       width: ICON_SIZE,
@@ -194,7 +194,7 @@ export class SwitchStepComponentView implements ComponentView {
         });
     Dom.attrs(icon2, {
       class: "moreicon",
-      id: `icon2${Date.now()}`,
+      id: `RightDeleteIcon-${step.id}`,
       x: containerWidths[0] + 2 * PADDING_X + ICON_SIZE + 10,
       y: PADDING_TOP * 1.5 + 22,
       width: ICON_SIZE,
@@ -524,14 +524,14 @@ export class SwitchStepComponentView implements ComponentView {
       gRightPop3.classList.toggle("sqd-hidden");
     });
     // Copy
-    icon1.addEventListener("click", function () {
-      console.log("copy if/else");
-      console.log(configuration);
-    });
-    // Delete
-    icon2.addEventListener("click", function () {
-      console.log("delete if/else");
-    });
+    // icon1.addEventListener("click", function () {
+    //   console.log("copy if/else");
+    //   console.log(configuration);
+    // });
+    // // Delete
+    // icon2.addEventListener("click", function () {
+    //   console.log("delete if/else");
+    // });
     // Edit
     icon3.addEventListener("click", function (e) {
       e.stopPropagation();
