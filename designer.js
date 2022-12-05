@@ -6827,7 +6827,7 @@
 			const lastGroupInfoNum = clickedStep.view.g.childNodes[15].childNodes.length-2
 			// add new condition [15][2][0]
 			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[2].id){
-				
+				console.log('lastGroupInfoNum: ', lastGroupInfoNum)
 				//console.log(4578, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[2].id)
 				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[2].id.toString();
 				const dropdownBut = document.getElementById(dropdownButId);
@@ -6952,16 +6952,16 @@
 								groupButtonAttr[j].setAttribute('y', cordy+35)
 							}
 						}
-						// 下移AddConditionButton
-						else if(i == 2){
+						// 下移AddConditionButton, 倒数第二个node中的第0个node
+						else if(i == lastGroupInfoNum){
 							const conditionButtonAttr = dropdownAttribute[i].childNodes[0].childNodes
 							for(let j = 0; j < conditionButtonAttr.length; j++){
 								const cordy = parseInt(conditionButtonAttr[j].getAttribute('y'))
 								conditionButtonAttr[j].setAttribute('y', cordy+35)
 							}
 						}
-						// 下移GroupLogicDropdown
-						else if(i == 3){
+						// 下移GroupLogicDropdown，倒数第一个node
+						else if(i == clickedStep.view.g.childNodes[15].childNodes.length - 1){
 							const groupLogicAttr = dropdownAttribute[i].childNodes
 							for(let j = 0; j < groupLogicAttr.length; j++){
 								const cordy = parseInt(groupLogicAttr[j].getAttribute('y'))
@@ -7185,6 +7185,11 @@
 								const cordy = parseInt(newGroupConditionOther[j].getAttribute('y'))
 								const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
 								newGroupConditionOther[j].setAttribute('y', cordy + conditionLen + 15)
+								const formerID = newGroupConditionOther[j].getAttribute('id')
+								if(formerID != null){
+									newGroupConditionOther[j].setAttribute('id', Math.random().toString()+`${Date.now()}`)
+									// console.log(7200, i, k ,j)
+								}
 							}
 						}
 					}
@@ -7236,6 +7241,8 @@
 					
 					// 显示倒数第二个logic（一般为倒数第三位node）
 					clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-3].classList.toggle('sqd-hidden')
+					// 隐藏克隆后新group的第一个conditionLogic
+					clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-2].childNodes[2].classList.toggle('sqd-hidden')
 					// 	for(let k = 0; k < newGroupEach.length; k++){  //  [15][2][0]
 							
 							
