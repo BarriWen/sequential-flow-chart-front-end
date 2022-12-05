@@ -6743,8 +6743,8 @@
 		
 		if(clickedStep.step.componentType === 'switch'){
 			//click right popout
-			console.log(3874, clickedStep.view.g.childNodes[13])
-			console.log(5278)
+			//console.log(3874, clickedStep.view.g.childNodes[13])
+			//console.log(5278)
 			if(clickedStep.view.g.childNodes[13].childNodes[3].id){
 				const switchMoreButtonId = clickedStep.view.g.childNodes[13].childNodes[3].id.toString();
 				const switchMoreButton = document.getElementById(switchMoreButtonId)
@@ -6824,31 +6824,31 @@
 			}
 
 			
-
+			const lastGroupInfoNum = clickedStep.view.g.childNodes[15].childNodes.length-2
 			// add new condition [15][2][0]
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[2].id){
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[2].id){
 				
 				//console.log(4578, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[2].id)
-				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[2].id.toString();
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[2].id.toString();
 				const dropdownBut = document.getElementById(dropdownButId);
 				// console.log(5372, addNew)
 				// const tempContext = this.context;
 				dropdownBut.onclick = function(e){
 					e.stopPropagation();
 					console.log('aaa')
-					const subDropDownLen = clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length
+					const subDropDownLen = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length
 					// console.log(9999, subDropDownLen)
 					
 					// 克隆最后一个condition及其下方logic
 					// condition
-					const duplicateNode1 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[subDropDownLen-2].cloneNode(true)
-					clickedStep.view.g.childNodes[15].childNodes[2].appendChild(duplicateNode1)
+					const duplicateNode1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[subDropDownLen-2].cloneNode(true)
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].appendChild(duplicateNode1)
 					// logic
-					const duplicateNode2 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[subDropDownLen-1].cloneNode(true)
-					clickedStep.view.g.childNodes[15].childNodes[2].appendChild(duplicateNode2)
+					const duplicateNode2 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[subDropDownLen-1].cloneNode(true)
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].appendChild(duplicateNode2)
 					
 					// 取最后一个condition（一般为倒数第二位node），改变其位置（原始位置与复制前重合）
-					const newCondition1 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes
+					const newCondition1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes
 					//console.log(7189, newCondition1)
 					for(let i = 0; i < newCondition1.length; i++){	//  [15][2][2]
 						//console.log(7191,newCondition1[i].childNodes)
@@ -6871,7 +6871,7 @@
 								
 							}
 					}
-					const newCondition0 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes
+					const newCondition0 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes
 					
 					for(let i = 0; i < newCondition0.length; i++){
 						//console.log(7214, newCondition0[i])
@@ -6883,7 +6883,7 @@
 							//console.log(7200, i)
 						}
 					}
-					const newCondition00 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes
+					const newCondition00 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes
 					
 					for(let i = 0; i < newCondition00.length; i++){
 						//console.log(7214, newCondition0[i])
@@ -6895,7 +6895,7 @@
 							//console.log(7200, i)
 						}
 					}
-					const newCondition22 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes
+					const newCondition22 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes
 					//console.log(7236, newCondition22)
 					for(let i = 0; i < newCondition22.length; i++){
 						const newConditionEach22 = newCondition22[i].childNodes
@@ -6914,7 +6914,7 @@
 					}
 
 					// 取最后一个logic（一般为倒数第一位node），改变其位置（原始位置与复制前重合），不显示
-					const newCondition2 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-1].childNodes
+					const newCondition2 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-1].childNodes
 					//console.log(7199, newCondition2)
 					// const newConditionEach2 = newCondition2.childNodes
 					// console.log(7191, newConditionEach);
@@ -6933,7 +6933,7 @@
 					// // 显示倒数第二个logic（一般为倒数第三位node）
 					console.log('bbb')
 					// console.log(9999, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3].classList)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3].classList.toggle('sqd-hidden')
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].classList.toggle('sqd-hidden')
 					// console.log(9999, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3].classList)
 
 					// // 伸长dropdownbox,下移AddGroupButton和AddConditionButton和GroupLogicDropdown
@@ -7009,29 +7009,29 @@
 
 			// logic 设定afterdropdown AND/OR
 			// AND
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length > 3){
-				console.log(clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3)
-				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3].childNodes[2].id.toString();
-				
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length > 3){
+				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3)
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].childNodes[2].id.toString();
+				//
 				const dropdownBut = document.getElementById(dropdownButId);
 				// console.log(9999, dropdownBut)
 				dropdownBut.onclick = function(){
 					// clickedStep.view.g.childNodes[25].childNodes[3].classList.remove('sqd-hidden');
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3].childNodes[1].textContent
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].childNodes[1].textContent
 					console.log(7304, showVal)
 					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].textContent = showVal
 				}
 			}
 			// OR
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length > 3){
-				console.log(clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3)
-				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3].childNodes[6].id.toString();
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length > 3){
+				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3)
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].childNodes[6].id.toString();
 				
 				const dropdownBut = document.getElementById(dropdownButId);
 				// console.log(9999, dropdownBut)
 				dropdownBut.onclick = function(){
 					// clickedStep.view.g.childNodes[25].childNodes[3].classList.remove('sqd-hidden');
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3].childNodes[5].textContent
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].childNodes[5].textContent
 					console.log(7304, showVal)
 					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].textContent = showVal
 				}
@@ -7040,8 +7040,9 @@
 
 			// add new group [15][1]
 			// 克隆最初始的SubDropdownGroupInfo,最初始的gGroupLogicDropdown
-			const duplicateGroupNode = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-2].cloneNode(true)
-			const duplicateGroupNode1 = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-1].cloneNode(true)
+			// const duplicateGroupNode = clickedStep.view.g.childNodes[15].childNodes[2].cloneNode(true)
+			// const duplicateGroupNode1 = clickedStep.view.g.childNodes[15].childNodes[3].cloneNode(true)
+			//console.log(7045, duplicateGroupNode, duplicateGroupNode1)
 			// clickedStep.view.g.childNodes[15].appendChild(duplicateGroupNode)
 			// clickedStep.view.g.childNodes[15].appendChild(duplicateGroupNode1)
 			if(clickedStep.view.g.childNodes[15].childNodes[1].childNodes[2].id){
@@ -7054,21 +7055,31 @@
 				dropdownBut.onclick = function(e){
 					console.log('group')
 					
-					// // 克隆最初始的SubDropdownGroupInfo, 将15.2.0-2添加到新创的空node中，将空node事先插入gdropdown, 再复制gGroupLogicDropdown插入队尾,
-					// const duplicateNode = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-2].cloneNode(true)
-					// const duplicateNode1 = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-1].cloneNode(true)
+					// // 克隆最后一次的SubDropdownGroupInfo, 移除多余node，再克隆gGroupLogicDropdown插入队尾
+					const duplicateGroupNode = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-2].cloneNode(true)
+					// for(let i = 0; i < duplicateGroupNode.childNodes.length; i++){
+					while(duplicateGroupNode.childNodes.length > 3){
+						console.log(7062)
+						//duplicateGroupNode.childNodes[duplicateGroupNode.childNodes.length - 1].classList.toggle('sqd-hidden')
+						const removeNode = duplicateGroupNode.childNodes[duplicateGroupNode.childNodes.length - 1]
+						console.log(removeNode)
+						duplicateGroupNode.removeChild(removeNode)
+					}
+					console.log('dup', duplicateGroupNode)
+					const duplicateGroupNode1 = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-1].cloneNode(true)
+					//console.log(7061, duplicateGroupNode, duplicateGroupNode1)
 					clickedStep.view.g.childNodes[15].appendChild(duplicateGroupNode)
 					clickedStep.view.g.childNodes[15].appendChild(duplicateGroupNode1)
 
 					// 取最后一个group（一般为倒数第二位node），改变其位置（原始位置与复制前重合）
 					const newGroup = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-2].childNodes
-					console.log(7440, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes.length)
+					//console.log(7440, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes.length)
 					for(let i = 0; i < newGroup.length; i++){
 						// 改变SubDropdownGroupInfo位置
 						if(i == 1){
-							const newGroupInfo = newGroup[i].childNodes
-							for(let j = 0; j < newGroupInfo.length; j++){
-								const newGroupSubDropdown = newGroupInfo[j].childNodes
+							const newGroupConditionInfo = newGroup[i].childNodes
+							for(let j = 0; j < newGroupConditionInfo.length; j++){
+								const newGroupSubDropdown = newGroupConditionInfo[j].childNodes
 								//console.log(7064, newGroupSubDropdown)
 								for(let j = 0; j < newGroupSubDropdown.length; j++){
 									const newGroupSubDropdownEach = newGroupSubDropdown[j].childNodes
@@ -7150,68 +7161,78 @@
 									//console.log(7200, i)
 								}
 							}
-							// const newCondition22 = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-2].childNodes[1].childNodes[2].childNodes[1].childNodes
-							// //console.log(7236, newCondition22)
-							// for(let i = 0; i < newCondition22.length; i++){
-							// 	const newConditionEach22 = newCondition22[i].childNodes
-							// 	for(let j = 0; j < newConditionEach22.length; j++){
-							// 		// console.log(7238, newConditionEach22[j])
-							// 		const cordy = parseInt(newConditionEach22[j].getAttribute('y'))
-							// 		// console.log(7238, cordy)
-							// 		newConditionEach22[j].setAttribute('y', cordy+35)
-							// 		const formerID = newConditionEach22[j].getAttribute('id')
-							// 		if(formerID != null){
-							// 			newConditionEach22[j].setAttribute('id', Math.random().toString()+`${Date.now()}`)
-							// 			// console.log(7200, i, k ,j)
-							// 		}
-							// 	}
+							const newCondition22 = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-2].childNodes[1].childNodes[2].childNodes[1].childNodes
+							//console.log(7236, newCondition22)
+							for(let i = 0; i < newCondition22.length; i++){
+								const newConditionEach22 = newCondition22[i].childNodes
+								for(let j = 0; j < newConditionEach22.length; j++){
+									// console.log(7238, newConditionEach22[j])
+									const cordy = parseInt(newConditionEach22[j].getAttribute('y'))
+									const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+									newConditionEach22[j].setAttribute('y', cordy + conditionLen + 15)
+									const formerID = newConditionEach22[j].getAttribute('id')
+									if(formerID != null){
+										newConditionEach22[j].setAttribute('id', Math.random().toString()+`${Date.now()}`)
+										// console.log(7200, i, k ,j)
+									}
+								}
 								
-							// }
+							}
+						}
+						else{
+							const newGroupConditionOther = newGroup[i].childNodes
+							for(let j = 0; j < newGroupConditionOther.length; j++){
+								const cordy = parseInt(newGroupConditionOther[j].getAttribute('y'))
+								const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+								newGroupConditionOther[j].setAttribute('y', cordy + conditionLen + 15)
+							}
 						}
 					}
 
 					// 伸长rect1,改变AddGroupButton位置
-					// // rect1
-					// const newGroupRect = clickedStep.view.g.childNodes[15].childNodes[0]
-					// const rectHeight = parseInt(newGroupRect.getAttribute('height'))
-					// // const upperY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
-					// // const lowerY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height'))
-					// // const conditionLen = lowerY - upperY
-					// //console.log(7446, upperY, lowerY)
-					// newGroupRect.setAttribute('height', rectHeight+71.5)
+					// rect1
+					const newGroupRect = clickedStep.view.g.childNodes[15].childNodes[0]
+					const rectHeight = parseInt(newGroupRect.getAttribute('height'))
+					// const upperY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+					// const lowerY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height'))
+					// const conditionLen = lowerY - upperY
+					//console.log(7446, upperY, lowerY)
+					const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+				
+					newGroupRect.setAttribute('height', rectHeight+conditionLen+15)
 					
-					// // AddGroupButton
-					// const newGroupButton = clickedStep.view.g.childNodes[15].childNodes[1].childNodes
-					// //console.log(7189, newGroup1)
-					// for(let i = 0; i < newGroupButton.length; i++){	//  [15][2]
-					// 	const cordy = parseInt(newGroupButton[i].getAttribute('y'))
-					// 	//console.log(7443, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
-					// 	// const upperY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
-					// 	// const lowerY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height'))
-					// 	//console.log(7446, upperY, lowerY)
-					// 	// const conditionLen = lowerY - upperY
-					// 	newGroupButton[i].setAttribute('y', cordy+71.5)
-					// }
+					// AddGroupButton
+					const newGroupButton = clickedStep.view.g.childNodes[15].childNodes[1].childNodes
+					//console.log(7189, newGroup1)
+					for(let i = 0; i < newGroupButton.length; i++){	//  [15][2]
+						const cordy = parseInt(newGroupButton[i].getAttribute('y'))
+						//console.log(7443, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+						// const upperY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+						// const lowerY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height'))
+						//console.log(7446, upperY, lowerY)
+						// const conditionLen = lowerY - upperY
+						const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+				
+						newGroupButton[i].setAttribute('y', cordy+conditionLen+15)
+					}
 
-					// 取最后一个logic（一般为倒数第一位node），改变其位置（原始位置与复制前重合），不显示
-					// const newGroupLogic = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-1].childNodes
-					// //console.log(7199, newCondition2)
-					// // const newConditionEach2 = newCondition2.childNodes
-					// // console.log(7191, newConditionEach);
-					// for (let k = 0; k < newGroupLogic.length; k++){
-					// 	const cordy = parseInt(clickedStep.view.g.childNodes[15].childNodes[1].childNodes[0].getAttribute('y'))
-					// 	// const upperY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
-					// 	// const lowerY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height'))
-					// 	// const conditionLen = lowerY - upperY
-					// 	newGroupLogic[k].setAttribute('y', cordy-15)
-					// 	const formerID2 = newGroupLogic[k].getAttribute('id')
-					// 	if(formerID2 != null){
-					// 		//console.log(7292, formerID2)
-					// 		newGroupLogic[k].setAttribute('id', Math.random().toString() + Math.random().toString()+`${Date.now()}`)
-					// 		//console.log(7292, newCondition2[k].getAttribute('id'))
-					// 	}
-					// 	// console.log(7214, cordy);
-					// }
+					// 取最后一个GroupLogicDropdown（一般为倒数第一位node），改变其位置（原始位置与复制前重合），不显示
+					const newGroupLogic = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-1].childNodes
+					//console.log(7199, newCondition2)
+					// const newConditionEach2 = newCondition2.childNodes
+					// console.log(7191, newConditionEach);
+					for (let k = 0; k < newGroupLogic.length; k++){
+						const cordy = parseInt(newGroupLogic[k].getAttribute('y'))
+						const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+						newGroupLogic[k].setAttribute('y', cordy + conditionLen + 15)
+						const formerID2 = newGroupLogic[k].getAttribute('id')
+						if(formerID2 != null){
+							//console.log(7292, formerID2)
+							newGroupLogic[k].setAttribute('id', Math.random().toString() + Math.random().toString()+`${Date.now()}`)
+							//console.log(7292, newCondition2[k].getAttribute('id'))
+						}
+						// console.log(7214, cordy);
+					}
 					
 					// 显示倒数第二个logic（一般为倒数第三位node）
 					clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-3].classList.toggle('sqd-hidden')
@@ -7317,58 +7338,59 @@
 				}
 			}
 			
+			
 			//subdropdown 显示下左
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[3].id){
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[3].id){
 				//console.log(7240, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[3].id.toString())
-				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[3].id.toString();
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[3].id.toString();
 				//console.log(7249,dropdownButId)
 				const dropdownBut = document.getElementById(dropdownButId);
 				dropdownBut.onclick = function(e){
-					console.log(3498, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes)
+					console.log(3498, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes)
 					e.stopPropagation();
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 				}
 				// Contact Info
-				const dropdownSButId1 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[6].id.toString();
+				const dropdownSButId1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[6].id.toString();
 				const dropdownSBut1 = document.getElementById(dropdownSButId1);
 				dropdownSBut1.onclick = function(){
-					console.log(4184, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes);
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
+					console.log(4184, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes);
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
 				}
 				// Actions
-				const dropdownSButId2 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[7].id.toString();
+				const dropdownSButId2 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[7].id.toString();
 				const dropdownSBut2 = document.getElementById(dropdownSButId2);
 				dropdownSBut2.onclick = function(){
-					console.log(4207, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes);
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
+					console.log(4207, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes);
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
 				}
 			}
 			//subdropdown1 显示下右
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[0].childNodes[3].id){
-				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[0].childNodes[3].id.toString();
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[0].childNodes[3].id){
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[0].childNodes[3].id.toString();
 				const dropdownBut = document.getElementById(dropdownButId);
 				dropdownBut.onclick = function(e){
-					console.log(3498, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes)
+					console.log(3498, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes)
 					e.stopPropagation();
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 				}
 			}
 			//subdropdown2 显示下中
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[0].childNodes[3].id){
-				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[0].childNodes[3].id.toString();
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[3].id){
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[3].id.toString();
 				const dropdownBut = document.getElementById(dropdownButId);
 				dropdownBut.onclick = function(){
-					console.log(4146, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes)
+					console.log(4146, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes)
 					// e.stopPropagation();
-					var rightContent = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent
+					var rightContent = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent
 					console.log(4630, rightContent)
 					if(rightContent == 'Clicked' || rightContent == 'Opened'){
-						console.log(4591, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent)
-						clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+						console.log(4591, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent)
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					}
 					else if(rightContent == 'Email Address' || rightContent == 'Name' || rightContent == 'Phone Number'){
-						console.log(4591, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent)
-						clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
+						console.log(4591, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent)
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
 					}
 					
 					// console.log(4593, clickedStep.view.g.childNodes[19].childNodes[1].childNodes[0].classList)
@@ -7377,55 +7399,55 @@
 
 
 			//subdropdown 左
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[3].id){
-				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[3].id.toString();
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[3].id){
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[3].id.toString();
 				const dropdownBut = document.getElementById(dropdownButId);
 				dropdownBut.onclick = function(e){
-					console.log(3498, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes)
+					console.log(3498, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes)
 					e.stopPropagation();
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 				}
 				// Contact Info
-				const dropdownSButId1 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[6].id.toString();
+				const dropdownSButId1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[6].id.toString();
 				const dropdownSBut1 = document.getElementById(dropdownSButId1);
 				dropdownSBut1.onclick = function(){
-					console.log(4184, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes);
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
+					console.log(4184, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes);
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
 				}
 				// Actions
-				const dropdownSButId2 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[7].id.toString();
+				const dropdownSButId2 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[7].id.toString();
 				const dropdownSBut2 = document.getElementById(dropdownSButId2);
 				dropdownSBut2.onclick = function(){
-					console.log(4207, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes);
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
+					console.log(4207, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes);
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
 				}
 			}
 			//subdropdown1 右
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[0].childNodes[3].id){
-				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[0].childNodes[3].id.toString();
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[3].id){
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[3].id.toString();
 				const dropdownBut = document.getElementById(dropdownButId);
 				dropdownBut.onclick = function(e){
-					console.log(3498, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes)
+					console.log(3498, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes)
 					e.stopPropagation();
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 				}
 			}
 			//subdropdown2 中
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[3].id){
-				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[3].id.toString();
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[3].id){
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[3].id.toString();
 				const dropdownBut = document.getElementById(dropdownButId);
 				dropdownBut.onclick = function(){
-					console.log(4146, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes)
+					console.log(4146, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes)
 					// e.stopPropagation();
-					var rightContent = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent
+					var rightContent = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent
 					console.log(4630, rightContent)
 					if(rightContent == 'Clicked' || rightContent == 'Opened'){
-						console.log(4591, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent)
-						clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+						console.log(4591, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent)
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					}
 					else if(rightContent == 'Email Address' || rightContent == 'Name' || rightContent == 'Phone Number'){
-						console.log(4591, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent)
-						clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
+						console.log(4591, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent)
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
 					}
 					
 					// console.log(4593, clickedStep.view.g.childNodes[19].childNodes[1].childNodes[0].classList)
@@ -7455,92 +7477,92 @@
 
 			//left subdropdown
 			// Contact Info
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[2].id){
-				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[2].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[2].id){
+				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[2].id.toString()
 				const selectRunUpper  = document.getElementById(selectRunUpperId);
 				selectRunUpper.onclick = function() {
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[1].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[1].innerHTML
 					console.log(4450,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[5].id){
-				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[5].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[5].id){
+				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[5].id.toString()
 				const selectRunUpper  = document.getElementById(selectRunUpperId);
 				selectRunUpper.onclick = function() {
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[4].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[4].innerHTML
 					console.log(4450,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[8].id){
-				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[8].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[8].id){
+				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[8].id.toString()
 				const selectRunUpper  = document.getElementById(selectRunUpperId);
 				selectRunUpper.onclick = function() {
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[7].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].childNodes[7].innerHTML
 					console.log(4450,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
 			
 			// Actions
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[2].id){
-				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[2].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[2].id){
+				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[2].id.toString()
 				const selectRunUpper  = document.getElementById(selectRunUpperId);
 				selectRunUpper.onclick = function() {
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[1].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[1].innerHTML
 					console.log(4450,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[5].id){
-				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[5].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[5].id){
+				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[5].id.toString()
 				const selectRunUpper  = document.getElementById(selectRunUpperId);
 				selectRunUpper.onclick = function() {
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[4].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[9].childNodes[4].innerHTML
 					console.log(4450,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
 			
 
 			//right subdropdown
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[1].childNodes[2].id){
-				const selectRunLowerId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[1].childNodes[2].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[1].childNodes[2].id){
+				const selectRunLowerId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[1].childNodes[2].id.toString()
 				const selectRunLower  = document.getElementById(selectRunLowerId);
 				selectRunLower.onclick = function() {
 					//console.log(3589, clickedStep.view.g.childNodes)
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[1].childNodes[1].innerHTML
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[1].childNodes[1].innerHTML
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Run'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[1].childNodes[5].id){
-				const selectRunLowerId1 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[1].childNodes[5].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[1].childNodes[5].id){
+				const selectRunLowerId1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[1].childNodes[5].id.toString()
 				const selectRunLower1  = document.getElementById(selectRunLowerId1);
 				selectRunLower1.onclick = function() {
 					//console.log(3589, )
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[1].childNodes[4].innerHTML
-					console.log(3596, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[0].childNodes[2])
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent = showVal
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[1].childNodes[4].innerHTML
+					console.log(3596, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[2])
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent = showVal
 					// clickedStep.view.g.childNodes[13].childNodes[4].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Run'] = showVal
 				}
 			}
@@ -7549,75 +7571,75 @@
 			// middle subdropdown
 			// gSubDropdownbox2PopE0 [15][2][1][2][1][0]
 			console.log(3741, clickedStep.view.g.childNodes)
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[2].id){
-				const selectRunMidId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[2].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[2].id){
+				const selectRunMidId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[2].id.toString()
 				const selectRunMid  = document.getElementById(selectRunMidId);
 				selectRunMid.onclick = function() {
 					console.log(4202, clickedStep)
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[1].innerHTML
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[1].innerHTML
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[5].id){
-				const selectRunMidId1 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[5].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[5].id){
+				const selectRunMidId1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[5].id.toString()
 				const selectRunMid1  = document.getElementById(selectRunMidId1);
 				selectRunMid1.onclick = function() {
 					
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[4].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[4].innerHTML
 					console.log(4213,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[8].id){
-				const selectRunMidId2 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[8].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[8].id){
+				const selectRunMidId2 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[8].id.toString()
 				const selectRunMid2  = document.getElementById(selectRunMidId2);
 				selectRunMid2.onclick = function() {
 					
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[7].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].childNodes[7].innerHTML
 					console.log(4213,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
 			// middle subdropdown
 			// gSubDropdownbox2PopE1 [19][1][1]
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[2].id){
-				const selectRunMidId4 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[2].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[2].id){
+				const selectRunMidId4 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[2].id.toString()
 				const selectRunMid4  = document.getElementById(selectRunMidId4);
 				selectRunMid4.onclick = function() {
 					console.log(4202, clickedStep)
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[1].innerHTML
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[1].innerHTML
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[5].id){
-				const selectRunMidId5 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[5].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[5].id){
+				const selectRunMidId5 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[5].id.toString()
 				const selectRunMid5  = document.getElementById(selectRunMidId5);
 				selectRunMid5.onclick = function() {
 					
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[4].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[4].innerHTML
 					console.log(4213,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[8].id){
-				const selectRunMidId6 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[8].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[8].id){
+				const selectRunMidId6 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[8].id.toString()
 				const selectRunMid6  = document.getElementById(selectRunMidId6);
 				selectRunMid6.onclick = function() {
 					
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[7].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[7].innerHTML
 					console.log(4213,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
@@ -7626,92 +7648,92 @@
 			// add new conditions
 			// 下左
 			// Contact Info
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[2].id){
-				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[2].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[2].id){
+				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[2].id.toString()
 				const selectRunUpper  = document.getElementById(selectRunUpperId);
 				selectRunUpper.onclick = function() {
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[1].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[1].innerHTML
 					console.log(4450,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[5].id){
-				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[5].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[5].id){
+				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[5].id.toString()
 				const selectRunUpper  = document.getElementById(selectRunUpperId);
 				selectRunUpper.onclick = function() {
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[4].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[4].innerHTML
 					console.log(4450,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[8].id){
-				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[8].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[8].id){
+				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[8].id.toString()
 				const selectRunUpper  = document.getElementById(selectRunUpperId);
 				selectRunUpper.onclick = function() {
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[7].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes[7].innerHTML
 					console.log(4450,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
 			// Actions
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[2].id){
-				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[2].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[2].id){
+				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[2].id.toString()
 				const selectRunUpper  = document.getElementById(selectRunUpperId);
 				selectRunUpper.onclick = function() {
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[1].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[1].innerHTML
 					console.log(4450,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[5].id){
-				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[5].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[5].id){
+				const selectRunUpperId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[5].id.toString()
 				const selectRunUpper  = document.getElementById(selectRunUpperId);
 				selectRunUpper.onclick = function() {
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[4].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes[4].innerHTML
 					console.log(4450,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
 			
 
 			//right subdropdown 下右
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[1].childNodes[2].id){
-				const selectRunLowerId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[1].childNodes[2].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[1].childNodes[2].id){
+				const selectRunLowerId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[1].childNodes[2].id.toString()
 				const selectRunLower  = document.getElementById(selectRunLowerId);
 				selectRunLower.onclick = function() {
 					console.log(7622, selectRunLowerId)
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[1].childNodes[1].innerHTML
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[1].childNodes[1].innerHTML
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Run'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[1].childNodes[5].id){
-				const selectRunLowerId1 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[1].childNodes[5].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[1].childNodes[5].id){
+				const selectRunLowerId1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[1].childNodes[5].id.toString()
 				const selectRunLower1  = document.getElementById(selectRunLowerId1);
 				selectRunLower1.onclick = function() {
 					console.log(7660, selectRunLowerId1)
-					console.log(7661, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[6].id.toString())
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[1].childNodes[4].innerHTML
-					console.log(3596, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2])
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2].textContent = showVal
+					console.log(7661, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[1].childNodes[6].id.toString())
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[1].childNodes[4].innerHTML
+					console.log(3596, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2])
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2].textContent = showVal
 					// clickedStep.view.g.childNodes[13].childNodes[4].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Run'] = showVal
 				}
 			}
@@ -7719,74 +7741,74 @@
 
 			// middle subdropdown 下中
 			// [19][2][2][1][0]
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[2].id){
-				const selectRunMidId = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[2].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[2].id){
+				const selectRunMidId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[2].id.toString()
 				const selectRunMid  = document.getElementById(selectRunMidId);
 				selectRunMid.onclick = function() {
 					console.log(4202, clickedStep)
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[1].innerHTML
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[1].innerHTML
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[5].id){
-				const selectRunMidId1 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[5].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[5].id){
+				const selectRunMidId1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[5].id.toString()
 				const selectRunMid1  = document.getElementById(selectRunMidId1);
 				selectRunMid1.onclick = function() {
 					
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[4].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[4].innerHTML
 					console.log(4213,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[8].id){
-				const selectRunMidId2 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[8].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[8].id){
+				const selectRunMidId2 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[8].id.toString()
 				const selectRunMid2  = document.getElementById(selectRunMidId2);
 				selectRunMid2.onclick = function() {
 					
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[7].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].childNodes[7].innerHTML
 					console.log(4213,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[0].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
 			// 下中 [19][2][2][1][1]
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[2].id){
-				const selectRunMidId4 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[2].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[2].id){
+				const selectRunMidId4 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[2].id.toString()
 				const selectRunMid4  = document.getElementById(selectRunMidId4);
 				selectRunMid4.onclick = function() {
 					console.log(4202, clickedStep)
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[1].innerHTML
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[1].innerHTML
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[5].id){
-				const selectRunMidId5 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[5].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[5].id){
+				const selectRunMidId5 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[5].id.toString()
 				const selectRunMid5  = document.getElementById(selectRunMidId5);
 				selectRunMid5.onclick = function() {
 					
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[4].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[4].innerHTML
 					console.log(4213,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
-			if(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[8].id){
-				const selectRunMidId6 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[8].id.toString()
+			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[8].id){
+				const selectRunMidId6 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[8].id.toString()
 				const selectRunMid6  = document.getElementById(selectRunMidId6);
 				selectRunMid6.onclick = function() {
 					
-					const showVal = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[7].innerHTML
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].childNodes[7].innerHTML
 					console.log(4213,showVal)
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent = showVal
+					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[1].childNodes[1].classList.toggle('sqd-hidden');
 					clickedStep.step.properties['Select List'] = showVal
 				}
 			}
@@ -7811,32 +7833,32 @@
 
 			// set the result
 			// 单个条件
-			if((clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length == 3)&&(
-				clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
-				clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
-				clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select'
+			if((clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length == 3)&&(
+				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
+				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
+				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select'
 			)){
 				//clickedStep.view.g.childNodes[20].classList.add('sqd-hidden');
-				console.log(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent)
-				console.log(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent)
-				console.log(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent)
-				const showVal1 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent
-				const showVal2 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent
-				const showVal3 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent
+				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent)
+				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent)
+				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent)
+				const showVal1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent
+				const showVal2 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent
+				const showVal3 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent
 				clickedStep.view.g.childNodes[13].childNodes[4].textContent = 'if ' + showVal1 + " " + showVal3 + " " + showVal2
 				//clickedStep.view.g.childNodes[18].classList.toggle("sqd-hidden")
 				console.log(5879);
 			}
 			// 多个条件
-			else if((clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length > 3)&&(
-				clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
-				clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
-				clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select')){
+			else if((clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length > 3)&&(
+				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
+				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
+				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select')){
 					console.log(5888);
 					clickedStep.view.g.childNodes[13].childNodes[4].textContent = 'Condition Settings'
-					for(let i = 0; i < clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length; i++){
+					for(let i = 0; i < clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length; i++){
 						if((i % 2) != 0){
-							const childNodeList1 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[i]
+							const childNodeList1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[i]
 							// console.log(childNodeList1)
 							// for(let j = 0; j < childNodeList1.childNodes.length; j++){
 							const showVal1 = childNodeList1.childNodes[0].childNodes[0].childNodes[2].innerHTML
