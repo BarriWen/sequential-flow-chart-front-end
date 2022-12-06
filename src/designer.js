@@ -6827,7 +6827,7 @@
 			const lastGroupInfoNum = clickedStep.view.g.childNodes[15].childNodes.length-2
 			// add new condition [15][2][0]
 			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[2].id){
-				
+				console.log('lastGroupInfoNum: ', lastGroupInfoNum)
 				//console.log(4578, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[2].id)
 				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[2].id.toString();
 				const dropdownBut = document.getElementById(dropdownButId);
@@ -6952,16 +6952,16 @@
 								groupButtonAttr[j].setAttribute('y', cordy+35)
 							}
 						}
-						// 下移AddConditionButton
-						else if(i == 2){
+						// 下移AddConditionButton, [15]倒数第二个node中的第0个node
+						else if(i == lastGroupInfoNum){
 							const conditionButtonAttr = dropdownAttribute[i].childNodes[0].childNodes
 							for(let j = 0; j < conditionButtonAttr.length; j++){
 								const cordy = parseInt(conditionButtonAttr[j].getAttribute('y'))
 								conditionButtonAttr[j].setAttribute('y', cordy+35)
 							}
 						}
-						// 下移GroupLogicDropdown
-						else if(i == 3){
+						// 下移GroupLogicDropdown，[15]倒数第一个node
+						else if(i == clickedStep.view.g.childNodes[15].childNodes.length - 1){
 							const groupLogicAttr = dropdownAttribute[i].childNodes
 							for(let j = 0; j < groupLogicAttr.length; j++){
 								const cordy = parseInt(groupLogicAttr[j].getAttribute('y'))
@@ -7039,12 +7039,6 @@
 			//console.log(7234, clickedStep.view.g.childNodes[19].childNodes[2].childNodes[0].childNodes[0].childNodes[3].id)
 
 			// add new group [15][1]
-			// 克隆最初始的SubDropdownGroupInfo,最初始的gGroupLogicDropdown
-			// const duplicateGroupNode = clickedStep.view.g.childNodes[15].childNodes[2].cloneNode(true)
-			// const duplicateGroupNode1 = clickedStep.view.g.childNodes[15].childNodes[3].cloneNode(true)
-			//console.log(7045, duplicateGroupNode, duplicateGroupNode1)
-			// clickedStep.view.g.childNodes[15].appendChild(duplicateGroupNode)
-			// clickedStep.view.g.childNodes[15].appendChild(duplicateGroupNode1)
 			if(clickedStep.view.g.childNodes[15].childNodes[1].childNodes[2].id){
 				
 				//console.log(4578, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[2].id)
@@ -7089,7 +7083,7 @@
 											//console.log(newGroupSubDropdownEach[j])
 											//const cordy = parseInt(newGroupSubDropdownEach[j].getAttribute('y'))
 											const cordy = parseInt(newGroupSubDropdownEach[j].getAttribute('y'))
-											const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+											const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
 											newGroupSubDropdownEach[j].setAttribute('y', cordy + conditionLen + 15)
 											const formerID = newGroupSubDropdownEach[j].getAttribute('id')
 											if(formerID != null){
@@ -7101,7 +7095,7 @@
 											//console.log(newGroupSubDropdownEach[j])
 											//const cordy = parseInt(newGroupSubDropdownEach[j].getAttribute('y'))
 											const cordy = parseInt(newGroupSubDropdownEach[j].getAttribute('y'))
-											const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+											const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
 											newGroupSubDropdownEach[j].setAttribute('y', cordy + conditionLen + 15)
 											const formerID = newGroupSubDropdownEach[j].getAttribute('id')
 											if(formerID != null){
@@ -7109,30 +7103,7 @@
 												//console.log(7200, i)
 											}
 										}
-										// else{
-										// 	for(let i = 0; i < newGroupSubDropdownEach[j].childNodes.length; i++){
-										// 		//console.log(7214, newCondition0[i])
-										// 		if(newGroupSubDropdownEach[j].childNodes[i].childNodes.length == 0){
-										// 			const cordy = parseInt(clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-3].childNodes[0].getAttribute('y'))
-										// 			newGroupSubDropdownEach[j].childNodes[i].setAttribute('y', cordy+15+15)
-										// 			const formerID = newGroupSubDropdownEach[j].childNodes[i].getAttribute('id')
-										// 			if(formerID != null){
-										// 				newGroupSubDropdownEach[j].childNodes[i].setAttribute('id', Math.random().toString()+`${Date.now()}`)
-										// 				//console.log(7200, i)
-										// 			}
-										// 		}
-										// 		else if(newGroupSubDropdownEach[j].childNodes[i].childNodes.length == 1){
-										// 			const cordy = parseInt(clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-3].childNodes[0].getAttribute('y'))
-										// 			newGroupSubDropdownEach[j].childNodes[i].setAttribute('y', cordy+15+15+6.3)
-										// 			const formerID = newGroupSubDropdownEach[j].childNodes[i].getAttribute('id')
-										// 			if(formerID != null){
-										// 				newGroupSubDropdownEach[j].childNodes[i].setAttribute('id', Math.random().toString()+`${Date.now()}`)
-										// 				//console.log(7200, i)
-										// 			}
-										// 		}
-												
-										// 	}
-										// }
+										
 									}
 								}
 								
@@ -7141,7 +7112,7 @@
 							for(let i = 0; i < newCondition0.length; i++){
 								//console.log(7214, newCondition0[i])
 								const cordy = parseInt(newCondition0[i].getAttribute('y'))
-								const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+								const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
 								newCondition0[i].setAttribute('y', cordy + conditionLen + 15)
 								const formerID = newCondition0[i].getAttribute('id')
 								if(formerID != null){
@@ -7153,7 +7124,7 @@
 							for(let i = 0; i < newCondition00.length; i++){
 								//console.log(7214, newCondition0[i])
 								const cordy = parseInt(newCondition00[i].getAttribute('y'))
-								const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+								const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
 								newCondition00[i].setAttribute('y', cordy + conditionLen + 15)
 								const formerID = newCondition00[i].getAttribute('id')
 								if(formerID != null){
@@ -7168,7 +7139,7 @@
 								for(let j = 0; j < newConditionEach22.length; j++){
 									// console.log(7238, newConditionEach22[j])
 									const cordy = parseInt(newConditionEach22[j].getAttribute('y'))
-									const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+									const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
 									newConditionEach22[j].setAttribute('y', cordy + conditionLen + 15)
 									const formerID = newConditionEach22[j].getAttribute('id')
 									if(formerID != null){
@@ -7179,29 +7150,57 @@
 								
 							}
 						}
-						else{
+						else if(i == 0){  // 改变AddConditionButton的位置 // 1
 							const newGroupConditionOther = newGroup[i].childNodes
 							for(let j = 0; j < newGroupConditionOther.length; j++){
-								const cordy = parseInt(newGroupConditionOther[j].getAttribute('y'))
-								const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
-								newGroupConditionOther[j].setAttribute('y', cordy + conditionLen + 15)
+								const cordy = parseInt(newGroupConditionOther[j].getAttribute('y')) // 原始位置（重合）
+								// 原始位置y坐标到下方GroupLogic的距离
+								console.log(7187, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length - 2].childNodes[0].childNodes[0].childNodes[0])
+								// const distance = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum-1].childNodes[0].getAttribute('y')) - cordy
+								// newGroupConditionOther[j].setAttribute('y', distance + 30 + 41)
+								//const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+				
+								newGroupConditionOther[j].setAttribute('y', cordy+70.1)
+								const formerID = newGroupConditionOther[j].getAttribute('id')
+								if(formerID != null){
+									newGroupConditionOther[j].setAttribute('id', Math.random().toString()+`${Date.now()}`)
+									// console.log(7200, i, k ,j)
+								}
+							}
+						}
+						else if(i == 2){  // 改变ConditionLogicDropdown的位置
+							const newGroupConditionOther = newGroup[i].childNodes
+							for(let j = 0; j < newGroupConditionOther.length; j++){
+								const cordy = parseInt(newGroupConditionOther[j].getAttribute('y')) // 原始位置（重合）
+								// 最后一组groupInfo中的第一行conditionInfo的y坐标和height
+								// const lastConditionY = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+								// const lastConditionHeight = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('height'))
+								// newGroupConditionOther[j].setAttribute('y', lastConditionY + lastConditionHeight)
+								const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+											
+								newGroupConditionOther[j].setAttribute('y', cordy+conditionLen+15)
+								const formerID = newGroupConditionOther[j].getAttribute('id')
+								if(formerID != null){
+									newGroupConditionOther[j].setAttribute('id', Math.random().toString()+`${Date.now()}`)
+									// console.log(7200, i, k ,j)
+								}
 							}
 						}
 					}
 
 					// 伸长rect1,改变AddGroupButton位置
-					// rect1
+					// rect1  // 2
 					const newGroupRect = clickedStep.view.g.childNodes[15].childNodes[0]
 					const rectHeight = parseInt(newGroupRect.getAttribute('height'))
 					// const upperY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
 					// const lowerY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height'))
 					// const conditionLen = lowerY - upperY
 					//console.log(7446, upperY, lowerY)
-					const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
-				
-					newGroupRect.setAttribute('height', rectHeight+conditionLen+15)
+					//const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+											
+					newGroupRect.setAttribute('height', rectHeight+70.1)
 					
-					// AddGroupButton
+					// AddGroupButton  // 3
 					const newGroupButton = clickedStep.view.g.childNodes[15].childNodes[1].childNodes
 					//console.log(7189, newGroup1)
 					for(let i = 0; i < newGroupButton.length; i++){	//  [15][2]
@@ -7211,20 +7210,20 @@
 						// const lowerY = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height'))
 						//console.log(7446, upperY, lowerY)
 						// const conditionLen = lowerY - upperY
-						const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
-				
-						newGroupButton[i].setAttribute('y', cordy+conditionLen+15)
+						//const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+											
+						newGroupButton[i].setAttribute('y', cordy+70.1)
 					}
 
-					// 取最后一个GroupLogicDropdown（一般为倒数第一位node），改变其位置（原始位置与复制前重合），不显示
+					// 4 取最后一个GroupLogicDropdown（一般为倒数第一位node），改变其位置（原始位置与复制前重合），不显示
 					const newGroupLogic = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-1].childNodes
 					//console.log(7199, newCondition2)
 					// const newConditionEach2 = newCondition2.childNodes
 					// console.log(7191, newConditionEach);
 					for (let k = 0; k < newGroupLogic.length; k++){
 						const cordy = parseInt(newGroupLogic[k].getAttribute('y'))
-						const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[2].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
-						newGroupLogic[k].setAttribute('y', cordy + conditionLen + 15)
+						//const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
+						newGroupLogic[k].setAttribute('y', cordy + 70.1)
 						const formerID2 = newGroupLogic[k].getAttribute('id')
 						if(formerID2 != null){
 							//console.log(7292, formerID2)
@@ -7236,66 +7235,10 @@
 					
 					// 显示倒数第二个logic（一般为倒数第三位node）
 					clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-3].classList.toggle('sqd-hidden')
-					// 	for(let k = 0; k < newGroupEach.length; k++){  //  [15][2][0]
-							
-							
-					// 		const newConditionEach1 = newConditionEach[k].childNodes
-					// 		for (let j = 0; j < newConditionEach1.length; j++){  //  [15][2][2][0][0]
-					// 			//console.log(7196, newConditionEach1[j])
-					// 			// const newConditionEach2 = newConditionEach1[j].childNodes
-					// // 			// for (let l = 0; l < newConditionEach2.length; l++){
-					// 				const cordy = parseInt(newConditionEach1[j].getAttribute('y'))
-					// 				newConditionEach1[j].setAttribute('y', cordy+35)
-					// 				const formerID = newConditionEach1[j].getAttribute('id')
-					// 				if(formerID != null){
-					// 					newConditionEach1[j].setAttribute('id', i.toString()+j.toString()+k.toString()+`${Date.now()}`)
-					// 					// console.log(7200, i, k ,j)
-					// 				}
-					// 			}
-								
-					// 	}
-					// }
-					// const newCondition0 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[8].childNodes
+					// 隐藏克隆后新group的第一个conditionLogic
+					clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-2].childNodes[2].classList.add('sqd-hidden')
 					
-					// for(let i = 0; i < newCondition0.length; i++){
-					// 	//console.log(7214, newCondition0[i])
-					// 	const cordy = parseInt(newCondition0[i].getAttribute('y'))
-					// 	newCondition0[i].setAttribute('y', cordy+35)
-					// 	const formerID = newCondition0[i].getAttribute('id')
-					// 	if(formerID != null){
-					// 		newCondition0[i].setAttribute('id', Math.random().toString()+`${Date.now()}`)
-					// 		//console.log(7200, i)
-					// 	}
-					// }
-					// const newCondition00 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[0].childNodes[1].childNodes[9].childNodes
 					
-					// for(let i = 0; i < newCondition00.length; i++){
-					// 	//console.log(7214, newCondition0[i])
-					// 	const cordy = parseInt(newCondition00[i].getAttribute('y'))
-					// 	newCondition00[i].setAttribute('y', cordy+35)
-					// 	const formerID = newCondition00[i].getAttribute('id')
-					// 	if(formerID != null){
-					// 		newCondition00[i].setAttribute('id', Math.random().toString()+`${Date.now()}`)
-					// 		//console.log(7200, i)
-					// 	}
-					// }
-					// const newCondition22 = clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-2].childNodes[2].childNodes[1].childNodes
-					// //console.log(7236, newCondition22)
-					// for(let i = 0; i < newCondition22.length; i++){
-					// 	const newConditionEach22 = newCondition22[i].childNodes
-					// 	for(let j = 0; j < newConditionEach22.length; j++){
-					// 		// console.log(7238, newConditionEach22[j])
-					// 		const cordy = parseInt(newConditionEach22[j].getAttribute('y'))
-					// 		// console.log(7238, cordy)
-					// 		newConditionEach22[j].setAttribute('y', cordy+35)
-					// 		const formerID = newConditionEach22[j].getAttribute('id')
-					// 		if(formerID != null){
-					// 			newConditionEach22[j].setAttribute('id', Math.random().toString()+`${Date.now()}`)
-					// 			// console.log(7200, i, k ,j)
-					// 		}
-					// 	}
-						
-					// }
 
 
 					
