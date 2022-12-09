@@ -1797,7 +1797,7 @@
 			  const rect = Dom.svg("rect", {
 				  x: 0.5,
 				  y: 0.5,
-				  class: "sqd-task-rect",
+				  class: "sqd-task-rect sqd-switch",
 				  width: boxWidth,
 				  height: boxHeight-10,
 				  rx: RECT_RADIUS$2,
@@ -1808,7 +1808,7 @@
 			  const rectLeft = Dom.svg("rect", {
 				  x: 0.5,
 				  y: 0.5,
-				  class: "sqd-task-rect",
+				  class: "sqd-task-rect sqd-switch",
 				  width: textWidth + 5,
 				  height: boxHeight-10,
 				  rx: RECT_RADIUS$2,
@@ -1969,7 +1969,7 @@
 			  const rect1 = Dom.svg('rect', {
 				  x: 0.5,
 				  y: 0.5 + boxHeight - 10,
-				  class: 'sqd-task-rect',
+				  class: 'sqd-task-rect sqd-switch',
 				  width: boxWidth,
 				  height: 2 * boxHeight + 15,
 				  rx: RECT_RADIUS,
@@ -3412,7 +3412,7 @@
 			  const gPopHintRect = Dom.svg('rect', {
 				  x: containerWidths[0] + textWidth * 2,
 				  y: 0.5,
-				  class: 'sqd-task-rect hint-popup',
+				  class: 'sqd-task-rect hint-popup sqd-switch',
 				  width: boxWidth * 2,
 				  height: boxHeight,
 				  rx: RECT_RADIUS,
@@ -3436,9 +3436,45 @@
 			  // 	z: -1
 			  // })
   
-			  const gAfterDropdown = Dom.svg('g', {
-				  class: `sqd-task-group dropdown sqd-hidden Collapsed`
-			  });
+			const gAfterDropdown = Dom.svg('g', {
+				class: `sqd-task-group dropdown sqd-hidden Collapsed`
+			});
+			const gGroupInfoAfter = Dom.svg('g', {
+			class: `sqd-task-group dropdown Collapsed`
+			});
+			const gGroupLogicAfter = Dom.svg('text', {
+				class: 'sqd-task-text sqd-hidden',
+				x: containerWidths[0] - textWidth,
+				y: 2.5 * boxHeight - 29.5,
+			});
+			Dom.attrs(gGroupLogicAfter, {
+				//class: 'sqd-hidden',
+				id:`dropdownword2after${Date.now()}`
+			})
+			gGroupLogicAfter.textContent = 'AND/OR'
+			const rectGroupAfter = Dom.svg('rect', {
+				x: containerWidths[0] - textWidth - 9,
+				y: 2 * boxHeight - 29.5 - 10,
+				class: 'sqd-task-rect',
+				width: boxWidth - 60,
+				height: 25,
+				rx: RECT_RADIUS,
+				ry: RECT_RADIUS
+			});
+			Dom.attrs(rectGroupAfter, {
+				//class: 'sqd-hidden',
+				id:`dropdown${Date.now()}`
+			})
+			const nameTextGroupAfter = Dom.svg('text', {
+			class: 'sqd-task-text',
+					x: containerWidths[0] - textWidth - 50,
+					y: 2 * boxHeight - 29.5,
+				});
+			Dom.attrs(nameTextGroupAfter, {
+				//class: 'sqd-hidden',
+				id:`afterdropdownword1after${Date.now()}`
+			})
+			nameTextGroupAfter.textContent = 'Group';
 			  const rectAfter = Dom.svg('rect', {
 				  x: 0.5,
 				  y: PADDING_TOP + boxHeight - 29.5, // 应再减-32并置于底层
@@ -3462,6 +3498,7 @@
 				  //class: 'sqd-hidden',
 				  id:`afterdropdownword1after${Date.now()}`
 			  })
+			  nameTextAfter.textContent = '...';
 			  const nameTextLogicAfter = Dom.svg('text', {
 					  class: 'sqd-task-text sqd-hidden',
 					  x: containerWidths[0] - textWidth,
@@ -3471,18 +3508,8 @@
 				  //class: 'sqd-hidden',
 				  id:`dropdownword2after${Date.now()}`
 			  })
-			  const nameText2After = Dom.svg('text', {
-				  class: 'sqd-task-text',
-				  x: containerWidths[0] - textWidth,
-				  y: 3 * boxHeight,
-			  });
-			  Dom.attrs(nameText2After, {
-				  //class: 'sqd-hidden',
-				  id:`dropdownword2after${Date.now()}`
-			  })
-			  nameTextAfter.textContent = '...';  // 'Select List:'
 			  nameTextLogicAfter.textContent = 'AND/OR';  // 'Run:'
-			  nameText2After.textContent = '...';  // 'Run:'
+			  
   
 			  const gConditionLogicDropdown = Dom.svg('g', {
 				  class: `sqd-task-group dropdown sqd-hidden Collapsed`
@@ -3699,10 +3726,19 @@
 			  gGroupLogicDropdown.appendChild(dropdownBoxLogicShapeCover3)
   
   
+			
+			  // [18][1]
+			  gGroupInfoAfter.appendChild(rectGroupAfter)
+			  gGroupInfoAfter.append(nameTextGroupAfter)
+			  gGroupInfoAfter.appendChild(nameTextAfter)
+			  gGroupInfoAfter.appendChild(nameTextLogicAfter)
 			  // [18]
 			  gAfterDropdown.appendChild(rectAfter)
-			  gAfterDropdown.appendChild(nameTextAfter)
-			  gAfterDropdown.appendChild(nameTextLogicAfter)  // logic
+			  gAfterDropdown.appendChild(gGroupInfoAfter)
+			  gAfterDropdown.appendChild(gGroupLogicAfter)
+			//   gAfterDropdown.appendChild(nameTextAfter)  // former[18][1]
+			//   gAfterDropdown.appendChild(nameTextLogicAfter)  // logic  former[18][2]
+
 			  // gAfterDropdown.appendChild(nameText2After)
   
 			  gPopHint.appendChild(gPopHintRect);
@@ -6971,17 +7007,24 @@
 					}
 
 					// 克隆afterdropdown
-					const afterDropDownLen = clickedStep.view.g.childNodes[18].childNodes.length
+					// 倒数第一个group
+					const lastGroupAfter = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2]
+					// 倒数第一个group中的倒数第一个condition
+					const lastConditionAfter = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes.length-2]
+					// 倒数第一个group中的倒数第一个logic
+					const lastLogicAfter = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes.length-1]
 					// condition
-					const duplicateNode3 = clickedStep.view.g.childNodes[18].childNodes[afterDropDownLen-2].cloneNode(true)
-					clickedStep.view.g.childNodes[18].appendChild(duplicateNode3)
+					console.log(7018, lastConditionAfter)
+					const duplicateNode3 = lastConditionAfter.cloneNode(true)
+					console.log(7019, duplicateNode3)
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].appendChild(duplicateNode3)
 					// logic
-					const duplicateNode4 = clickedStep.view.g.childNodes[18].childNodes[afterDropDownLen-1].cloneNode(true)
-					clickedStep.view.g.childNodes[18].appendChild(duplicateNode4)
+					const duplicateNode4 = lastLogicAfter.cloneNode(true)
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].appendChild(duplicateNode4)
 
 					// 改变其位置/id
-					// condition
-					const afterDropDownAttr1 = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2]
+					// 克隆过后与原始位置重合的最后一个condition
+					const afterDropDownAttr1 = lastGroupAfter.childNodes[lastGroupAfter.childNodes.length-2]
 					const cordy1 = parseInt(afterDropDownAttr1.getAttribute('y'))
 					afterDropDownAttr1.setAttribute('y', cordy1+35)
 					// const formerID1 = afterDropDownAttr1.getAttribute('id')
@@ -6990,20 +7033,33 @@
 					// 	afterDropDownAttr1.setAttribute('id', Math.random().toString()+`${Date.now()}`)
 					// }
 					// logic
-					const afterDropDownAttr2 = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-1]
+					const afterDropDownAttr2 = lastGroupAfter.childNodes[lastGroupAfter.childNodes.length-1]
 					const cordy2 = parseInt(afterDropDownAttr2.getAttribute('y'))
 					afterDropDownAttr2.setAttribute('y', cordy2+35)
 					
 
-					// 显示afterdropdown倒数第二个logic
+					// 显示lastGroup倒数第二个logic
 					//console.log(7295, clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].classList)
-					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].classList.toggle('sqd-hidden')
+					lastGroupAfter.childNodes[lastGroupAfter.childNodes.length-3].classList.toggle('sqd-hidden')
 					//console.log(7297, clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].classList)
 
-					// 伸长afterdropdownbox
+					// 伸长afterdropdownbox和rectGroupAfter
 					const afterDropDownAttr3 = clickedStep.view.g.childNodes[18].childNodes[0]
-					const height = parseInt(afterDropDownAttr3.getAttribute('height'))
-					afterDropDownAttr3.setAttribute('height', height+35)
+					const height3 = parseInt(afterDropDownAttr3.getAttribute('height'))
+					afterDropDownAttr3.setAttribute('height', height3+35)
+					const rectGroupAttr = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[0]
+					const height4 = parseInt(rectGroupAttr.getAttribute('height'))
+					rectGroupAttr.setAttribute('height', height4+35)
+
+					// 设定并移位group number
+					const groupNum = clickedStep.view.g.childNodes[18].childNodes.length % 2
+					console.log(7056, groupNum)
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[1].textContent = 'Group' + groupNum.toString()
+					//const nameTextGroupAttr = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[1]
+					const cordyRectGroupAfter = parseInt(clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[0].getAttribute('y'))
+					const height5 = parseInt(clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[0].getAttribute('height'))
+					console.log('height', height5, cordyRectGroupAfter)
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[1].setAttribute('y', cordyRectGroupAfter + height5*0.5)
 				}
 			}
 
@@ -7019,7 +7075,7 @@
 					// clickedStep.view.g.childNodes[25].childNodes[3].classList.remove('sqd-hidden');
 					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].childNodes[1].textContent
 					console.log(7304, showVal)
-					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].textContent = showVal
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes.length-3].textContent = showVal
 				}
 			}
 			// OR
@@ -7033,7 +7089,7 @@
 					// clickedStep.view.g.childNodes[25].childNodes[3].classList.remove('sqd-hidden');
 					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].childNodes[5].textContent
 					console.log(7304, showVal)
-					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].textContent = showVal
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes.length-3].textContent = showVal
 				}
 			}
 			//console.log(7234, clickedStep.view.g.childNodes[19].childNodes[2].childNodes[0].childNodes[0].childNodes[3].id)
@@ -7774,9 +7830,9 @@
 				}					
 			}
 
-			// set the result
-			// 单个条件
-			if((clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length == 3)&&(
+			// set the result in a group
+			// 单个condition
+			if((clickedStep.view.g.childNodes[15].childNodes.length == 4)&&(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length == 3)&&(
 				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
 				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
 				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select'
@@ -7792,22 +7848,25 @@
 				//clickedStep.view.g.childNodes[18].classList.toggle("sqd-hidden")
 				console.log(5879);
 			}
-			// 多个条件
-			else if((clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length > 3)&&(
+			// 多个condition
+			else if((clickedStep.view.g.childNodes[15].childNodes.length == 4)&&(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length > 3)&&(
 				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
 				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
 				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select')){
 					console.log(5888);
 					clickedStep.view.g.childNodes[13].childNodes[4].textContent = 'Condition Settings'
-					for(let i = 0; i < clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length; i++){
-						if((i % 2) != 0){
-							const childNodeList1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[i]
-							// console.log(childNodeList1)
+					for(let i = 2; i < clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length; i++){
+						if((i % 2) == 0){
+							const childNodeList1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[i-1]
+							console.log(7847, childNodeList1)
 							// for(let j = 0; j < childNodeList1.childNodes.length; j++){
 							const showVal1 = childNodeList1.childNodes[0].childNodes[0].childNodes[2].innerHTML
 							const showVal2 = childNodeList1.childNodes[1].childNodes[0].childNodes[2].innerHTML
 							const showVal3 = childNodeList1.childNodes[2].childNodes[0].childNodes[2].innerHTML
-							clickedStep.view.g.childNodes[18].childNodes[i].textContent = 'if ' + showVal1 + " " + showVal3 + " " + showVal2
+							console.log(7852, showVal1)
+							console.log(7852, showVal2)
+							console.log(7852, showVal3)
+							clickedStep.view.g.childNodes[18].childNodes[1].childNodes[i].textContent = 'if ' + showVal1 + " " + showVal3 + " " + showVal2
 						}
 					}
 				}
