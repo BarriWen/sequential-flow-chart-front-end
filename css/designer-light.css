@@ -68,11 +68,14 @@
 
 .sqd-theme-light .sqd-task-rect {
 	fill: #FFF;
-	stroke: #C3C3C3;
+	stroke: #a4a7aa;
 	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
 }
 .sqd-theme-light .sqd-task-rect.sqd-selected {
 	stroke: #ED4800;
+}
+.sqd-theme-light .sqd-task-rect.sqd-switch{
+	stroke: #247d99;
 }
 .sqd-theme-light .sqd-task-text {
 	fill: #000;
