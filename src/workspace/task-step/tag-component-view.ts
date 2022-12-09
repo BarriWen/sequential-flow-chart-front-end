@@ -30,6 +30,7 @@ export class TagComponentView implements ComponentView {
   ): TagComponentView {
     const g = Dom.svg("g", {
       class: `sqd-task-group sqd-type-${step.type}`,
+      id: 'sqd-task-tag'
     });
     parent.appendChild(g);
     const boxHeight = ICON_SIZE + PADDING_Y;

@@ -31,6 +31,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
   ): TimeDelayTaskStepComponentView {
     const g = Dom.svg("g", {
       class: `sqd-task-group sqd-type-${step.type}`,
+      id: 'sqd-task-timedelay'
     });
     parent.appendChild(g);
     const boxHeight = ICON_SIZE + PADDING_Y;

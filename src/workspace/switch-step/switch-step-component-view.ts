@@ -27,6 +27,7 @@ export class SwitchStepComponentView implements ComponentView {
   ): SwitchStepComponentView {
     const g = Dom.svg("g", {
       class: `sqd-switch-group sqd-type-${step.type}`,
+      id: "sqd-task-switch"
     });
     parent.appendChild(g);
 

@@ -68,9 +68,28 @@
 
 .sqd-theme-light .sqd-task-rect {
 	fill: #FFF;
-	stroke: #C3C3C3;
+	stroke: #247D99;
 	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
 }
+
+#sqd-task-tag .sqd-task-rect{
+	stroke: #C2A5FF;
+}
+
+#sqd-task-email .sqd-task-rect{
+	stroke: #3F55DB;
+}
+
+#sqd-task-timetrigger .sqd-task-rect{
+	stroke: #4FCCFC;
+}
+
+#sqd-task-timedelay .sqd-task-rect{
+	stroke: #8C91DB;
+}
+
+
+
 .sqd-theme-light .sqd-task-rect.sqd-selected {
 	stroke: #ED4800;
 }

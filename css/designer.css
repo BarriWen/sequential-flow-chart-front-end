@@ -221,7 +221,7 @@
 /* .sqd-task */
 
 .sqd-task-rect {
-	stroke-width: 1;
+	stroke-width: 3;
 }
 .sqd-task-rect.sqd-selected {
 	stroke-width: 2.5;

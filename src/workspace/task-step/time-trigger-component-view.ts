@@ -34,6 +34,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
   ): TimeTriggerTaskStepComponentView {
     const g = Dom.svg("g", {
       class: `sqd-task-group sqd-type-${step.type}`,
+      id: "sqd-task-timetrigger"
     });
     parent.appendChild(g);
     const boxHeight = ICON_SIZE + PADDING_Y;
