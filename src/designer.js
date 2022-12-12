@@ -1673,25 +1673,16 @@
 	  }
   */
 	// if-else block
-	// const MIN_CHILDREN_WIDTH = 50;
 	const PADDING_X$1 = 12;
 	const ICON_SIZE$3 = 22;
 	const MIN_TEXT_WIDTH$2 = 70
 	const PADDING_X$2 = 12;
 	const RECT_RADIUS$2 = 15
 	const PADDING_Y$2 = 10
-	// const PADDING_TOP = 20;
-	// const LABEL_HEIGHT = 22;
-	// const CONNECTION_HEIGHT = 16;
 	const MIN_CHILDREN_WIDTH = 50;
-	  const PADDING_X$3 = 20;
-	  const PADDING_TOP = 20;
-	  const LABEL_HEIGHT = 22;
-	  const CONNECTION_HEIGHT = 16;
-	  const RECT_RADIUS$3 = 15;
-	  const MIN_TEXT_WIDTH$3 = 70;
-	  const PADDING_Y$3 = 10;
-	  const ICON_SIZE$4 = 22;
+	const PADDING_TOP = 20;
+	const LABEL_HEIGHT = 22;
+	const CONNECTION_HEIGHT = 16;
 	class SwitchStepComponentView {
 		  constructor(g, width, height, joinX, sequenceComponents, regionView, inputView, validationErrorView, icon1, icon2, icon3) {
 			  this.icon1 = icon1,
@@ -3444,7 +3435,7 @@
 			});
 			const gGroupLogicAfter = Dom.svg('text', {
 				class: 'sqd-task-text sqd-hidden',
-				x: containerWidths[0] - textWidth,
+				x: containerWidths[0] - textWidth - 50,
 				y: 2.5 * boxHeight - 29.5,
 			});
 			Dom.attrs(gGroupLogicAfter, {
@@ -3455,11 +3446,11 @@
 			const rectGroupAfter = Dom.svg('rect', {
 				x: containerWidths[0] - textWidth - 9,
 				y: 2 * boxHeight - 29.5 - 10,
-				class: 'sqd-task-rect',
+				class: 'sqd-task-rect sqd-switch',
 				width: boxWidth - 60,
 				height: 25,
 				rx: RECT_RADIUS,
-				ry: RECT_RADIUS
+				ry: RECT_RADIUS,
 			});
 			Dom.attrs(rectGroupAfter, {
 				//class: 'sqd-hidden',
@@ -3474,12 +3465,12 @@
 				//class: 'sqd-hidden',
 				id:`afterdropdownword1after${Date.now()}`
 			})
-			nameTextGroupAfter.textContent = 'Group';
+			nameTextGroupAfter.textContent = 'Group1';
 			  const rectAfter = Dom.svg('rect', {
 				  x: 0.5,
 				  y: PADDING_TOP + boxHeight - 29.5, // 应再减-32并置于底层
 				  z: 1,
-				  class: 'sqd-task-rect',
+				  class: 'sqd-task-rect sqd-switch',
 				  width: boxWidth,
 				  height: 2 * boxHeight,
 				  rx: RECT_RADIUS,
@@ -3944,7 +3935,7 @@
 		  setIsValid(isValid) {
 			  this.validationErrorView.setIsHidden(isValid);
 		  }
-	  }
+	}
   
 	class SwitchStepComponent {
 	  constructor(view, step, parentSequence, configuration) {
@@ -6770,11 +6761,11 @@
 			? this.getRootComponent().findByElement(target)
 			: null;
 		if (clickedStep) {
-		  this.context.behaviorController.start(
+			this.context.behaviorController.start(
 			position,
 			SelectStepBehavior.create(clickedStep, this.context)
-		  );
-		  const fakeThis = this.context;
+			);
+			const fakeThis = this.context;
 		  //switch step pop
 		
 		if(clickedStep.step.componentType === 'switch'){
@@ -6816,23 +6807,23 @@
 					promptChoices(fakeThis);
 				}
 			}
-			// up-pop: edit
-			if(clickedStep.view.g.childNodes[16].childNodes[0]){
-				const checkButtonId = clickedStep.view.g.childNodes[16].childNodes[0].id.toString();
-				const checkButton =  document.getElementById(checkButtonId);
-				checkButton.onclick = function(e){
-					console.log(4023, clickedStep.view.g.childNodes)
-					// 区分单个condition还是多个
-					if(
-					clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length > 3){
-						clickedStep.view.g.childNodes[18].classList.toggle('sqd-hidden');
-						console.log(7103)
-					}
-					clickedStep.view.g.childNodes[15].classList.toggle('sqd-hidden');
-					clickedStep.view.g.childNodes[16].classList.toggle('sqd-hidden');
+			// // up-pop: finish
+			// if(clickedStep.view.g.childNodes[16].childNodes[0]){
+			// 	const checkButtonId = clickedStep.view.g.childNodes[16].childNodes[0].id.toString();
+			// 	const checkButton =  document.getElementById(checkButtonId);
+			// 	checkButton.onclick = function(e){
+			// 		console.log(4023, clickedStep.view.g.childNodes)
+			// 		// 区分单个condition还是多个
+			// 		if(
+			// 		clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length > 3){
+			// 			clickedStep.view.g.childNodes[18].classList.toggle('sqd-hidden');
+			// 			console.log(7103)
+			// 		}
+			// 		clickedStep.view.g.childNodes[15].classList.toggle('sqd-hidden');
+			// 		clickedStep.view.g.childNodes[16].classList.toggle('sqd-hidden');
 					
-				}
-			}
+			// 	}
+			// }
 			if(clickedStep.view.g.childNodes[16].childNodes[1]){
 				const deleteUpperButtonId = clickedStep.view.g.childNodes[16].childNodes[1].id.toString();
 				//console.log(4032,deleteUpperButtonId)
@@ -6859,11 +6850,12 @@
 				}
 			}
 
-			
-			const lastGroupInfoNum = clickedStep.view.g.childNodes[15].childNodes.length-2
 			// add new condition [15][2][0]
+
+			const lastGroupInfoNum = clickedStep.view.g.childNodes[15].childNodes.length-2
+			
 			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[2].id){
-				console.log('lastGroupInfoNum: ', lastGroupInfoNum)
+				//console.log('lastGroupInfoNum: ', lastGroupInfoNum)
 				//console.log(4578, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[2].id)
 				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[2].id.toString();
 				const dropdownBut = document.getElementById(dropdownButId);
@@ -6871,7 +6863,7 @@
 				// const tempContext = this.context;
 				dropdownBut.onclick = function(e){
 					e.stopPropagation();
-					console.log('aaa')
+					//console.log('aaa')
 					const subDropDownLen = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length
 					// console.log(9999, subDropDownLen)
 					
@@ -6967,7 +6959,7 @@
 					}
 
 					// // 显示倒数第二个logic（一般为倒数第三位node）
-					console.log('bbb')
+					//console.log('bbb')
 					// console.log(9999, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3].classList)
 					clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].classList.toggle('sqd-hidden')
 					// console.log(9999, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length-3].classList)
@@ -7014,9 +7006,9 @@
 					// 倒数第一个group中的倒数第一个logic
 					const lastLogicAfter = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes.length-1]
 					// condition
-					console.log(7018, lastConditionAfter)
+					//console.log(7018, lastConditionAfter)
 					const duplicateNode3 = lastConditionAfter.cloneNode(true)
-					console.log(7019, duplicateNode3)
+					//console.log(7019, duplicateNode3)
 					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].appendChild(duplicateNode3)
 					// logic
 					const duplicateNode4 = lastLogicAfter.cloneNode(true)
@@ -7052,21 +7044,22 @@
 					rectGroupAttr.setAttribute('height', height4+35)
 
 					// 设定并移位group number
-					const groupNum = clickedStep.view.g.childNodes[18].childNodes.length % 2
-					console.log(7056, groupNum)
+					const groupNum = parseInt(clickedStep.view.g.childNodes[18].childNodes.length / 2)
+					//console.log(7056, groupNum)
 					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[1].textContent = 'Group' + groupNum.toString()
 					//const nameTextGroupAttr = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[1]
 					const cordyRectGroupAfter = parseInt(clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[0].getAttribute('y'))
 					const height5 = parseInt(clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[0].getAttribute('height'))
-					console.log('height', height5, cordyRectGroupAfter)
+					//console.log('height', height5, cordyRectGroupAfter)
 					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[1].setAttribute('y', cordyRectGroupAfter + height5*0.5)
 				}
 			}
 
+			// add new condition
 			// logic 设定afterdropdown AND/OR
 			// AND
 			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length > 3){
-				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3)
+				//console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3)
 				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].childNodes[2].id.toString();
 				//
 				const dropdownBut = document.getElementById(dropdownButId);
@@ -7074,13 +7067,13 @@
 				dropdownBut.onclick = function(){
 					// clickedStep.view.g.childNodes[25].childNodes[3].classList.remove('sqd-hidden');
 					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].childNodes[1].textContent
-					console.log(7304, showVal)
+					//console.log(7304, showVal)
 					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes.length-3].textContent = showVal
 				}
 			}
 			// OR
 			if(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length > 3){
-				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3)
+				//console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3)
 				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].childNodes[6].id.toString();
 				
 				const dropdownBut = document.getElementById(dropdownButId);
@@ -7088,13 +7081,14 @@
 				dropdownBut.onclick = function(){
 					// clickedStep.view.g.childNodes[25].childNodes[3].classList.remove('sqd-hidden');
 					const showVal = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3].childNodes[5].textContent
-					console.log(7304, showVal)
+					//console.log(7304, showVal)
 					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes.length-3].textContent = showVal
 				}
 			}
-			//console.log(7234, clickedStep.view.g.childNodes[19].childNodes[2].childNodes[0].childNodes[0].childNodes[3].id)
+			
 
 			// add new group [15][1]
+
 			if(clickedStep.view.g.childNodes[15].childNodes[1].childNodes[2].id){
 				
 				//console.log(4578, clickedStep.view.g.childNodes[15].childNodes[2].childNodes[0].childNodes[2].id)
@@ -7109,13 +7103,13 @@
 					const duplicateGroupNode = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-2].cloneNode(true)
 					// for(let i = 0; i < duplicateGroupNode.childNodes.length; i++){
 					while(duplicateGroupNode.childNodes.length > 3){
-						console.log(7062)
+						//console.log(7062)
 						//duplicateGroupNode.childNodes[duplicateGroupNode.childNodes.length - 1].classList.toggle('sqd-hidden')
 						const removeNode = duplicateGroupNode.childNodes[duplicateGroupNode.childNodes.length - 1]
-						console.log(removeNode)
+						//console.log(removeNode)
 						duplicateGroupNode.removeChild(removeNode)
 					}
-					console.log('dup', duplicateGroupNode)
+					//console.log('dup', duplicateGroupNode)
 					const duplicateGroupNode1 = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length-1].cloneNode(true)
 					//console.log(7061, duplicateGroupNode, duplicateGroupNode1)
 					clickedStep.view.g.childNodes[15].appendChild(duplicateGroupNode)
@@ -7211,7 +7205,7 @@
 							for(let j = 0; j < newGroupConditionOther.length; j++){
 								const cordy = parseInt(newGroupConditionOther[j].getAttribute('y')) // 原始位置（重合）
 								// 原始位置y坐标到下方GroupLogic的距离
-								console.log(7187, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length - 2].childNodes[0].childNodes[0].childNodes[0])
+								//console.log(7187, clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length - 2].childNodes[0].childNodes[0].childNodes[0])
 								// const distance = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum-1].childNodes[0].getAttribute('y')) - cordy
 								// newGroupConditionOther[j].setAttribute('y', distance + 30 + 41)
 								//const conditionLen = parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[0].childNodes[0].getAttribute('height')) - parseInt(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getAttribute('y'))
@@ -7300,40 +7294,117 @@
 					
 					
 
-					// // 克隆afterdropdown
-					// const afterDropDownLen = clickedStep.view.g.childNodes[18].childNodes.length
-					// // condition
-					// const duplicateNode3 = clickedStep.view.g.childNodes[18].childNodes[afterDropDownLen-2].cloneNode(true)
-					// clickedStep.view.g.childNodes[18].appendChild(duplicateNode3)
-					// // logic
-					// const duplicateNode4 = clickedStep.view.g.childNodes[18].childNodes[afterDropDownLen-1].cloneNode(true)
-					// clickedStep.view.g.childNodes[18].appendChild(duplicateNode4)
+					// 克隆afterdropdown [18]
+					// 倒数第一个group
+					const lastGroupAfter = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2]
+					
+					// 倒数第一个logic
+					const lastLogicAfter = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 1]
+					// group
+					const duplicateNode3 = lastGroupAfter.cloneNode(true)
+					// 剪去多余部分,剪去rect多余长度
+					while(duplicateNode3.childNodes.length > 4){
+						//console.log(7062)
+						//duplicateGroupNode.childNodes[duplicateGroupNode.childNodes.length - 1].classList.toggle('sqd-hidden')
+						const removeNode = duplicateNode3.childNodes[duplicateNode3.childNodes.length - 2]
+						console.log(removeNode)
+						duplicateNode3.removeChild(removeNode)
+					}
+					console.log('dup', duplicateNode3)
+					duplicateNode3.childNodes[0].setAttribute("height", 30)
 
-					// // 改变其位置/id
-					// // condition
-					// const afterDropDownAttr1 = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2]
-					// const cordy1 = parseInt(afterDropDownAttr1.getAttribute('y'))
-					// afterDropDownAttr1.setAttribute('y', cordy1+35)
-					// // const formerID1 = afterDropDownAttr1.getAttribute('id')
-					// // if(formerID1 != null){
+					clickedStep.view.g.childNodes[18].appendChild(duplicateNode3)
+					// logic
+					console.log(7313, lastLogicAfter)
+					const duplicateNode4 = lastLogicAfter.cloneNode(true)
+					clickedStep.view.g.childNodes[18].appendChild(duplicateNode4)
+
+					// 改变afterdropdown的位置/id
+					// 取克隆过后与原始位置重合的最后一个groupInfo
+					//const lastGroupInfo = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2]
+					for (let k = 0; k < clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes.length; k++){
 						
-					// // 	afterDropDownAttr1.setAttribute('id', Math.random().toString()+`${Date.now()}`)
-					// // }
-					// // logic
-					// const afterDropDownAttr2 = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-1]
-					// const cordy2 = parseInt(afterDropDownAttr2.getAttribute('y'))
-					// afterDropDownAttr2.setAttribute('y', cordy2+35)
+							const cordy = parseInt(clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[k].getAttribute('y'))
+							const height = parseInt(clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-4].childNodes[0].getAttribute('height'))
+							clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[k].setAttribute('y', cordy+height+30)
+							const formerID1 = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[k].getAttribute('id')
+							if(formerID1 != null){
+								clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[k].setAttribute('id', Math.random().toString()+`${Date.now()}`)
+							}
+						
+						
+						// 改变group number
+						if(k == 1){
+							const groupNum = parseInt(clickedStep.view.g.childNodes[18].childNodes.length / 2)
+							console.log(7335, clickedStep.view.g.childNodes[18].childNodes.length % 2, clickedStep.view.g.childNodes[18].childNodes)
+							//clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[1].textContent = 'Group' + groupNum.toString()
+							clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[k].textContent = 'Group' + groupNum.toString()
+						}
+					}
+					for (let k = 0; k < clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes.length; k++){
+						if(true){
+							console.log(7355, k, parseInt(k/2), clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-2].childNodes[k])
+						}
+					}
+					
+					// group logic
+					// 取倒数第二个logic node
+					const secLastLogicNode = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3]
+					const cordy2 = parseInt(clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-4].childNodes[0].getAttribute('y'))
+					const height2 = parseInt(clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-4].childNodes[0].getAttribute('height'))
+					secLastLogicNode.setAttribute('y', cordy2+height2+15)
 					
 
-					// // 显示afterdropdown倒数第二个logic
-					// //console.log(7295, clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].classList)
-					// clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].classList.toggle('sqd-hidden')
-					// //console.log(7297, clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].classList)
+					// 显示afterdropdown倒数第二个group logic
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].classList.toggle('sqd-hidden')
 
-					// // 伸长afterdropdownbox
-					// const afterDropDownAttr3 = clickedStep.view.g.childNodes[18].childNodes[0]
-					// const height = parseInt(afterDropDownAttr3.getAttribute('height'))
-					// afterDropDownAttr3.setAttribute('height', height+35)
+					// 伸长afterdropdownbox
+					const afterDropDownBox = clickedStep.view.g.childNodes[18].childNodes[0]
+					const cordy3 = parseInt(clickedStep.view.g.childNodes[18].childNodes[0].getAttribute('y')) + parseInt(clickedStep.view.g.childNodes[18].childNodes[0].getAttribute('height'))
+					//const height3 = parseInt(afterDropDownAttr3.getAttribute('height'))
+					afterDropDownBox.setAttribute('height', cordy2+height2+30)
+
+					// 设定并移位group number
+					const groupNum = parseInt(clickedStep.view.g.childNodes[18].childNodes.length / 2)
+					//console.log(7056, groupNum)
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[1].textContent = 'Group' + groupNum.toString()
+					//const nameTextGroupAttr = clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[1]
+					const cordyRectGroupAfter = parseInt(clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[0].getAttribute('y'))
+					const height5 = parseInt(clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[0].getAttribute('height'))
+					//console.log('height', height5, cordyRectGroupAfter)
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length - 2].childNodes[1].setAttribute('y', cordyRectGroupAfter + height5*0.5)
+					
+				}
+			}
+
+			// add new group
+			// logic 设定afterdropdown AND/OR
+			// AND
+			if(clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length - 1]){
+				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3)
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length - 1].childNodes[2].id.toString();
+				//
+				const dropdownBut = document.getElementById(dropdownButId);
+				// console.log(9999, dropdownBut)
+				dropdownBut.onclick = function(){
+					// clickedStep.view.g.childNodes[25].childNodes[3].classList.remove('sqd-hidden');
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length - 1].childNodes[1].textContent
+					console.log(7304, showVal)
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].textContent = showVal
+				}
+			}
+			// OR
+			if(clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length - 1]){
+				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-3)
+				const dropdownButId = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length - 1].childNodes[6].id.toString();
+				//
+				const dropdownBut = document.getElementById(dropdownButId);
+				// console.log(9999, dropdownBut)
+				dropdownBut.onclick = function(){
+					// clickedStep.view.g.childNodes[25].childNodes[3].classList.remove('sqd-hidden');
+					const showVal = clickedStep.view.g.childNodes[15].childNodes[clickedStep.view.g.childNodes[15].childNodes.length - 1].childNodes[5].textContent
+					console.log(7304, showVal)
+					clickedStep.view.g.childNodes[18].childNodes[clickedStep.view.g.childNodes[18].childNodes.length-3].textContent = showVal
 				}
 			}
 			
@@ -7830,46 +7901,80 @@
 				}					
 			}
 
-			// set the result in a group
-			// 单个condition
-			if((clickedStep.view.g.childNodes[15].childNodes.length == 4)&&(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length == 3)&&(
-				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
-				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
-				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select'
-			)){
-				//clickedStep.view.g.childNodes[20].classList.add('sqd-hidden');
-				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent)
-				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent)
-				console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent)
-				const showVal1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent
-				const showVal2 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent
-				const showVal3 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent
-				clickedStep.view.g.childNodes[13].childNodes[4].textContent = 'if ' + showVal1 + " " + showVal3 + " " + showVal2
-				//clickedStep.view.g.childNodes[18].classList.toggle("sqd-hidden")
-				console.log(5879);
-			}
-			// 多个condition
-			else if((clickedStep.view.g.childNodes[15].childNodes.length == 4)&&(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length > 3)&&(
-				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
-				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
-				clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select')){
-					console.log(5888);
-					clickedStep.view.g.childNodes[13].childNodes[4].textContent = 'Condition Settings'
-					for(let i = 2; i < clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes.length; i++){
-						if((i % 2) == 0){
-							const childNodeList1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum].childNodes[i-1]
-							console.log(7847, childNodeList1)
-							// for(let j = 0; j < childNodeList1.childNodes.length; j++){
-							const showVal1 = childNodeList1.childNodes[0].childNodes[0].childNodes[2].innerHTML
-							const showVal2 = childNodeList1.childNodes[1].childNodes[0].childNodes[2].innerHTML
-							const showVal3 = childNodeList1.childNodes[2].childNodes[0].childNodes[2].innerHTML
-							console.log(7852, showVal1)
-							console.log(7852, showVal2)
-							console.log(7852, showVal3)
-							clickedStep.view.g.childNodes[18].childNodes[1].childNodes[i].textContent = 'if ' + showVal1 + " " + showVal3 + " " + showVal2
+			// up-pop: finish
+			if(clickedStep.view.g.childNodes[16].childNodes[0]){
+				const checkButtonId = clickedStep.view.g.childNodes[16].childNodes[0].id.toString();
+				const checkButton =  document.getElementById(checkButtonId);
+				checkButton.onclick = function(e){
+					//console.log(4023, clickedStep.view.g.childNodes)
+					// 区分单个condition还是多个
+					if(
+					clickedStep.view.g.childNodes[15].childNodes[2].childNodes.length > 3){
+						clickedStep.view.g.childNodes[18].classList.toggle('sqd-hidden');
+						//console.log(7103)
+					}
+					clickedStep.view.g.childNodes[15].classList.toggle('sqd-hidden');
+					clickedStep.view.g.childNodes[16].classList.toggle('sqd-hidden');
+					
+				}
+				const lastGroupInfoNum1 = clickedStep.view.g.childNodes[15].childNodes.length-2
+				// set the result in a group
+				// 单个condition
+				if(clickedStep.view.g.childNodes[15].childNodes.length == 4){
+					if((clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes.length == 3)&&(
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select'
+					)){
+						//clickedStep.view.g.childNodes[20].classList.add('sqd-hidden');
+						console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent)
+						console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent)
+						console.log(clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent)
+						const showVal1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent
+						const showVal2 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent
+						const showVal3 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent
+						clickedStep.view.g.childNodes[13].childNodes[4].textContent = 'if ' + showVal1 + " " + showVal3 + " " + showVal2
+						//clickedStep.view.g.childNodes[18].classList.toggle("sqd-hidden")
+						console.log(5879);
+					}
+					// 多个condition
+					else if((clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes.length > 3)&&(
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes.length-2].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes.length-2].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes.length-2].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select'))
+					{
+						console.log(5888);
+						clickedStep.view.g.childNodes[13].childNodes[4].textContent = 'Condition Settings'
+						for(let i = 2; i < clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes.length; i++){
+							if((i % 2) == 0){
+								const childNodeList1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[i-1]
+								console.log(7847, childNodeList1)
+								// for(let j = 0; j < childNodeList1.childNodes.length; j++){
+								const showVal1 = childNodeList1.childNodes[0].childNodes[0].childNodes[2].innerHTML
+								const showVal2 = childNodeList1.childNodes[1].childNodes[0].childNodes[2].innerHTML
+								const showVal3 = childNodeList1.childNodes[2].childNodes[0].childNodes[2].innerHTML
+								console.log(7852, showVal1)
+								console.log(7852, showVal2)
+								console.log(7852, showVal3)
+								clickedStep.view.g.childNodes[18].childNodes[1].childNodes[i].textContent = 'if ' + showVal1 + " " + showVal3 + " " + showVal2
+							}
 						}
 					}
 				}
+				else if(clickedStep.view.g.childNodes[15].childNodes.length > 4){
+					if((clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes.length == 3)&&(
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent != 'Select'&
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent != 'Select'&
+						clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent != 'Select'))
+					{
+						const showVal1 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[0].childNodes[0].childNodes[2].textContent
+						const showVal2 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[1].childNodes[0].childNodes[2].textContent
+						const showVal3 = clickedStep.view.g.childNodes[15].childNodes[lastGroupInfoNum1].childNodes[1].childNodes[2].childNodes[0].childNodes[2].textContent
+						clickedStep.view.g.childNodes[13].childNodes[4].textContent = 'if ' + showVal1 + " " + showVal3 + " " + showVal2
+					}
+				}
+			}
+			
 			
 		}
   
