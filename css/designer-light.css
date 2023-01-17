@@ -88,7 +88,9 @@
 	stroke: #8C91DB;
 }
 
-
+#timedelay-more-img{
+	fill: #8C91DB;
+}
 
 .sqd-theme-light .sqd-task-rect.sqd-selected {
 	stroke: #ED4800;

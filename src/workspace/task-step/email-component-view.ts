@@ -35,7 +35,7 @@ export class EmailComponentView implements ComponentView {
     parent.appendChild(g);
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
-      x: 0.5,
+      x: PADDING_X/2,
       y: boxHeight / 1.7,
       class: "sqd-task-text",
     });

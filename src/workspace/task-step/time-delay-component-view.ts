@@ -36,7 +36,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     parent.appendChild(g);
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
-      x: 0.5,
+      x: PADDING_X/2,
       y: boxHeight / 1.7,
       class: "sqd-task-text",
     });
@@ -151,7 +151,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
         });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
-      // id: `timeDelayMoreIcon`,
+      id: `timeDelayMoreIcon`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22,
       y: 5,
       width: ICON_SIZE,
@@ -517,6 +517,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     foreignObjectTag.setAttribute("y", "32"); //Set rect data
     foreignObjectTag.setAttribute("width", "258"); //Set rect data
     foreignObjectTag.setAttribute("height", "128"); //Set rect data
+  
     //foreignObjectTag.setAttribute("class", "sqd-hidden");
     var divTagPickTime = document.createElementNS(
       "http://www.w3.org/1999/xhtml",

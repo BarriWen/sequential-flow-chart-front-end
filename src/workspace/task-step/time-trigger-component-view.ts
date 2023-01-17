@@ -39,7 +39,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     parent.appendChild(g);
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
-      x: 0.5,
+      x: PADDING_X/1.5,
       y: boxHeight / 1.7,
       class: "sqd-task-text",
     });
@@ -61,7 +61,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       x: 0.5,
       y: 0.5,
       class: "sqd-task-rect",
-      width: textWidth + 5,
+      width: textWidth + 12,
       height: boxHeight,
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,

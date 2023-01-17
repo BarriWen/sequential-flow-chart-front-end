@@ -228,7 +228,11 @@
 }
 .sqd-task-text {
 	text-anchor: left;
+	text-align: center;
 	dominant-baseline: central;
+	font-family: Sofia;
+    
+
 }
 
 /* .sqd-input + .sqd-output */
