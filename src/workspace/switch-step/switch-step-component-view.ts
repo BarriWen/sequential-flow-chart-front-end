@@ -10,8 +10,8 @@ import { InputView } from "../common-views/input-view";
 import { ComponentView } from "../component";
 import { SequenceComponent } from "../sequence/sequence-component";
 
-const MIN_CHILDREN_WIDTH = 50;
-const PADDING_X = 20;
+const MIN_CHILDREN_WIDTH = 150;
+const PADDING_X = 12;
 const PADDING_TOP = 20;
 const LABEL_HEIGHT = 22;
 const CONNECTION_HEIGHT = 16;
@@ -27,7 +27,6 @@ export class SwitchStepComponentView implements ComponentView {
   ): SwitchStepComponentView {
     const g = Dom.svg("g", {
       class: `sqd-switch-group sqd-type-${step.type}`,
-      id: "sqd-task-switch"
     });
     parent.appendChild(g);
 
@@ -49,7 +48,7 @@ export class SwitchStepComponentView implements ComponentView {
     const joinXs = sequenceComponents.map((s) =>
       Math.max(s.view.joinX, MIN_CHILDREN_WIDTH / 2)
     );
-    const boxHeight = ICON_SIZE + PADDING_Y * 2;
+    const boxHeight = ICON_SIZE + PADDING_Y ;
     const containerHeight =
       maxChildHeight +
       PADDING_TOP +
@@ -104,19 +103,17 @@ export class SwitchStepComponentView implements ComponentView {
     const g1 = Dom.svg("g");
 
     const text = Dom.svg("text", {
-      x: ICON_SIZE + containerWidths[0] - PADDING_X * 2,
-      y: boxHeight / 2 + PADDING_TOP,
+      x: ICON_SIZE + containerWidths[0] - PADDING_X/2-130,
+      y: boxHeight / 1.7 + PADDING_TOP,
       class: "sqd-task-text",
     });
     text.textContent = "If/Else";
     g1.appendChild(text);
-    const textWidth = Math.max(
-      text.getBBox().width + PADDING_X * 2 + ICON_SIZE,
-      MIN_TEXT_WIDTH
-    );
-    const boxWidth = ICON_SIZE + PADDING_X * 3 + textWidth;
+    const textWidth = Math.max(text.getBBox().width, MIN_TEXT_WIDTH);
+    const boxWidth = ICON_SIZE + 8 * PADDING_X + 2 * textWidth;
+
     const rect = Dom.svg("rect", {
-      x: containerWidths[0] - textWidth,
+      x: containerWidths[0] - textWidth-55,
       y: PADDING_TOP,
       class: "sqd-task-rect",
       width: boxWidth,
@@ -125,26 +122,33 @@ export class SwitchStepComponentView implements ComponentView {
       ry: 15,
     });
     g1.insertBefore(rect, text);
+    const rectLeft = Dom.svg("rect", {
+      x: containerWidths[0] - textWidth-55,
+      y: PADDING_TOP,
+      class: "sqd-task-rect",
+      width: textWidth + 5,
+      height: boxHeight,
+      rx: RECT_RADIUS,
+      ry: RECT_RADIUS,
 
-    const iconUrl = configuration.iconUrlProvider
-      ? configuration.iconUrlProvider(step.componentType, step.type)
-      : null;
-
-    const icon = iconUrl
-      ? Dom.svg("image", {
-          href: iconUrl,
-        })
-      : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
-    Dom.attrs(icon, {
-      x: containerWidths[0] - textWidth + PADDING_X,
-      y: PADDING_TOP * 1.5,
-      width: ICON_SIZE,
-      height: ICON_SIZE,
     });
+    const textRight = Dom.svg("text", {
+      x: ICON_SIZE + containerWidths[0] - PADDING_X*2,
+      y: boxHeight / 1.7+PADDING_TOP,
+      class: "sqd-task-text",
+
+    });
+    if (step.properties["subject"]) {
+      textRight.textContent = step.properties["subject"].toString();
+    }else{
+      textRight.textContent = "Choose Condition";
+    }
+    g1.appendChild(textRight);
+    g1.insertBefore(rectLeft, text);
+    g1.appendChild(textRight);
+
+
+
 
     const moreUrl = "./assets/more.svg";
     const moreIcon = moreUrl
@@ -159,8 +163,8 @@ export class SwitchStepComponentView implements ComponentView {
     Dom.attrs(moreIcon, {
       class: "more",
       id: Date.now(),
-      x: containerWidths[0] + 2 * PADDING_X,
-      y: PADDING_TOP * 1.5,
+      x:  ICON_SIZE +containerWidths[0] + PADDING_X +  textWidth ,
+      y: PADDING_TOP * 1.2,
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
@@ -177,7 +181,7 @@ export class SwitchStepComponentView implements ComponentView {
     Dom.attrs(icon1, {
       class: "moreicon",
       id: `RightCopyIcon-${step.id}`,
-      x: containerWidths[0] + 2 * PADDING_X + ICON_SIZE + 30,
+      x: containerWidths[0] + 5 * PADDING_X + 3*ICON_SIZE + 30,
       y: PADDING_TOP * 1.5,
       width: ICON_SIZE,
       height: ICON_SIZE,
@@ -196,7 +200,7 @@ export class SwitchStepComponentView implements ComponentView {
     Dom.attrs(icon2, {
       class: "moreicon",
       id: `RightDeleteIcon-${step.id}`,
-      x: containerWidths[0] + 2 * PADDING_X + ICON_SIZE + 10,
+      x: containerWidths[0] + 5 * PADDING_X + 3*ICON_SIZE + 10,
       y: PADDING_TOP * 1.5 + 22,
       width: ICON_SIZE,
       height: ICON_SIZE,
@@ -215,7 +219,7 @@ export class SwitchStepComponentView implements ComponentView {
     Dom.attrs(icon3, {
       class: "moreicon",
       id: `p${Date.now()}`,
-      x: containerWidths[0] + 2 * PADDING_X + ICON_SIZE + 10,
+      x: containerWidths[0] + 5 * PADDING_X + 3*ICON_SIZE + 10,
       y: PADDING_TOP * 1.5 - 22,
       width: ICON_SIZE,
       height: ICON_SIZE,
@@ -511,7 +515,6 @@ export class SwitchStepComponentView implements ComponentView {
     gRightPop3.appendChild(icon1);
     gRightPop3.appendChild(icon2);
     gRightPop3.appendChild(icon3);
-    g1.appendChild(icon);
     g1.appendChild(moreIcon);
     g.appendChild(g1);
     g.appendChild(gRightPop3);

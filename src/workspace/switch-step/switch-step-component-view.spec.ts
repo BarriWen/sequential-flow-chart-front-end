@@ -16,7 +16,9 @@ describe('SwitchStepComponentView', () => {
 				componentType: ComponentType.switch,
 				name: 'x',
 				properties: {},
-				type: 'test'
+				type: 'test',
+				createdBy: '',
+				updatedBy: ''
 			},
 			{}
 		);

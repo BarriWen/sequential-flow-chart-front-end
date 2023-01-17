@@ -6,6 +6,7 @@ import { TimeDelayTaskStepComponentView } from "./time-delay-component-view";
 import { TagComponentView } from "./tag-component-view";
 import { TimeTriggerTaskStepComponentView } from "./time-trigger-component-view";
 import { EmailComponentView } from "./email-component-view";
+import { SwitchStepComponentView } from "../switch-step/switch-step-component-view";
 
 export class TaskStepComponent implements StepComponent {
   public static create(
