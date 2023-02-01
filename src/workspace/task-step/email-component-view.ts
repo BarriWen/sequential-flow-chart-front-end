@@ -155,7 +155,7 @@ export class EmailComponentView implements ComponentView {
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
-    const moreUrl = "./assets/more.svg";
+    const moreUrl = "./assets/send_more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,

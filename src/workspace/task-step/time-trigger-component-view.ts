@@ -145,7 +145,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "./assets/more.svg";
+    const moreUrl = "./assets/trigger_more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,

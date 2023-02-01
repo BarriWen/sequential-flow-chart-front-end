@@ -4,10 +4,10 @@ var app = express();
 var port = 3001;
 var path = __dirname;
 app.use(express.static(path));
-app.get('', function(req, res) {
+app.get('/:id', function(req, res) {
     res.sendFile(path + '/newJourney.html');
 });
-app.get('/*', function(req, res) {
+app.get('/:id/*', function(req, res) {
     res.sendFile(path + '/prevJourney.html');
 });
 app.listen(port);

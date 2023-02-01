@@ -8,8 +8,8 @@
 /* light > .sqd-toolbox */
 
 .sqd-theme-light .sqd-toolbox {
-	background: #FFF;
-	box-shadow: 0 0 8px rgba(0, 0, 0, .15), 0 2px 4px rgba(0, 0, 0, .15);
+	/* background: #FFF; */
+	/* box-shadow: 0 0 8px rgba(0, 0, 0, .15), 0 2px 4px rgba(0, 0, 0, .15); */
 }
 .sqd-theme-light .sqd-toolbox-filter {
 	border: 1px solid #C3C3C3;
@@ -29,6 +29,20 @@
 }
 .sqd-theme-light .sqd-toolbox-item-icon.sqd-no-icon {
 	background: #C6C6C6;
+}
+
+.sqd-scrollbox-body {
+	background: #FFF;
+	box-shadow: 4px 4px 4px rgba(52, 152, 219, 0.3);
+    border-radius: 20px;
+}
+
+.sqd-scrollbox-title-1 {
+	color: #247D99;
+}
+
+.sqd-scrollbox-title-2 {
+	color: #3F55DB;
 }
 
 /* light > .sqd-control-bar */

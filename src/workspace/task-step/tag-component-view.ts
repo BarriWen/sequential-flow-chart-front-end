@@ -6,6 +6,8 @@ import { InputView } from "../common-views/input-view";
 import { OutputView } from "../common-views/output-view";
 import { ValidationErrorView } from "../common-views/validation-error-view";
 import { ComponentView } from "../component";
+import { StepComponentFactory } from "../step-component-factory";
+import { TaskStepComponent } from "./task-step-component";
 const PADDING_X = 12;
 const PADDING_Y = 10;
 const MIN_TEXT_WIDTH = 70;
@@ -136,7 +138,7 @@ export class TagComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "./assets/more.svg";
+    const moreUrl = "./assets/tag_more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -676,7 +678,9 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
   });
 
   // Fetch tags from backend
-  const userID = 1; //Need to be changed to current user
+  var url = window.location.pathname;
+  const userID = url.slice(1);//Need to be changed to an existing user
+  //Need to be changed to an existing journey; //Need to be changed to current user
   const request = new Request(`http://localhost:8080/tag/${userID}`, {method: 'GET'});
   let tags: string[] = [];
   // Async way to fetch tags
@@ -790,7 +794,9 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
       e.stopPropagation();
       console.log('Will be sending to back end',input.value);
       // Post tag to backend
-      const userID = 1;      //Need to be changed to an existing user
+      var url = window.location.pathname;
+      
+      const userID = url.slice(1);//Need to be changed to an existing user
       const journeyID = 4;  //Need to be changed to an existing journey
       const data = {"tag_name": `${input.value}`};
       const request = new Request(`http://localhost:8080/tags/${userID}/${journeyID}`, {

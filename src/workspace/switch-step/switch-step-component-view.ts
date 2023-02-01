@@ -150,7 +150,7 @@ export class SwitchStepComponentView implements ComponentView {
 
 
 
-    const moreUrl = "./assets/more.svg";
+    const moreUrl = "./assets/switch_more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
