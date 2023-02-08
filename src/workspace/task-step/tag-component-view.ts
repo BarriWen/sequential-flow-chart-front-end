@@ -8,6 +8,7 @@ import { ValidationErrorView } from "../common-views/validation-error-view";
 import { ComponentView } from "../component";
 import { StepComponentFactory } from "../step-component-factory";
 import { TaskStepComponent } from "./task-step-component";
+import { journeyProperties } from "../../definition";
 const PADDING_X = 12;
 const PADDING_Y = 10;
 const MIN_TEXT_WIDTH = 70;
@@ -28,7 +29,9 @@ export class TagComponentView implements ComponentView {
   public static create(
     parent: SVGElement,
     step: TaskStep,
-    configuration: StepsConfiguration
+    configuration: StepsConfiguration,
+    theproperties: journeyProperties 
+    
   ): TagComponentView {
     const g = Dom.svg("g", {
       class: `sqd-task-group sqd-type-${step.type}`,
@@ -495,7 +498,9 @@ export class TagComponentView implements ComponentView {
     });
     tagDropDown(gDropdown, boxHeight, boxWidth, newTag);
     if (step.name === "Add Tag") {
-      addNewTag(gDropdown, boxHeight, boxWidth, upCheckIcon, newTag);
+      const tagFrontendId = step.id
+      console.log(theproperties)
+      addNewTag(gDropdown, boxHeight, boxWidth, upCheckIcon, newTag, tagFrontendId);
     }
     g.appendChild(gRightPop3Reminder);
     g.appendChild(gUpPop3);
@@ -729,7 +734,8 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
     };
   };
 }
-function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement) {
+
+function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement, tagId: string) {
   const g = Dom.svg("g", {
     class: `create-tag`,
   });
@@ -797,9 +803,9 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
       var url = window.location.pathname;
       
       const userID = url.slice(1);//Need to be changed to an existing user
-      const journeyID = 4;  //Need to be changed to an existing journey
+      const journeyID = 4  //Need to be changed to an existing journey
       const data = {"tag_name": `${input.value}`};
-      const request = new Request(`http://localhost:8080/tags/${userID}/${journeyID}`, {
+      const request = new Request(`http://localhost:8080/tags/${userID}`, {
         method: 'POST', 
         headers: {
           "Content-Type": 'application/json'

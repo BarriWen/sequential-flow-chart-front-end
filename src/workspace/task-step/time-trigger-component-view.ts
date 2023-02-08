@@ -482,6 +482,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     //***********start with general node****************//
     const gDropdown = Dom.svg("g", {
       class: `sqd-task-group dropdown sqd-hidden Collapsed`,
+      id:"timetrigger-dropdown"
     });
     const rect1 = Dom.svg("rect", {
       x: 0.5,

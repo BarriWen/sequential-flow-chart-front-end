@@ -258,6 +258,7 @@
 
 .sqd-task-rect {
 	stroke-width: 3;
+	z-index: 100;
 }
 .sqd-task-rect.sqd-selected {
 	stroke-width: 2.5;
@@ -269,6 +270,11 @@
 	font-family: Sofia;
     
 
+}
+
+#timetrigger-dropdown{
+	position: absolute;
+	z-index: 300;
 }
 
 /* .sqd-input + .sqd-output */
