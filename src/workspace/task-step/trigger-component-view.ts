@@ -502,7 +502,7 @@ export class TriggerComponentView implements ComponentView {
       //class: 'sqd-hidden',
       id: `dropdownword2${Date.now()}`,
     });
-    nameText.textContent = "Select List:";
+    nameText.textContent = "List:";
     nameText1.textContent = "Run:";
     gDropdown.appendChild(nameText);
     gDropdown.appendChild(nameText1);
@@ -731,7 +731,7 @@ export class TriggerComponentView implements ComponentView {
       gUpPop3.classList.toggle("sqd-hidden");
       if (dropdownBoxInnerText.textContent && dropdownBoxInnerText.textContent != "Select") {
         textRight.textContent = dropdownBoxInnerText.textContent;
-        step.properties["Select List"] = dropdownBoxInnerText.textContent;
+        step.properties["List"] = dropdownBoxInnerText.textContent;
       }
       if (dropdownBoxInnerText1.textContent && dropdownBoxInnerText1.textContent != "Select") {
         step.properties["Run"] = dropdownBoxInnerText1.textContent;

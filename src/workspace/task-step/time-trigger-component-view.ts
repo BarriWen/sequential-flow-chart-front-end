@@ -489,7 +489,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       y: boxHeight,
       class: "sqd-task-rect",
       width: boxWidth,
-      height: 4 * boxHeight,
+      height: 6 * boxHeight,
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,
     });

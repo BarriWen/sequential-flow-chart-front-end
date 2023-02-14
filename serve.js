@@ -7,7 +7,7 @@ app.use(express.static(path));
 app.get('/:id', function(req, res) {
     res.sendFile(path + '/newJourney.html');
 });
-app.get('/:id/*', function(req, res) {
+app.get('/*', function(req, res) {
     res.sendFile(path + '/prevJourney.html');
 });
 app.listen(port);
