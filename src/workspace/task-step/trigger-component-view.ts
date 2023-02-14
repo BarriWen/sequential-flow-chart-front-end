@@ -66,8 +66,8 @@ export class TriggerComponentView implements ComponentView {
       y: boxHeight / 1.7,
       class: "sqd-task-text",
     });
-    if (step.properties["Select List"]) {
-      textRight.textContent = step.properties["Select List"].toString();
+    if (step.properties["list"]) {
+      textRight.textContent = step.properties["list"].toString();
     }
     else {
       textRight.textContent = "Default list";
@@ -731,7 +731,7 @@ export class TriggerComponentView implements ComponentView {
       gUpPop3.classList.toggle("sqd-hidden");
       if (dropdownBoxInnerText.textContent && dropdownBoxInnerText.textContent != "Select") {
         textRight.textContent = dropdownBoxInnerText.textContent;
-        step.properties["Select List"] = dropdownBoxInnerText.textContent;
+        step.properties["list"] = dropdownBoxInnerText.textContent;
       }
       if (dropdownBoxInnerText1.textContent && dropdownBoxInnerText1.textContent != "Select") {
         step.properties["Run"] = dropdownBoxInnerText1.textContent;
