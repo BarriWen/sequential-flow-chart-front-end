@@ -101,7 +101,7 @@ function createEndPoint(g: SVGGElement){
 	// 	ry: 4,
 
 	// });
-	const moreUrl = "./assets/tag_more.svg";
+	const moreUrl = "../assets/tag_more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,

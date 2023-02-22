@@ -150,7 +150,7 @@ export class SwitchStepComponentView implements ComponentView {
 
 
 
-    const moreUrl = "./assets/switch_more.svg";
+    const moreUrl = "../assets/switch_more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -169,7 +169,7 @@ export class SwitchStepComponentView implements ComponentView {
       height: ICON_SIZE,
     });
     //add 3 icons
-    const iconUrl1 = "./assets/copy.svg";
+    const iconUrl1 = "../assets/copy.svg";
     // // add click event for icon
     const icon1 = iconUrl1
       ? Dom.svg("image", { href: iconUrl1 })
@@ -186,7 +186,7 @@ export class SwitchStepComponentView implements ComponentView {
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
-    const iconUrl2 = "./assets/delete.svg";
+    const iconUrl2 = ".,/assets/delete.svg";
     // add click event for icon
     const icon2 = iconUrl2
       ? Dom.svg("image", {
@@ -205,7 +205,7 @@ export class SwitchStepComponentView implements ComponentView {
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
-    const iconUrl3 = "./assets/edit.svg";
+    const iconUrl3 = "../assets/edit.svg";
     // add click event for icon
     const icon3 = iconUrl3
       ? Dom.svg("image", {

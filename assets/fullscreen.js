@@ -58,7 +58,7 @@ const configuration = {
 
 	steps: {
 		iconUrlProvider: (componentType, type) => {
-			return `./assets/icon-${type}.svg`
+			return `../assets/icon-${type}.svg`
 		},
 
 		validator: (step) => {
@@ -296,7 +296,7 @@ let timeout = 5 * 60 * 1000;
 let startDefinition;
 let journeyID;
 var url = window.location.pathname;
-const userID = url.slice(1);
+const userID = url.slice(5);
 
 console.log(userID)
 

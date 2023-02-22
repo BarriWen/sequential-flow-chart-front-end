@@ -295,7 +295,8 @@ let timeout = 5 * 60 * 1000;
 let startDefinition;
 
 var url = window.location.pathname;
-const journeyID = url.slice(2);
+const journeyID = url.slice(3);
+
 console.log("create from existing journey", journeyID);
 makeReq("GET", `http://localhost:8080/journey/get-saved-journey/${journeyID}`, null, 200);
 

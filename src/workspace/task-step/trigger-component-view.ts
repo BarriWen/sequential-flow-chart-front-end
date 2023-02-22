@@ -135,7 +135,7 @@ export class TriggerComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "./assets/more.svg";
+    const moreUrl = "../assets/more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -166,7 +166,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const changeUrl = "./assets/change.svg";
+    const changeUrl = "../assets/change.svg";
     const changeIcon = changeUrl
       ? Dom.svg("image", {
           href: changeUrl,
@@ -200,7 +200,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const deleteUrl = "./assets/delete.svg";
+    const deleteUrl = "../assets/delete.svg";
     const deleteIcon = deleteUrl
       ? Dom.svg("image", {
           href: deleteUrl,
@@ -234,7 +234,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const editUrl = "./assets/edit.svg";
+    const editUrl = "../assets/edit.svg";
     const editIcon = editUrl
       ? Dom.svg("image", {
           href: editUrl,
@@ -268,7 +268,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "./assets/check.svg";
+    const upCheckIconUrl = "../assets/check.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -302,7 +302,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upDeleteIconUrl = "./assets/delete.svg";
+    const upDeleteIconUrl = "../assets/delete.svg";
     const upDeleteIcon = upDeleteIconUrl
       ? Dom.svg("image", {
           href: upDeleteIconUrl,
@@ -337,7 +337,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upchangeUrl = "./assets/change.svg";
+    const upchangeUrl = "../assets/change.svg";
     const upchangeIcon = upchangeUrl
       ? Dom.svg("image", {
           href: upchangeUrl,
