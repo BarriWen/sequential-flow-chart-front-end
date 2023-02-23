@@ -32,6 +32,7 @@ export class TriggerComponentView implements ComponentView {
       class: `sqd-task-group sqd-type-${step.type}`,
     });
     parent.appendChild(g);
+
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
       x: PADDING_X/1.5,
@@ -73,9 +74,10 @@ export class TriggerComponentView implements ComponentView {
       textRight.textContent = "Default list";
     }
     g.appendChild(textRight);
-
     g.insertBefore(rectLeft, text);
     g.appendChild(textRight);
+
+
     const textRightReminder = Dom.svg("text", {
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 132,
       y: boxHeight / 2,
@@ -465,6 +467,7 @@ export class TriggerComponentView implements ComponentView {
     gUpPop3.appendChild(checkImgContainer);
     gUpPop3.appendChild(deleteImgContainer);
     gUpPop3.appendChild(copyImgContainer);
+
     //add dropdown
     //**************************************************//
     //***********start with general node****************//
@@ -771,7 +774,7 @@ export class TriggerComponentView implements ComponentView {
       e.stopPropagation();
       gSubDropdownbox1Pop.classList.toggle("sqd-hidden");
       if (!gSubDropdownboxPop.classList.contains("sqd-hidden")) {
-        gSubDropdownboxPop.classList.remove("sqd-hidden");
+        gSubDropdownboxPop.classList.remove("sqd-hidden"); 
       }
     });
 
