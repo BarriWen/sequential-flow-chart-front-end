@@ -8,7 +8,7 @@ app.get('/new/:id', function(req, res) {
     res.sendFile(path + '/newJourney.html');
 });
 
-app.get("/save/*", function(req, res) {
+app.get("/:id/*", function(req, res) {
     res.sendFile(path + '/prevJourney.html');
 });
 app.listen(port);

@@ -291,7 +291,7 @@ export class SwitchStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const deleteUrl = "./assets/delete.svg";
+    const deleteUrl = "../assets/delete.svg";
     const deleteIcon = deleteUrl
       ? Dom.svg("image", {
         href: deleteUrl,

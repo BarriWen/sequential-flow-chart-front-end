@@ -29,8 +29,7 @@ export class TagComponentView implements ComponentView {
   public static create(
     parent: SVGElement,
     step: TaskStep,
-    configuration: StepsConfiguration,
-    theproperties: journeyProperties 
+    configuration: StepsConfiguration
     
   ): TagComponentView {
     const g = Dom.svg("g", {
@@ -499,7 +498,6 @@ export class TagComponentView implements ComponentView {
     tagDropDown(gDropdown, boxHeight, boxWidth, newTag);
     if (step.name === "Add Tag") {
       const tagFrontendId = step.id
-      console.log(theproperties)
       addNewTag(gDropdown, boxHeight, boxWidth, upCheckIcon, newTag, tagFrontendId);
     }
     g.appendChild(gRightPop3Reminder);
@@ -684,7 +682,13 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
 
   // Fetch tags from backend
   var url = window.location.pathname;
-  const userID = url.slice(5);//Need to be changed to an existing user
+  var userID  ;
+  if(url.includes("new")){
+    userID = url.slice(5);//Need to be changed to an existing user
+  }else{
+    userID = url.substring(1, url.lastIndexOf('/')+1);
+  }
+  
   //Need to be changed to an existing journey; //Need to be changed to current user
   const request = new Request(`http://localhost:8080/tag/${userID}`, {method: 'GET'});
   let tags: string[] = [];
