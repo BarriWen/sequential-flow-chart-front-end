@@ -146,7 +146,7 @@ export class SwitchStepComponentView implements ComponentView {
 
     });
     const textRight = Dom.svg("text", {
-      x: ICON_SIZE + containerWidths[0] + 40,
+      x: ICON_SIZE + containerWidths[0] -10,
       y: boxHeight / 1.7 + PADDING_TOP,
       class: "sqd-task-text",
 
