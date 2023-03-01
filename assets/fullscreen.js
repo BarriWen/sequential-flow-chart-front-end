@@ -42,7 +42,7 @@ function toolboxGroup(name) {
 			]
 		};
 	}
-	
+
 }
 
 let designer;
@@ -58,7 +58,7 @@ const configuration = {
 
 	steps: {
 		iconUrlProvider: (componentType, type) => {
-			return `./assets/icon-${type}.svg`
+			return `../assets/icon-${type}.svg`
 		},
 
 		validator: (step) => {
@@ -89,9 +89,9 @@ const configuration = {
 			});
 			return root;
 		}
-		
+
 	}
-	
+
 };
 
 // Create steps
@@ -113,16 +113,15 @@ function createStep(currElement) {
 		const False = currElement.branches.False;
 		let trueBranch = [];
 		let falseBranch = [];
-		for (let j = 0; j < True.length; j++){
+		for (let j = 0; j < True.length; j++) {
 			step = createStep(True[j]);
 			trueBranch.push(step);
 		}
-		for (let j = 0; j < False.length; j++){
+		for (let j = 0; j < False.length; j++) {
 			step = createStep(False[j]);
 			falseBranch.push(step);
 		}
 		step = createIfStep(currElement.id, trueBranch, falseBranch);
-		// Adding more properties
 		step.createdAt = currElement.createdAt;
 		step.createdBy = currElement.createdBy;
 		step.updatedAt = currElement.updatedAt;
@@ -130,14 +129,14 @@ function createStep(currElement) {
 		step.properties = currElement.properties;
 		// step.properties.Run = currElement.properties.Run;
 	}
-		
+
 	return step;
 }
 
 // Return start definition
 function loadDefinition(input) {
 	let sequence = [];
-	
+
 	if (!(input.sequence === undefined)) {
 		const l = input.sequence.length;
 		for (let i = 0; i < l; i++) {
@@ -146,39 +145,39 @@ function loadDefinition(input) {
 	}
 	return {
 		properties: {
-			journeyName:input.properties.journeyName,
+			journeyName: input.properties.journeyName,
 			createdAt: new Date(input.properties.createdAt),
 			createdBy: input.properties.createdBy,
 			updatedAt: new Date(input.properties.updatedAt),
 			updatedBy: input.properties.updatedBy,
-			description:input.properties.description,
+			description: input.properties.description,
 			journeyId: input.properties.journeyId
 		},
 		sequence
 	};
 }
 
-function createDesinger(startDefinition){
+function createDesinger(startDefinition) {
 	const placeholder = document.getElementById('designer');
 	designer = sequentialWorkflowDesigner.create(placeholder, startDefinition, configuration);
 	drawButtons();
-	setTimeout(saver,timeout); 			// Auto saving starts
+	setTimeout(saver, timeout); 			// Auto saving starts
 	designer.onDefinitionChanged.subscribe((newDefinition) => {
 		clearTimeout(timeoutID);
 		console.log('the definition has changed', newDefinition);
 		designer.context.definition.properties.updatedAt = new Date();
 		console.log("Save journey when definition changes");
-		setTimeout(saver,0); 
+		setTimeout(saver, 0);
 	});
 }
 
 
-function drawButtons(){
+function drawButtons() {
 	const canvas = document.getElementsByClassName('sqd-designer')[0];
 	const dropDiv = document.createElement('div');
 	dropDiv.setAttribute('class', 'dropdown-div');
 	const dropBtn = document.createElement('button');
-	dropBtn.setAttribute('class','dropdown-btn');
+	dropBtn.setAttribute('class', 'dropdown-btn');
 	dropBtn.innerText = 'Draft		';
 	const icon = document.createElement('i');
 	icon.setAttribute('class', 'fa fa-angle-down');
@@ -187,52 +186,52 @@ function drawButtons(){
 	const dropContent = document.createElement('div');
 	dropContent.setAttribute('class', 'dropdown-content-div sqd-hidden');
 	dropContent.setAttribute('id', 'dropdown-content');
-	dropBtn.addEventListener('click', function(e) {
+	dropBtn.addEventListener('click', function (e) {
 		e.preventDefault();
 		e.stopPropagation();
 		dropContent.classList.remove("sqd-hidden");
 	});
 	const butt1 = document.createElement('button');
-	butt1.setAttribute('class','dropdown-btn');
+	butt1.setAttribute('class', 'dropdown-btn');
 	butt1.innerText = 'Save Journey';
 	dropContent.appendChild(butt1);
 	butt1.insertAdjacentHTML("afterend", "</br>");
 	// Activate journey
 	const butt2 = document.createElement('button');
-	butt2.setAttribute('class','dropdown-btn');
-	butt2.setAttribute('onClick','onActivateClicked()');
+	butt2.setAttribute('class', 'dropdown-btn');
+	butt2.setAttribute('onClick', 'onActivateClicked()');
 	butt2.innerText = 'Activate Journey';
 	dropContent.appendChild(butt2);
 	dropDiv.appendChild(dropContent);
 	canvas.appendChild(dropDiv);
 
-	butt1.addEventListener('click', function(e) {
+	butt1.addEventListener('click', function (e) {
 		e.preventDefault();
 		e.stopPropagation();
 		dropContent.classList.add("sqd-hidden");
 		document.getElementsByClassName('dropdown-btn')[0].appendChild(icon);
 		const target = JSON.stringify(designer.context.definition);
 		console.log("Auto save canceled");
-		window.clearTimeout(timeoutID);	
+		window.clearTimeout(timeoutID);
 		makeReq("POST", "http://localhost:8080/journey/saveJourney", target, 200);
 	});
 
-	butt2.addEventListener('click', function(e) {
+	butt2.addEventListener('click', function (e) {
 		e.preventDefault();
 		e.stopPropagation();
 		dropContent.classList.add("sqd-hidden");
 		document.getElementsByClassName('dropdown-btn')[0].appendChild(icon);
 		const target = JSON.stringify(designer.context.definition);
 		console.log("Auto save canceled");
-		window.clearTimeout(timeoutID);	
+		window.clearTimeout(timeoutID);
 		makeReq("POST", "http://localhost:8080/journey/activateJourney", target, 200);
 	});
 
-	window.onclick = function(e) {
+	window.onclick = function (e) {
 		if (!e.target.matches('.dropdown-btn')) {
-		  if (!dropContent.classList.contains('sqd-hidden')) {
-			dropContent.classList.add('sqd-hidden');
-		  }
+			if (!dropContent.classList.contains('sqd-hidden')) {
+				dropContent.classList.add('sqd-hidden');
+			}
 		}
 	}
 }
@@ -244,7 +243,7 @@ function onActivateClicked() {
 	// dropBtn.appendChild(icon);
 	// document.getElementsByClassName('dropdown-btn')[2].innerText = 'Draft		';
 	const target = document.getElementsByClassName('sqd-global-editor')[0].children[0].children[0];
-	console.log("activate",target.value);
+	console.log("activate", target.value);
 	makeReq("POST", "http://localhost:8080/journey/activateJourney", target.value, 200);
 }
 
@@ -260,8 +259,8 @@ function makeReq(method, target, data, returnCode) {
 	httpRequest.onreadystatechange = makeHandler(httpRequest, returnCode, method);
 
 	httpRequest.open(method, target);
-	
-	if (data){
+
+	if (data) {
 		// console.log(data);
 		httpRequest.setRequestHeader('Content-Type', 'application/json');
 		httpRequest.send(data);
@@ -295,16 +294,20 @@ let timeoutID;
 let timeout = 5 * 60 * 1000;
 let startDefinition;
 let journeyID;
+var url = window.location.pathname;
+const userID = url.slice(5);
+
+console.log(userID)
 
 console.log("create empty canvas")
 const input = {
 	properties: {
-		journeyName:'test',
+		journeyName: 'test',
 		createdAt: new Date(),
-		createdBy: "userID",
+		createdBy: userID,
 		updatedAt: new Date(),
-		updatedBy: "userID",
-		description:" ",
+		updatedBy: userID,
+		description: " ",
 		journeyId: ""
 	},
 	sequence: [
@@ -313,7 +316,7 @@ const input = {
 createDesinger(input);
 
 // Auto Save
-function saver(){
+function saver() {
 	console.log("saving...", Date());
 	const target = JSON.stringify(designer.context.definition);
 	makeReq('POST', "http://localhost:8080/journey/saveJourney", target, 200);
@@ -327,7 +330,7 @@ document.addEventListener('visibilitychange', function () {
 		console.log("saving from leaving the page", Date());
 		const target = JSON.stringify(designer.context.definition);
 		makeReq('POST', "http://localhost:8080/journey/saveJourney", target, 200);
-	} 
+	}
 	if (document.visibilityState == 'visible') {
 		// Auto save back on
 		setTimeout(saver, timeout);
