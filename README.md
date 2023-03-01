@@ -19,8 +19,8 @@
       ```
       node serve.js
       ```
-   3. Open http://localhost:3001 in browser
-   4. if use tagupdate branch Open http://localhost3001/new/:userid
+   
+   3. Open http://localhost3001/new/:userid in browser
    
 ### Connect to Dashboard
    1. Fetch folder IFTteam/JourneyDasgBoard. In project folder:
