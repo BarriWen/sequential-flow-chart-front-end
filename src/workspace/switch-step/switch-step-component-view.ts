@@ -19,8 +19,8 @@ const RECT_RADIUS = 15;
 const MIN_TEXT_WIDTH = 98; // 70
 const PADDING_Y = 10;
 const ICON_SIZE = 22;
-const RECT_X = -19; 
-const MORE_X = 374; 
+const RECT_X = -19;
+const MORE_X = 374;
 const DROPDOWN_Y = 83;
 const DROPDOWN_X1 = -5;
 const DROPDOWN_X2 = 136;
@@ -122,27 +122,27 @@ export class SwitchStepComponentView implements ComponentView {
     const g1 = Dom.svg("g");
 
     const text = Dom.svg("text", {
-      x: RECT_X + 34,
+      x: ICON_SIZE + containerWidths[0] - PADDING_X / 2 - 187, // = 42 -> 15
       y: boxHeight / 2.0 + PADDING_TOP,
       class: "sqd-task-text",
     });
     text.textContent = "If/Else";
     g1.appendChild(text);
     const textWidth = Math.max(text.getBBox().width, MIN_TEXT_WIDTH);
-    const boxWidth = ICON_SIZE + 8 * PADDING_X + 2 * textWidth;
+    const boxWidth = ICON_SIZE + 10 * PADDING_X + 2 * textWidth;
 
     const rect = Dom.svg("rect", {
-      x: RECT_X, // containerWidths[0] - textWidth - 85,
+      x: containerWidths[0] - textWidth - 110, // = 7 -> -18
       y: PADDING_TOP,
       class: "sqd-task-rect",
-      width: 420,
+      width: boxWidth,
       height: boxHeight,
       rx: 15,
       ry: 15,
     });
     g1.insertBefore(rect, text);
     const rectLeft = Dom.svg("rect", {
-      x: RECT_X,
+      x: containerWidths[0] - textWidth - 110,
       y: PADDING_TOP,
       class: "sqd-task-rect",
       width: textWidth + 5,
@@ -152,7 +152,7 @@ export class SwitchStepComponentView implements ComponentView {
 
     });
     const textRight = Dom.svg("text", {
-      x: MORE_X - 106,
+      x: ICON_SIZE + containerWidths[0] - 37, // = 252 -> 175
       y: boxHeight / 2.0 + PADDING_TOP,
       class: "sqd-task-text",
 
@@ -239,21 +239,21 @@ export class SwitchStepComponentView implements ComponentView {
       });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
-      x: MORE_X,
-      y: PADDING_TOP * 1.2,
+      x: ICON_SIZE + containerWidths[0] + PADDING_X + textWidth + 43, // = 358 -> 373
+      y: PADDING_TOP * 1.2, // = 24
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
-    const rightCopyImgContainer = Dom.svg("g", {
-      class: "sqd-task-deleteImgContainer",
-    });
 
     // =========== More icons
-    // =========== RESET icon
+    // =========== COPY icon
+    const rightCopyImgContainer = Dom.svg("g", {
+      class: "sqd-task-copyImgContainer",
+    });
     const rightCopyImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
-      x: MORE_X + 42, 
-      y: PADDING_Y + 10, //  - 6, 4,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 112,
+      y: PADDING_Y + 10, // 
     });
     Dom.attrs(rightCopyImgContainerCircle, {
       width: 30,
@@ -274,7 +274,7 @@ export class SwitchStepComponentView implements ComponentView {
     Dom.attrs(changeIcon, {
       class: "moreicon",
       id: `RightCopyIcon-${step.id}`,
-      x: MORE_X + 47,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 116,
       y: PADDING_Y + 14,
       width: ICON_SIZE,
       height: ICON_SIZE,
@@ -288,8 +288,8 @@ export class SwitchStepComponentView implements ComponentView {
     });
     const rightDeleteImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
-      x: MORE_X + 22,
-      y: PADDING_Y + 40, 
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 92,
+      y: PADDING_Y + 40,
     });
     Dom.attrs(rightDeleteImgContainerCircle, {
       width: 30,
@@ -310,7 +310,7 @@ export class SwitchStepComponentView implements ComponentView {
     Dom.attrs(deleteIcon, {
       class: "moreicon",
       id: `RightDeleteIcon-${step.id}`,
-      x: MORE_X + 27,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 95,
       y: PADDING_Y + 43,
       width: 22,
       height: 22,
@@ -320,11 +320,11 @@ export class SwitchStepComponentView implements ComponentView {
 
     // ============ EDIT icon
     const rightEditImgContainer = Dom.svg("g", {
-      class: "sqd-task-deleteImgContainer",
+      class: "sqd-task-editImgContainer",
     });
     const rightEditImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
-      x: MORE_X + 22, 
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 92, // 380 -> 390
       y: PADDING_Y - 20, // -30
     });
     Dom.attrs(rightEditImgContainerCircle, {
@@ -345,7 +345,7 @@ export class SwitchStepComponentView implements ComponentView {
       });
     Dom.attrs(editIcon, {
       class: "moreicon",
-      x: MORE_X + 27,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 95,
       y: PADDING_Y - 16,
       width: ICON_SIZE,
       height: ICON_SIZE,
@@ -487,14 +487,14 @@ export class SwitchStepComponentView implements ComponentView {
     });
     Dom.attrs(reminder1, {
       id: `reminder1${Date.now()}`,
-      x: MORE_X + 61,
-      y: -8,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 132, // 380 -> 420 
+      y: PADDING_Y - 18, // -25 -> -8
     });
 
     const reminderText1 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: MORE_X + 61 + 12,
-      y: -8 + 12,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 132 + 13,
+      y: PADDING_Y - 6,
     });
     Dom.attrs(reminderText1, {
       //class: 'sqd-hidden',
@@ -513,14 +513,14 @@ export class SwitchStepComponentView implements ComponentView {
     });
     Dom.attrs(reminder2, {
       id: `reminder2${Date.now()}`,
-      x: MORE_X + 81,
-      y: 22,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 152,
+      y: PADDING_Y + 13,
     });
 
     const reminderText2 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: MORE_X + 81 + 8,
-      y: 22 + 12,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 152 + 8,
+      y: PADDING_Y + 13 + 12,
     });
     Dom.attrs(reminderText2, {
       //class: 'sqd-hidden',
@@ -539,14 +539,14 @@ export class SwitchStepComponentView implements ComponentView {
     });
     Dom.attrs(reminder3, {
       id: `reminder3${Date.now()}`,
-      x: MORE_X + 61,
-      y: 52,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 132,
+      y: PADDING_Y + 43,
     });
 
     const reminderText3 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: MORE_X + 67,
-      y: 52 + 12,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 140,
+      y: PADDING_Y + 43 + 12,
     });
     Dom.attrs(reminderText3, {
       //class: 'sqd-hidden',
@@ -576,10 +576,10 @@ export class SwitchStepComponentView implements ComponentView {
     });
 
     const rect1 = Dom.svg("rect", {
-      x: RECT_X,
-      y: 53,
+      x: containerWidths[0] - textWidth - 110,
+      y: PADDING_TOP + 33,  //53,
       class: "sqd-task-rect",
-      width: 420,
+      width: boxWidth,
       height: 2.5 * boxHeight,
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,
@@ -688,8 +688,8 @@ export class SwitchStepComponentView implements ComponentView {
       stroke: "#a0a0a0",
       x: DROPDOWN_X1,
       y: DROPDOWN_Y,
-      rx: 5, 
-      ry: 5, 
+      rx: 5,
+      ry: 5,
     });
     const dropdownBoxShape1 = Dom.svg("rect", {
       width: DROPDOWN2_W,
@@ -699,8 +699,8 @@ export class SwitchStepComponentView implements ComponentView {
       stroke: "#a0a0a0",
       x: DROPDOWN_X2,
       y: DROPDOWN_Y,
-      rx: 5, 
-      ry: 5, 
+      rx: 5,
+      ry: 5,
     });
     const dropdownBoxShape2 = Dom.svg("rect", {
       width: DROPDOWN1_W,
@@ -710,8 +710,8 @@ export class SwitchStepComponentView implements ComponentView {
       stroke: "#a0a0a0",
       x: DROPDOWN_X3,
       y: DROPDOWN_Y,
-      rx: 5, 
-      ry: 5, 
+      rx: 5,
+      ry: 5,
     });
     const dropdownBoxShapeMain1 = Dom.svg("rect", {
       width: DROPDOWN1_W,
@@ -721,8 +721,8 @@ export class SwitchStepComponentView implements ComponentView {
       stroke: "#a0a0a0",
       x: DROPDOWN_X1,
       y: DROPDOWN_Y + DROPDOWN_H,
-      rx: 5, 
-      ry: 5, 
+      rx: 5,
+      ry: 5,
     });
     const dropdownBoxShapeMain2 = Dom.svg("rect", {
       width: DROPDOWN1_W,
@@ -732,8 +732,8 @@ export class SwitchStepComponentView implements ComponentView {
       stroke: "#a0a0a0",
       x: DROPDOWN_X1,
       y: DROPDOWN_Y + 2 * DROPDOWN_H,
-      rx: 5, 
-      ry: 5, 
+      rx: 5,
+      ry: 5,
     });
     // ================= dropdownRightButton
     const dropdownRightButton = Dom.svg("text", {
