@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Multi Date Picker</title>
+  </head>
+  <body>
+    <span>Calendar Example :</span>
+    <div id="calendar"></div>
+
+    <span>DatePicker Example :</span>
+    <div id="datePicker"></div>
+
+    <span>Plugins Example :</span>
+    <div id="datePickerWithPlugin"></div>
+
+    <!-- Ract -->
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+
+    <!-- DatePicker and dependencies-->
+    <script src="https://cdn.jsdelivr.net/npm/date-object@latest/dist/umd/date-object.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-element-popper@latest/build/browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-multi-date-picker@latest/build/browser.min.js"></script>
+
+    <!-- Optional Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/react-multi-date-picker@latest/build/date_picker_header.browser.js"></script>
+
+    <script>
+      const { DatePicker, Calendar } = ReactMultiDatePicker;
+
+      ReactDOM.render(
+        React.createElement(Calendar),
+        document.getElementById("calendar")
+      );
+
+      ReactDOM.render(
+        React.createElement(DatePicker),
+        document.getElementById("datePicker")
+      );
+
+      ReactDOM.render(
+        React.createElement(DatePicker, {
+          plugins: [React.createElement(DatePickerHeader)],
+        }),
+        document.getElementById("datePickerWithPlugin")
+      );
+    </script>
+  </body>
+</html>

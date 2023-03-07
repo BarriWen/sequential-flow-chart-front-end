@@ -41,7 +41,6 @@ export interface Branches {
 export interface Properties {
   [name: string]: string | number;
 }
-
 export interface journeyProperties {
   journeyName: string;
   createdAt: string;

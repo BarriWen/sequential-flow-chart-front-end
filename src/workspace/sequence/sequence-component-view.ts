@@ -20,7 +20,7 @@ function addStop() {
     cy: SIZE / 2,
     r: SIZE / 2,
   });
-  const g = Dom.svg("g", { class: "stop" });
+  const g = Dom.svg("g", { class: "stop" , id: "stop"});
   g.appendChild(circle);
 
   const stop = Dom.svg("rect", {

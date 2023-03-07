@@ -60,7 +60,7 @@ export class ScrollBoxView {
 		let height = Math.min(this.viewport.clientHeight * maxHeightPercent, element.clientHeight);
 		height = Math.min(height, this.viewport.clientHeight - minDistance);
 
-		this.root.style.height = height +5+ 'px';
+		this.root.style.height = height + 'px';
 		element.style.top = '0px';
 
 		this.content = {

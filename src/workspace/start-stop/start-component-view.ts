@@ -31,14 +31,14 @@ export class StartComponentView implements ComponentView {
         g,
         view.joinX - SIZE / 3,
         0,
-        "Click here to choose your trigger"
+        "     Set up the trigger     "
       );
     } else if (!sequence[0].id.startsWith("start-component")) {
       startCircle = createCircle(
         g,
         view.joinX - SIZE / 3,
         0,
-        "Click here to choose your trigger"
+        "     Set up the trigger     "
       );
     } else {
       startCircle = createCircle(g, view.joinX - SIZE / 3, 0, " ");
@@ -46,7 +46,7 @@ export class StartComponentView implements ComponentView {
     // Dom.translate(startCircle, view.joinX - SIZE / 2, 0);
     g.appendChild(startCircle);
 
-    Dom.translate(view.g, 0, SIZE);
+    Dom.translate(view.g, 100, SIZE);
 
     return new StartComponentView(
       g,
@@ -94,7 +94,7 @@ function createCircle(
 
   const nameText = Dom.svg("text", {
     class: "sqd-label-text",
-    x,
+    x: x+10,
     y: y + LABEL_HEIGHT$1 / 2,
   });
   nameText.textContent = text;
@@ -105,12 +105,12 @@ function createCircle(
   );
   const nameRect = Dom.svg("rect", {
     class: "sqd-label-rect",
-    width: nameWidth,
+    width: nameWidth*2,
     height: LABEL_HEIGHT$1,
-    x: x - nameWidth / 2,
+    x:x - nameWidth / 2-50,
     y,
-    rx: 10,
-    ry: 10,
+    rx: 20,
+    ry: 20,
   });
 
   g.insertBefore(nameRect, nameText);

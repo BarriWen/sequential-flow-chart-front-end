@@ -72,7 +72,10 @@ export class WorkspaceView {
     private readonly configuration: StepsConfiguration
   ) {}
 
+  
+
   public editStartComp(sequence: Sequence, journeyID: string) {
+    
     const start = document.getElementById("start");
     const tempThis = this;
     if (start != null) {
@@ -86,8 +89,25 @@ export class WorkspaceView {
           "Unsubscribe",
           "Place a Purchase",
           "Abandon Checkout",
-          "Time Trigger",
+          "Time Trigger"
         ];
+
+        const triggers_content =[
+          "The automation begins when a contact subscribes to a list.",
+          "The automation begins when a contact unsubscribes from a list.",
+          "The automation begins when a contact makes a purchase.",
+          "The automaiton begins when a contact abandons a cart.",
+          "The automation begins when a contact schedules a specific date."
+        ];
+
+        const triggers_img = [
+          "../assets/subscribe.png",
+          "../assets/unsubscribe.png",
+          "../assets/purchase.png",
+          "../assets/abandon.png",
+          "../assets/time-trigger.png"
+        ];
+
         const types = [
           "Subscribe",
           "Unsubscribe",
@@ -101,6 +121,13 @@ export class WorkspaceView {
           method: "dialog",
         });
 
+        const prompt = Dom.element("p");
+        Dom.attrs(prompt, {
+          class: "prompt",
+        });
+        prompt.innerHTML = "Please Select the Trigger";
+        dialogForm.appendChild(prompt);
+
         for (let i = 0; i < triggers.length; i++) {
           const btn1 = Dom.element("button");
           Dom.attrs(btn1, {
@@ -109,8 +136,9 @@ export class WorkspaceView {
             name: "userChoice",
             value: i,
           });
-
-          btn1.innerText = triggers[i];
+      
+          btn1.innerHTML = `<span style="font-size:16px">${triggers[i]}</span><br/>${triggers_content[i]}`;
+          btn1.style.backgroundImage = `url("${triggers_img[i]}")`;
           btn1.addEventListener("click", function (e: MouseEvent) {
             e.preventDefault();
             const target = e.target as HTMLInputElement;
@@ -118,7 +146,7 @@ export class WorkspaceView {
               id: `start-component-${journeyID}`,
               componentType: ComponentType.task,
               type: "save",
-              name: triggers[parseInt(target.value)],
+              name: triggers[i],
               createdAt: new Date(),
               createdBy: "userID",
               updatedAt: new Date(),
@@ -142,6 +170,12 @@ export class WorkspaceView {
           dialogBox.showModal();
         } catch (error) {
           console.log(error);
+        }
+
+        dialogBox.addEventListener("click", onClick);
+
+        function onClick(event:MouseEvent) {
+          dialogBox.close();
         }
       });
     }

@@ -6,6 +6,8 @@ import { InputView } from "../common-views/input-view";
 import { OutputView } from "../common-views/output-view";
 import { ValidationErrorView } from "../common-views/validation-error-view";
 import { ComponentView } from "../component";
+
+
 // import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 // import { TaskStepComponentView } from "./task-step-component-view";
 // import { ListItem } from "ng-multiselect-dropdown/multiselect.model";
@@ -25,8 +27,10 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     public rect: SVGRectElement,
     public readonly inputView: InputView,
     public readonly outputView: OutputView,
-    public readonly validationErrorView: ValidationErrorView
+    public readonly validationErrorView: ValidationErrorView,
   ) {}
+
+  
   public static create(
     parent: SVGElement,
     step: TaskStep,
@@ -40,7 +44,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
       x: PADDING_X/1.5,
-      y: boxHeight / 1.7,
+      y: boxHeight / 1.7-3,
       class: "sqd-task-text",
     });
     text.textContent = step.name;
@@ -67,8 +71,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       ry: RECT_RADIUS,
     });
     const textRight = Dom.svg("text", {
-      x: ICON_SIZE + 3 * PADDING_X + textWidth - 10,
-      y: boxHeight / 1.7,
+      x: ICON_SIZE + 3 * PADDING_X + textWidth - 6,
+      y: boxHeight / 1.7-2,
       class: "sqd-task-text",
     });
     if (step.properties.send) {
@@ -145,7 +149,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "../assets/trigger_more.svg";
+    const moreUrl = "./assets/more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -177,7 +181,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const changeUrl = "../assets/change.svg";
+    const changeUrl = "./assets/change.svg";
     const changeIcon = changeUrl
       ? Dom.svg("image", {
           href: changeUrl,
@@ -211,7 +215,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const deleteUrl = "../assets/delete.svg";
+    const deleteUrl = "./assets/delete.svg";
     const deleteIcon = deleteUrl
       ? Dom.svg("image", {
           href: deleteUrl,
@@ -245,7 +249,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const editUrl = "../assets/edit.svg";
+    const editUrl = "./assets/edit.svg";
     const editIcon = editUrl
       ? Dom.svg("image", {
           href: editUrl,
@@ -280,7 +284,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "../assets/check.svg";
+    const upCheckIconUrl = "./assets/check.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -314,7 +318,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upDeleteIconUrl = "../assets/delete.svg";
+    const upDeleteIconUrl = "./assets/delete.svg";
     const upDeleteIcon = upDeleteIconUrl
       ? Dom.svg("image", {
           href: upDeleteIconUrl,
@@ -349,7 +353,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upchangeUrl = "../assets/change.svg";
+    const upchangeUrl = "./assets/change.svg";
     const upchangeIcon = upchangeUrl
       ? Dom.svg("image", {
           href: upchangeUrl,
@@ -482,14 +486,13 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     //***********start with general node****************//
     const gDropdown = Dom.svg("g", {
       class: `sqd-task-group dropdown sqd-hidden Collapsed`,
-      id:"timetrigger-dropdown"
     });
     const rect1 = Dom.svg("rect", {
       x: 0.5,
       y: boxHeight,
       class: "sqd-task-rect",
       width: boxWidth,
-      height: 6 * boxHeight,
+      height: 370,
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,
     });
@@ -515,13 +518,21 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     foreignObjectTag.setAttribute("x", "0.5"); //Set rect data
     foreignObjectTag.setAttribute("y", "32"); //Set rect data
     foreignObjectTag.setAttribute("width", "258"); //Set rect data
-    foreignObjectTag.setAttribute("height", "128"); //Set rect data
+    foreignObjectTag.setAttribute("height", "370"); //Set rect data
     //foreignObjectTag.setAttribute("class", "sqd-hidden");
     var divTimeTriggerSendTimeTag = document.createElementNS(
       "http://www.w3.org/1999/xhtml",
       "div"
     );
     var divTimeTriggerSelectListTag = document.createElementNS(
+      "http://www.w3.org/1999/xhtml",
+      "div"
+    );
+    var divTimeTriggerRecurring = document.createElementNS(
+      "http://www.w3.org/1999/xhtml",
+      "div"
+    );
+    var divTimeTriggerCalender = document.createElementNS(
       "http://www.w3.org/1999/xhtml",
       "div"
     );
@@ -533,6 +544,19 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       "class",
       "divTimeTriggerSendTimeTag"
     );
+    divTimeTriggerRecurring.setAttribute(
+      "class",
+      "divTimeTriggerRecurring"
+    )
+    divTimeTriggerCalender.setAttribute(
+      "class",
+      "divTimeTriggerCalender"
+    )
+
+    divTimeTriggerCalender.setAttribute(
+      "id",
+      "calender"
+    )
     //divTagWaitTime.setAttribute("class", "sqd-hidden");
     var collection = document.createElement("Form");
     collection.setAttribute("class", "timeTriggercollection");
@@ -540,17 +564,41 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     var selectListSelect = document.createElement("select");
     selectListSelect.setAttribute("class", "timeTriggerSelectTimeselect");
 
-    let selectList = ["List A", "List B", "List C"];
-    for (var i = 0; i < 3; i++) {
-      var optional = Dom.element("option", {
-        value: i,
-      });
-      optional.innerText = selectList[i];
-      selectListSelect.appendChild(optional);
+    const userID = 123; //Need to be changed to current user
+    const request = new Request(`http://localhost:8080/dashboard/getAudiencelist/${userID}`, {method: 'GET'});
+    let list: string[] = [];
+    // Async way to fetch audience list
+    const getlist = async ()=> {
+      const response = await fetch(request);
+      if (response.ok) {
+        const val = await response.json();
+        pulltheList(val);
+      } 
+    };
+
+    getlist();
+
+    const pulltheList= function (list: string[]){
+      
+      for (var i = -1; i < list.length; i++) {
+        var optional = Dom.element("option", {
+          value: i,
+        });
+
+        if(i == -1){
+          optional.innerText = "Any List";
+        }else{
+          optional.innerText = list[i];
+        }
+        selectListSelect.appendChild(optional);
+      }
     }
+
     collection.appendChild(choice1Text);
     collection.appendChild(selectListSelect);
 
+
+    let selectList = ["List A", "List B", "List C"];
     var sendTimecollection = document.createElement("Form");
     sendTimecollection.setAttribute("class", "timeTriggersendTimecollection");
     let sendTimes = ["Once", "Recurring"];
@@ -563,46 +611,99 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       optional.innerText = sendTimes[i];
       sendTimeSelect.appendChild(optional);
     }
-    var divTagInput = document.createElement("INPUT") as HTMLInputElement;
-    divTagInput.setAttribute("class", "timeTriggerdivTagInput");
-    divTagInput.setAttribute("type", "datetime-local");
-    let week = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      " Thursday",
-      "friday",
-      "Saturday",
-      "Sunday",
-    ];
-    var weekSelect = document.createElement("select");
-    weekSelect.setAttribute("class", "weekSelect  sqd-hidden");
-    for (var i = 0; i < 7; i++) {
-      var optional = Dom.element("option", {
-        value: week[i],
-      });
-      optional.innerText = week[i];
-      weekSelect.appendChild(optional);
-    }
-    sendTimeSelect.addEventListener("change", function () {
-      if (sendTimeSelect.value == "Once") {
-        divTagInput.classList.remove("sqd-hidden");
-        weekSelect.classList.add("sqd-hidden");
-      } else {
-        divTagInput.classList.add("sqd-hidden");
-        weekSelect.classList.remove("sqd-hidden");
-      }
+    
+    //Create the rect for calender and recurring weeks checkboxes
+    const rect2 = Dom.svg("rect", {
+      x: 19,
+      y: 120,
+      class: "sqd-task-rect-inner",
+      width: 220,
+      height: 270,
+      rx: RECT_RADIUS,
+      ry: RECT_RADIUS,
     });
+
+    //Implement the calender
+    // var today = new Date();
+
+    // var leftArrowBtn = document.createElement("button");
+    // leftArrowBtn.setAttribute("class", "arrowBtn");
+    // leftArrowBtn.innerText = "<";
+
+    // var rightArrowBtn = document.createElement("button");
+    // rightArrowBtn.setAttribute("class", "arrowBtn");
+    // rightArrowBtn.innerText = ">";
+
+    // const calenderText = Dom.element("label");
+    // calenderText.innerText = `${today.getMonth()+1}`+' '+`${today.getFullYear()}`;
+    // calenderText.setAttribute("class", "calenderText");
+
+    // divTimeTriggerCalender.appendChild(leftArrowBtn);
+
+    //@ts-ignore
+    const { DatePicker, Calendar } = ReactMultiDatePicker;
+
+    //@ts-ignore
+    ReactDOM.render(
+      //@ts-ignore
+      React.createElement(Calendar, {
+        multiple: true,
+        // //@ts-ignore
+        // onChange: (newDate)=>{console.log(this.state)}
+      }),
+      divTimeTriggerCalender
+    );
+
+    console.log(Calendar);
+    
+    
+    // var divTagInput = document.createElement("INPUT") as HTMLInputElement;
+    // divTagInput.setAttribute("class", "timeTriggerdivTagInput");
+    // divTagInput.setAttribute("type", "datetime-local");
+
+    // let week = [
+    //   "Monday",
+    //   "Tuesday",
+    //   "Wednesday",
+    //   " Thursday",
+    //   "friday",
+    //   "Saturday",
+    //   "Sunday",
+    // ];
+
+
+    // var weekSelect = document.createElement("select");
+    // weekSelect.setAttribute("class", "weekSelect  sqd-hidden");
+    // for (var i = 0; i < 7; i++) {
+    //   var optional = Dom.element("option", {
+    //     value: week[i],
+    //   });
+    //   optional.innerText = week[i];
+    //   weekSelect.appendChild(optional);
+    // }
+    // sendTimeSelect.addEventListener("change", function () {
+    //   if (sendTimeSelect.value == "Once") {
+    //     // divTagInput.classList.remove("sqd-hidden");
+    //     weekSelect.classList.add("sqd-hidden");
+    //     rect1.setAttribute("height", "128");
+    //   } else {
+    //     // divTagInput.classList.add("sqd-hidden");
+    //     weekSelect.classList.remove("sqd-hidden");
+    //     rect1.setAttribute("height", "370");
+    //   }
+    // });
     sendTimecollection.appendChild(choice2Text);
     sendTimecollection.appendChild(sendTimeSelect);
-    sendTimecollection.appendChild(weekSelect);
-    sendTimecollection.appendChild(divTagInput);
+    // sendTimecollection.appendChild(weekSelect);
+    // sendTimecollection.appendChild(divTagInput);
 
     divTimeTriggerSelectListTag.appendChild(collection);
     divTimeTriggerSendTimeTag.appendChild(sendTimecollection);
     foreignObjectTag.appendChild(divTimeTriggerSelectListTag);
     foreignObjectTag.appendChild(divTimeTriggerSendTimeTag);
+    foreignObjectTag.appendChild(divTimeTriggerCalender);
     gDropdown.appendChild(rect1);
+    gDropdown.appendChild(rect2);
     gDropdown.appendChild(foreignObjectTag);
 
     moreIcon.addEventListener("click", function () {
@@ -612,6 +713,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
       gRightPop3.classList.toggle("sqd-hidden");
+      // document.getElementById("stop")?.classList.toggle("sqd-hidden");
 
       if (step.properties.list){
         const index = selectList.findIndex(a => a === step.properties.list.toString());
@@ -622,35 +724,35 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         sendTimeSelect.selectedIndex = index;
       }
 
-      if (step.properties.frequency == "Once" && divTagInput.value) {
-        divTagInput.value = step.properties.send.toString();
-        divTagInput.classList.remove("sqd-hidden");
-        weekSelect.classList.add("sqd-hidden");
-      }
-      else if (step.properties.frequency == "Recurring" && weekSelect.value) {
-        const index = week.findIndex(a => a === step.properties.send.toString());
-        weekSelect.selectedIndex = index;
-        divTagInput.classList.add("sqd-hidden");
-        weekSelect.classList.remove("sqd-hidden");
-      }
+      // if (step.properties.frequency == "Once" && divTagInput.value) {
+      //   divTagInput.value = step.properties.send.toString();
+      //   divTagInput.classList.remove("sqd-hidden");
+      //   weekSelect.classList.add("sqd-hidden");
+      // }
+      // else if (step.properties.frequency == "Recurring" && weekSelect.value) {
+      //   const index = week.findIndex(a => a === step.properties.send.toString());
+      //   weekSelect.selectedIndex = index;
+      //   divTagInput.classList.add("sqd-hidden");
+      //   weekSelect.classList.remove("sqd-hidden");
+      // }
     });
-    upCheckIcon.addEventListener("click", function () {
-      gDropdown.classList.toggle("sqd-hidden");
-      gUpPop3.classList.toggle("sqd-hidden");
-      if (sendTimeSelect.value == "Once" && divTagInput.value) {
-        step.properties.send = divTagInput.value;
-        textRight.textContent = divTagInput.value;
-        weekSelect.value = "";
-      }
-      else if (sendTimeSelect.value == "Recurring" && weekSelect.value){
-        step.properties.send = weekSelect.value;
-        textRight.textContent = "Every " + weekSelect.value;
-        divTagInput.value = "";
-      }
-      step.properties.frequency = sendTimeSelect.value;
-      step.properties.list = selectList[parseInt(selectListSelect.value)];
-      step["updatedAt"] = new Date();
-    });
+    // upCheckIcon.addEventListener("click", function () {
+    //   gDropdown.classList.toggle("sqd-hidden");
+    //   gUpPop3.classList.toggle("sqd-hidden");
+    //   if (sendTimeSelect.value == "Once" && divTagInput.value) {
+    //     step.properties.send = divTagInput.value;
+    //     textRight.textContent = divTagInput.value;
+    //     weekSelect.value = "";
+    //   }
+    //   else if (sendTimeSelect.value == "Recurring" && weekSelect.value){
+    //     step.properties.send = weekSelect.value;
+    //     textRight.textContent = "Every " + weekSelect.value;
+    //     divTagInput.value = "";
+    //   }
+    //   step.properties.frequency = sendTimeSelect.value;
+    //   step.properties.list = selectList[parseInt(selectListSelect.value)];
+    //   step["updatedAt"] = new Date();
+    // });
     // Show hints
     editIcon.addEventListener("mouseover", function(){
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
@@ -719,3 +821,5 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     this.validationErrorView.setIsHidden(isValid);
   }
 }
+
+

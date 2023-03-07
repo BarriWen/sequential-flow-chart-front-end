@@ -6,9 +6,6 @@ import { InputView } from "../common-views/input-view";
 import { OutputView } from "../common-views/output-view";
 import { ValidationErrorView } from "../common-views/validation-error-view";
 import { ComponentView } from "../component";
-import { StepComponentFactory } from "../step-component-factory";
-import { TaskStepComponent } from "./task-step-component";
-import { journeyProperties } from "../../definition";
 const PADDING_X = 12;
 const PADDING_Y = 10;
 const MIN_TEXT_WIDTH = 70;
@@ -30,7 +27,6 @@ export class TagComponentView implements ComponentView {
     parent: SVGElement,
     step: TaskStep,
     configuration: StepsConfiguration
-    
   ): TagComponentView {
     const g = Dom.svg("g", {
       class: `sqd-task-group sqd-type-${step.type}`,
@@ -140,7 +136,7 @@ export class TagComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "../assets/tag_more.svg";
+    const moreUrl = "./assets/more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -171,7 +167,7 @@ export class TagComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const copyUrl = "../assets/copy.svg";
+    const copyUrl = "./assets/copy.svg";
     const copyIcon = copyUrl
       ? Dom.svg("image", {
           href: copyUrl,
@@ -205,7 +201,7 @@ export class TagComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const deleteUrl = "../assets/delete.svg";
+    const deleteUrl = "./assets/delete.svg";
     const deleteIcon = deleteUrl
       ? Dom.svg("image", {
           href: deleteUrl,
@@ -239,7 +235,7 @@ export class TagComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const editUrl = "../assets/edit.svg";
+    const editUrl = "./assets/edit.svg";
     const editIcon = editUrl
       ? Dom.svg("image", {
           href: editUrl,
@@ -273,7 +269,7 @@ export class TagComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "../assets/check.svg";
+    const upCheckIconUrl = "./assets/check.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -307,7 +303,7 @@ export class TagComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upDeleteIconUrl = "../assets/delete.svg";
+    const upDeleteIconUrl = "./assets/delete.svg";
     const upDeleteIcon = upDeleteIconUrl
       ? Dom.svg("image", {
           href: upDeleteIconUrl,
@@ -342,7 +338,7 @@ export class TagComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCopyIconUrl = "../assets/copy.svg";
+    const upCopyIconUrl = "./assets/copy.svg";
     const upCopyIcon = upCopyIconUrl
       ? Dom.svg("image", {
           href: upCopyIconUrl,
@@ -497,8 +493,7 @@ export class TagComponentView implements ComponentView {
     });
     tagDropDown(gDropdown, boxHeight, boxWidth, newTag);
     if (step.name === "Add Tag") {
-      const tagFrontendId = step.id
-      addNewTag(gDropdown, boxHeight, boxWidth, upCheckIcon, newTag, tagFrontendId);
+      addNewTag(gDropdown, boxHeight, boxWidth, upCheckIcon, newTag);
     }
     g.appendChild(gRightPop3Reminder);
     g.appendChild(gUpPop3);
@@ -681,15 +676,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
   });
 
   // Fetch tags from backend
-  var url = window.location.pathname;
-  var userID  ;
-  if(url.includes("new")){
-    userID = url.slice(5);//Need to be changed to an existing user
-  }else{
-    userID = url.substring(1, url.lastIndexOf('/')+1);
-  }
-  
-  //Need to be changed to an existing journey; //Need to be changed to current user
+  const userID = 1; //Need to be changed to current user
   const request = new Request(`http://localhost:8080/tag/${userID}`, {method: 'GET'});
   let tags: string[] = [];
   // Async way to fetch tags
@@ -738,8 +725,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
     };
   };
 }
-
-function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement, tagId: string) {
+function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement) {
   const g = Dom.svg("g", {
     class: `create-tag`,
   });
@@ -804,12 +790,10 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
       e.stopPropagation();
       console.log('Will be sending to back end',input.value);
       // Post tag to backend
-      var url = window.location.pathname;
-      
-      const userID = url.slice(5);//Need to be changed to an existing user
-      const journeyID = 4  //Need to be changed to an existing journey
+      const userID = 1;      //Need to be changed to an existing user
+      const journeyID = 4;  //Need to be changed to an existing journey
       const data = {"tag_name": `${input.value}`};
-      const request = new Request(`http://localhost:8080/tags/${userID}`, {
+      const request = new Request(`http://localhost:8080/tags/${userID}/${journeyID}`, {
         method: 'POST', 
         headers: {
           "Content-Type": 'application/json'

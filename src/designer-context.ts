@@ -277,17 +277,19 @@ export function promptChoices(context: DesignerContext, component: StepComponent
       choice.insertAdjacentHTML("afterend", "</br>");
     }
   } else {
-    title.innerText = "Are you sure to delete this block?";
+    title.innerHTML = "Are you sure you want to<br>&nbsp&nbsp&nbsp&nbsp&nbspdelete the trigger?";
   }
   dialogBox.appendChild(title);
 
   const btn1 = Dom.element("button", {
     type: "submit",
+    class: "popup-button"
   });
   btn1.innerText = "Confirm";
   form.appendChild(btn1);
   const btn2 = Dom.element("button", {
     type: "submit",
+    class: "popup-button2"
   });
   btn2.innerText = "Cancel";
   

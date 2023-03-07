@@ -260,7 +260,7 @@ export class DesignerView {
       width: 80,
       height: 80,
     });
-    const avatarUrl = "../assets/avatar.svg";
+    const avatarUrl = "./assets/avatar.svg";
     const avatar = avatarUrl
       ? Dom.svg("image", {
           href: avatarUrl,

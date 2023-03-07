@@ -47,7 +47,6 @@ function createCircle(isStart: boolean): SVGGElement {
 		r: SIZE / 2
 	});
 
-
 	const g = Dom.svg('g');
 	g.appendChild(circle);
 
@@ -79,45 +78,29 @@ function createCircle(isStart: boolean): SVGGElement {
 
 // set a function to create more end points
 function createEndPoint(g: SVGGElement){
-	// const circle = Dom.svg('circle', {
-	// 	class: 'sqd-start-stop',
-	// 	cx: SIZE / 2,
-	// 	cy: SIZE / 2,
-	// 	r: SIZE / 2
-	// });
+	const circle = Dom.svg('circle', {
+		class: 'sqd-start-stod',
+		cx: SIZE / 2,
+		cy: SIZE / 2,
+		r: SIZE / 2
+	});
+	g.appendChild(circle);
+	const s = SIZE * 0.5;
+	const m = (SIZE - s) / 2;
 
+	const stop = Dom.svg('rect', {
+		class: 'sqd-start-stop-icon',
+		x: m,
+		y: m,
+		width: s,
+		height: s,
+		rx: 4,
+		ry: 4
+	});
 	
-	// g.appendChild(circle);
-	// const s = SIZE * 0.5;
-	// const m = (SIZE - s) / 2;
+	function getStop(){
+		return stop;
+	}
 
-	// const stop = Dom.svg('rect', {
-	// 	class: 'sqd-start-stop-icon',
-	// 	x: m,
-	// 	y: m,
-	// 	width: s,
-	// 	height: s,
-	// 	rx: 4,
-	// 	ry: 4,
-
-	// });
-	const moreUrl = "../assets/tag_more.svg";
-    const moreIcon = moreUrl
-      ? Dom.svg("image", {
-          href: moreUrl,
-        })
-      : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
-    Dom.attrs(moreIcon, {
-      class: "moreIcon",
-      x: SIZE,
-      y: 5,
-      width: SIZE,
-      height: SIZE,
-    });
-	
-	g.appendChild(moreIcon);
+	g.appendChild(stop);
 }

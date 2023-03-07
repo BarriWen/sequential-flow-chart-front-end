@@ -12,8 +12,8 @@ export declare class SwitchStepComponentView implements ComponentView {
     private readonly regionView;
     private readonly inputView;
     private readonly validationErrorView;
-    private constructor();
     static create(parent: SVGElement, step: SwitchStep, configuration: StepsConfiguration): SwitchStepComponentView;
+    private constructor();
     getClientPosition(): Vector;
     containsElement(element: Element): boolean;
     setIsDragging(isDragging: boolean): void;
