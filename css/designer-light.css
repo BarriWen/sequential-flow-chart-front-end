@@ -9,7 +9,7 @@
 
 .sqd-theme-light .sqd-toolbox {
 	background: #FFF;
-	box-shadow: 0 0 8px rgba(0, 0, 0, .15), 0 2px 4px rgba(0, 0, 0, .15);
+	box-shadow: 0 0 10px rgb(0, 192, 255, 0.5), 0 2px 4px rgba(0, 0, 0, .15);
 }
 .sqd-theme-light .sqd-toolbox-filter {
 	border: 1px solid #C3C3C3;
@@ -21,8 +21,7 @@
 	background: #E5E5E5;
 }
 .sqd-theme-light .sqd-toolbox-item {
-	border: 1px solid #C3C3C3;
-	box-shadow: 0 2px 2px rgba(0, 0, 0, .15);
+	
 }
 .sqd-theme-light .sqd-toolbox-item:hover {
 	border: 1px solid #939393;
@@ -68,7 +67,13 @@
 
 .sqd-theme-light .sqd-task-rect {
 	fill: #FFF;
-	stroke: #247D99;
+	stroke: #00D0FF;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-switch-rect {
+	fill: #FFF;
+	stroke: #1080A0;
 	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
 }
 

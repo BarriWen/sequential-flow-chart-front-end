@@ -8477,8 +8477,8 @@
 		// Add title box
 		const info = Dom.svg("svg", {
 		  class: "info-box",
-		  width: 320,
-		  height: 40,
+		  width: 340,
+		  height: 60,
 		});
 		const title = Dom.svg("text", {
 		  x: 160,
