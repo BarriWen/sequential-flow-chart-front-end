@@ -1146,6 +1146,7 @@
 		ry: 4,
 	  });
 	  g.appendChild(stop);
+	  g.insertBefore(stop, gDropdown);
 	  return g;
 	}
   

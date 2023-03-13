@@ -94,6 +94,7 @@ export class SequenceComponentView implements ComponentView {
         new Vector(maxJoinX, offsetY - PH_HEIGHT),
         PH_HEIGHT
       );
+      console.log("nice");
       placeholders.push(
         appendPlaceholder(g, maxJoinX - PH_WIDTH / 2, offsetY - PH_HEIGHT)
       );
@@ -103,6 +104,7 @@ export class SequenceComponentView implements ComponentView {
 
       // Calculate location
       g.appendChild(stop);
+      g.insertBefore(stop, g.firstChild);
     }
 
     let containsSwitch;
@@ -137,10 +139,10 @@ export class SequenceComponentView implements ComponentView {
       const lines = parent.childNodes[0].childNodes;
 
       if (components.length == 1) {
-        parent.childNodes[0].removeChild(lines[1]);
+        parent.childNodes[0].removeChild(lines[2]);
       } else {
         // console.log(lines);
-        parent.childNodes[0].removeChild(lines[components.length]);
+        parent.childNodes[0].removeChild(lines[components.length+1]);
         if (containsSwitch) {
           parent.childNodes[0].removeChild(lines[0]);
         }

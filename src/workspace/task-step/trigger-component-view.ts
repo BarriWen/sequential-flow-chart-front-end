@@ -28,24 +28,80 @@ export class TriggerComponentView implements ComponentView {
     step: TaskStep,
     configuration: StepsConfiguration
   ): TriggerComponentView {
+    var addon = 0;
+
+    switch(step.name){
+      case "Subscribe":
+        addon = 0;
+        break;
+      case "Unsubscribe":
+        addon = 14.383;
+        break;
+      case "Place a Purchase":
+        addon = 44.2115;
+        break;
+      case "Abandon Checkout":
+        addon = 54.8755;
+        break;
+    }
+
     const g = Dom.svg("g", {
       class: `sqd-task-group sqd-type-${step.type}`,
     });
+    
     parent.appendChild(g);
+    console.log(parent.children[0]);
     const boxHeight = ICON_SIZE + PADDING_Y;
+
     const text = Dom.svg("text", {
-      x: PADDING_X/1.5 + 4,
+      x: PADDING_X/1.5 + 4 + addon,
       y: boxHeight / 1.7-3,
       class: "sqd-task-text",
     });
+
     text.textContent = step.name;
     g.appendChild(text);
     const textWidth = Math.max(text.getBBox().width+16, MIN_TEXT_WIDTH);
     const boxWidth = ICON_SIZE + 8 * PADDING_X + 2 * textWidth;
+
+    const gTriggerHint = Dom.svg("g", {
+      class: "sqd-task-group-pop",
+    });
+
+    const join = Dom.svg('line', {
+			class: 'sqd-join-pop',
+			x1: 241.953 + addon,
+			y1: 16,
+			x2: 274.953 + addon,
+			y2: 16
+		});
+
+    const triggerHint = Dom.svg("rect", {
+      class: "sqd-task-rect-triggerhint",
+      x:266.953 + addon,
+      y:0.5,
+      height:boxHeight,
+      width: 175,
+      rx:9,
+      ry:9
+    });
+
+    const hint_text = Dom.svg("text", {
+      x: 276.953 + addon,
+      y: 17,
+      class: "sqd-task-text",
+    });
+    hint_text.textContent = "Please set up your trigger"
+
+    gTriggerHint.appendChild(join);
+    gTriggerHint.appendChild(triggerHint);
+    gTriggerHint.appendChild(hint_text);
+    
+
     const rect = Dom.svg("rect", {
-      x: 0.5,
+      x: 0.5 + addon,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: `sqd-task-rect-${step.name}`,
       width: 258,
       height: boxHeight,
       rx: RECT_RADIUS,
@@ -53,9 +109,9 @@ export class TriggerComponentView implements ComponentView {
     });
     g.insertBefore(rect, text);
     const rectLeft = Dom.svg("rect", {
-      x: 0.5,
+      x: 0.5 + addon,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: `sqd-task-rect-${step.name}`,
       width: textWidth + 5,
       height: boxHeight,
       rx: RECT_RADIUS,
@@ -63,7 +119,7 @@ export class TriggerComponentView implements ComponentView {
     });
     const textRight = Dom.svg("text", {
       // x: ICON_SIZE + 3 * PADDING_X + textWidth - 10,
-      x: (textWidth/MIN_TEXT_WIDTH)*48.5 + MIN_TEXT_WIDTH,
+      x: (textWidth/MIN_TEXT_WIDTH)*48.5 + MIN_TEXT_WIDTH + addon,
       y: boxHeight / 1.7+1,
       class: "sqd-task-text_2",
     });
@@ -136,7 +192,17 @@ export class TriggerComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "./assets/more.svg";
+    var moreUrl;
+    const moreDotUrl = "./assets/more-dot.svg"
+    if(step.name == "Subscribe" || step.name == "Unsubscribe"){
+      moreUrl = "./assets/more2.svg";
+    }else{
+      moreUrl = "./assets/more3.svg"
+    }
+
+    const gmoreIcon = Dom.svg("g", {
+      class: "moreIcon-group"
+    });
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -148,18 +214,37 @@ export class TriggerComponentView implements ComponentView {
         });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
-      x: 232,
+      x: 232 + addon,
       y: 5,
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
+    const moreIconDot = moreDotUrl
+      ? Dom.svg("image", {
+          href: moreDotUrl,
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
+    Dom.attrs(moreIconDot, {
+      class: "moreIconDot",
+      x: 236 + addon,
+      y: 8,
+      width: ICON_SIZE,
+      height: ICON_SIZE,
+    });
+    gmoreIcon.appendChild(moreIcon);
+    gmoreIcon.appendChild(moreIconDot);
+
     const rightCopyImgContainer = Dom.svg("g", {
       class: "sqd-task-deleteImgContainer",
     });
     const rightCopyImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
       // x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 60,
-      x: 270,
+      x: 270 + addon,
       y: PADDING_Y - 6,
     });
     Dom.attrs(rightCopyImgContainerCircle, {
@@ -182,7 +267,7 @@ export class TriggerComponentView implements ComponentView {
       class: "moreicon",
       id: `RightChangeIcon-${step.id}`,
       // x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 64,
-      x: 274,
+      x: 274 + addon,
       y: PADDING_Y - 2,
       width: ICON_SIZE,
       height: ICON_SIZE,
@@ -195,7 +280,7 @@ export class TriggerComponentView implements ComponentView {
     const rightDeleteImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
       // x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 46,
-      x: 256,
+      x: 256 + addon,
       y: PADDING_Y + 27,
     });
     Dom.attrs(rightDeleteImgContainerCircle, {
@@ -218,7 +303,7 @@ export class TriggerComponentView implements ComponentView {
       class: "moreicon",
       id: `RightDeleteIcon-${step.id}`,
       // x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 50,
-      x: 260,
+      x: 260 + addon,
       y: PADDING_Y + 30,
       width: 22,
       height: 22,
@@ -231,7 +316,7 @@ export class TriggerComponentView implements ComponentView {
     const rightEditImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
       // x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 50,
-      x: 260,
+      x: 260 + addon,
       y: PADDING_Y - 40,
     });
     Dom.attrs(rightEditImgContainerCircle, {
@@ -253,7 +338,7 @@ export class TriggerComponentView implements ComponentView {
     Dom.attrs(editIcon, {
       class: "moreicon",
       // x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 53,
-      x: 263,
+      x: 263 + addon,
       y: PADDING_Y - 36,
       width: ICON_SIZE,
       height: ICON_SIZE,
@@ -267,8 +352,9 @@ export class TriggerComponentView implements ComponentView {
     const checkImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
-      x: 170,
+      x: 170 + addon,
       y: PADDING_Y - 40,
+      style: "fill:#5495d4"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -276,7 +362,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "./assets/check.svg";
+    const upCheckIconUrl = "./assets/check-inside.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -287,13 +373,13 @@ export class TriggerComponentView implements ComponentView {
           ry: 4,
         });
     Dom.attrs(upCheckIcon, {
-      class: "moreicon",
+      class: "checkIcon-inside",
       // id: `tagUpCheckIcon`,
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
-      x: 174,
-      y: PADDING_Y - 37,
-      width: 22,
-      height: 22,
+      x: 177.4 + addon,
+      y: PADDING_Y - 33,
+      width: 18,
+      height: 18,
     });
     checkImgContainer.appendChild(checkImgContainerCircle);
     checkImgContainer.appendChild(upCheckIcon);
@@ -303,7 +389,7 @@ export class TriggerComponentView implements ComponentView {
     const deleteImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 41 + 110,
-      x: 232,
+      x: 232 + addon,
       y: PADDING_Y - 40,
     });
     Dom.attrs(deleteImgContainerCircle, {
@@ -326,13 +412,21 @@ export class TriggerComponentView implements ComponentView {
       class: "moreicon",
       id: `UpDeleteIcon-${step.id}`,
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 44 + 110,
-      x: 235,
+      x: 235 + addon,
       y: PADDING_Y - 37,
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
     deleteImgContainer.appendChild(deleteImgContainerCircle);
     deleteImgContainer.appendChild(upDeleteIcon);
+    upDeleteIcon.addEventListener("mousedown", function(){
+      deleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      upDeleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+    });
+    upDeleteIcon.addEventListener("mouseup", function(){
+      deleteImgContainerCircle.setAttribute("style", "fill:white");
+      upDeleteIcon.setAttribute("href", "./assets/delete.svg")
+    });
 
     const copyImgContainer = Dom.svg("g", {
       class: "sqd-task-deleteImgContainer",
@@ -340,7 +434,7 @@ export class TriggerComponentView implements ComponentView {
     const copyImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 22 + 98,
-      x: 201,
+      x: 201 + addon,
       y: PADDING_Y - 40,
     });
     Dom.attrs(copyImgContainerCircle, {
@@ -363,7 +457,7 @@ export class TriggerComponentView implements ComponentView {
       class: "moreicon",
       id: `UpChangeIcon-${step.id}`,
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 22 + 102,
-      x: 205,
+      x: 205 + addon,
       y: PADDING_Y - 37,
       width: ICON_SIZE,
       height: ICON_SIZE,
@@ -386,7 +480,7 @@ export class TriggerComponentView implements ComponentView {
           ry: 4,
         });
     Dom.attrs(downIcon, {
-      x: 181,
+      x: 181 + addon,
       y: PADDING_Y+50,
     });
     downImgContainer.appendChild(downIcon);
@@ -405,7 +499,7 @@ export class TriggerComponentView implements ComponentView {
         });
     Dom.attrs(downIcon1, {
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 22 + 78,
-      x: 181,
+      x: 181 + addon,
       y: PADDING_Y+85,
     });
     downImgContainer1.appendChild(downIcon1);
@@ -430,7 +524,7 @@ export class TriggerComponentView implements ComponentView {
       class: `sqd-task-group right-popup-reminder sqd-hidden`,
     });
     const reminder1 = Dom.svg("rect", {
-      x: 0.5,
+      x: 0.5 + addon,
       y: 0.5,
       class: "sqd-task-rect-pop",
       width: 50,
@@ -440,12 +534,12 @@ export class TriggerComponentView implements ComponentView {
     });
     Dom.attrs(reminder1, {
       id: `reminder1${Date.now()}`,
-      x: 300.95,
+      x: 300.95 + addon,
       y: PADDING_Y - 35,
     });
     const reminderText1 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: 313.45,
+      x: 313.45 + addon,
       y: PADDING_Y - 23,
     });
     Dom.attrs(reminderText1, {
@@ -454,7 +548,7 @@ export class TriggerComponentView implements ComponentView {
     });
     reminderText1.textContent = "Edit";
     const reminder2 = Dom.svg("rect", {
-      x: 0.5,
+      x: 0.5 + addon,
       y: 0.5,
       class: "sqd-task-rect-pop",
       width: 50,
@@ -464,13 +558,13 @@ export class TriggerComponentView implements ComponentView {
     });
     Dom.attrs(reminder2, {
       id: `reminder2${Date.now()}`,
-      x: 310.95,
+      x: 310.95 + addon,
       y: PADDING_Y,
     });
 
     const reminderText2 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: 320.95,
+      x: 320.95 + addon,
       y: PADDING_Y + 12,
     });
     Dom.attrs(reminderText2, {
@@ -479,7 +573,7 @@ export class TriggerComponentView implements ComponentView {
     });
     reminderText2.textContent = "Reset";
     const reminder3 = Dom.svg("rect", {
-      x: 0.5,
+      x: 0.5 + addon,
       y: 0.5,
       class: "sqd-task-rect-pop",
       width: 50,
@@ -489,13 +583,13 @@ export class TriggerComponentView implements ComponentView {
     });
     Dom.attrs(reminder3, {
       id: `reminder3${Date.now()}`,
-      x: 300.95,
+      x: 300.95 + addon,
       y: PADDING_Y + 35,
     });
 
     const reminderText3 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: 307.45,
+      x: 307.45 + addon,
       y: PADDING_Y + 47,
     });
     Dom.attrs(reminderText3, {
@@ -526,11 +620,11 @@ export class TriggerComponentView implements ComponentView {
     });
     
     const rect1 = Dom.svg("rect", {
-      x: 0.5,
-      y: boxHeight,
-      class: "sqd-task-rect",
+      x: 0.5 + addon,
+      y: 0.5,
+      class: `sqd-task-rect-${step.name}`,
       width: 258,
-      height: 2.5 * boxHeight+23,
+      height: 3.5 * boxHeight+23,
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,
     });
@@ -540,7 +634,7 @@ export class TriggerComponentView implements ComponentView {
     
     const nameText = Dom.svg("text", {
       class: "sqd-task-text",
-      x: PADDING_X+10,
+      x: PADDING_X+10 + addon,
       y: 1.5 * boxHeight+15,
     });
     Dom.attrs(nameText, {
@@ -549,7 +643,7 @@ export class TriggerComponentView implements ComponentView {
     });
     const nameText1 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: PADDING_X+10,
+      x: PADDING_X+10 + addon,
       y: 2 * boxHeight+35,
     });
     Dom.attrs(nameText1, {
@@ -581,7 +675,7 @@ export class TriggerComponentView implements ComponentView {
       stroke: "#BFBFBF",
       rx:"4", 
       ry:"4",
-      x: ICON_SIZE + 5 * PADDING_X+17,
+      x: ICON_SIZE + 5 * PADDING_X+17 + addon,
       y: 1.2 * boxHeight+15,
     });
     const dropdownBoxShape1 = Dom.svg("rect", {
@@ -592,25 +686,25 @@ export class TriggerComponentView implements ComponentView {
       stroke: "#BFBFBF",
       rx:"4", 
       ry:"4",
-      x: ICON_SIZE + 5 * PADDING_X+17,
+      x: ICON_SIZE + 5 * PADDING_X+17 + addon,
       y: 1.75 * boxHeight+32,
     });
 
     const dropdownRightButton = Dom.svg("text", {
       class: "sqd-task-text select-field",
-      x: ICON_SIZE + 9 * PADDING_X,
+      x: ICON_SIZE + 9 * PADDING_X + addon,
       y: 1.35 * boxHeight,
     });
     const dropdownRightButton1 = Dom.svg("text", {
       class: "sqd-task-text select-field",
-      x: ICON_SIZE + 9 * PADDING_X,
+      x: ICON_SIZE + 9 * PADDING_X + addon,
       y: 1.9 * boxHeight,
     });
     // dropdownRightButton.textContent = "▼";
     // dropdownRightButton1.textContent = "▼";
     const dropdownBoxInnerText = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 5 * PADDING_X+25,
+      x: ICON_SIZE + 5 * PADDING_X+25 + addon,
       y: 1.4 * boxHeight+18,
     });
     dropdownBoxInnerText.textContent = "Any list";
@@ -618,7 +712,7 @@ export class TriggerComponentView implements ComponentView {
 
     const dropdownBoxInnerText1 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 5 * PADDING_X+25,
+      x: ICON_SIZE + 5 * PADDING_X+25 + addon,
       y: 1.95 * boxHeight+34.5,
     });
     dropdownBoxInnerText1.textContent = "Once";
@@ -630,7 +724,7 @@ export class TriggerComponentView implements ComponentView {
       class: "option select-field",
       fill: "#fff",
       stroke: "#a0a0a0",
-      x: ICON_SIZE + 5 * PADDING_X+17,
+      x: ICON_SIZE + 5 * PADDING_X+17 + addon,
       y: 1.2 * boxHeight+15,
       id: `dropdownBoxShape${Date.now()}`,
     });
@@ -644,7 +738,7 @@ export class TriggerComponentView implements ComponentView {
       class: "option select-field",
       fill: "#fff",
       stroke: "#a0a0a0",
-      x: ICON_SIZE + 5 * PADDING_X+17,
+      x: ICON_SIZE + 5 * PADDING_X+17 + addon,
       y: 1.75 * boxHeight+32,
       id: `dropdownBoxShape1${Date.now()}`,
     });
@@ -683,7 +777,7 @@ export class TriggerComponentView implements ComponentView {
         height:list.length*25,
         fill:"#fff",
         stroke: "#4FCCFC",
-        x: ICON_SIZE + 5 * PADDING_X+17,
+        x: ICON_SIZE + 5 * PADDING_X+17 + addon,
         y: 1.75 * boxHeight + 22,
         rx: 4,
         ry: 4
@@ -702,7 +796,7 @@ export class TriggerComponentView implements ComponentView {
         // });
         const dropdownBoxBottomShapeText = Dom.svg("text", {
           class: "sqd-task-text",
-          x: ICON_SIZE + 5 * PADDING_X+25,
+          x: ICON_SIZE + 5 * PADDING_X+25 + addon,
           y: 1.4 * boxHeight + 22*i + 27,
         });
         
@@ -714,7 +808,7 @@ export class TriggerComponentView implements ComponentView {
           class: "option select-field choice",
           fill: "#fff",
           stroke: "none",
-          x: ICON_SIZE + 5 * PADDING_X+22,
+          x: ICON_SIZE + 5 * PADDING_X+22 + addon,
           y: 1.2 * boxHeight + 22*i + 25,
           id: `dropdownBoxBottomShapecover${Date.now()}`,
           rx: 4,
@@ -748,7 +842,7 @@ export class TriggerComponentView implements ComponentView {
       height:list.length*25,
       fill:"#fff",
       stroke: "#4FCCFC",
-      x: ICON_SIZE + 5 * PADDING_X+17,
+      x: ICON_SIZE + 5 * PADDING_X+17 + addon,
       y: 1.75 * boxHeight + 57,
       rx: 4,
       ry: 4
@@ -769,7 +863,7 @@ export class TriggerComponentView implements ComponentView {
   
       const dropdownBoxBottomShape1Text = Dom.svg("text", {
         class: "sqd-task-text",
-        x: ICON_SIZE + 5 * PADDING_X+25,
+        x: ICON_SIZE + 5 * PADDING_X+25 + addon,
         y: 1.95 * boxHeight + 20 * i+45,
       });
       dropdownBoxBottomShape1Text.textContent = list[i-1];
@@ -779,7 +873,7 @@ export class TriggerComponentView implements ComponentView {
         class: "option select-field choice",
         fill: "#fff",
         stroke: "none",
-        x: ICON_SIZE + 5 * PADDING_X+22,
+        x: ICON_SIZE + 5 * PADDING_X+22 + addon,
         y: 1.75 * boxHeight + 20 * i+42,
         id: `dropdownBoxBottomShape1cover${Date.now()}`,
         rx: 4,
@@ -826,18 +920,39 @@ export class TriggerComponentView implements ComponentView {
     gSubDropdown1.appendChild(downImgContainer1);
     gDropdown.appendChild(gSubDropdown1);
     gDropdown.appendChild(gSubDropdown);
-    g.appendChild(moreIcon);
+    g.appendChild(gTriggerHint);
+    g.appendChild(gmoreIcon);
     g.appendChild(gRightPop3);
     g.appendChild(gDropdown);
+    g.insertBefore(gDropdown, rect)
     g.appendChild(gRightPop3Reminder);
     g.appendChild(gUpPop3);
     g.appendChild(setUpReminder);
 
-
+    var if_hintpop = true;
     // Add EventListeners
-    moreIcon.addEventListener("click", function (e) {
+    gmoreIcon.addEventListener("click", function (e) {
       e.stopPropagation();
-      gRightPop3.classList.toggle("sqd-hidden");
+
+      if(gDropdown.classList.contains("sqd-hidden")){
+        gRightPop3.classList.toggle("sqd-hidden");
+      }else{
+        gUpPop3.classList.toggle("sqd-hidden");
+      }
+      gTriggerHint.setAttribute("visibility", "hidden");
+      if_hintpop = false;
+    });
+
+    gmoreIcon.addEventListener("mouseover", function(){
+      if(if_hintpop){
+        gTriggerHint.setAttribute("visibility", "hidden");
+      }
+    });
+
+    gmoreIcon.addEventListener("mouseout", function(){
+      if(if_hintpop){
+        gTriggerHint.setAttribute("visibility", "visible");
+      }
     });
     
     // Edit
@@ -864,9 +979,25 @@ export class TriggerComponentView implements ComponentView {
       }
       step.updatedAt = new Date();
     });
-
+    upCheckIcon.addEventListener("mousedown", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
+    });
+    upCheckIcon.addEventListener("mouseup", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
+    });
+    
+    upchangeIcon.addEventListener("mousedown", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      upchangeIcon.setAttribute("href", "./assets/chang-inside.svg")
+    });
+    upchangeIcon.addEventListener("mouseup", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:white");
+      upchangeIcon.setAttribute("href", "./assets/change.svg")
+    });
     upchangeIcon.addEventListener("click", function(e){
       e.stopPropagation();
+      // if_hintpop = true;
+      // gTriggerHint.setAttribute("visibility", "visible");
 
       const dialogBox = Dom.element("dialog", {
         class: "confirm-dialog",
@@ -1018,8 +1149,24 @@ export class TriggerComponentView implements ComponentView {
     editIcon.addEventListener("mouseout", function(){
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
+    editIcon.addEventListener("mousedown", function(){
+      rightEditImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      editIcon.setAttribute("href", "./assets/edit2.svg")
+    });
+    editIcon.addEventListener("mouseup", function(){
+      rightEditImgContainerCircle.setAttribute("style", "fill:white");
+      editIcon.setAttribute("href", "./assets/edit.svg")
+    });
     changeIcon.addEventListener("mouseover", () => {
       gRightPop3Reminder2.classList.toggle("sqd-hidden");
+    });
+    changeIcon.addEventListener("mousedown", function(){
+      rightCopyImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      changeIcon.setAttribute("href", "./assets/chang-inside.svg")
+    });
+    changeIcon.addEventListener("mouseup", function(){
+      rightCopyImgContainerCircle.setAttribute("style", "fill:white");
+      changeIcon.setAttribute("href", "./assets/change.svg")
     });
     changeIcon.addEventListener("mouseout", () => {
       gRightPop3Reminder2.classList.toggle("sqd-hidden");
@@ -1029,6 +1176,14 @@ export class TriggerComponentView implements ComponentView {
     });
     deleteIcon.addEventListener("mouseout", () => {
       gRightPop3Reminder3.classList.toggle("sqd-hidden");
+    });
+    deleteIcon.addEventListener("mousedown", function(){
+      rightDeleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      deleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+    });
+    deleteIcon.addEventListener("mouseup", function(){
+      rightDeleteImgContainerCircle.setAttribute("style", "fill:white");
+      deleteIcon.setAttribute("href", "./assets/delete.svg")
     });
 
     // Event listeners in Dropdown

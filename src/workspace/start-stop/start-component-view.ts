@@ -94,7 +94,7 @@ function createCircle(
 
   const nameText = Dom.svg("text", {
     class: "sqd-label-text",
-    x: x+10,
+    x: x+100,
     y: y + LABEL_HEIGHT$1 / 2,
   });
   nameText.textContent = text;
@@ -107,7 +107,7 @@ function createCircle(
     class: "sqd-label-rect",
     width: nameWidth*2,
     height: LABEL_HEIGHT$1,
-    x:x - nameWidth / 2-50,
+    x:x - nameWidth / 2+42,
     y,
     rx: 20,
     ry: 20,

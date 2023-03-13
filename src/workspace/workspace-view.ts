@@ -44,6 +44,10 @@ export class WorkspaceView {
         fill: `url(#${gridPatternId})`,
       })
     );
+    canvas.addEventListener("click", function(){
+      const test = document.getElementsByClassName("sqd-task-rect-Subscribe");
+      // Dom.attrs(test[0], {y: 50})
+    });
     canvas.appendChild(foreground);
     workspace.appendChild(canvas);
     parent.appendChild(workspace);

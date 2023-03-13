@@ -86,6 +86,34 @@ body{
 	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
 }
 
+.sqd-theme-light .sqd-task-rect-Subscribe{
+	fill: #FFF;
+	stroke: #399DE1;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-Unsubscribe{
+	fill: #FFF;
+	stroke: #399DE1;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-Place{
+	fill: #FFF;
+	stroke: #3FC8FA;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-Abandon{
+	fill: #FFF;
+	stroke: #3FC8FA;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
 .sqd-theme-light .sqd-task-rect-inner{
 	fill: #FFF;
 	stroke: #4FCCFC;
@@ -314,4 +342,40 @@ form{
 .popup-button2:hover{
 	background-color: #5495d4;
 	color:#FFF;
+}
+
+.sqd-join-pop{
+	stroke:#399DE1;
+	stroke-width: 2px;
+}
+
+.sqd-task-rect-triggerhint{
+	stroke:none;
+	fill:#EDF1F4;
+	filter: drop-shadow(0px 5px 2px rgba(26, 105, 232, 0.4));
+}
+
+.moreIconDot{
+	height: 15px;
+	width: 15px;
+	cursor: pointer;
+}
+
+.checkIcon-inside{
+	height: 15px;
+	width: 15px;
+	cursor: pointer;
+}
+
+input{
+	font-family: 'sofia-pro';
+}
+
+.new-tag-input{
+	height: 18px;
+	width: 200px;
+}
+
+.content-option{
+	cursor: pointer;
 }
