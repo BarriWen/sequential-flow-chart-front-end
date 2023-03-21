@@ -306,8 +306,6 @@ export function promptChoices(context: DesignerContext, component: StepComponent
   dialogBox.appendChild(form);
  context.layoutController.parent.appendChild(dialogBox);
 
-
-  console.log(dialogBox);
   if (typeof dialogBox.showModal === "function") {
     dialogBox.showModal();
   } else {

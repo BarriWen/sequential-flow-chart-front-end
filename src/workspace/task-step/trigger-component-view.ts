@@ -48,9 +48,8 @@ export class TriggerComponentView implements ComponentView {
     const g = Dom.svg("g", {
       class: `sqd-task-group sqd-type-${step.type}`,
     });
-    
-    parent.appendChild(g);
-    console.log(parent.children[0]);
+    parent.insertBefore(g, parent.firstChild);
+
     const boxHeight = ICON_SIZE + PADDING_Y;
 
     const text = Dom.svg("text", {
@@ -700,8 +699,6 @@ export class TriggerComponentView implements ComponentView {
       x: ICON_SIZE + 9 * PADDING_X + addon,
       y: 1.9 * boxHeight,
     });
-    // dropdownRightButton.textContent = "▼";
-    // dropdownRightButton1.textContent = "▼";
     const dropdownBoxInnerText = Dom.svg("text", {
       class: "sqd-task-text",
       x: ICON_SIZE + 5 * PADDING_X+25 + addon,
@@ -785,15 +782,6 @@ export class TriggerComponentView implements ComponentView {
       gSubDropdownboxPop.appendChild(dropdownBoxBottomShaperec);
       
       for (let i = 1; i <= list.length; i++) {
-        // const dropdownBoxBottomShape = Dom.svg("rect", {
-        //   width: 100,
-        //   height: 20,
-        //   class: "option select-field",
-        //   fill: "#fff",
-        //   stroke: "#a0a0a0",
-        //   x: ICON_SIZE + 5 * PADDING_X+17,
-        //   y: 1.2 * boxHeight + 15 *i+15,
-        // });
         const dropdownBoxBottomShapeText = Dom.svg("text", {
           class: "sqd-task-text",
           x: ICON_SIZE + 5 * PADDING_X+25 + addon,
@@ -937,7 +925,9 @@ export class TriggerComponentView implements ComponentView {
       if(gDropdown.classList.contains("sqd-hidden")){
         gRightPop3.classList.toggle("sqd-hidden");
       }else{
+        gDropdown.classList.toggle("sqd-hidden");
         gUpPop3.classList.toggle("sqd-hidden");
+        gRightPop3.classList.toggle("sqd-hidden");
       }
       gTriggerHint.setAttribute("visibility", "hidden");
       if_hintpop = false;
@@ -961,8 +951,8 @@ export class TriggerComponentView implements ComponentView {
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
       gRightPop3.classList.toggle("sqd-hidden");
-      gSubDropdown.classList.toggle("sqd-hidden");
-      gSubDropdown1.classList.toggle("sqd-hidden");
+      gSubDropdown.classList.remove("sqd-hidden");
+      gSubDropdown1.classList.remove("sqd-hidden");
     });
     upCheckIcon.addEventListener("click", function(e){
       e.stopPropagation();
@@ -1224,6 +1214,7 @@ export class TriggerComponentView implements ComponentView {
     });
 
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
+    inputView.setIsHidden(true);
     const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
     const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
     return new TriggerComponentView(

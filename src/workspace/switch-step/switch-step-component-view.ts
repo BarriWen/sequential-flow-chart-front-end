@@ -28,7 +28,7 @@ export class SwitchStepComponentView implements ComponentView {
     const g = Dom.svg("g", {
       class: `sqd-switch-group sqd-type-${step.type}`,
     });
-    parent.appendChild(g);
+    parent.insertBefore(g, parent.firstChild);
 
     const branchNames = Object.keys(step.branches);
     const sequenceComponents = branchNames.map((bn) =>

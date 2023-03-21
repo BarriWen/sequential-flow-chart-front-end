@@ -33,7 +33,7 @@ export class EmailComponentView implements ComponentView {
       class: `sqd-task-group sqd-type-${step.type}`,
       id: "sqd-task-email"
     });
-    parent.appendChild(g);
+    parent.insertBefore(g, parent.firstChild);
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
       x: PADDING_X/2,
@@ -576,6 +576,7 @@ export class EmailComponentView implements ComponentView {
     });
 
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
+    inputView.setIsHidden(true);
     const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
     const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
     return new EmailComponentView(
