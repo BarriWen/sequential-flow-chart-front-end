@@ -235,6 +235,19 @@
 	stroke-width: 3; 
 }
 
+.add-cond-text {
+	position: relative;
+	fill: #1080A0; 
+	font-size: 16px;
+}
+
+.add-seg-btn-title {
+	position:relative;
+	fill:#E0E0E0;
+	text-anchor: middle; 
+	font-size: 16px;
+}
+
 .sqd-task-rect.sqd-selected {
 	stroke-width: 2.5;
 }
@@ -243,8 +256,6 @@
 	text-align: center;
 	dominant-baseline: central;
 	font-family: Sofia;
-    
-
 }
 
 /* .sqd-input + .sqd-output */
