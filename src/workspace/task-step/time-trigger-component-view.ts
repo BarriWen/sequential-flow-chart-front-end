@@ -695,7 +695,12 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       x: ICON_SIZE + 5 * PADDING_X+25 + addon,
       y: 1.4 * boxHeight+18,
     });
-    dropdownBoxInnerText.textContent = "Any list";
+    if(step.properties["Select List"]){
+      dropdownBoxInnerText.textContent = step.properties["Select List"].toString();
+    }else{
+      dropdownBoxInnerText.textContent = "Any list";
+    }
+
     dropdownBoxInnerText.style.fill = "#BFBFBF";
 
     const dropdownBoxInnerText1 = Dom.svg("text", {
@@ -703,7 +708,12 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       x: ICON_SIZE + 5 * PADDING_X+25 + addon,
       y: 1.95 * boxHeight+34.5,
     });
-    dropdownBoxInnerText1.textContent = "Once";
+    if(step.properties["Runs"]){
+      dropdownBoxInnerText1.textContent = step.properties["Runs"].toString();
+    }else{
+      dropdownBoxInnerText1.textContent = "Once";
+    }
+    
     dropdownBoxInnerText1.style.fill = "#BFBFBF";
 
     const dropdownBoxShapeAfter = Dom.svg("rect", {
@@ -942,6 +952,13 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       type:"datetime-local",
       min: todayStr,
     });
+    if(step.properties["time"]){
+      //@ts-ignore
+      datePicker.value = step.properties["time"]
+    }else{
+      //@ts-ignore
+      datePicker.value = '';
+    }
     datePickerWrapper.appendChild(datePicker);
     gOnce.appendChild(datePickerWrapper);
 
@@ -959,7 +976,13 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
 
     week_text.textContent = "Set your delieverable dates:"
     gWeeks.appendChild(week_text);
-  
+    
+    let databefore!:string[];
+    if(step.properties["time"]){
+      databefore = step.properties["time"].toString().split(',');
+    }else{
+      databefore = [];
+    }
 
     for(let i=1;i<8;i++){
       var week = "";
@@ -991,7 +1014,6 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       const gEachWeek = Dom.svg("g", {
         class: `sqd-week-${i}`
       });
-
       const checkbox = Dom.svg("rect", {
         class: "sqd-week-checkbox",
         x:PADDING_X+10 + addon,
@@ -1001,6 +1023,14 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         rx:5,
         ry:5
       });
+      const weekName = Dom.svg("text", {
+        x: PADDING_X+35 + addon,
+        y: 2 * boxHeight+85 +i*28,
+        class: "sqd-task-text-week",
+      });
+      weekName.textContent = week;
+      
+      
       const checkbox_img_url = "./assets/check-inside.svg";
       const checkbox_img = Dom.svg("image", {
         href: checkbox_img_url,
@@ -1012,6 +1042,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         y: 2 * boxHeight+78 +i*28,
         class: "week-checkbox-img"
       });
+      
       const checkboxShape = Dom.svg("rect", {
         x:PADDING_X+10 + addon,
         y:2 * boxHeight+75 +i*28,
@@ -1022,13 +1053,6 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         opacity: 0,
         class: "checkbox-shape"
       });
-
-      const weekName = Dom.svg("text", {
-        x: PADDING_X+35 + addon,
-        y: 2 * boxHeight+85 +i*28,
-        class: "sqd-task-text-week",
-      });
-      weekName.textContent = week;
       
       checkboxShape.addEventListener("click", function(e){
         if(!gEachWeek.classList.contains("selected")){
@@ -1133,6 +1157,21 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         height: 7,
         width: 7
       });
+      let weekTemp = '';
+      for(let h=0;h<databefore.length;h++){
+        if(databefore[h].includes(week)){
+          weekTemp = databefore[h];
+          gEachWeek.classList.add("selected");
+          Dom.attrs(checkbox, {
+            style: "stroke:#5495d4;fill:#5495d4",
+          });
+          Dom.attrs(weekName, {
+            style: "fill:#5495d4"
+          });
+          timeText.textContent = weekTemp.slice(-4,-2);
+          rangeText.textContent = weekTemp.slice(-2);
+        }
+      }
 
       gTimeRange.appendChild(RangeBox);
       gTimeRange.appendChild(rangeText);
@@ -1204,7 +1243,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
             style: "fill:#949CA0"
           });
           timeicon.setAttribute("href", "./assets/down.svg");
-          timeText.textContent = `${k}`;
+          if(k<10){
+            timeText.textContent = `0${k}`;
+          }else{
+            timeText.textContent = `${k}`;
+          }
         });
         
         gTimeDropdow.appendChild(timeSelectBox);
@@ -1401,7 +1444,13 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       maxlength: 4,
     });
     yearWrapper.appendChild(yearInput);
-    
+
+    if(databefore.length != 0){
+      const databeforeEndDate = databefore[databefore.length-1].split(':')[1].split('/');
+      monthInput.value = databeforeEndDate[0];
+      dateInput.value = databeforeEndDate[1];
+      yearInput.value = databeforeEndDate[2];
+    }
 
     gEndDate.appendChild(endDateText);
     gEndDate.appendChild(monthWrapper);
@@ -1417,6 +1466,20 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
 
     gWeeks.insertBefore(gEndDate, gWeeks.firstChild);
     gWeeks.insertBefore(timezone,gWeeks.firstChild);
+
+    if(step.properties["Runs"] == "Once"){
+      gOnce.classList.remove("sqd-hidden");
+      if(!gWeeks.classList.contains("sqd-hidden")){
+        gWeeks.classList.add("sqd-hidden");
+        rect1.setAttribute("height", "190");
+      }
+    }else if (step.properties["Runs"] == "Recurring"){
+      gWeeks.classList.remove("sqd-hidden");
+      if(!gOnce.classList.contains("sqd-hidden")){
+        gOnce.classList.add("sqd-hidden");
+      }
+      rect1.setAttribute("height", "440");
+    }
     
     gDropdown.appendChild(gOnce);
     gDropdown.appendChild(gWeeks);
@@ -1446,6 +1509,12 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     g.appendChild(setUpReminder);
 
     let if_hintpop = true;
+    if(Object.keys(step.properties).length == 0){
+      if_hintpop = true;
+    }else{
+      if_hintpop = false;
+      gTriggerHint.classList.toggle("sqd-hidden");
+    }
     // Add EventListeners
     gmoreIcon.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -1482,13 +1551,13 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       gSubDropdown.classList.remove("sqd-hidden");
       gSubDropdown1.classList.remove("sqd-hidden");
     });
-    
+
     upCheckIcon.addEventListener("click", function(e){
       e.stopPropagation();
       let ifselected = false;
       let weekAndTime:string = '';
       if(dropdownBoxInnerText1.textContent == "Recurring"){
-        for(let i=0;i<7;i++){
+        for(let i=2;i<9;i++){
           if(gWeeks.children[i].classList.contains("selected")){
             weekAndTime += `${gWeeks.children[i].children[5].textContent}`+`${gWeeks.children[i].children[0].children[1].textContent}`+`${gWeeks.children[i].children[1].children[1].textContent},`;
             ifselected = true;
@@ -1624,10 +1693,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         e.preventDefault();
         e.stopPropagation();
         
+
         textRight.textContent = "To Any List"
         dropdownBoxInnerText.textContent = "Any list";
-        dropdownBoxInnerText1.textContent = "Once";
-
+        step.properties={};
+        
         
         const designer = document.getElementById("designer");
         while (designer?.childNodes[1]) {
