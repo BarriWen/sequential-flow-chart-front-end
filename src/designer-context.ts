@@ -246,6 +246,8 @@ export function promptChoices(context: DesignerContext, component: StepComponent
   const dialogBox = Dom.element("dialog", {
     class: "confirm-dialog",
     id: "dialog-box",
+    x: 20, 
+    y: 50, 
   });
 
   const title = Dom.element("h3", {
@@ -281,13 +283,11 @@ export function promptChoices(context: DesignerContext, component: StepComponent
   }
   dialogBox.appendChild(title);
 
-  const btn1 = Dom.element("button", {
-    type: "submit",
-  });
-  btn1.innerText = "Confirm";
-  form.appendChild(btn1);
   const btn2 = Dom.element("button", {
+    class: "ie-btn2", 
     type: "submit",
+    heigh: 25, 
+    width: 50
   });
   btn2.innerText = "Cancel";
   
@@ -301,6 +301,16 @@ export function promptChoices(context: DesignerContext, component: StepComponent
     }
   });
   form.appendChild(btn2);
+
+  const btn1 = Dom.element("button", {
+    class: "ie-btn1", 
+    type: "submit",
+    heigh: 25, 
+    width: 50
+  });
+  btn1.innerText = "Confirm";
+  form.appendChild(btn1);
+
   dialogBox.appendChild(form);
  context.layoutController.parent.appendChild(dialogBox);
 

@@ -321,7 +321,7 @@
 	stroke-width: 1;
 }
 .choice:hover {
-	fill: blue;
+	fill: #70b0ff;
 }
 
 /* Start component */
@@ -455,11 +455,32 @@
 }
 
 /* Confirm dialog */
-.confirm-dialog{
+.confirm-dialog {
 	border: transparent;
   	border-radius: 10px;
 	background-color: #edf1f4;
+	/* margin-top: 325px;
+    margin-left: 423px; */
 }
+
+.ie-btn1 {
+	height: 25px;
+    width: 75px;
+    background-color: #30a0e8;
+    color: white;
+    border-radius: 4px;
+    border-width: 1px;
+	margin-left: 60px;
+}
+
+.ie-btn2 {
+	height: 25px;
+    width: 75px;
+    border-radius: 4px;
+    border-width: 1px;
+	margin-left: 40px;
+}
+
 .sqd-task-line{
 	stroke-width: 1;
 }
@@ -523,9 +544,17 @@
 	stroke: #5495d4;
 	fill:#5495d4;
 }
+.new-tag-text-back {
+	stroke: #808080;
+	fill:#808080
+}
 .new-tag-input{
-	width: 160;
-	height: 15;
+	width: 160px;
+	height: 15px;
+	border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #808080;
 }
 /* Email conten */
 .content-option {

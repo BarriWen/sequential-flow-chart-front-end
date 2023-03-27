@@ -22,7 +22,7 @@ export class TagComponentView implements ComponentView {
     public readonly inputView: InputView,
     public readonly outputView: OutputView,
     public readonly validationErrorView: ValidationErrorView
-  ) {}
+  ) { }
   public static create(
     parent: SVGElement,
     step: TaskStep,
@@ -35,8 +35,8 @@ export class TagComponentView implements ComponentView {
     parent.appendChild(g);
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
-      x: PADDING_X/2,
-      y: boxHeight / 1.7,
+      x: PADDING_X / 2 + 5,
+      y: boxHeight / 1.9,
       class: "sqd-task-text",
     });
     text.textContent = step.name;
@@ -64,7 +64,7 @@ export class TagComponentView implements ComponentView {
     });
     const textRight = Dom.svg("text", {
       x: ICON_SIZE + 3 * PADDING_X + textWidth - 10,
-      y: boxHeight / 1.7,
+      y: boxHeight / 2,
       class: "sqd-task-text",
     });
     if (step.properties["tag"]) {
@@ -139,13 +139,13 @@ export class TagComponentView implements ComponentView {
     const moreUrl = "./assets/more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
-          href: moreUrl,
-        })
+        href: moreUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22,
@@ -170,13 +170,13 @@ export class TagComponentView implements ComponentView {
     const copyUrl = "./assets/copy.svg";
     const copyIcon = copyUrl
       ? Dom.svg("image", {
-          href: copyUrl,
-        })
+        href: copyUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(copyIcon, {
       class: "moreicon",
       id: `RightCopyIcon-${step.id}`,
@@ -204,13 +204,13 @@ export class TagComponentView implements ComponentView {
     const deleteUrl = "./assets/delete.svg";
     const deleteIcon = deleteUrl
       ? Dom.svg("image", {
-          href: deleteUrl,
-        })
+        href: deleteUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(deleteIcon, {
       class: "moreicon",
       id: `RightDeleteIcon-${step.id}`,
@@ -238,13 +238,13 @@ export class TagComponentView implements ComponentView {
     const editUrl = "./assets/edit.svg";
     const editIcon = editUrl
       ? Dom.svg("image", {
-          href: editUrl,
-        })
+        href: editUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(editIcon, {
       class: "moreicon",
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 53,
@@ -272,13 +272,13 @@ export class TagComponentView implements ComponentView {
     const upCheckIconUrl = "./assets/check.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
-          href: upCheckIconUrl,
-        })
+        href: upCheckIconUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(upCheckIcon, {
       class: "moreicon",
       // id: `tagUpCheckIcon`,
@@ -306,13 +306,13 @@ export class TagComponentView implements ComponentView {
     const upDeleteIconUrl = "./assets/delete.svg";
     const upDeleteIcon = upDeleteIconUrl
       ? Dom.svg("image", {
-          href: upDeleteIconUrl,
-        })
+        href: upDeleteIconUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(upDeleteIcon, {
       class: "moreicon",
       id: `UpDeleteIcon-${step.id}`,
@@ -341,13 +341,13 @@ export class TagComponentView implements ComponentView {
     const upCopyIconUrl = "./assets/copy.svg";
     const upCopyIcon = upCopyIconUrl
       ? Dom.svg("image", {
-          href: upCopyIconUrl,
-        })
+        href: upCopyIconUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(upCopyIcon, {
       class: "moreicon",
       id: `UpCopyIcon-${step.id}`,
@@ -472,19 +472,11 @@ export class TagComponentView implements ComponentView {
     const gDropdown = Dom.svg("g", {
       class: `sqd-task-group dropdown sqd-hidden Collapsed`,
     });
-    // const rect1 = Dom.svg("rect", {
-    //   x: 0.5,
-    //   y: boxHeight,
-    //   class: "sqd-task-rect",
-    //   width: boxWidth,
-    //   height: 4 * boxHeight,
-    //   rx: RECT_RADIUS,
-    //   ry: RECT_RADIUS,
-    // });
-    // Dom.attrs(rect1, {
-    //   id: `dropdown${Date.now()}`,
-    // });
-    
+
+    const gDropdownbox = Dom.svg("g", {
+      class: `sqd-task-group sub-dropdownbox`
+    });
+
     g.appendChild(moreIcon);
     g.appendChild(gRightPop3);
     g.appendChild(gDropdown);
@@ -504,7 +496,7 @@ export class TagComponentView implements ComponentView {
       e.stopPropagation();
       gRightPop3.classList.toggle("sqd-hidden");
     });
-    
+
     // Edit
     editIcon.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -512,7 +504,7 @@ export class TagComponentView implements ComponentView {
       gUpPop3.classList.toggle("sqd-hidden");
       gRightPop3.classList.toggle("sqd-hidden");
     });
-    upCheckIcon.addEventListener("click", function(e){
+    upCheckIcon.addEventListener("click", function (e) {
       e.stopPropagation();
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
@@ -523,11 +515,11 @@ export class TagComponentView implements ComponentView {
       }
     });
 
-     // Show hints
-     editIcon.addEventListener("mouseover", function(){
+    // Show hints
+    editIcon.addEventListener("mouseover", function () {
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
-    editIcon.addEventListener("mouseout", function(){
+    editIcon.addEventListener("mouseout", function () {
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
     copyIcon.addEventListener("mouseover", () => {
@@ -599,8 +591,8 @@ function addTxt(txt: string, xVal: number, yVal: number, idVal?: string) {
   }
   return nameText;
 }
-function createRect(className: string, xVal: number, yVal: number, w: number, h: number, id?: string, radius?: number){
-  const rect =  Dom.svg("rect", {
+function createRect(className: string, xVal: number, yVal: number, w: number, h: number, id?: string, radius?: number) {
+  const rect = Dom.svg("rect", {
     x: xVal,
     y: yVal,
     class: className,
@@ -625,10 +617,18 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
     class: `sqd-task-group sub-dropdownbox`,
   });
   dropdown.appendChild(gSubDropdownbox);
+
   // Field names
-  const rect1 = createRect("sqd-task-rect", 0.5, h, w, 2.5 * h, `dropdown${Date.now()}`, RECT_RADIUS);
-  const nameText = addTxt("Select tag: ", PADDING_X, 1.5 * h);  
-  
+  const rect1 = createRect(
+    "sqd-task-rect", 
+    0.5, 
+    h, 
+    w, 
+    3 * h, 
+    `dropdown${Date.now()}`, RECT_RADIUS
+    );
+  const nameText = addTxt("Select tag: ", PADDING_X * 2, 1.5 * h + 10);
+
   gSubDropdownbox.appendChild(nameText);
   gSubDropdownbox.insertBefore(rect1, nameText);
 
@@ -636,28 +636,55 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
   let startY = nameText.getBBox().y;
   let wid = nameText.getBBox().width;
 
-  const dropdownBoxShape = createRect("option select-field", startX + wid + PADDING_X, startY, 160, 15);
+  const dropdownBoxShape = createRect(
+    "option select-field", 
+    startX + wid + PADDING_X + 30, // 88.75
+    startY, 
+    110, 
+    25, 
+    "", 
+    4
+    );
   Dom.attrs(dropdownBoxShape, {
     fill: "#fff",
     stroke: "#a0a0a0",
   });
-  const dropdownBoxShapeAfter = createRect("option select-field", startX + wid + PADDING_X, startY, 160, 15, `dropdownBoxShape${Date.now()}`);
+  const dropdownBoxShapeAfter = createRect(
+    "option select-field", 
+    startX + wid + PADDING_X + 30, 
+    startY, 
+    110, 
+    25, 
+    `dropdownBoxShape${Date.now()}`
+    );
   Dom.attrs(dropdownBoxShapeAfter, {
     fill: "#fff",
     stroke: "#a0a0a0",
     opacity: 0,
   });
   // Default value
-  const dropdownBoxInnerText = addTxt("Any Tag", startX + wid + PADDING_X + PADDING_X / 2, startY + 6.5);
+  const dropdownBoxInnerText = addTxt(
+    "Any Tag", 
+    startX + wid + 4 * PADDING_X + PADDING_X / 2 - 2, // 94.75
+    startY + 12); // x = 45.25
   gSubDropdownbox.appendChild(dropdownBoxInnerText);
   wid = wid + dropdownBoxInnerText.getBBox().width;
-  const dropdownRightButton = addTxt("▼ ", startX + wid + PADDING_X * 9, startY + 6.5);
+
+  const downArrowLink = "./assets/arrow.svg";
+  const dropdownRightButton = Dom.svg("image", {
+    class: "sqd-task-text select-field",
+    href: downArrowLink,
+    width: 20,
+    height: 20,
+    x: startX + PADDING_X * 16, // 178
+    y: startY + 3, // 44.75
+  });
   startX = dropdownBoxInnerText.getBBox().x;
 
   gSubDropdownbox.appendChild(dropdownRightButton);
   gSubDropdownbox.insertBefore(dropdownBoxShape, dropdownBoxInnerText);
   gSubDropdownbox.appendChild(dropdownBoxShapeAfter);
-  
+
   // Selection list field
   const gSubDropdownboxPop = Dom.svg("g", {
     class: `sqd-task-group sub-dropdownbox-pop sqd-hidden`,
@@ -666,18 +693,19 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
 
   dropdownBoxShapeAfter.addEventListener("click", function (e) {
     e.stopPropagation();
+    console.log(tags);
     gSubDropdownboxPop.classList.toggle("sqd-hidden");
-    getTags().then(tags => {
-      console.log("Fetching", tags);
-      if (typeof(tags) !== 'number') {
-        editTags(tags);
-      }
-    }).catch(console.log);
+    // getTags().then(tags => {
+    //   console.log("Fetching", tags);
+    //   if (typeof(tags) !== 'number') {
+    editTags(tags);
+    //   }
+    // }).catch(console.log);
   });
 
   // Fetch tags from backend
   const userID = 1; //Need to be changed to current user
-  const request = new Request(`http://localhost:8080/tag/${userID}`, {method: 'GET'});
+  const request = new Request(`http://localhost:8080/tag/${userID}`, { method: 'GET' });
   let tags: string[] = [];
   // Async way to fetch tags
   const getTags = async () => {
@@ -690,33 +718,50 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
       return Promise.reject(response.status);
     }
   };
-  
-  // const tags = ["Food", "Electronics", "Clothes"];
+
+
+  tags = ["Any tag", "Tag 1", "Tag 2", "Tag 3"];
   const editTags = function (tags: string[]) {
-    for(let i = 0; i < tags.length; i++){
-      const dropdownBoxBottomShape = createRect("option select-field", startX - PADDING_X / 2, startY + 15 * (i + 1), 160, 15);
-      Dom.attrs(dropdownBoxBottomShape, {
-        fill: "#fff",
-        stroke: "#a0a0a0",
-      });
-      const dropdownBoxBottomShapeText = addTxt(tags[i], startX, startY + 15 * (i + 1) + 8);
-      
-      const dropdownBoxBottomShapecover = createRect("option select-field choice", startX - PADDING_X / 2, startY + 15 * (i + 1), 160, 15, `dropdownBoxBottomShapecover${Date.now()}`);
+    const dropdownBoxBottomShape = createRect(
+      "option select-field",
+      startX - PADDING_X / 2 - 4,
+      startY + 30,
+      110,
+      25 * tags.length + 10, 
+      "", 
+      4);
+    Dom.attrs(dropdownBoxBottomShape, {
+      fill: "#fff",
+      stroke: "#a0a0a0",
+    });
+    gSubDropdownboxPop.appendChild(dropdownBoxBottomShape); 
+
+    for (let i = 0; i < tags.length; i++) {
+      const dropdownBoxBottomShapeText = addTxt(tags[i], startX, startY + 25 * (i + 1) + 21); 
+      // y = 81.75
+
+      const dropdownBoxBottomShapecover = createRect(
+        "option select-field choice",
+        startX - PADDING_X / 2 + 1,
+        startY + 25 * (i + 1) + 10,
+        100,
+        25,
+        `dropdownBoxBottomShapecover${Date.now()}`,
+        4);
       Dom.attrs(dropdownBoxBottomShapecover, {
         fill: "#fff",
-        stroke: "#a0a0a0",
         opacity: 0.3,
       });
-  
+
       gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
-      gSubDropdownboxPop.insertBefore(
-        dropdownBoxBottomShape,
-        dropdownBoxBottomShapeText
-      );
+      // gSubDropdownboxPop.insertBefore(
+      //   dropdownBoxBottomShape,
+      //   dropdownBoxBottomShapeText
+      // );
       gSubDropdownboxPop.appendChild(dropdownBoxBottomShapecover);
-  
+
       // Add Event Listeners
-      dropdownBoxBottomShapecover.addEventListener("click", function(e) {
+      dropdownBoxBottomShapecover.addEventListener("click", function (e) {
         e.stopPropagation();
         dropdownBoxInnerText.textContent = tags[i];
         gSubDropdownboxPop.classList.toggle("sqd-hidden");
@@ -725,21 +770,33 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
     };
   };
 }
-function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement) {
+function addNewTag(
+  parent: SVGElement, 
+  h: number, 
+  w: number, 
+  upCheckBut: SVGElement, 
+  textToChange: SVGElement
+  ) {
   const g = Dom.svg("g", {
     class: `create-tag`,
   });
   parent.insertBefore(g, parent.lastChild);
   const nameText = Dom.svg("text", {
     class: "new-tag-text",
-    x: w / 4 + PADDING_X,
-    y: h + 5 * PADDING_Y,
+    x: w / 4 + PADDING_X - 8,
+    y: h + 5 * PADDING_Y + 20,
   });
   nameText.textContent = "+Create a New Tag"
   g.appendChild(nameText);
 
   // Text wrapper
-  const rect = createRect("create-tag", nameText.getBBox().x, nameText.getBBox().y, nameText.getBBox().width, nameText.getBBox().height, `newTag${Date.now()}`);
+  const rect = createRect(
+    "create-tag", 
+    nameText.getBBox().x - 8, 
+    nameText.getBBox().y + 28, 
+    nameText.getBBox().width, 
+    nameText.getBBox().height, 
+    `newTag${Date.now()}`);
   g.insertBefore(rect, nameText);
 
   // Page to input new tag
@@ -747,54 +804,62 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
     class: `sqd-task-group sub-dropdownbox sqd-hidden`,
   });
   parent.appendChild(container);
-  const rect1 = createRect("sqd-task-rect", 0.5, h, w, 2.5 * h, `dropdown${Date.now()}`, RECT_RADIUS);
+  const rect1 = createRect(
+    "sqd-task-rect", 
+    0.5, 
+    h, 
+    w, 
+    3 * h, 
+    `dropdown${Date.now()}`, 
+    RECT_RADIUS
+    );
   container.appendChild(rect1);
-  
+
   const inputArea = Dom.svg("foreignObject", {
-    class: "new-tag-input",
-    x: 1 + 2 * PADDING_X,
-    y: h + 2 * PADDING_Y,
+    class: "new-tag-input-area",
+    x: 2 * PADDING_X + 30, // 25
+    y: h + 2 * PADDING_Y, // 52
     width: 180,
-    height: 30
+    height: 30 
   });
   const input = Dom.element("input", {
     class: "new-tag-input",
     name: "newTag",
     type: "text",
     placeholder: "Name your new tag",
-    value: ""
+    value: "", 
   });
   inputArea.appendChild(input);
   container.appendChild(inputArea);
-  
+
 
   const backText = Dom.svg("text", {
-    class: "new-tag-text",
-    x: w / 4 + PADDING_X,
-    y: h + 6 * PADDING_Y,
+    class: "new-tag-text-back",
+    x: w / 4 + PADDING_X - 5,
+    y: h + 6 * PADDING_Y + 13, // 92
   });
   backText.textContent = "< Back to Selection"
   container.appendChild(backText);
   // Add event listener
-  g.addEventListener("click", function(e) {
+  g.addEventListener("click", function (e) {
     e.stopPropagation();
     container.classList.toggle('sqd-hidden');
   });
-  backText.addEventListener("click", function(e) {
+  backText.addEventListener("click", function (e) {
     container.classList.toggle('sqd-hidden');
     input.value = "";
   });
-  
-  upCheckBut.addEventListener("click", function(e){
+
+  upCheckBut.addEventListener("click", function (e) {
     if (input.value) {
       e.stopPropagation();
-      console.log('Will be sending to back end',input.value);
+      console.log('Will be sending to back end', input.value);
       // Post tag to backend
       const userID = 1;      //Need to be changed to an existing user
       const journeyID = 4;  //Need to be changed to an existing journey
-      const data = {"tag_name": `${input.value}`};
+      const data = { "tag_name": `${input.value}` };
       const request = new Request(`http://localhost:8080/tags/${userID}/${journeyID}`, {
-        method: 'POST', 
+        method: 'POST',
         headers: {
           "Content-Type": 'application/json'
         },
