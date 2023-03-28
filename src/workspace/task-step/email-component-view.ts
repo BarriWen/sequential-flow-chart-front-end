@@ -22,7 +22,7 @@ export class EmailComponentView implements ComponentView {
     public readonly inputView: InputView,
     public readonly outputView: OutputView,
     public readonly validationErrorView: ValidationErrorView
-  ) {}
+  ) { }
   public static create(
     parent: SVGElement,
     step: TaskStep,
@@ -35,7 +35,7 @@ export class EmailComponentView implements ComponentView {
     parent.appendChild(g);
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
-      x: PADDING_X/2,
+      x: PADDING_X / 2,
       y: boxHeight / 1.7,
       class: "sqd-task-text",
     });
@@ -140,13 +140,13 @@ export class EmailComponentView implements ComponentView {
     const magnidyIconUrl = "./assets/magnify.svg";
     const magnidyIcon = magnidyIconUrl
       ? Dom.svg("image", {
-          href: magnidyIconUrl,
-        })
+        href: magnidyIconUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(magnidyIcon, {
       class: "magnidyIcon",
       id: `magnidyIcon-${step.id}`,
@@ -158,13 +158,13 @@ export class EmailComponentView implements ComponentView {
     const moreUrl = "./assets/more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
-          href: moreUrl,
-        })
+        href: moreUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
       // id: `tagMoreIcon`,
@@ -190,13 +190,13 @@ export class EmailComponentView implements ComponentView {
     const copyUrl = "./assets/copy.svg";
     const copyIcon = copyUrl
       ? Dom.svg("image", {
-          href: copyUrl,
-        })
+        href: copyUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(copyIcon, {
       class: "moreicon",
       id: `RightCopyIcon-${step.id}`,
@@ -224,13 +224,13 @@ export class EmailComponentView implements ComponentView {
     const deleteUrl = "./assets/delete.svg";
     const deleteIcon = deleteUrl
       ? Dom.svg("image", {
-          href: deleteUrl,
-        })
+        href: deleteUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(deleteIcon, {
       class: "moreicon",
       id: `RightDeleteIcon-${step.id}`,
@@ -258,13 +258,13 @@ export class EmailComponentView implements ComponentView {
     const editUrl = "./assets/edit.svg";
     const editIcon = editUrl
       ? Dom.svg("image", {
-          href: editUrl,
-        })
+        href: editUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(editIcon, {
       class: "moreicon",
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 53,
@@ -292,13 +292,13 @@ export class EmailComponentView implements ComponentView {
     const upCheckIconUrl = "./assets/check.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
-          href: upCheckIconUrl,
-        })
+        href: upCheckIconUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(upCheckIcon, {
       class: "moreicon",
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
@@ -325,13 +325,13 @@ export class EmailComponentView implements ComponentView {
     const upDeleteIconUrl = "./assets/delete.svg";
     const upDeleteIcon = upDeleteIconUrl
       ? Dom.svg("image", {
-          href: upDeleteIconUrl,
-        })
+        href: upDeleteIconUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(upDeleteIcon, {
       class: "moreicon",
       id: `UpDeleteIcon-${step.id}`,
@@ -360,13 +360,13 @@ export class EmailComponentView implements ComponentView {
     const upCopyIconUrl = "./assets/copy.svg";
     const upCopyIcon = upCopyIconUrl
       ? Dom.svg("image", {
-          href: upCopyIconUrl,
-        })
+        href: upCopyIconUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(upCopyIcon, {
       class: "moreicon",
       id: `UpCopyIcon-${step.id}`,
@@ -492,15 +492,15 @@ export class EmailComponentView implements ComponentView {
     const gDropdown = Dom.svg("g", {
       class: `sqd-task-group dropdown sqd-hidden Collapsed`
     });
-    
+
     g.appendChild(moreIcon);
     g.appendChild(gRightPop3);
     g.appendChild(gDropdown);
     // Send Email Drop Down Menu set up
-    const newSend = Dom.svg("text", {class: "sqd-task-text",});
-    const newSub = Dom.svg("text", {class: "sqd-task-text",});
-    const newCont = Dom.svg("text", {class: "sqd-task-text",});
-    addDropDown(gDropdown, boxHeight, boxWidth, upCheckIcon, newSend, newSub, newCont);
+    const newSend = Dom.svg("text", { class: "sqd-task-text", });
+    const newSub = Dom.svg("text", { class: "sqd-task-text", });
+    const newCont = Dom.svg("text", { class: "sqd-task-text", });
+    addDropDown(gDropdown, 1.5 * boxHeight, boxWidth, upCheckIcon, newSend, newSub, newCont);
 
     g.appendChild(gRightPop3Reminder);
     g.appendChild(gUpPop3);
@@ -517,7 +517,7 @@ export class EmailComponentView implements ComponentView {
         gDropdown.classList.toggle("sqd-hidden");
       }
     });
-    
+
     // Edit
     editIcon.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -526,14 +526,14 @@ export class EmailComponentView implements ComponentView {
       gRightPop3.classList.toggle("sqd-hidden");
       const elemt = document.getElementsByClassName("email-field");
       if (step.properties.sender) {
-        Dom.attrs(elemt[0], {value: step.properties.sender.toString()});
+        Dom.attrs(elemt[0], { value: step.properties.sender.toString() });
       }
       if (step.properties.sender) {
-        Dom.attrs(elemt[1], {value: step.properties.subject.toString()});
+        Dom.attrs(elemt[1], { value: step.properties.subject.toString() });
       }
     });
     // check button clicked
-    upCheckIcon.addEventListener("click", function(e){
+    upCheckIcon.addEventListener("click", function (e) {
       e.stopPropagation();
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
@@ -541,17 +541,17 @@ export class EmailComponentView implements ComponentView {
         step.properties.sender = newSend.textContent;
       }
       if (newSub.textContent) {
-        textRight.textContent = newSub.textContent; 
+        textRight.textContent = newSub.textContent;
         step.properties.subject = textRight.textContent;
       }
       step["updatedAt"] = new Date();
     });
 
-     // Show hints
-     editIcon.addEventListener("mouseover", function(){
+    // Show hints
+    editIcon.addEventListener("mouseover", function () {
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
-    editIcon.addEventListener("mouseout", function(){
+    editIcon.addEventListener("mouseout", function () {
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
     copyIcon.addEventListener("mouseover", () => {
@@ -624,8 +624,8 @@ function addTxt(txt: string, xVal: number, yVal: number, idVal?: string) {
   }
   return nameText;
 }
-function createRect(className: string, xVal: number, yVal: number, w: number, h: number, id?: string, radius?: number){
-  const rect =  Dom.svg("rect", {
+function createRect(className: string, xVal: number, yVal: number, w: number, h: number, id?: string, radius?: number) {
+  const rect = Dom.svg("rect", {
     x: xVal,
     y: yVal,
     class: className,
@@ -650,33 +650,77 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     class: `sqd-task-group sub-dropdownbox`
   });
   dropdown.appendChild(gSubDropdownbox);
-  
-  const rect1 = createRect("sqd-task-rect", 0.5, h, w, 4 * h + PADDING_Y, `dropdown${Date.now()}`, RECT_RADIUS);
+
+  const rect1 = createRect(
+    "sqd-task-rect sqd-hidden", // Temporary hidden 
+    0.5,
+    h - 15,
+    w,
+    4 * h + 5 * PADDING_Y,
+    `dropdown${Date.now()}`,
+    RECT_RADIUS);
   gSubDropdownbox.appendChild(rect1);
+  const rect2 = createRect(
+    "sqd-task-rect",
+    0.5,
+    h - 15,
+    w,
+    4 * h + PADDING_Y,
+    `dropdown${Date.now()}`,
+    RECT_RADIUS);
+  gSubDropdownbox.appendChild(rect2);
+
   let startX = rect1.getBBox().x;
   let startY = rect1.getBBox().y;
   let wid = rect1.getBBox().width;
   // Field names
-  const sendTo = addTxt("Send from: ", startX+PADDING_X, startY+PADDING_Y);  
-  gSubDropdownbox.appendChild(sendTo);
-  startX = sendTo.getBBox().x;
-  startY = sendTo.getBBox().y;
-  wid = sendTo.getBBox().width;
-  
-  const subject = addTxt("Subject: ", startX, startY + h);  
+  const subject = addTxt("Subject: ", startX + PADDING_X, startY + PADDING_Y);
   gSubDropdownbox.appendChild(subject);
+  startX = subject.getBBox().x;
   startY = subject.getBBox().y;
 
-  const content = addTxt("Choose Content", startX, startY + h);  
+  const senderName = addTxt("Sender name: ", startX, startY + h);
+  gSubDropdownbox.appendChild(senderName);
+  startY = senderName.getBBox().y;
+  wid = senderName.getBBox().width;
+
+  const sendTo = addTxt("Sender email address: ", startX, startY + h);
+  gSubDropdownbox.appendChild(sendTo);
+  startY = sendTo.getBBox().y;
+  wid = sendTo.getBBox().width;
+
+  const content = addTxt("Choose Content", startX, startY + h);
   gSubDropdownbox.appendChild(content);
 
-   // add input fields
-   startY = sendTo.getBBox().y;
-   let height = sendTo.getBBox().height + PADDING_Y;
-   const sendWrapper = Dom.svg("foreignObject", {
-    x: startX + wid + PADDING_X,
-    y: startY,
-    width: 150,
+  // add input fields
+  startY = subject.getBBox().y;
+  let height = sendTo.getBBox().height + PADDING_Y;
+  const subjectWrapper = Dom.svg("foreignObject", {
+    x: startX,
+    y: startY + PADDING_Y + 8,
+    width: 240,
+    height: height
+  });
+  const subjectInput = Dom.element("input", {
+    class: "new-tag-input email-field",
+    name: "subject",
+    type: "text",
+    placeholder: "Empty Subject"
+  });
+  if (sub.textContent) {
+    Dom.attrs(subjectInput, {
+      value: sub.textContent
+    });
+  }
+  gSubDropdownbox.appendChild(subjectWrapper);
+  subjectWrapper.appendChild(subjectInput);
+
+  startX = senderName.getBBox().x;
+  startY = senderName.getBBox().y;
+  const sendWrapper = Dom.svg("foreignObject", {
+    x: startX,
+    y: startY + PADDING_Y + 8,
+    width: 240,
     height: height
   });
   const sendInput = Dom.element("input", {
@@ -693,57 +737,119 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
   gSubDropdownbox.appendChild(sendWrapper);
   sendWrapper.appendChild(sendInput);
 
-  startX = subject.getBBox().x;
-  startY = subject.getBBox().y;
-  
-  const subjectWrapper = Dom.svg("foreignObject", {
-    x: startX + wid + PADDING_X,
-    y: startY,
-    width: 150,
+  startX = sendTo.getBBox().x;
+  startY = sendTo.getBBox().y;
+
+  const senderEmail = Dom.svg("foreignObject", {
+    x: startX,
+    y: startY + PADDING_Y + 8,
+    width: 240,
     height: height
   });
-  const subjectInput = Dom.element("input", {
+  const senderEmailInput = Dom.element("input", {
     class: "new-tag-input email-field",
-    name: "subject",
+    name: "senderEmail",
     type: "text",
-    placeholder: "Empty Subject"
+    placeholder: "Enter email address"
   });
   if (sub.textContent) {
     Dom.attrs(subjectInput, {
       value: sub.textContent
     });
   }
-  gSubDropdownbox.appendChild(subjectWrapper);
-  subjectWrapper.appendChild(subjectInput);
-  
+  gSubDropdownbox.appendChild(senderEmail);
+  senderEmail.appendChild(senderEmailInput);
 
   // Add content option 1
   startY = content.getBBox().y;
   height = content.getBBox().height;
-  const tem = addTxt('Template', startX + 10, startY + PADDING_Y * 5);
+  const classIconUrl = "./assets/classic.png";
+  const classicIcon = classIconUrl
+    ? Dom.svg("image", {
+      href: classIconUrl,
+    })
+    : Dom.svg("rect", {
+      class: "sqd-task-email-icon",
+      rx: 4,
+      ry: 4,
+    });
+  Dom.attrs(classicIcon, {
+    class: "classic-icon",
+    x: startX + 6,
+    y: startY + height + PADDING_Y / 2 + 4,
+    width: 65,
+    height: 50,
+  });
+  const tem = addTxt('Classic Design', startX + 2, startY + PADDING_Y * 8);
   gSubDropdownbox.appendChild(tem);
-  Dom.attrs(tem, {class: "content-text"});
-  const template = createRect("content-option", startX, startY + height + PADDING_Y / 2, 75 , 60, "", RECT_RADIUS);
-  gSubDropdownbox.insertBefore(template, tem);
+  Dom.attrs(tem, { class: "content-text" });
+  const template = createRect("content-option", startX, startY + height + PADDING_Y / 2, 75, 65, "", RECT_RADIUS);
+  gSubDropdownbox.appendChild(template);
+  gSubDropdownbox.appendChild(classicIcon);
+  gSubDropdownbox.insertBefore(classicIcon, tem);
 
   // Add content option 2
-  startX = template.getBBox().x + template.getBBox().width + PADDING_X;
-  const txt = addTxt('Text Only', startX + 3, startY + PADDING_Y * 5);
-  gSubDropdownbox.appendChild(txt);
-  Dom.attrs(txt, {class: "content-text"});
-  const txtWrapper = createRect("content-option", startX - PADDING_X / 2, startY + height + PADDING_Y / 2, 75 , 60, "", RECT_RADIUS);
-  gSubDropdownbox.insertBefore(txtWrapper, txt);
-  
-  // Add content option 3
-  startX = txtWrapper.getBBox().x + txtWrapper.getBBox().width + PADDING_X * 2;
-  const html = addTxt('HTML', startX, startY + PADDING_Y * 5);
+  startX = template.getBBox().x + template.getBBox().width + PADDING_X * 2;
+  const htmlIconUrl = "./assets/html.png";
+  const htmlIcon = htmlIconUrl
+    ? Dom.svg("image", {
+      href: htmlIconUrl,
+    })
+    : Dom.svg("rect", {
+      class: "sqd-task-email-icon",
+      rx: 4,
+      ry: 4,
+    });
+  Dom.attrs(htmlIcon, {
+    class: "html-icon",
+    x: startX - 11, // 117.5
+    y: startY + height + PADDING_Y / 2 + 4,
+    width: 65,
+    height: 50,
+  });
+  const html = addTxt('HTML', startX + 5, startY + PADDING_Y * 8);
   gSubDropdownbox.appendChild(html);
-  Dom.attrs(html, {class: "content-text"});
-  const htmlWrapper = createRect("content-option", startX - 3 * PADDING_X / 2 , startY + height + PADDING_Y /2 , 75 , 60, "", RECT_RADIUS);
-  gSubDropdownbox.insertBefore(htmlWrapper, html);
+  Dom.attrs(html, { class: "content-text" });
+  const htmlWrapper = createRect("content-option", startX - 3 * PADDING_X / 2, startY + height + PADDING_Y / 2, 75, 60, "", RECT_RADIUS);
+  gSubDropdownbox.appendChild(htmlWrapper);
+  gSubDropdownbox.appendChild(htmlIcon);
+  gSubDropdownbox.insertBefore(htmlIcon, html);
+
+  // Add content option 3
+  startX = htmlWrapper.getBBox().x + htmlWrapper.getBBox().width + PADDING_X;
+  const textIconUrl = "./assets/text.png";
+  const textIcon = textIconUrl
+    ? Dom.svg("image", {
+      href: textIconUrl,
+    })
+    : Dom.svg("rect", {
+      class: "sqd-task-email-icon",
+      rx: 4,
+      ry: 4,
+    });
+  Dom.attrs(textIcon, {
+    class: "text-icon",
+    x: startX - 1,
+    y: startY + height + PADDING_Y / 2 + 4,
+    width: 65,
+    height: 50,
+  });
+  const txt = addTxt('Text Only', startX + 8, startY + PADDING_Y * 8);
+  gSubDropdownbox.appendChild(txt);
+  Dom.attrs(txt, { class: "content-text" });
+  const txtWrapper = createRect("content-option", startX - PADDING_X / 2, startY + height + PADDING_Y / 2, 75, 60, "", RECT_RADIUS);
+  gSubDropdownbox.appendChild(txtWrapper);
+  gSubDropdownbox.appendChild(textIcon);
+  gSubDropdownbox.insertBefore(textIcon, txt);
+
+  const moreTemp = addTxt("+ More Templates", content.getBBox().x, startY + 5 * height + PADDING_Y + 5);
+  Dom.attrs(moreTemp, {
+    class: "more-temps"
+  });
+  gSubDropdownbox.appendChild(moreTemp);
 
   // Add Event Listeners
-  button.addEventListener("click", function(e) {
+  button.addEventListener("click", function (e) {
     e.stopPropagation();
     if (subjectInput.value) {
       sub.textContent = subjectInput.value;

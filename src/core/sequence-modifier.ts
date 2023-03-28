@@ -42,6 +42,7 @@ export class SequenceModifier {
       for (let i = 0; i < step.branches.False.length; i++) {
         parentSequence.push(step.branches.False[i]);
       }
+      step.branches.True = []; 
     }
     // If deleting false branch, keep blocks in true
     else if (choice == "1" && step.branches.True.length > 0) {
@@ -49,6 +50,7 @@ export class SequenceModifier {
       for (let i = 0; i < step.branches.True.length; i++) {
         parentSequence.push(step.branches.True[i]);
       }
+      step.branches.False = []; 
     }
 
     if (choice != null) {

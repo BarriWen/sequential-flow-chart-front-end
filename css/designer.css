@@ -549,7 +549,7 @@
 	fill:#808080
 }
 .new-tag-input{
-	width: 160px;
+	width: 225px;
 	height: 15px;
 	border-style: solid;
     border-radius: 4px;
@@ -562,5 +562,9 @@
 	fill: none;
 }
 .content-text {
-	fill:#5495d4;
+	fill: black;
+	font-size: 8pt;
+}
+.more-temps {
+	fill: #1c77da
 }
