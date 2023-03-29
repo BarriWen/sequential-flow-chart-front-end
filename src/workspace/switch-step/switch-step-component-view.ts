@@ -28,7 +28,8 @@ export class SwitchStepComponentView implements ComponentView {
     const g = Dom.svg("g", {
       class: `sqd-switch-group sqd-type-${step.type}`,
     });
-    parent.insertBefore(g, parent.firstChild);
+    // parent.insertBefore(g, parent.firstChild);
+    parent.appendChild(g);
 
     const branchNames = Object.keys(step.branches);
     const sequenceComponents = branchNames.map((bn) =>
@@ -583,6 +584,7 @@ export class SwitchStepComponentView implements ComponentView {
     );
 
     const inputView = InputView.createRoundInput(g, containerWidths[0], 0);
+    inputView.setIsHidden(true);
     const regionView = RegionView.create(g, containerWidths, containerHeight);
 
     const validationErrorView = ValidationErrorView.create(

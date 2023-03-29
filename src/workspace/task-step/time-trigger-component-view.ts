@@ -1,17 +1,19 @@
 import { Dom } from "../../core/dom";
+import { SequenceModifier } from "../../core/sequence-modifier";
 import { Vector } from "../../core/vector";
-import { TaskStep } from "../../definition";
+import { ComponentType, TaskStep } from "../../definition";
 import { StepsConfiguration } from "../../designer-configuration";
 import { InputView } from "../common-views/input-view";
 import { OutputView } from "../common-views/output-view";
 import { ValidationErrorView } from "../common-views/validation-error-view";
 import { ComponentView } from "../component";
+import { SequenceComponent } from "../sequence/sequence-component";
 
+// import VanillaCalendar from "@uvarov.frontend/vanilla-calendar/src/index";
+// import '@uvarov.frontend/vanilla-calendar/build/vanilla-calendar.min.css';
+// import '@uvarov.frontend/vanilla-calendar/build/themes/light.min.css';
+// import '@uvarov.frontend/vanilla-calendar/build/themes/dark.min.css';
 
-// import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
-// import { TaskStepComponentView } from "./task-step-component-view";
-// import { ListItem } from "ng-multiselect-dropdown/multiselect.model";
-//import { TaskStepComponentView } from "./task-step-component-view";
 const PADDING_X = 12;
 const PADDING_Y = 10;
 const MIN_TEXT_WIDTH = 70;
@@ -614,7 +616,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       y: 0.5,
       class: `sqd-task-rect-${step.name}`,
       width: 258,
-      height: 190,
+      height: 460,
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,
     });
@@ -883,7 +885,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         if(dropdownBoxInnerText1.textContent == "Once"){
           gWeeks.classList.add("sqd-hidden");
           gOnce.classList.remove("sqd-hidden");
-          rect1.setAttribute("height", "190");
+          rect1.setAttribute("height", "460");
         }else{
           gOnce.classList.add("sqd-hidden");
           gWeeks.classList.remove("sqd-hidden");
@@ -903,64 +905,288 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     
 
     //implement the once choice of time-trigger
-    let today = new Date();
-    let yyyy = today.getFullYear();
-    let dd = today.getDate();
-    let ddd ='';
-    let mm = today.getMonth()+1;
-    let mmm = '';
-    let hh = today.getHours();
-    let hhh = '';
-    let nn = today.getMinutes();
-    let nnn = '';
-    if (dd < 10) {
-      ddd = '0' + dd;
-    }else{
-      ddd = dd.toString();
-    }
+  //   let today = new Date();
+  //   let yyyy = today.getFullYear();
+  //   let dd = today.getDate();
+  //   let ddd ='';
+  //   let mm = today.getMonth()+1;
+  //   let mmm = '';
+  //   let hh = today.getHours();
+  //   let hhh = '';
+  //   let nn = today.getMinutes();
+  //   let nnn = '';
+  //   if (dd < 10) {
+  //     ddd = '0' + dd;
+  //   }else{
+  //     ddd = dd.toString();
+  //   }
    
-    if (mm < 10) {
-      mmm = '0' + mm;
-    }else{
-      mmm = mm.toString();
-    }
-    if (hh < 10) {
-     hhh = '0' + hh;
-    } else{
-     hhh = hh.toString();
-    }
-    if (nn < 10) {
-      nnn = '0' + nn;
-     } else{
-      nnn = nn.toString();
-     }
+  //   if (mm < 10) {
+  //     mmm = '0' + mm;
+  //   }else{
+  //     mmm = mm.toString();
+  //   }
+  //   if (hh < 10) {
+  //    hhh = '0' + hh;
+  //   } else{
+  //    hhh = hh.toString();
+  //   }
+  //   if (nn < 10) {
+  //     nnn = '0' + nn;
+  //    } else{
+  //     nnn = nn.toString();
+  //    }
    
-   let todayStr = yyyy + '-' + mmm + '-' + ddd + 'T' + hhh + ':' + nnn;
-    console.log(todayStr);
+  //  let todayStr = yyyy + '-' + mmm + '-' + ddd + 'T' + hhh + ':' + nnn;
+  //   console.log(todayStr);
+    
 
     const gOnce = Dom.svg("g",{
-      class: "sqd-task-group-once"
+      class: "sqd-task-group-once",
     });
-    const datePickerWrapper = Dom.svg("foreignObject", {
-      x:PADDING_X+30 + addon,
-      y:2 * boxHeight+70,
-      height: 27,
-      width: 200,
-    });
-    const datePicker = Dom.element("input", {
-      class: "date-picker",
-      type:"datetime-local",
-      min: todayStr,
-    });
+    const calendarWrapper = Dom.svg("foreignObject",{
+      x:3+addon,
+      y:2 * boxHeight+40,
+      height: 320,
+      width: 250,
+    })
+    const calendarDiv= Dom.element("div", {
+      id: 'calendar',
+    })
+    calendarWrapper.appendChild(calendarDiv);
+
+    let databefore!:string[];
     if(step.properties["time"]){
-      //@ts-ignore
-      datePicker.value = step.properties["time"]
-    }else{
-      //@ts-ignore
-      datePicker.value = '';
+      databefore = step.properties["time"].toString().split(',');
     }
-    datePickerWrapper.appendChild(datePicker);
-    gOnce.appendChild(datePickerWrapper);
+    
+    let OnceDates!:string[];
+    //@ts-ignore
+    let calendar = new VanillaCalendar(calendarDiv,{
+      settings: {
+        selection: {
+          day: 'multiple',
+        },
+        range: {
+          disablePast: true,
+        },
+        visibility: {
+          weekend: false,
+        },
+        iso8601: false,
+      },
+      actions: {
+        //@ts-ignore
+        clickDay(event, dates) {
+          OnceDates = dates;
+        },
+      },
+    });
+    if(databefore && databefore.length != 0 && dropdownBoxInnerText1.textContent == "Once"){
+      let temp = [...databefore];
+      temp.pop();
+      OnceDates = temp;
+      //@ts-ignore
+      calendar = new VanillaCalendar(calendarDiv,{
+        settings: {
+          selection: {
+            day: 'multiple',
+          },
+          range: {
+            disablePast: true,
+          },
+          selected: {
+            dates: temp,
+          },
+          visibility: {
+            weekend: false,
+          },
+          iso8601: false,
+        },
+        actions: {
+          //@ts-ignore
+          clickDay(event, dates) {
+            OnceDates = dates;
+          },
+        },
+      });
+    }
+    calendar.init();
+
+    const calendarBr = Dom.svg("line", {
+      x1:addon,
+			y1: 2 * boxHeight+327,
+			x2: 258+addon,
+			y2: 2 * boxHeight+327,
+      stroke: "#3FC8FA",
+      class: "sqd-calendar-line"
+    });
+    
+    //implement the set time feature
+    const gSetTime = Dom.svg("g", {
+      class: "sqd-task-group",
+    });
+    
+    const setTimeText = Dom.svg("text", {
+      class: "sqd-task-text-settime",
+      x: PADDING_X+10 + addon,
+      y: 2 * boxHeight+350,
+    });
+    setTimeText.textContent = "Set time(hour)";
+
+    const setTimeWrapper = Dom.svg("foreignObject",{
+      x:PADDING_X+114 + addon,
+      y:2 * boxHeight+340,
+      height: 30,
+      width: 40,
+    });
+    const setTimeInput = Dom.element("input", {
+      class: "settime-input",
+      type: "text",
+      placeholder: "00",
+      maxlength: 2,
+    });
+    if(databefore &&  databefore.length != 0 && dropdownBoxInnerText1.textContent == "Once"){
+      console.log(databefore);
+      setTimeInput.value = databefore[databefore.length-1].slice(0,2);
+    }
+    setTimeWrapper.appendChild(setTimeInput);
+    
+    const setTimeBr = Dom.svg("line", {
+      x1: PADDING_X+121 + addon,
+			y1: 2 * boxHeight+354,
+			x2: PADDING_X+141 + addon,
+			y2: 2 * boxHeight+354,
+      stroke: "#3FC8FA",
+      class: "sqd-calendar-line"
+    });
+
+    const setTimeRangeRect = Dom.svg("rect", {
+      class: "set-time-rect",
+      x:PADDING_X+147 + addon,
+      y:2 * boxHeight+338,
+      rx: 10,
+      ry: 10,
+      width: 74,
+      height: 20
+    });
+
+    const setTimeAmText = Dom.svg("text", {
+      class: "sqd-task-text-settime-am",
+      x: PADDING_X+159 + addon,
+      y: 2 * boxHeight+351,
+    });
+    setTimeAmText.textContent = "AM";
+    const setTimeAmRect = Dom.svg("rect", {
+      class: "set-time-rect-m selected",
+      x: PADDING_X+150 + addon,
+      y: 2 * boxHeight+340,
+      rx: 9,
+      ry: 9,
+      width: 37,
+      height: 15.5,
+      fill: "#5495d4"
+    });
+
+    const setTimePmText = Dom.svg("text", {
+      class: "sqd-task-text-settime-pm",
+      x: PADDING_X+191 + addon,
+      y: 2 * boxHeight+351,
+    });
+    setTimePmText.textContent = "PM";
+    const setTimePmRect = Dom.svg("rect", {
+      class: "set-time-rect-m",
+      x: PADDING_X+181 + addon,
+      y: 2 * boxHeight+340,
+      rx: 9,
+      ry: 9,
+      width: 37,
+      height: 15.5,
+      fill: "white"
+    });
+
+    const setTimeAmRectShape = Dom.svg("rect", {
+      class: "set-time-shape",
+      x: PADDING_X+150 + addon,
+      y: 2 * boxHeight+340,
+      rx: 9,
+      ry: 9,
+      width: 37,
+      height: 15.5,
+      opacity: 0
+    });
+
+    const setTimePmRectShape = Dom.svg("rect", {
+      class: "set-time-shape",
+      x: PADDING_X+181 + addon,
+      y: 2 * boxHeight+340,
+      rx: 9,
+      ry: 9,
+      width: 37,
+      height: 15.5,
+      opacity: 0
+    });
+
+    const setTimeTimeZone = Dom.svg("text", {
+      class: "sqd-task-text_3",
+      x: PADDING_X+10 + addon,
+      y: 2 * boxHeight+377,
+    });
+    setTimeTimeZone.textContent = "Based on your timezone(PST)";
+
+    setTimeInput.addEventListener("change", function(){
+      if(parseInt(setTimeInput.value) < 10){
+        setTimeInput.value = '0' + setTimeInput.value;
+      }
+    });
+    setTimePmRectShape.addEventListener("click", function(){
+      if(!setTimePmRect.classList.contains("selected")){
+        setTimePmRect.classList.toggle("selected");
+        setTimeAmRect.classList.toggle("selected");
+        setTimePmText.setAttribute("style", "fill:white");
+        setTimePmRect.setAttribute("fill", "#5495d4");
+        setTimeAmText.setAttribute("style", "fill:rgb(191, 191, 191)");
+        setTimeAmRect.setAttribute("fill", "white");
+        gSetTime.insertBefore(setTimeAmRect, setTimePmRect);
+      }
+    });
+    setTimeAmRectShape.addEventListener("click", function(){
+      if(!setTimeAmRect.classList.contains("selected")){
+        setTimePmRect.classList.toggle("selected");
+        setTimeAmRect.classList.toggle("selected");
+        setTimeAmText.setAttribute("style", "fill:white");
+        setTimeAmRect.setAttribute("fill", "#5495d4");
+        setTimePmText.setAttribute("style", "fill:rgb(191, 191, 191)");
+        setTimePmRect.setAttribute("fill", "white");
+        gSetTime.insertBefore(setTimePmRect, setTimeAmRect);
+      }
+    });
+
+    gSetTime.appendChild(setTimeText);
+    gSetTime.appendChild(setTimeWrapper);
+    gSetTime.appendChild(setTimeBr);
+    gSetTime.appendChild(setTimeRangeRect);
+    gSetTime.appendChild(setTimePmRect);
+    gSetTime.appendChild(setTimeAmRect);
+    gSetTime.appendChild(setTimePmText);
+    gSetTime.appendChild(setTimeAmText);
+    gSetTime.appendChild(setTimeAmRectShape);
+    gSetTime.appendChild(setTimePmRectShape);
+    gSetTime.appendChild(setTimeTimeZone);
+
+    if(databefore && databefore[databefore.length-1].toString().slice(2) == "PM" && dropdownBoxInnerText1.textContent == "Once"){
+      setTimePmRect.classList.toggle("selected");
+      setTimeAmRect.classList.toggle("selected");
+      setTimePmText.setAttribute("style", "fill:white");
+      setTimePmRect.setAttribute("fill", "#5495d4");
+      setTimeAmText.setAttribute("style", "fill:rgb(191, 191, 191)");
+      setTimeAmRect.setAttribute("fill", "white");
+      gSetTime.insertBefore(setTimeAmRect, setTimePmRect);
+    }
+
+    gOnce.appendChild(calendarWrapper);
+    gOnce.appendChild(calendarBr);
+    gOnce.appendChild(gSetTime);
 
 
     //implement the recurring choice of time-trigger
@@ -976,13 +1202,6 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
 
     week_text.textContent = "Set your delieverable dates:"
     gWeeks.appendChild(week_text);
-    
-    let databefore!:string[];
-    if(step.properties["time"]){
-      databefore = step.properties["time"].toString().split(',');
-    }else{
-      databefore = [];
-    }
 
     for(let i=1;i<8;i++){
       var week = "";
@@ -1158,18 +1377,20 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         width: 7
       });
       let weekTemp = '';
-      for(let h=0;h<databefore.length;h++){
-        if(databefore[h].includes(week)){
-          weekTemp = databefore[h];
-          gEachWeek.classList.add("selected");
-          Dom.attrs(checkbox, {
-            style: "stroke:#5495d4;fill:#5495d4",
-          });
-          Dom.attrs(weekName, {
-            style: "fill:#5495d4"
-          });
-          timeText.textContent = weekTemp.slice(-4,-2);
-          rangeText.textContent = weekTemp.slice(-2);
+      if(databefore){
+        for(let h=0;h<databefore.length;h++){
+          if(databefore[h].includes(week)){
+            weekTemp = databefore[h];
+            gEachWeek.classList.add("selected");
+            Dom.attrs(checkbox, {
+              style: "stroke:#5495d4;fill:#5495d4",
+            });
+            Dom.attrs(weekName, {
+              style: "fill:#5495d4"
+            });
+            timeText.textContent = weekTemp.slice(-4,-2);
+            rangeText.textContent = weekTemp.slice(-2);
+          }
         }
       }
 
@@ -1444,12 +1665,14 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       maxlength: 4,
     });
     yearWrapper.appendChild(yearInput);
-
-    if(databefore.length != 0){
-      const databeforeEndDate = databefore[databefore.length-1].split(':')[1].split('/');
-      monthInput.value = databeforeEndDate[0];
-      dateInput.value = databeforeEndDate[1];
-      yearInput.value = databeforeEndDate[2];
+    
+    if(databefore && dropdownBoxInnerText1.textContent == "Recurring"){
+      if(databefore.length != 0){
+        const databeforeEndDate = databefore[databefore.length-1].split(':')[1].split('/');
+        monthInput.value = databeforeEndDate[0];
+        dateInput.value = databeforeEndDate[1];
+        yearInput.value = databeforeEndDate[2];
+      }
     }
 
     gEndDate.appendChild(endDateText);
@@ -1471,7 +1694,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       gOnce.classList.remove("sqd-hidden");
       if(!gWeeks.classList.contains("sqd-hidden")){
         gWeeks.classList.add("sqd-hidden");
-        rect1.setAttribute("height", "190");
+        rect1.setAttribute("height", "460");
       }
     }else if (step.properties["Runs"] == "Recurring"){
       gWeeks.classList.remove("sqd-hidden");
@@ -1599,8 +1822,28 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         //@ts-ignore
         step.properties["time"] = weekAndTime + 'End date:'+`${document.getElementsByClassName("date-input")[0].value}`+'/'+`${document.getElementsByClassName("date-input")[1].value}`+'/'+`${document.getElementsByClassName("date-input-year")[0].value}`;
       }else{
-        //@ts-ignore
-        step.properties["time"] = `${gOnce.children[0].children[0].value}`;
+        if((OnceDates && OnceDates.length == 0) || !OnceDates){
+          alert("please select a day");
+          return;
+        }else{
+          step.properties["time"] = '';
+          for(let k=0;k<OnceDates.length;k++){
+            step.properties["time"] += OnceDates[k] + ",";
+          }
+          
+          if(parseInt(setTimeInput.value) > 0 && parseInt(setTimeInput.value) < 13 && Number.isInteger(parseInt(setTimeInput.value))){
+            step.properties["time"] += setTimeInput.value;
+
+            if(setTimeAmRect.classList.contains("selected")){
+              step.properties["time"] += "AM";
+            }else{
+              step.properties["time"] += "PM";
+            }
+          }else{
+            alert("please enter correct hour");
+            return;
+          }
+        }
       }
 
       gDropdown.classList.toggle("sqd-hidden");
@@ -1696,8 +1939,26 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
 
         textRight.textContent = "To Any List"
         dropdownBoxInnerText.textContent = "Any list";
-        step.properties={};
         
+        calendar.settings.selected.dates = '';
+        calendar.update();
+        setTimeInput.value = '';
+        dateInput.value = '';
+        monthInput.value = '';
+        yearInput.value = '';
+
+        for(let i=1;i<8;i++){
+          let checkWeek = document.getElementsByClassName(`sqd-week-${i}`);
+
+          if(checkWeek[0].classList.contains('selected')){
+            checkWeek[0].children[0].children[1].textContent = '12';
+            checkWeek[0].children[1].children[1].textContent = 'AM'
+            checkWeek[0].children[5].setAttribute("style", "color:#949CA0");
+            checkWeek[0].children[2].setAttribute("style", "fill:white;stroke:#949CA0");
+          }
+        }
+        
+        step.properties["time"] = ''; 
         
         const designer = document.getElementById("designer");
         while (designer?.childNodes[1]) {
@@ -1769,7 +2030,26 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         
         textRight.textContent = "To Any List"
         dropdownBoxInnerText.textContent = "Any list";
-        dropdownBoxInnerText1.textContent = "Once";
+
+        calendar.settings.selected.dates = '';
+        calendar.update();
+        setTimeInput.value = '';
+        dateInput.value = '';
+        monthInput.value = '';
+        yearInput.value = '';
+
+        for(let i=1;i<8;i++){
+          let checkWeek = document.getElementsByClassName(`sqd-week-${i}`);
+
+          if(checkWeek[0].classList.contains('selected')){
+            checkWeek[0].children[0].children[1].textContent = '12';
+            checkWeek[0].children[1].children[1].textContent = 'AM'
+            checkWeek[0].children[5].setAttribute("style", "color:#949CA0");
+            checkWeek[0].children[2].setAttribute("style", "fill:white;stroke:#949CA0");
+          }
+        }
+        
+        step.properties["time"] = ''; 
 
         
         const designer = document.getElementById("designer");

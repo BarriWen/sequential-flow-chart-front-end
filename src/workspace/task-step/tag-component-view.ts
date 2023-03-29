@@ -5,7 +5,7 @@ import { StepsConfiguration } from "../../designer-configuration";
 import { InputView } from "../common-views/input-view";
 import { OutputView } from "../common-views/output-view";
 import { ValidationErrorView } from "../common-views/validation-error-view";
-import { ComponentView } from "../component";
+import { ComponentView, StepComponent } from "../component";
 const PADDING_X = 12;
 const PADDING_Y = 10;
 const MIN_TEXT_WIDTH = 70;
@@ -35,8 +35,8 @@ export class TagComponentView implements ComponentView {
     parent.insertBefore(g, parent.firstChild);
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
-      x: PADDING_X/2,
-      y: boxHeight / 1.7,
+      x: PADDING_X/2 + 7,
+      y: boxHeight / 1.7 -2,
       class: "sqd-task-text",
     });
     text.textContent = step.name;
@@ -62,16 +62,19 @@ export class TagComponentView implements ComponentView {
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,
     });
+    if(step.name == "Remove Tag"){
+      rectLeft.setAttribute("width", "95")
+    }
     const textRight = Dom.svg("text", {
-      x: ICON_SIZE + 3 * PADDING_X + textWidth - 10,
-      y: boxHeight / 1.7,
-      class: "sqd-task-text",
+      x: ICON_SIZE + 3 * PADDING_X + textWidth - 5,
+      y: boxHeight / 1.7+1,
+      class: "sqd-task-text_2",
     });
     if (step.properties["tag"]) {
       textRight.textContent = step.properties["tag"].toString();
     }
     else {
-      textRight.textContent = "Any tag";
+      textRight.textContent ="Select Tag";
     }
     g.appendChild(textRight);
 
@@ -136,7 +139,7 @@ export class TagComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "./assets/more.svg";
+    const moreUrl = "./assets/moreTag.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -146,8 +149,29 @@ export class TagComponentView implements ComponentView {
           rx: 4,
           ry: 4,
         });
+    const moreDotUrl = "./assets/more-dot.svg"
+    const moreIconDot = moreDotUrl
+      ? Dom.svg("image", {
+          href: moreDotUrl,
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
+    Dom.attrs(moreIconDot, {
+        class: "moreIconDot",
+        x: 236,
+        y: 8,
+        width: ICON_SIZE,
+        height: ICON_SIZE,
+    });
+    if(step.name == "Remove Tag"){
+      moreIconDot.setAttribute("x", "242");
+    }
     Dom.attrs(moreIcon, {
       class: "moreIcon",
+      // id: `tagMoreIcon`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22,
       y: 5,
       width: ICON_SIZE,
@@ -260,8 +284,10 @@ export class TagComponentView implements ComponentView {
     });
     const checkImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
-      x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
+      // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
+      x: 170,
       y: PADDING_Y - 40,
+      style: "fill:#5495d4"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -269,7 +295,7 @@ export class TagComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "./assets/check.svg";
+    const upCheckIconUrl = "./assets/check-inside.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -280,12 +306,11 @@ export class TagComponentView implements ComponentView {
           ry: 4,
         });
     Dom.attrs(upCheckIcon, {
-      class: "moreicon",
-      // id: `tagUpCheckIcon`,
-      x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
-      y: PADDING_Y - 37,
-      width: 22,
-      height: 22,
+      class: "checkIcon-inside",
+      x: 177.4,
+      y: PADDING_Y - 33,
+      width: 18,
+      height: 18,
     });
     checkImgContainer.appendChild(checkImgContainerCircle);
     checkImgContainer.appendChild(upCheckIcon);
@@ -378,9 +403,9 @@ export class TagComponentView implements ComponentView {
       class: `sqd-task-group right-popup-reminder sqd-hidden`,
     });
     const reminder1 = Dom.svg("rect", {
-      x: 0.5,
+      x: 0.5 ,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -388,12 +413,12 @@ export class TagComponentView implements ComponentView {
     });
     Dom.attrs(reminder1, {
       id: `reminder1${Date.now()}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
+      x: 300.95,
       y: PADDING_Y - 35,
     });
     const reminderText1 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 72.5,
+      x: 313.45,
       y: PADDING_Y - 23,
     });
     Dom.attrs(reminderText1, {
@@ -404,7 +429,7 @@ export class TagComponentView implements ComponentView {
     const reminder2 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -412,13 +437,13 @@ export class TagComponentView implements ComponentView {
     });
     Dom.attrs(reminder2, {
       id: `reminder2${Date.now()}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 75,
+      x: 310.95,
       y: PADDING_Y,
     });
 
     const reminderText2 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 80,
+      x: 320.95,
       y: PADDING_Y + 12,
     });
     Dom.attrs(reminderText2, {
@@ -429,7 +454,7 @@ export class TagComponentView implements ComponentView {
     const reminder3 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -437,13 +462,13 @@ export class TagComponentView implements ComponentView {
     });
     Dom.attrs(reminder3, {
       id: `reminder3${Date.now()}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
+      x: 300.95,
       y: PADDING_Y + 35,
     });
 
     const reminderText3 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 67,
+      x: 307.45,
       y: PADDING_Y + 47,
     });
     Dom.attrs(reminderText3, {
@@ -486,12 +511,17 @@ export class TagComponentView implements ComponentView {
     // });
     
     g.appendChild(moreIcon);
+    g.appendChild(moreIconDot);
     g.appendChild(gRightPop3);
-    g.appendChild(gDropdown);
+    g.insertBefore(gDropdown, rect);
     const newTag = Dom.svg("text", {
       class: "sqd-task-text",
     });
-    tagDropDown(gDropdown, boxHeight, boxWidth, newTag);
+    let temp = '';
+    if(step.properties["tag"]){
+      temp = step.properties["tag"].toString();
+    }
+    tagDropDown(gDropdown, boxHeight, boxWidth, newTag, temp, step.name);
     if (step.name === "Add Tag") {
       addNewTag(gDropdown, boxHeight, boxWidth, upCheckIcon, newTag);
     }
@@ -503,6 +533,22 @@ export class TagComponentView implements ComponentView {
     moreIcon.addEventListener("click", function (e) {
       e.stopPropagation();
       gRightPop3.classList.toggle("sqd-hidden");
+      if (!gUpPop3.classList.contains("sqd-hidden")) {
+        gUpPop3.classList.toggle("sqd-hidden");
+      }
+      if (!gDropdown.classList.contains("sqd-hidden")) {
+        gDropdown.classList.toggle("sqd-hidden");
+      }
+    });
+    moreIconDot.addEventListener("click", function (e) {
+      e.stopPropagation();
+      gRightPop3.classList.toggle("sqd-hidden");
+      if (!gUpPop3.classList.contains("sqd-hidden")) {
+        gUpPop3.classList.toggle("sqd-hidden");
+      }
+      if (!gDropdown.classList.contains("sqd-hidden")) {
+        gDropdown.classList.toggle("sqd-hidden");
+      }
     });
     
     // Edit
@@ -516,11 +562,24 @@ export class TagComponentView implements ComponentView {
       e.stopPropagation();
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
-      if (newTag.textContent) {
-        textRight.textContent = newTag.textContent;
+
+      if(g.children[0].children[3]){
+        if (g.children[0].children[3].classList.contains("sqd-hidden")) {
+          textRight.textContent = tempText;
+          step.properties["tag"] = textRight.textContent;
+          step["updatedAt"] = new Date();
+        }
+      }else{
+        textRight.textContent = tempText;
         step.properties["tag"] = textRight.textContent;
         step["updatedAt"] = new Date();
       }
+    });
+    upCheckIcon.addEventListener("mousedown", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
+    });
+    upCheckIcon.addEventListener("mouseup", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
     });
 
      // Show hints
@@ -530,11 +589,35 @@ export class TagComponentView implements ComponentView {
     editIcon.addEventListener("mouseout", function(){
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
+    editIcon.addEventListener("mousedown", function(){
+      rightEditImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      editIcon.setAttribute("href", "./assets/edit2.svg")
+    });
+    editIcon.addEventListener("mouseup", function(){
+      rightEditImgContainerCircle.setAttribute("style", "fill:white");
+      editIcon.setAttribute("href", "./assets/edit.svg")
+    });
     copyIcon.addEventListener("mouseover", () => {
       gRightPop3Reminder2.classList.toggle("sqd-hidden");
     });
     copyIcon.addEventListener("mouseout", () => {
       gRightPop3Reminder2.classList.toggle("sqd-hidden");
+    });
+    copyIcon.addEventListener("mousedown", function(){
+      rightCopyImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      copyIcon.setAttribute("href", "./assets/copy2.svg");
+    });
+    copyIcon.addEventListener("mouseup", function(){
+      rightCopyImgContainerCircle.setAttribute("style", "fill:white");
+      copyIcon.setAttribute("href", "./assets/copy.svg")
+    });
+    upCopyIcon.addEventListener("mousedown", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      upCopyIcon.setAttribute("href", "./assets/copy2.svg");
+    });
+    upCopyIcon.addEventListener("mouseup", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:white");
+      upCopyIcon.setAttribute("href", "./assets/copy.svg")
     });
     deleteIcon.addEventListener("mouseover", () => {
       gRightPop3Reminder3.classList.toggle("sqd-hidden");
@@ -542,7 +625,24 @@ export class TagComponentView implements ComponentView {
     deleteIcon.addEventListener("mouseout", () => {
       gRightPop3Reminder3.classList.toggle("sqd-hidden");
     });
+    deleteIcon.addEventListener("mousedown", function(){
+      rightDeleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      deleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+    });
+    deleteIcon.addEventListener("mouseup", function(){
+      rightDeleteImgContainerCircle.setAttribute("style", "fill:white");
+      deleteIcon.setAttribute("href", "./assets/delete.svg")
+    });
+    upDeleteIcon.addEventListener("mousedown", function(){
+      deleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      upDeleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+    });
+    upDeleteIcon.addEventListener("mouseup", function(){
+      deleteImgContainerCircle.setAttribute("style", "fill:white");
+      upDeleteIcon.setAttribute("href", "./assets/delete.svg")
+    });
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
+    inputView.setIsHidden(true);
     const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
     const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
     return new TagComponentView(
@@ -578,7 +678,7 @@ export class TagComponentView implements ComponentView {
   public setIsSelected(isSelected: boolean) {
     Dom.toggleClass(this.rect, isSelected, "sqd-selected");
     Dom.toggleClass(this.g.children[1], isSelected, "sqd-selected");
-    Dom.toggleClass(this.g.children[6].children[0], isSelected, "sqd-selected");
+    // Dom.toggleClass(this.g.children[6].children[0], isSelected, "sqd-selected");
   }
 
   public setIsValid(isValid: boolean) {
@@ -587,9 +687,8 @@ export class TagComponentView implements ComponentView {
 }
 function addTxt(txt: string, xVal: number, yVal: number, idVal?: string) {
   const nameText = Dom.svg("text", {
-    class: "sqd-task-text",
-    x: xVal,
-    y: yVal,
+    x: xVal+15,
+    y: yVal+15,
   });
   nameText.textContent = txt;
   if (idVal) {
@@ -620,14 +719,18 @@ function createRect(className: string, xVal: number, yVal: number, w: number, h:
   }
   return rect;
 }
-function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: SVGElement) {
+function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: SVGElement, temp: string, step:string) {
   const gSubDropdownbox = Dom.svg("g", {
-    class: `sqd-task-group sub-dropdownbox`,
+    class: `sqd-task-group `,
   });
   dropdown.appendChild(gSubDropdownbox);
   // Field names
-  const rect1 = createRect("sqd-task-rect", 0.5, h, w, 2.5 * h, `dropdown${Date.now()}`, RECT_RADIUS);
-  const nameText = addTxt("Select tag: ", PADDING_X, 1.5 * h);  
+  let hei = 50;
+  if(step == "Remove Tag"){
+    hei = 20;
+  }
+  const rect1 = createRect("sqd-task-rect", 0.5, 0.5, w, 2.5 * h+hei, `dropdown${Date.now()}`, RECT_RADIUS);
+  const nameText = addTxt("Select tag: ", PADDING_X+6, 1.5 * h);  
   
   gSubDropdownbox.appendChild(nameText);
   gSubDropdownbox.insertBefore(rect1, nameText);
@@ -636,26 +739,54 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
   let startY = nameText.getBBox().y;
   let wid = nameText.getBBox().width;
 
-  const dropdownBoxShape = createRect("option select-field", startX + wid + PADDING_X, startY, 160, 15);
+  const dropdownBoxShape = createRect("option select-field", startX + wid + PADDING_X+15, startY-4, 100, 21);
   Dom.attrs(dropdownBoxShape, {
     fill: "#fff",
     stroke: "#a0a0a0",
+    class: "delay-box",
+    rx: 3,
+    ry: 3
   });
-  const dropdownBoxShapeAfter = createRect("option select-field", startX + wid + PADDING_X, startY, 160, 15, `dropdownBoxShape${Date.now()}`);
+  const dropdownBoxShapeAfter = createRect("option select-field", startX + wid + PADDING_X+15, startY-4, 100, 21, `dropdownBoxShape${Date.now()}`);
   Dom.attrs(dropdownBoxShapeAfter, {
     fill: "#fff",
     stroke: "#a0a0a0",
     opacity: 0,
+    rx: 3,
+    ry: 3,
+    class: 'set-time-shape'
   });
+  const downUrl = "./assets/list_down.svg";
+    const downIcon = downUrl
+      ? Dom.svg("image", {
+          href: downUrl,
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
+    Dom.attrs(downIcon, {
+      x: 207,
+      y: 56,
+    });
   // Default value
-  const dropdownBoxInnerText = addTxt("Any Tag", startX + wid + PADDING_X + PADDING_X / 2, startY + 6.5);
+  let teeext = 'Any Tag';
+  if(temp != ''){
+    teeext = temp;
+  }
+  const dropdownBoxInnerText = addTxt(teeext, startX + wid + PADDING_X + PADDING_X / 2+1, startY-5);
+  Dom.attrs(dropdownBoxInnerText, {
+    fill: "#a0a0a0",
+  })
   gSubDropdownbox.appendChild(dropdownBoxInnerText);
   wid = wid + dropdownBoxInnerText.getBBox().width;
-  const dropdownRightButton = addTxt("▼ ", startX + wid + PADDING_X * 9, startY + 6.5);
+  // const dropdownRightButton = addTxt("▼ ", startX + wid + PADDING_X * 9, startY + 6.5);
   startX = dropdownBoxInnerText.getBBox().x;
 
-  gSubDropdownbox.appendChild(dropdownRightButton);
+  // gSubDropdownbox.appendChild(dropdownRightButton);
   gSubDropdownbox.insertBefore(dropdownBoxShape, dropdownBoxInnerText);
+  gSubDropdownbox.appendChild(downIcon);
   gSubDropdownbox.appendChild(dropdownBoxShapeAfter);
   
   // Selection list field
@@ -664,15 +795,24 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
   });
   dropdown.appendChild(gSubDropdownboxPop);
 
+    
+
   dropdownBoxShapeAfter.addEventListener("click", function (e) {
-    e.stopPropagation();
-    gSubDropdownboxPop.classList.toggle("sqd-hidden");
-    getTags().then(tags => {
-      console.log("Fetching", tags);
-      if (typeof(tags) !== 'number') {
-        editTags(tags);
-      }
-    }).catch(console.log);
+    gDropdownList.classList.toggle("sqd-hidden");
+
+    if(!gDropdownList.classList.contains("sqd-hidden")){
+      downIcon.setAttribute("href", "./assets/list_up.svg");
+      dropdownBoxShape.setAttribute("stroke", "#4FCCFC");
+      dropdownBoxInnerText.setAttribute("fill", "#4FCCFC");
+    }else{
+      downIcon.setAttribute("href", "./assets/list_down.svg");
+      dropdownBoxShape.setAttribute("stroke", "#a0a0a0");
+      dropdownBoxInnerText.setAttribute("fill", "#a0a0a0");
+    }
+  });
+
+  const gDropdownList = Dom.svg("g", {
+    class: "sqd-task-group sqd-hidden"
   });
 
   // Fetch tags from backend
@@ -690,41 +830,80 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
       return Promise.reject(response.status);
     }
   };
+  gSubDropdownboxPop.classList.toggle("sqd-hidden");
+    getTags().then(tags => {
+      console.log("Fetching", tags);
+      if (typeof(tags) !== 'number') {
+        editTags(tags);
+      }
+    }).catch(console.log);
   
   // const tags = ["Food", "Electronics", "Clothes"];
   const editTags = function (tags: string[]) {
-    for(let i = 0; i < tags.length; i++){
-      const dropdownBoxBottomShape = createRect("option select-field", startX - PADDING_X / 2, startY + 15 * (i + 1), 160, 15);
-      Dom.attrs(dropdownBoxBottomShape, {
-        fill: "#fff",
-        stroke: "#a0a0a0",
+
+    const dropDownRect = Dom.svg("rect", {
+      x:122.6875,
+      y:74,
+      class: "sqd-task-rect-inner_2",
+      width: 100,
+      height: 24*tags.length,
+      rx: 3,
+      ry: 3
+    });
+    gDropdownList.appendChild(dropDownRect);
+    for(let i=0;i<tags.length;i++){
+      const DropDownEachRect = Dom.svg("rect", {
+        x:124.6875,
+        y:77 + i*23,
+        width: 96,
+        height: 21,
+        rx: 3,
+        ry: 3,
+        fill: "white",
+        stroke: "none"
       });
-      const dropdownBoxBottomShapeText = addTxt(tags[i], startX, startY + 15 * (i + 1) + 8);
+      const DropdownEachText = Dom.svg("text", {
+        x:129.6875,
+        y:91 + i*23,
+      });
+      DropdownEachText.textContent = tags[i];
+
+      const DropDownEachRectShape = Dom.svg("rect", {
+        x:124.6875,
+        y:77 + i*23,
+        width: 96,
+        height: 21,
+        rx: 3,
+        ry: 3,
+        opacity: 0,
+        class: "delay-box-shape"
+      });
       
-      const dropdownBoxBottomShapecover = createRect("option select-field choice", startX - PADDING_X / 2, startY + 15 * (i + 1), 160, 15, `dropdownBoxBottomShapecover${Date.now()}`);
-      Dom.attrs(dropdownBoxBottomShapecover, {
-        fill: "#fff",
-        stroke: "#a0a0a0",
-        opacity: 0.3,
+      DropDownEachRectShape.addEventListener("mouseover", function(){
+        DropDownEachRect.setAttribute("fill", "#EDF5FF");
       });
-  
-      gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
-      gSubDropdownboxPop.insertBefore(
-        dropdownBoxBottomShape,
-        dropdownBoxBottomShapeText
-      );
-      gSubDropdownboxPop.appendChild(dropdownBoxBottomShapecover);
-  
-      // Add Event Listeners
-      dropdownBoxBottomShapecover.addEventListener("click", function(e) {
-        e.stopPropagation();
+      DropDownEachRectShape.addEventListener("mouseout", function(){
+        DropDownEachRect.setAttribute("fill", "white");
+      });
+      DropDownEachRectShape.addEventListener("click", function(){
+        gDropdownList.classList.add("sqd-hidden");
         dropdownBoxInnerText.textContent = tags[i];
-        gSubDropdownboxPop.classList.toggle("sqd-hidden");
-        textToChange.textContent = tags[i];
-      });
-    };
+        tempText = dropdownBoxInnerText.textContent;
+        downIcon.setAttribute("href", "./assets/list_down.svg");
+        dropdownBoxShape.setAttribute("stroke", "#a0a0a0");
+        dropdownBoxInnerText.setAttribute("fill", "#a0a0a0");
+      })
+
+      gDropdownList.appendChild(DropDownEachRect);
+      gDropdownList.appendChild(DropdownEachText);
+      gDropdownList.appendChild(DropDownEachRectShape);
+    }
+
+    //@ts-ignore
+    gSubDropdownbox.parentElement.appendChild(gDropdownList);
   };
 }
+let tempText!:string;
 function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement) {
   const g = Dom.svg("g", {
     class: `create-tag`,
@@ -732,11 +911,17 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
   parent.insertBefore(g, parent.lastChild);
   const nameText = Dom.svg("text", {
     class: "new-tag-text",
-    x: w / 4 + PADDING_X,
-    y: h + 5 * PADDING_Y,
+    x: w / 4 + PADDING_X-6,
+    y: h + 5 * PADDING_Y+20,
   });
   nameText.textContent = "+Create a New Tag"
-  g.appendChild(nameText);
+  nameText.addEventListener("mouseover", function(){
+    nameText.setAttribute("style", "fill:#5495d4;stroke:#5495d4");
+  });
+  nameText.addEventListener("mouseout", function(){
+    nameText.setAttribute("style", "fill:#67b1e3;stroke:#67b1e3");
+  });
+  g.insertBefore(nameText, g.firstChild);
 
   // Text wrapper
   const rect = createRect("create-tag", nameText.getBBox().x, nameText.getBBox().y, nameText.getBBox().width, nameText.getBBox().height, `newTag${Date.now()}`);
@@ -747,14 +932,13 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
     class: `sqd-task-group sub-dropdownbox sqd-hidden`,
   });
   parent.appendChild(container);
-  const rect1 = createRect("sqd-task-rect", 0.5, h, w, 2.5 * h, `dropdown${Date.now()}`, RECT_RADIUS);
+  const rect1 = createRect("sqd-task-rect", 0.5, 0.5, w, 2.5 * h+50, `dropdown${Date.now()}`, RECT_RADIUS);
   container.appendChild(rect1);
   
   const inputArea = Dom.svg("foreignObject", {
-    class: "new-tag-input",
-    x: 1 + 2 * PADDING_X,
+    x: 1 + 2 * PADDING_X+8,
     y: h + 2 * PADDING_Y,
-    width: 180,
+    width: 220,
     height: 30
   });
   const input = Dom.element("input", {
@@ -770,10 +954,17 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
 
   const backText = Dom.svg("text", {
     class: "new-tag-text",
-    x: w / 4 + PADDING_X,
-    y: h + 6 * PADDING_Y,
+    x: w / 4 + PADDING_X-6,
+    y: h + 6 * PADDING_Y+10,
   });
   backText.textContent = "< Back to Selection"
+  backText.addEventListener("mouseover", function(){
+    backText.setAttribute("style", "fill:#5495d4;stroke:#5495d4");
+  });
+  backText.addEventListener("mouseout", function(){
+    backText.setAttribute("style", "fill:#67b1e3;stroke:#67b1e3");
+  });
+  
   container.appendChild(backText);
   // Add event listener
   g.addEventListener("click", function(e) {
@@ -793,7 +984,7 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
       const userID = 1;      //Need to be changed to an existing user
       const journeyID = 4;  //Need to be changed to an existing journey
       const data = {"tag_name": `${input.value}`};
-      const request = new Request(`http://localhost:8080/tags/${userID}/${journeyID}`, {
+      const request = new Request(`http://localhost:8080/AddTag`, {
         method: 'POST', 
         headers: {
           "Content-Type": 'application/json'

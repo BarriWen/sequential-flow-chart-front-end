@@ -127,6 +127,12 @@ body{
 	stroke-width: 1.5;
 }
 
+.sqd-theme-light .sqd-task-rect-inner_2{
+	fill: #FFF;
+	stroke: #4FCCFC;
+	stroke-width: 1.4px;
+}
+
 #sqd-task-tag .sqd-task-rect{
 	stroke: #C2A5FF;
 }
@@ -416,7 +422,7 @@ input{
 
 .new-tag-input{
 	height: 18px;
-	width: 200px;
+	width: 185px;
 }
 
 .content-option{
@@ -475,3 +481,91 @@ input{
 	text-align: center;
 }
 
+button{
+	font-family: 'sofia-pro';
+}
+
+.vanilla-calendar-arrow{
+	background-color: white;
+}
+
+.sqd-calendar-line{
+	stroke-width: 1.5px;
+}
+
+.sqd-task-text-settime{
+	fill: rgb(191, 191, 191);
+}
+
+.sqd-task-text-settime-pm{
+	fill: rgb(191, 191, 191);
+	font-size: 11px;
+}
+
+.sqd-task-text-settime-am{
+	fill:white;
+	font-size: 11px;
+}
+
+.settime-input{
+	text-align: center;
+	width: 30px;
+	border: none;
+	color:rgb(191, 191, 191)
+}
+
+.settime-input:focus{
+	outline: none;
+	color: #5495d4;
+}
+
+.set-time-rect{
+	fill: white;
+	stroke: #3FC8FA;
+}
+
+.set-time-shape{
+	cursor: pointer;
+}
+
+.sqd-delay-label{
+	margin-left: 10px;
+	position: absolute;
+	margin-top: 27px;
+}
+
+.delay-input{
+	border: none;
+	border: solid 1.6px rgb(191, 191, 191);
+	border-radius: 3px;
+	height: 20px;
+	width: 70px;
+	margin-top: 25px;
+	margin-left: 31px;
+	color: #949CA0;
+}
+
+.delay-input::placeholder{
+	color: #949CA0;
+}
+
+.delay-input:focus{
+	color: #5495d4;
+}
+
+.delay-box{
+	stroke-width: 1.5px;
+}
+
+.delay-box-shape{
+	cursor: pointer;
+}
+
+.emailIcon{
+	width:60px;
+	height: 57px;
+}
+
+.email-html-text{
+	font-size: 10px;
+}

@@ -1,3 +1,4 @@
+import { data } from "jQuery";
 import { Dom } from "../../core/dom";
 import { Vector } from "../../core/vector";
 import { TaskStep } from "../../definition";
@@ -36,8 +37,8 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     parent.insertBefore(g, parent.firstChild);
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
-      x: PADDING_X/2,
-      y: boxHeight / 1.7,
+      x: PADDING_X/2-0.5,
+      y: boxHeight / 1.7-2,
       class: "sqd-task-text",
     });
     text.textContent = step.name;
@@ -65,11 +66,11 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     });
     const textRight = Dom.svg("text", {
       x: ICON_SIZE + 3 * PADDING_X + textWidth - 10,
-      y: boxHeight / 1.7,
-      class: "sqd-task-text",
+      y: boxHeight / 1.7+1,
+      class: "sqd-task-text_2",
     });
-    if (step.properties.sendOn) {
-      textRight.textContent = step.properties.sendOn.toString();
+    if (step.properties["date"]) {
+      textRight.textContent = step.properties["date"].toString();
     }
     else if(step.properties.waitFor){
       textRight.textContent = step.properties.waitFor.toString();
@@ -139,7 +140,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "./assets/more.svg";
+    const moreUrl = "./assets/moreDelay.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -149,9 +150,26 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
           rx: 4,
           ry: 4,
         });
+    const moreDotUrl = "./assets/more-dot.svg"
+    const moreIconDot = moreDotUrl
+      ? Dom.svg("image", {
+          href: moreDotUrl,
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
+    Dom.attrs(moreIconDot, {
+        class: "moreIconDot",
+        x: 236,
+        y: 8,
+        width: ICON_SIZE,
+        height: ICON_SIZE,
+    });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
-      id: `timeDelayMoreIcon`,
+      // id: `tagMoreIcon`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22,
       y: 5,
       width: ICON_SIZE,
@@ -265,8 +283,10 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     });
     const checkImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
-      x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
+      // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
+      x: 170,
       y: PADDING_Y - 40,
+      style: "fill:#5495d4"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -274,7 +294,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "./assets/check.svg";
+    const upCheckIconUrl = "./assets/check-inside.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -285,12 +305,13 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
           ry: 4,
         });
     Dom.attrs(upCheckIcon, {
-      class: "moreicon",
-      // id: `timeDelayUpCheckIcon`,
-      x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
-      y: PADDING_Y - 37,
-      width: 22,
-      height: 22,
+      class: "checkIcon-inside",
+      // id: `tagUpCheckIcon`,
+      // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
+      x: 177.4,
+      y: PADDING_Y - 33,
+      width: 18,
+      height: 18,
     });
     checkImgContainer.appendChild(checkImgContainerCircle);
     checkImgContainer.appendChild(upCheckIcon);
@@ -383,9 +404,9 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
       class: `sqd-task-group right-popup-reminder sqd-hidden`,
     });
     const reminder1 = Dom.svg("rect", {
-      x: 0.5,
+      x: 0.5 ,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -393,12 +414,12 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     });
     Dom.attrs(reminder1, {
       id: `reminder1${Date.now()}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
+      x: 300.95,
       y: PADDING_Y - 35,
     });
     const reminderText1 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 72.5,
+      x: 313.45,
       y: PADDING_Y - 23,
     });
     Dom.attrs(reminderText1, {
@@ -409,7 +430,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     const reminder2 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -417,13 +438,13 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     });
     Dom.attrs(reminder2, {
       id: `reminder2${Date.now()}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 75,
+      x: 310.95,
       y: PADDING_Y,
     });
 
     const reminderText2 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 80,
+      x: 320.95,
       y: PADDING_Y + 12,
     });
     Dom.attrs(reminderText2, {
@@ -434,7 +455,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     const reminder3 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -442,13 +463,13 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     });
     Dom.attrs(reminder3, {
       id: `reminder3${Date.now()}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
+      x: 300.95,
       y: PADDING_Y + 35,
     });
 
     const reminderText3 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 67,
+      x: 307.45,
       y: PADDING_Y + 47,
     });
     Dom.attrs(reminderText3, {
@@ -479,10 +500,10 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     });
     const rect1 = Dom.svg("rect", {
       x: 0.5,
-      y: boxHeight,
-      class: "sqd-task-rect",
-      width: boxWidth,
-      height: 4 * boxHeight,
+      y: 0.5,
+      class: `sqd-task-rect`,
+      width: 258,
+      height: 150,
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,
     });
@@ -494,73 +515,271 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
       name: "choice",
       value: 1,
     });
-    choice1.style.marginLeft = "50px";
-    choice1.style.marginTop = "10px";
-    const choice1Text = Dom.element("label");
-    choice1Text.innerText = "Send on the Time You Pick";
+    choice1.style.marginLeft = "32px";
+    choice1.style.marginTop = "25px";
+    const choice1Text = Dom.element("label", {
+      class: "sqd-delay-label"
+    });
+    choice1Text.innerText = "Wait until a specific date";
     const choice1TextNextLine = Dom.element("br");
     const choice2 = Dom.element("input", {
       type: "radio",
       name: "choice",
       value: 2,
     });
-    choice2.style.marginLeft = "50px";
-    choice2.style.marginTop = "20px";
-    const choice2Text = Dom.element("label");
-    choice2Text.innerText = "Wait until the Time You Enter";
+    choice2.style.marginLeft = "32px";
+    choice2.style.marginTop = "25px";
+    const choice2Text = Dom.element("label", {
+      class: "sqd-delay-label"
+    });
+    choice2Text.innerText = "Wait for a duration of time";
     //add input for time delay tag
     var foreignObjectTag = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "foreignObject"
     ); //Create a rect in SVG's namespace
-    foreignObjectTag.setAttribute("x", "0.5"); //Set rect data
+    foreignObjectTag.setAttribute("x", "3"); //Set rect data
     foreignObjectTag.setAttribute("y", "32"); //Set rect data
-    foreignObjectTag.setAttribute("width", "258"); //Set rect data
-    foreignObjectTag.setAttribute("height", "128"); //Set rect data
+    foreignObjectTag.setAttribute("width", "250"); //Set rect data
+    foreignObjectTag.setAttribute("height", "400"); //Set rect data
   
     //foreignObjectTag.setAttribute("class", "sqd-hidden");
-    var divTagPickTime = document.createElementNS(
-      "http://www.w3.org/1999/xhtml",
-      "div"
-    );
-    divTagPickTime.setAttribute("class", "sqd-hidden");
-    var divTagInput = document.createElement("INPUT") as HTMLInputElement;
-    divTagInput.setAttribute("class", "timedelaydivTagInput");
-    divTagInput.setAttribute("type", "datetime-local");
-    if (step.properties.sendOn) {
-      divTagInput.value = step.properties.sendOn.toString();
-      step["updatedAt"] = new Date();
-    }
-    var divTagInputTimes = document.createElement("INPUT") as HTMLInputElement;
-    divTagInputTimes.setAttribute("class", "timedelaydivTagInputTimes");
-    divTagInputTimes.setAttribute("placeholder", "Enter");
-    if (step.properties.waitFor) {
-      divTagInputTimes.value = step.properties.waitFor.toString();
-      step["updatedAt"] = new Date();
-    }
-    divTagPickTime.appendChild(divTagInput);
-    var divTagWaitTime = document.createElementNS(
-      "http://www.w3.org/1999/xhtml",
-      "div"
-    );
-    divTagWaitTime.setAttribute("class", "sqd-hidden");
-    var collection = document.createElement("Form");
-    collection.setAttribute("class", "timedelaycollection");
+    let databefore!:string[];
 
-    var select = document.createElement("select");
-    select.setAttribute("class", "timedelayselect");
+    const divTagPickTime = Dom.element("div", {
+      id: "calendar",
+      class: "sqd-hidden"
+    })
 
-    let arr = ["hours", "days", "weeks", "months"];
-    for (var i = 0; i < 4; i++) {
-      var optional = Dom.element("option", {
-        value: arr[i],
+
+
+  
+    let OnceDates!:string[];
+    //@ts-ignore
+    let calendar = new VanillaCalendar(divTagPickTime,{
+      settings: {
+        range: {
+          disablePast: true,
+        },
+        visibility: {
+          weekend: false,
+        },
+        iso8601: false,
+      },
+      actions: {
+        //@ts-ignore
+        clickDay(event, dates) {
+          OnceDates = dates;
+        },
+      },
+    });
+    if(step.properties["date"] && !step.properties["date"].toString().includes(" ")){
+      databefore = step.properties["date"].toString().split(" ");
+    }
+    if(step.properties["date"] &&  !step.properties["date"].toString().includes(" ")){
+      //@ts-ignore
+      calendar = new VanillaCalendar(divTagPickTime,{
+        settings: {
+          range: {
+            disablePast: true,
+          },
+          selected: {
+            dates: databefore,
+            month: parseInt(databefore[0].split('')[6])-1
+          },
+          visibility: {
+            weekend: false,
+          },
+          iso8601: false,
+        },
+        actions: {
+          //@ts-ignore
+          clickDay(event, dates) {
+            OnceDates = dates;
+          },
+        },
       });
-      optional.innerText = arr[i];
-      select.appendChild(optional);
     }
-    collection.appendChild(select);
-    divTagWaitTime.appendChild(divTagInputTimes);
-    divTagWaitTime.appendChild(collection);
+    calendar.init();
+
+
+    const divTagWaitTime = Dom.element("div", {
+      class: "sqd-delay-time sqd-hidden"
+    })
+    
+    const waitTimeInput = Dom.element("input", {
+      class: "delay-input",
+      type: "text",
+      placeholder: "Enter",
+      x:0.5,
+      y:0.5,
+      maxlength: 3,
+    });
+    divTagWaitTime.appendChild(waitTimeInput);
+
+    const gSubDropdown = Dom.svg("g", {
+      class: `sqd-task-group sub-dropdown sqd-hidden`,
+    });
+    if(step.properties["date"]){
+      if(!step.properties["date"].toString().includes(" ")){
+        databefore = step.properties["date"].toString().split(" ");
+        choice1.click();
+        rect1.setAttribute("height", "410");
+        divTagPickTime.classList.remove("sqd-hidden");
+        divTagWaitTime.classList.add("sqd-hidden");
+        gSubDropdown.classList.add("sqd-hidden");
+      }else{
+        databefore = step.properties["date"].toString().split(" ");
+        choice2.click();
+        rect1.setAttribute("height", "200");
+        divTagPickTime.classList.add("sqd-hidden");
+        divTagWaitTime.classList.remove("sqd-hidden");
+        gSubDropdown.classList.remove("sqd-hidden");
+      }
+    }
+    if(databefore && databefore.length != 1){
+      waitTimeInput.value = databefore[0];
+    }
+    const dropdownBoxShape = Dom.svg("rect", {
+      width: 100,
+      height: 24,
+      class: "delay-box option select-field",
+      fill: "#fff",
+      stroke: "#BFBFBF",
+      rx:"3", 
+      ry:"3",
+      x: ICON_SIZE + 5 * PADDING_X+42,
+      y: 1.2 * boxHeight+102,
+    });
+    const dropdownBoxInnerText = Dom.svg("text", {
+      class: "sqd-task-text_2",
+      x: ICON_SIZE + 5 * PADDING_X+52,
+      y: 1.2 * boxHeight+117,
+    });
+    if(databefore && databefore.length != 1){
+      dropdownBoxInnerText.textContent = databefore[1].slice(0,-1);
+    }else{
+      dropdownBoxInnerText.textContent = "Hour";
+    }
+
+    const downUrl = "./assets/list_down.svg";
+    const downIcon = downUrl
+      ? Dom.svg("image", {
+          href: downUrl,
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
+    Dom.attrs(downIcon, {
+      x: ICON_SIZE + 5 * PADDING_X+126,
+      y: 1.2 * boxHeight+111,
+    });
+    const dropdownBoxShapeAfter = Dom.svg("rect", {
+      width: 100,
+      height: 24,
+      class: "delay-box-shape option select-field",
+      fill: "#fff",
+      stroke: "#BFBFBF",
+      rx:"3", 
+      ry:"3",
+      x: ICON_SIZE + 5 * PADDING_X+42,
+      y: 1.2 * boxHeight+102,
+      opacity: 0
+    });
+
+    const gSubDropdownList = Dom.svg("g", {
+      class: "sqd-hidden"
+    });
+
+    const gSubDropdownListRect = Dom.svg("rect", {
+      width: 100,
+      height: 27*4,
+      class: "delay-box",
+      fill: "#fff",
+      stroke: "#4FCCFC",
+      rx:"3", 
+      ry:"3",
+      x: ICON_SIZE + 5 * PADDING_X+42,
+      y: 1.2 * boxHeight+131,
+    })
+    gSubDropdownList.appendChild(gSubDropdownListRect);
+
+    for(let i=0;i<4;i++){
+      const gSubDropdownEachRect = Dom.svg("rect", {
+        width: 96,
+        height: 26,
+        class: "delay-list-option",
+        fill: "white",
+        rx:"3", 
+        ry:"3",
+        x: ICON_SIZE + 5 * PADDING_X+44,
+        y: 1.2 * boxHeight+133+i*26,
+      })
+      const gSubDropdownEachText = Dom.svg("text", {
+        x: ICON_SIZE + 5 * PADDING_X+52,
+        y: 1.2 * boxHeight+150+i*26,
+      })
+      if(i == 0){
+        gSubDropdownEachText.textContent = "Hour";
+      }else if(i == 1){
+        gSubDropdownEachText.textContent = "Day";
+      }else if(i == 2){
+        gSubDropdownEachText.textContent = "Week";
+      }else if(i == 3){
+        gSubDropdownEachText.textContent = "Month";
+      }
+      const gSubDropdownEachRectShape = Dom.svg("rect", {
+        width: 96,
+        height: 26,
+        rx:"3", 
+        ry:"3",
+        x: ICON_SIZE + 5 * PADDING_X+44,
+        y: 1.2 * boxHeight+133+i*26,
+        opacity: 0,
+        class: "delay-box-shape"
+      });
+
+      gSubDropdownEachRectShape.addEventListener("mouseover", function(){
+        gSubDropdownEachRect.setAttribute("fill", "#EDF5FF")
+      });
+      gSubDropdownEachRectShape.addEventListener("mouseout", function(){
+        gSubDropdownEachRect.setAttribute("fill", "white")
+      });
+      gSubDropdownEachRectShape.addEventListener("click", function(){
+        gSubDropdownList.classList.toggle("sqd-hidden");
+        dropdownBoxShape.setAttribute("stroke", "#BFBFBF");
+        dropdownBoxInnerText.textContent = gSubDropdownEachText.textContent;
+        downIcon.setAttribute("href", "./assets/list_down.svg");
+        dropdownBoxInnerText.setAttribute("style", "fill:#949CA0");
+      });
+
+      gSubDropdownList.appendChild(gSubDropdownEachRect);
+      gSubDropdownList.appendChild(gSubDropdownEachText);
+      gSubDropdownList.appendChild(gSubDropdownEachRectShape);
+    }
+
+    dropdownBoxShapeAfter.addEventListener("click", function(){
+      gSubDropdownList.classList.toggle("sqd-hidden");
+      if(!gSubDropdownList.classList.contains("sqd-hidden")){
+        downIcon.setAttribute("href", "./assets/list_up.svg");
+        dropdownBoxInnerText.setAttribute("style", "fill:#000");
+        dropdownBoxShape.setAttribute("stroke", "#4FCCFC");
+      }else{
+        downIcon.setAttribute("href", "./assets/list_down.svg");
+        dropdownBoxInnerText.setAttribute("style", "fill:#949CA0");
+        dropdownBoxShape.setAttribute("stroke", "#BFBFBF");
+      }
+    });
+  
+
+    gSubDropdown.appendChild(dropdownBoxShape);
+    gSubDropdown.appendChild(dropdownBoxInnerText);
+    gSubDropdown.appendChild(downIcon);
+    gSubDropdown.appendChild(dropdownBoxShapeAfter);
+    gSubDropdown.appendChild(gSubDropdownList);
+
     foreignObjectTag.appendChild(choice1);
     foreignObjectTag.appendChild(choice1Text);
     foreignObjectTag.appendChild(choice1TextNextLine);
@@ -570,16 +789,39 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     foreignObjectTag.appendChild(divTagWaitTime);
     gDropdown.appendChild(rect1);
     gDropdown.appendChild(foreignObjectTag);
+    gDropdown.appendChild(gSubDropdown);
+
     choice1.addEventListener("click", function () {
+      rect1.setAttribute("height", "410");
       divTagPickTime.classList.remove("sqd-hidden");
+      gSubDropdown.classList.add("sqd-hidden");
       divTagWaitTime.classList.add("sqd-hidden");
     });
     choice2.addEventListener("click", function () {
+      rect1.setAttribute("height", "200");
       divTagPickTime.classList.add("sqd-hidden");
       divTagWaitTime.classList.remove("sqd-hidden");
+      gSubDropdown.classList.remove("sqd-hidden");
     });
-    moreIcon.addEventListener("click", function () {
+    moreIcon.addEventListener("click", function (e) {
+      e.stopPropagation();
       gRightPop3.classList.toggle("sqd-hidden");
+      if (!gUpPop3.classList.contains("sqd-hidden")) {
+        gUpPop3.classList.toggle("sqd-hidden");
+      }
+      if (!gDropdown.classList.contains("sqd-hidden")) {
+        gDropdown.classList.toggle("sqd-hidden");
+      }
+    });
+    moreIconDot.addEventListener("click", function (e) {
+      e.stopPropagation();
+      gRightPop3.classList.toggle("sqd-hidden");
+      if (!gUpPop3.classList.contains("sqd-hidden")) {
+        gUpPop3.classList.toggle("sqd-hidden");
+      }
+      if (!gDropdown.classList.contains("sqd-hidden")) {
+        gDropdown.classList.toggle("sqd-hidden");
+      }
     });
     editIcon.addEventListener("click", function () {
       gDropdown.classList.toggle("sqd-hidden");
@@ -590,20 +832,21 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
       gDropdown.classList.toggle("sqd-hidden");
 
       gUpPop3.classList.toggle("sqd-hidden");
-      if (divTagInputTimes.value) {
-        textRight.textContent = divTagInputTimes.value;
-        step.properties.waitFor = divTagInputTimes.value;
-        step.properties.sendOn = "";
-        divTagInput.value = "";
-        step["updatedAt"] = new Date();
-      } 
-      if (divTagInput.value) {
-        textRight.textContent = divTagInput.value;
-        step.properties.sendOn = divTagInput.value;
-        step.properties.waitFor = "";
-        divTagInputTimes.value = "";
-        step["updatedAt"] = new Date();
+
+      if(choice1.checked){
+        step.properties["date"] = OnceDates[0];
+        textRight.textContent = OnceDates[0];
+      }else if(choice2.checked){
+        step.properties["date"] = waitTimeInput.value + ' ' + dropdownBoxInnerText.textContent + 's';
+        textRight.textContent = waitTimeInput.value + ' ' + dropdownBoxInnerText.textContent + 's';
       }
+      
+    });
+    upCheckIcon.addEventListener("mousedown", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
+    });
+    upCheckIcon.addEventListener("mouseup", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
     });
 
      // Show hints
@@ -613,17 +856,57 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     editIcon.addEventListener("mouseout", function(){
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
+    editIcon.addEventListener("mousedown", function(){
+      rightEditImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      editIcon.setAttribute("href", "./assets/edit2.svg")
+    });
+    editIcon.addEventListener("mouseup", function(){
+      rightEditImgContainerCircle.setAttribute("style", "fill:white");
+      editIcon.setAttribute("href", "./assets/edit.svg")
+    });
     copyIcon.addEventListener("mouseover", () => {
       gRightPop3Reminder2.classList.toggle("sqd-hidden");
     });
     copyIcon.addEventListener("mouseout", () => {
       gRightPop3Reminder2.classList.toggle("sqd-hidden");
     });
+    copyIcon.addEventListener("mousedown", function(){
+      rightCopyImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      copyIcon.setAttribute("href", "./assets/copy2.svg");
+    });
+    copyIcon.addEventListener("mouseup", function(){
+      rightCopyImgContainerCircle.setAttribute("style", "fill:white");
+      copyIcon.setAttribute("href", "./assets/copy.svg")
+    });
+    upCopyIcon.addEventListener("mousedown", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      upCopyIcon.setAttribute("href", "./assets/copy2.svg");
+    });
+    upCopyIcon.addEventListener("mouseup", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:white");
+      upCopyIcon.setAttribute("href", "./assets/copy.svg")
+    });
     deleteIcon.addEventListener("mouseover", () => {
       gRightPop3Reminder3.classList.toggle("sqd-hidden");
     });
     deleteIcon.addEventListener("mouseout", () => {
       gRightPop3Reminder3.classList.toggle("sqd-hidden");
+    });
+    deleteIcon.addEventListener("mousedown", function(){
+      rightDeleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      deleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+    });
+    deleteIcon.addEventListener("mouseup", function(){
+      rightDeleteImgContainerCircle.setAttribute("style", "fill:white");
+      deleteIcon.setAttribute("href", "./assets/delete.svg")
+    });
+    upDeleteIcon.addEventListener("mousedown", function(){
+      deleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      upDeleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+    });
+    upDeleteIcon.addEventListener("mouseup", function(){
+      deleteImgContainerCircle.setAttribute("style", "fill:white");
+      upDeleteIcon.setAttribute("href", "./assets/delete.svg")
     });
 
     //create dropdown day/ hour/min
@@ -748,12 +1031,15 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     timedelaySubDropdown.appendChild(selectTimeDropdownLabelCover3);
     gDropdown.appendChild(timedelaySubDropdown);
     g.appendChild(moreIcon);
+    g.appendChild(moreIconDot);
     g.appendChild(gRightPop3);
     g.appendChild(gDropdown);
+    g.insertBefore(gDropdown, rect)
     g.appendChild(gRightPop3Reminder);
     g.appendChild(gUpPop3);
     g.appendChild(setUpReminder);
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
+    inputView.setIsHidden(true);
     const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
     const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
     return new TimeDelayTaskStepComponentView(
@@ -789,7 +1075,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
   public setIsSelected(isSelected: boolean) {
     Dom.toggleClass(this.rect, isSelected, "sqd-selected");
     Dom.toggleClass(this.g.children[1], isSelected, "sqd-selected");
-    Dom.toggleClass(this.g.children[6].children[0], isSelected, "sqd-selected");
+    // Dom.toggleClass(this.g.children[6].children[0], isSelected, "sqd-selected");
   }
 
   public setIsValid(isValid: boolean) {

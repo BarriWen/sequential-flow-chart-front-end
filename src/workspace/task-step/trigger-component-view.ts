@@ -468,7 +468,7 @@ export class TriggerComponentView implements ComponentView {
     const downImgContainer = Dom.svg("g", {
       class: "sqd-task-deleteImgContainer",
     });
-    const downUrl = "./assets/list_down.png";
+    const downUrl = "./assets/list_down.svg";
     const downIcon = downUrl
       ? Dom.svg("image", {
           href: downUrl,
@@ -704,7 +704,11 @@ export class TriggerComponentView implements ComponentView {
       x: ICON_SIZE + 5 * PADDING_X+25 + addon,
       y: 1.4 * boxHeight+18,
     });
-    dropdownBoxInnerText.textContent = "Any list";
+    if(step.properties["Select List"]){
+      dropdownBoxInnerText.textContent = step.properties["Select List"].toString();
+    }else{
+      dropdownBoxInnerText.textContent = "Any list";
+    }
     dropdownBoxInnerText.style.fill = "#BFBFBF";
 
     const dropdownBoxInnerText1 = Dom.svg("text", {
@@ -712,7 +716,11 @@ export class TriggerComponentView implements ComponentView {
       x: ICON_SIZE + 5 * PADDING_X+25 + addon,
       y: 1.95 * boxHeight+34.5,
     });
-    dropdownBoxInnerText1.textContent = "Once";
+    if(step.properties["Run"]){
+      dropdownBoxInnerText1.textContent = step.properties["Run"].toString();
+    }else{
+      dropdownBoxInnerText1.textContent = "Once";
+    }
     dropdownBoxInnerText1.style.fill = "#BFBFBF";
 
     const dropdownBoxShapeAfter = Dom.svg("rect", {
@@ -812,7 +820,7 @@ export class TriggerComponentView implements ComponentView {
           gSubDropdownboxPop.classList.toggle("sqd-hidden");
           dropdownBoxShape.style.stroke="#BFBFBF";
           dropdownBoxInnerText.style.fill = "#a0a0a0";
-          downIcon.setAttribute("href", "./assets/list_down.png");
+          downIcon.setAttribute("href", "./assets/list_down.svg");
         });
         gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
       // gSubDropdownboxPop.insertBefore(
@@ -877,7 +885,7 @@ export class TriggerComponentView implements ComponentView {
         gSubDropdownbox1Pop.classList.toggle("sqd-hidden");
         dropdownBoxShape1.style.stroke="#BFBFBF";
         dropdownBoxInnerText1.style.fill = "#a0a0a0";
-        downIcon1.setAttribute("href", "./assets/list_down.png");
+        downIcon1.setAttribute("href", "./assets/list_down.svg");
       });
 
       // Append Child
@@ -1186,11 +1194,11 @@ export class TriggerComponentView implements ComponentView {
 
       if (!gSubDropdownboxPop.classList.contains("sqd-hidden")) {
         dropdownBoxShape.style.stroke="#4FCCFC";
-        downIcon.setAttribute("href", "./assets/list_up.png");
+        downIcon.setAttribute("href", "./assets/list_up.svg");
         dropdownBoxInnerText.style.fill = "#43A2E3";
       }else{
         dropdownBoxShape.style.stroke="#BFBFBF";
-        downIcon.setAttribute("href", "./assets/list_down.png");
+        downIcon.setAttribute("href", "./assets/list_down.svg");
         dropdownBoxInnerText.style.fill = "#BFBFBF";
       }
     });
@@ -1204,11 +1212,11 @@ export class TriggerComponentView implements ComponentView {
 
       if (!gSubDropdownbox1Pop.classList.contains("sqd-hidden")) {
         dropdownBoxShape1.style.stroke="#4FCCFC";
-        downIcon1.setAttribute("href", "./assets/list_up.png");
+        downIcon1.setAttribute("href", "./assets/list_up.svg");
         dropdownBoxInnerText1.style.fill = "#43A2E3";
       }else{
         dropdownBoxShape1.style.stroke="#BFBFBF";
-        downIcon1.setAttribute("href", "./assets/list_down.png");
+        downIcon1.setAttribute("href", "./assets/list_down.svg");
         dropdownBoxInnerText1.style.fill = "#BFBFBF";
       }
     });

@@ -156,7 +156,7 @@ export class EmailComponentView implements ComponentView {
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
-    const moreUrl = "./assets/more.svg";
+    const moreUrl = "./assets/moreEmail.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -166,6 +166,23 @@ export class EmailComponentView implements ComponentView {
           rx: 4,
           ry: 4,
         });
+    const moreDotUrl = "./assets/more-dot.svg"
+    const moreIconDot = moreDotUrl
+      ? Dom.svg("image", {
+          href: moreDotUrl,
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
+    Dom.attrs(moreIconDot, {
+        class: "moreIconDot",
+        x: 236,
+        y: 8,
+        width: ICON_SIZE,
+        height: ICON_SIZE,
+    });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
       // id: `tagMoreIcon`,
@@ -281,8 +298,10 @@ export class EmailComponentView implements ComponentView {
     });
     const checkImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
-      x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
+      // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
+      x: 170,
       y: PADDING_Y - 40,
+      style: "fill:#5495d4"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -290,7 +309,7 @@ export class EmailComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "./assets/check.svg";
+    const upCheckIconUrl = "./assets/check-inside.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -301,11 +320,13 @@ export class EmailComponentView implements ComponentView {
           ry: 4,
         });
     Dom.attrs(upCheckIcon, {
-      class: "moreicon",
-      x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
-      y: PADDING_Y - 37,
-      width: 22,
-      height: 22,
+      class: "checkIcon-inside",
+      // id: `tagUpCheckIcon`,
+      // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
+      x: 177.4,
+      y: PADDING_Y - 33,
+      width: 18,
+      height: 18,
     });
     checkImgContainer.appendChild(checkImgContainerCircle);
     checkImgContainer.appendChild(upCheckIcon);
@@ -398,9 +419,9 @@ export class EmailComponentView implements ComponentView {
       class: `sqd-task-group right-popup-reminder sqd-hidden`,
     });
     const reminder1 = Dom.svg("rect", {
-      x: 0.5,
+      x: 0.5 ,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -408,12 +429,12 @@ export class EmailComponentView implements ComponentView {
     });
     Dom.attrs(reminder1, {
       id: `reminder1${Date.now()}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
+      x: 300.95,
       y: PADDING_Y - 35,
     });
     const reminderText1 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 72.5,
+      x: 313.45,
       y: PADDING_Y - 23,
     });
     Dom.attrs(reminderText1, {
@@ -424,7 +445,7 @@ export class EmailComponentView implements ComponentView {
     const reminder2 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -432,13 +453,13 @@ export class EmailComponentView implements ComponentView {
     });
     Dom.attrs(reminder2, {
       id: `reminder2${Date.now()}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 75,
+      x: 310.95,
       y: PADDING_Y,
     });
 
     const reminderText2 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 80,
+      x: 320.95,
       y: PADDING_Y + 12,
     });
     Dom.attrs(reminderText2, {
@@ -449,7 +470,7 @@ export class EmailComponentView implements ComponentView {
     const reminder3 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -457,13 +478,13 @@ export class EmailComponentView implements ComponentView {
     });
     Dom.attrs(reminder3, {
       id: `reminder3${Date.now()}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
+      x: 300.95,
       y: PADDING_Y + 35,
     });
 
     const reminderText3 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 67,
+      x: 307.45,
       y: PADDING_Y + 47,
     });
     Dom.attrs(reminderText3, {
@@ -483,7 +504,7 @@ export class EmailComponentView implements ComponentView {
     gRightPop3.appendChild(rightCopyImgContainer);
     gRightPop3.appendChild(rightDeleteImgContainer);
     gRightPop3.appendChild(rightEditImgContainer);
-    gRightPop3.appendChild(magnidyIcon);
+    // gRightPop3.appendChild(magnidyIcon);
     gUpPop3.appendChild(checkImgContainer);
     gUpPop3.appendChild(deleteImgContainer);
     gUpPop3.appendChild(copyImgContainer);
@@ -494,8 +515,13 @@ export class EmailComponentView implements ComponentView {
       class: `sqd-task-group dropdown sqd-hidden Collapsed`
     });
 
-    
-    g.appendChild(moreIcon);
+    const gmoreIcon = Dom.svg("g", {
+      class: 'sqd-task-group-email-moreicon'
+    })
+    gmoreIcon.appendChild(moreIcon);
+    gmoreIcon.appendChild(moreIconDot);
+    g.appendChild(gmoreIcon);
+    g.appendChild(moreIconDot);
     g.appendChild(gRightPop3);
     g.appendChild(gDropdown);
     g.insertBefore(gDropdown, rect);
@@ -513,6 +539,17 @@ export class EmailComponentView implements ComponentView {
 
     // Add EventListeners
     moreIcon.addEventListener("click", function (e) {
+      e.stopPropagation();
+      gRightPop3.classList.toggle("sqd-hidden");
+      if (!gUpPop3.classList.contains("sqd-hidden")) {
+        gUpPop3.classList.toggle("sqd-hidden");
+      }
+      if (!gDropdown.classList.contains("sqd-hidden")) {
+        gDropdown.classList.toggle("sqd-hidden");
+      }
+    });
+
+    moreIconDot.addEventListener("click", function (e) {
       e.stopPropagation();
       gRightPop3.classList.toggle("sqd-hidden");
       if (!gUpPop3.classList.contains("sqd-hidden")) {
@@ -555,6 +592,13 @@ export class EmailComponentView implements ComponentView {
       step["updatedAt"] = new Date();
     });
 
+    upCheckIcon.addEventListener("mousedown", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
+    });
+    upCheckIcon.addEventListener("mouseup", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
+    });
+
      // Show hints
      editIcon.addEventListener("mouseover", function(){
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
@@ -562,17 +606,57 @@ export class EmailComponentView implements ComponentView {
     editIcon.addEventListener("mouseout", function(){
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
+    editIcon.addEventListener("mousedown", function(){
+      rightEditImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      editIcon.setAttribute("href", "./assets/edit2.svg")
+    });
+    editIcon.addEventListener("mouseup", function(){
+      rightEditImgContainerCircle.setAttribute("style", "fill:white");
+      editIcon.setAttribute("href", "./assets/edit.svg")
+    });
     copyIcon.addEventListener("mouseover", () => {
       gRightPop3Reminder2.classList.toggle("sqd-hidden");
     });
     copyIcon.addEventListener("mouseout", () => {
       gRightPop3Reminder2.classList.toggle("sqd-hidden");
     });
+    copyIcon.addEventListener("mousedown", function(){
+      rightCopyImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      copyIcon.setAttribute("href", "./assets/copy2.svg");
+    });
+    copyIcon.addEventListener("mouseup", function(){
+      rightCopyImgContainerCircle.setAttribute("style", "fill:white");
+      copyIcon.setAttribute("href", "./assets/copy.svg")
+    });
+    upCopyIcon.addEventListener("mousedown", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      upCopyIcon.setAttribute("href", "./assets/copy2.svg");
+    });
+    upCopyIcon.addEventListener("mouseup", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:white");
+      upCopyIcon.setAttribute("href", "./assets/copy.svg")
+    });
     deleteIcon.addEventListener("mouseover", () => {
       gRightPop3Reminder3.classList.toggle("sqd-hidden");
     });
     deleteIcon.addEventListener("mouseout", () => {
       gRightPop3Reminder3.classList.toggle("sqd-hidden");
+    });
+    deleteIcon.addEventListener("mousedown", function(){
+      rightDeleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      deleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+    });
+    deleteIcon.addEventListener("mouseup", function(){
+      rightDeleteImgContainerCircle.setAttribute("style", "fill:white");
+      deleteIcon.setAttribute("href", "./assets/delete.svg")
+    });
+    upDeleteIcon.addEventListener("mousedown", function(){
+      deleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      upDeleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+    });
+    upDeleteIcon.addEventListener("mouseup", function(){
+      deleteImgContainerCircle.setAttribute("style", "fill:white");
+      upDeleteIcon.setAttribute("href", "./assets/delete.svg")
     });
 
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
@@ -612,7 +696,8 @@ export class EmailComponentView implements ComponentView {
   public setIsSelected(isSelected: boolean) {
     Dom.toggleClass(this.rect, isSelected, "sqd-selected");
     Dom.toggleClass(this.g.children[1], isSelected, "sqd-selected");
-    Dom.toggleClass(this.g.children[6].children[0], isSelected, "sqd-selected");
+    // Dom.toggleClass(this.g.children[6].children[0], isSelected, "sqd-selected");
+    // console.log(this.g.children[6]);
   }
 
   public setIsValid(isValid: boolean) {
@@ -754,19 +839,46 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
   // Add content option 1
   startY = content.getBBox().y;
   height = content.getBBox().height;
-  const tem = addTxt('Template', startX+5, startY + PADDING_Y * 5);
-  gSubDropdownbox.appendChild(tem);
-  Dom.attrs(tem, {class: "content-text"});
+  
+
+  const templateIcon = "./assets/design.svg"
+      ? Dom.svg("image", {
+          href: "./assets/design.svg",
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
+  Dom.attrs(templateIcon, {
+    class: "emailIcon",
+    x: 21,
+    y: 215,
+  });
+  
   const template = createRect("content-option", startX, startY + height + PADDING_Y / 2, 65 , 60, "", RECT_RADIUS);
-  gSubDropdownbox.insertBefore(template, tem);
+  gSubDropdownbox.appendChild(templateIcon);
+  gSubDropdownbox.appendChild(template);
 
   // Add content option 2
   startX = template.getBBox().x + template.getBBox().width + PADDING_X;
-  const txt = addTxt('Text Only', startX + 3-5, startY + PADDING_Y * 5);
-  gSubDropdownbox.appendChild(txt);
-  Dom.attrs(txt, {class: "content-text"});
+  const txtIcon = "./assets/text.svg"
+      ? Dom.svg("image", {
+          href: "./assets/text.svg",
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
+  Dom.attrs(txtIcon, {
+    class: "emailIcon",
+    x: 92,
+    y: 215,
+  });
   const txtWrapper = createRect("content-option", startX - PADDING_X / 2, startY + height + PADDING_Y / 2, 65 , 60, "", RECT_RADIUS);
-  gSubDropdownbox.insertBefore(txtWrapper, txt);
+  gSubDropdownbox.appendChild(txtIcon);
+  gSubDropdownbox.appendChild(txtWrapper);
 
   const dropdownBoxShapeAfter = Dom.svg("rect", {
     width: 65,
@@ -785,11 +897,30 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
   
   // Add content option 3
   startX = txtWrapper.getBBox().x + txtWrapper.getBBox().width + PADDING_X * 2;
-  const html = addTxt('HTML', startX-5, startY + PADDING_Y * 5);
-  gSubDropdownbox.appendChild(html);
-  Dom.attrs(html, {class: "content-text"});
+  const htmlIcon = "./assets/html.svg"
+      ? Dom.svg("image", {
+          href: "./assets/html.svg",
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
+  Dom.attrs(htmlIcon, {
+    class: "emailIcon",
+    x: 163,
+    y: 210,
+  });
   const htmlWrapper = createRect("content-option", startX - 3 * PADDING_X / 2 , startY + height + PADDING_Y /2 , 65 , 60, "", RECT_RADIUS);
-  gSubDropdownbox.insertBefore(htmlWrapper, html);
+  const htmlText = Dom.svg("text", {
+    x: 177,
+    y: 267,
+    class: "email-html-text"
+  });
+  htmlText.textContent = "HTML";
+  gSubDropdownbox.appendChild(htmlText);
+  gSubDropdownbox.appendChild(htmlIcon);
+  gSubDropdownbox.appendChild(htmlWrapper);
 
   //text-test field
   const textWrapper = Dom.svg("foreignObject", {
@@ -831,5 +962,4 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     }
   });
   
-  console.log(cont.textContent);
 }

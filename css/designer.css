@@ -495,13 +495,10 @@
 	cursor: pointer;
 }
 .new-tag-text {
-	stroke: #5495d4;
-	fill:#5495d4;
+	stroke: #67b1e3;
+	fill:#67b1e3;
 }
-.new-tag-input{
-	width: 160;
-	height: 15;
-}
+
 /* Email conten */
 .content-option {
 	stroke:#5495d4;

@@ -52,6 +52,7 @@
 		"lowcode"
 	],
 	"dependencies": {
+		"@uvarov.frontend/vanilla-calendar": "^2.5.1",
 		"express": "^4.18.2",
 		"jQuery": "^1.7.4",
 		"sequential-workflow-designer": "^0.2.0"
