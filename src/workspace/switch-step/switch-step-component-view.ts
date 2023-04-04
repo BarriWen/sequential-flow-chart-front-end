@@ -238,7 +238,7 @@ export class SwitchStepComponentView implements ComponentView {
             });
         Dom.attrs(moreIcon, {
             class: "moreIcon",
-            x: ICON_SIZE + containerWidths[0] + PADDING_X + textWidth + 43,
+            x: ICON_SIZE + containerWidths[0] + PADDING_X + textWidth + 45,
             y: PADDING_TOP * 1.2, // = 24
             width: ICON_SIZE,
             height: ICON_SIZE,
@@ -357,7 +357,7 @@ export class SwitchStepComponentView implements ComponentView {
             class: "sqd-task-deleteImgContainer",
         });
         const checkImgContainerCircle = Dom.svg("rect", {
-            class: "sqd-task-ImgContainerCircle",
+            class: "sqd-task-checkContainerCircle",
             x: containerWidths[0] + 5 * PADDING_X + 3 * ICON_SIZE - 26,
             y: PADDING_Y - 30,
         });
@@ -367,7 +367,7 @@ export class SwitchStepComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const upCheckIconUrl = "./assets/check.svg";
+        const upCheckIconUrl = "./assets/check-inside.svg";
         const upCheckIcon = upCheckIconUrl
             ? Dom.svg("image", {
                 href: upCheckIconUrl,
@@ -496,7 +496,7 @@ export class SwitchStepComponentView implements ComponentView {
         });
 
         const reminderText1 = Dom.svg("text", {
-            class: "sqd-task-text",
+            class: "sqd-task-reminder",
             x: containerWidths[0] + 5 * PADDING_X + 3 * ICON_SIZE + 107 + 13,
             y: PADDING_Y - 6,
         });
@@ -509,7 +509,7 @@ export class SwitchStepComponentView implements ComponentView {
         const reminder2 = Dom.svg("rect", {
             x: 0.5,
             y: 0.5,
-            class: "sqd-task-rect",
+            class: "sqd-task-reminder",
             width: 50,
             height: 25,
             rx: RECT_RADIUS,
@@ -535,7 +535,7 @@ export class SwitchStepComponentView implements ComponentView {
         const reminder3 = Dom.svg("rect", {
             x: 0.5,
             y: 0.5,
-            class: "sqd-task-rect",
+            class: "sqd-task-reminder",
             width: 50,
             height: 25,
             rx: RECT_RADIUS,
@@ -581,16 +581,16 @@ export class SwitchStepComponentView implements ComponentView {
 
         const gDropdownbox = Dom.svg("g", {
             class: `sqd-task-group sub-dropdownbox`
-          });
+        });
 
-          gDropdown.appendChild(gDropdownbox); 
+        gDropdown.appendChild(gDropdownbox);
 
         const rect1 = Dom.svg("rect", {
             x: containerWidths[0] - textWidth - 107,
             y: PADDING_TOP + 33,
             class: "sqd-switch-rect",
             width: boxWidth,
-            height: 5 * boxHeight,
+            height: 3 * boxHeight + 4,
             rx: RECT_RADIUS,
             ry: RECT_RADIUS,
         });
@@ -598,127 +598,67 @@ export class SwitchStepComponentView implements ComponentView {
             id: `dropdown${Date.now()}`,
         });
 
-        gDropdownbox.appendChild(rect1); 
+        gDropdownbox.appendChild(rect1);
 
         const rectInnerBorder = Dom.svg("rect", {
             x: containerWidths[0] - textWidth - 100,
-            y: PADDING_TOP + 47, 
+            y: PADDING_TOP + 47,
             class: "sqd-switch-inner-rect",
-            width: boxWidth - 15, 
-            height: 5 * boxHeight - 74, 
+            width: boxWidth - 15,
+            height: 2 * boxHeight + 8,
             rx: RECT_RADIUS,
             ry: RECT_RADIUS,
         });
 
         const addConditionText = Dom.svg("text", {
-            x: DROPDOWN_X1 + 3, 
-            y: PADDING_TOP + 115, 
-            class: "add-cond-text", 
-        }); 
+            x: DROPDOWN_X1 + 3,
+            y: PADDING_TOP + 108,
+            class: "add-cond-text",
+        });
 
-        addConditionText.textContent = "Add another condition"; 
-        
+        addConditionText.textContent = "+ Add another condition";
+
         const addSegmentBtnClickArea = Dom.svg("rect", {
-            class: "sqd-add-seg-area", 
+            class: "sqd-add-seg-area",
             x: containerWidths[0] - textWidth - 94,
-            y: PADDING_TOP + 145, 
-            width: boxWidth - 25, 
-            height: 33, 
+            y: PADDING_TOP + 145,
+            width: boxWidth - 25,
+            height: 33,
             fill: "rgba(255, 255, 255, 0)"
-        }); 
+        });
 
         const addSegBtnTitle = Dom.svg("text", {
-            class: "add-seg-btn-title", 
+            class: "add-seg-btn-title",
             x: containerWidths[0] - textWidth + 96, // 56
             y: PADDING_TOP + 167, // 270
-        }); 
+        });
 
-        addSegBtnTitle.textContent = "Add a new segment group"; 
+        addSegBtnTitle.textContent = "Add a new segment group";
         // addSegmentBtnArea.appendChild(addSegBtnTitle); 
 
         const addSegmentBtn = Dom.svg("rect", {
-            class: "sqd-add-seg-btn", 
+            class: "sqd-add-seg-btn",
             x: containerWidths[0] - textWidth - 94,
-            y: PADDING_TOP + 145, 
-            width: boxWidth - 25, 
-            height: 33, 
-            rx: 17, 
-            ry: 17, 
-        }); 
-
-        // addSegmentBtnArea.insertBefore(addSegmentBtn, addSegBtnTitle); 
-
-        const nameText = Dom.svg("text", {
-            class: "sqd-task-text",
-            x: DROPDOWN_X1,
-            y: DROPDOWN_Y,
-        });
-        Dom.attrs(nameText, {
-            //class: 'sqd-hidden',
-            id: `dropdownword${Date.now()}`,
-        });
-        const nameText1 = Dom.svg("text", {
-            class: "sqd-task-text",
-            x: 13.3 * PADDING_X,
-            y: DROPDOWN_Y,
-        });
-        Dom.attrs(nameText1, {
-            //class: 'sqd-hidden',
-            id: `dropdownword1${Date.now()}`,
-        });
-        const nameText2 = Dom.svg("text", {
-            class: "sqd-task-text",
-            x: 20.8 * PADDING_X,
-            y: DROPDOWN_Y,
-        });
-        Dom.attrs(nameText2, {
-            //class: 'sqd-hidden',
-            id: `dropdownword2${Date.now()}`,
-        });
-        const nameTextMain1 = Dom.svg("text", {
-            class: "sqd-task-text",
-            x: DROPDOWN_X1,
-            y: DROPDOWN_Y + 25 + 8,
-        });
-        Dom.attrs(nameTextMain1, {
-            //class: 'sqd-hidden',
-            id: `dropdownwordmain1${Date.now()}`,
-        });
-        const nameTextMain2 = Dom.svg("text", {
-            class: "sqd-task-text",
-            x: PADDING_X,
-            y: DROPDOWN_Y + 50 + 13,
-        });
-        Dom.attrs(nameTextMain2, {
-            //class: 'sqd-hidden',
-            id: `dropdownwordmain2${Date.now()}`,
+            y: PADDING_TOP + 145,
+            width: boxWidth - 25,
+            height: 33,
+            rx: 17,
+            ry: 17,
         });
 
-        nameText.textContent = "";
-        nameText1.textContent = "";
-        nameText2.textContent = "";
-        nameTextMain1.textContent = "";
-        nameTextMain2.textContent = "";
-        
-        gDropdownbox.appendChild(rectInnerBorder); 
-        gDropdownbox.appendChild(addSegmentBtn);
-        gDropdownbox.appendChild(addSegBtnTitle); 
-        gDropdownbox.appendChild(addSegmentBtnClickArea);  
-        gDropdownbox.appendChild(addConditionText); 
-        gDropdown.appendChild(nameText);
-        gDropdown.appendChild(nameText1);
-        gDropdown.appendChild(nameText2);
-        gDropdown.appendChild(nameTextMain1);
-        gDropdown.appendChild(nameTextMain2);
-        // gDropdown.insertBefore(gDropdownbox, nameText);
+        gDropdownbox.appendChild(rectInnerBorder);
+        // gDropdownbox.appendChild(addSegmentBtn);
+        // gDropdownbox.appendChild(addSegBtnTitle);
+        // gDropdownbox.appendChild(addSegmentBtnClickArea);
+        gDropdownbox.appendChild(addConditionText);
 
-        addSegmentBtnClickArea.addEventListener("click", function(e) {
-            console.log("add seg clicked"); 
-        }); 
+        addSegmentBtnClickArea.addEventListener("click", function (e) {
+            console.log("add seg clicked");
+        });
 
-        addConditionText.addEventListener("click", function(e) {
-            console.log("add cond clicked"); 
-        }); 
+        addConditionText.addEventListener("click", function (e) {
+            console.log("add cond clicked");
+        });
 
         // =============== gSubDropdown
         const gSubDropdown = Dom.svg("g", {
@@ -731,10 +671,10 @@ export class SwitchStepComponentView implements ComponentView {
             class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
         });
         const gSubDropdownMain1 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed`,
+            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
         });
         const gSubDropdownMain2 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed`,
+            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
         });
 
         // =============== gSubDropdownbox
@@ -814,50 +754,44 @@ export class SwitchStepComponentView implements ComponentView {
 
         const dropdownRightButton = Dom.svg("image", {
             class: "sqd-task-text select-field",
-            href: downArrowLink, 
-            width: 20, 
-            height: 20, 
+            href: downArrowLink,
+            width: 20,
+            height: 20,
             x: DROPDOWN_X1 + 100,
             y: DROPDOWN_Y + 3,
         });
         const dropdownRightButton1 = Dom.svg("image", {
             class: "sqd-task-text select-field",
-            href: downArrowLink, 
-            width: 20, 
-            height: 20, 
+            href: downArrowLink,
+            width: 20,
+            height: 20,
             x: DROPDOWN_X2 + 90,
             y: DROPDOWN_Y + 3,
         });
         const dropdownRightButton2 = Dom.svg("image", {
             class: "sqd-task-text select-field",
-            href: downArrowLink, 
-            width: 20, 
-            height: 20, 
+            href: downArrowLink,
+            width: 20,
+            height: 20,
             x: DROPDOWN_X3 + 100,
             y: DROPDOWN_Y + 3,
         });
         const dropdownRightButtonMain1 = Dom.svg("image", {
             class: "sqd-task-text select-field",
-            href: downArrowLink, 
-            width: 20, 
-            height: 20, 
+            href: downArrowLink,
+            width: 20,
+            height: 20,
             x: DROPDOWN_X1 + 100,
             y: DROPDOWN_Y + DROPDOWN_H + 12,
         });
         const dropdownRightButtonMain2 = Dom.svg("image", {
             class: "sqd-task-text select-field",
-            href: downArrowLink, 
-            width: 20, 
-            height: 20, 
+            href: downArrowLink,
+            width: 20,
+            height: 20,
             x: DROPDOWN_X1 + 100,
             y: DROPDOWN_Y + 2 * DROPDOWN_H + 17,
         });
-
-        // dropdownRightButton.textContent = "▼";
-        // dropdownRightButton1.textContent = "▼";
-        // dropdownRightButton2.textContent = "▼";
-        // dropdownRightButtonMain1.textContent = "▼";
-        // dropdownRightButtonMain2.textContent = "▼";
 
         // ================= dropdownBoxInnerText
         const dropdownBoxInnerText = Dom.svg("text", {
@@ -865,13 +799,27 @@ export class SwitchStepComponentView implements ComponentView {
             x: DROPDOWN_X1 + 5,
             y: DROPDOWN_Y + 12,
         });
-        dropdownBoxInnerText.textContent = "Condition";
+        // dropdownBoxInnerText.textContent = "Select a condition";
+        if (step.properties["property"]) {
+            let property: any = step.properties["property"]; 
+            dropdownBoxInnerText.textContent = property;
+        } else {
+            dropdownBoxInnerText.textContent = "Select a condition"; 
+            dropdownBoxInnerText.setAttribute("style", "font-size: 8pt; fill: #606060"); 
+        }
+        
         const dropdownBoxInnerText1 = Dom.svg("text", {
             class: "sqd-task-text",
             x: DROPDOWN_X2 + 3,
             y: DROPDOWN_Y + 12,
         });
-        dropdownBoxInnerText1.textContent = "";
+        if (step.properties["condition"]) {
+            let property: any = step.properties["condition"]; 
+            dropdownBoxInnerText1.textContent = property;
+        } else {
+            dropdownBoxInnerText1.textContent = "Is"; 
+            dropdownBoxInnerText1.setAttribute("style", "fill: #606060")
+        }
         const dropdownBoxInnerText2 = Dom.svg("text", {
             class: "sqd-task-text",
             x: DROPDOWN_X3 + 3,
@@ -978,20 +926,65 @@ export class SwitchStepComponentView implements ComponentView {
         // ================ Text input
         const inputArea = Dom.svg("foreignObject", {
             class: "email-input sqd-hidden",
-            x: DROPDOWN_X3 - 8,
-            y: 83,
+            x: DROPDOWN_X3,
+            y: DROPDOWN_Y,
             width: 180,
             height: 30,
         });
 
-        const emailInput = Dom.element('input', {
-            class: `sqd-email-input sqd-hidden`,
+        const textInput = Dom.element('input', {
+            class: `sqd-email-input`,
             type: 'text',
-            placeholder: 'Email...',
+            // placeholder: 'Email...',
             value: "",
         });
+        inputArea.appendChild(textInput);
 
-        inputArea.appendChild(emailInput);
+        const locInputArea = Dom.svg("foreignObject", {
+            class: "email-input sqd-hidden",
+            x: DROPDOWN_X1,
+            y: DROPDOWN_Y + DROPDOWN_H + 10,
+            width: 250,
+            height: 30,
+        });
+
+        const locTextInput = Dom.element('input', {
+            class: `sqd-loc-input`,
+            type: 'text',
+            // placeholder: 'Email...',
+            value: "",
+        });
+        locInputArea.appendChild(locTextInput);
+
+        const gValBtn = Dom.svg("g", {
+            class: `sqd-task-group sqd-hidden`,
+        });
+
+        const valBtnRect = Dom.svg("rect", {
+            width: DROPDOWN1_W,
+            height: DROPDOWN_H,
+            class: "option select-field choice",
+            fill: "#fff",
+            stroke: "#247d99",
+            x: DROPDOWN_X3,
+            y: DROPDOWN_Y + DROPDOWN_H + 10,
+            rx: 4, 
+            ry: 4, 
+        });
+        Dom.attrs(valBtnRect, {
+            opacity: 0.3,
+        });
+
+        const valBtnText = Dom.svg("text", {
+            x: DROPDOWN_X3 + 7, 
+            y: DROPDOWN_Y + DROPDOWN_H + 22, 
+            class: "switch-val-btn", 
+            fill: "#146d89", 
+          });
+          valBtnText.textContent = "Validate Location";
+
+          gValBtn.appendChild(valBtnText);  
+          gValBtn.appendChild(valBtnRect);
 
         // =================== Dropdown item lists 
         let list1 = [''];
@@ -999,17 +992,25 @@ export class SwitchStepComponentView implements ComponentView {
         let actions = ['Opened', 'Not Opened', 'Clicked', 'Not Clicked'];
         let list2 = [''];
         let list2Tag = ['Exists', 'Does not exist'];
-        let list2Gender = ['is'];
-        let list2Bd = ['Month is', 'Date is', 'is before date', 'is After date', 'is Blank'];
+        let list2Gender = ['Is'];
+        let list2Bd = ['Month is', 'Date is', 'Is before date', 'Is After date', 'Is Blank'];
         let list2Email = ['Contains', 'Does Not Contain', 'Is Blank'];
-        let list2Loc = ['Is Within', 'Is Not Within', 'Is in Country', 'Is not in Country', 'Is in US state', 'Is not in US state'];
+        let list2Loc = ['Is Within', 'Is Not Within', 'Is in Country', 'Is Not in Country', 'Is in US State', 'Is Not in US State'];
         let list3: any = [''];
         let list3Tag = ['Tag A', 'Tag B'];
         let list3Gender = ['Male', 'Female', 'Non-binary', 'Blank'];
         let list3Bdm = ['Janurary', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         let list3LocWithin = [25, 50, 75, 100, 150, 200];
         let list3Ctry = ['United States', 'Canada', 'United Kingdom', 'France', 'German', 'Italy', '...'];
-        let list3State = ['California', 'New York', 'New Jersey', 'Arizona', '...'];
+        let list3State = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California',
+        'Colorado','Connecticut','Delaware','District of Columbia','Federated States of Micronesia',
+        'Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky',
+        'Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota',
+        'Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey',
+        'New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands',
+        'Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island',
+        'South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island',
+        'Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
         let list3Actions = ['Campaign A', 'Campaign B', 'Campaign C'];
         let choice1: string | null = "";
         let choice2: string | null = "";
@@ -1023,28 +1024,27 @@ export class SwitchStepComponentView implements ComponentView {
         if (!gSubDropdownboxPopMain1.classList.contains("sqd-hidden") &&
             !gSubDropdownboxPopMain2.classList.contains("sqd-hidden")) {
             shapeHeight = shapeHeightContact + shapeHeightActions;
-        } 
+        }
         else if (!gSubDropdownboxPopMain1.classList.contains("sqd-hidden") &&
-        gSubDropdownboxPopMain2.classList.contains("sqd-hidden")) {
-            shapeHeight = shapeHeightContact; 
+            gSubDropdownboxPopMain2.classList.contains("sqd-hidden")) {
+            shapeHeight = shapeHeightContact;
         }
         else if (gSubDropdownboxPopMain1.classList.contains("sqd-hidden") &&
-        !gSubDropdownboxPopMain2.classList.contains("sqd-hidden")) {
-            shapeHeight = shapeHeightActions; 
+            !gSubDropdownboxPopMain2.classList.contains("sqd-hidden")) {
+            shapeHeight = shapeHeightActions;
         }
 
         const dropdownBoxBottomShape = Dom.svg("rect", {
             width: DROPDOWN1_W,
             height: shapeHeight,
             fill: "#fff",
-            stroke: "#4FCCFC",
+            stroke: "#247d99",
             x: DROPDOWN_X1,
             y: DROPDOWN_Y + DROPDOWN_H + 5,
             rx: 4,
             ry: 4
         });
         gSubDropdownboxPop.appendChild(dropdownBoxBottomShape);
-
         gSubDropdownboxPop.appendChild(gSubDropdownMain2);
         gSubDropdownboxPop.appendChild(gSubDropdownMain1);
 
@@ -1053,7 +1053,7 @@ export class SwitchStepComponentView implements ComponentView {
             width: DROPDOWN1_W,
             height: contInfo.length * 25 + 10,
             fill: "#fff",
-            stroke: "#4FCCFC",
+            stroke: "#247d99",
             x: DROPDOWN_X1,
             y: DROPDOWN_Y + 2 * DROPDOWN_H + 10,
             rx: 4,
@@ -1062,15 +1062,6 @@ export class SwitchStepComponentView implements ComponentView {
         gSubDropdownboxPopMain1.appendChild(dropdownBoxBottomShapeRecMain1);
 
         for (let i = 1; i <= contInfo.length; i++) {
-            // const dropdownBoxBottomShapeMain1 = Dom.svg("rect", {
-            //     width: DROPDOWN1_W,
-            //     height: DROPDOWN_H,
-            //     class: "option select-field",
-            //     fill: "rgba(255, 255, 255, 0)",
-            //     stroke: "#a0a0a0",
-            //     x: DROPDOWN_X1,
-            //     y: DROPDOWN_Y + DROPDOWN_H + DROPDOWN_H * i,
-            // });
             const dropdownBoxBottomShapeTextMain1 = Dom.svg("text", {
                 class: "sqd-task-text",
                 x: DROPDOWN_X1 + 17,
@@ -1096,9 +1087,7 @@ export class SwitchStepComponentView implements ComponentView {
             dropdownBoxBottomShapecoverMain1.addEventListener("click", function (e) {
                 choice1 = dropdownBoxBottomShapeTextMain1.textContent;
                 gSubDropdownboxPopMain1.classList.toggle("sqd-hidden");
-                gSubDropdownboxPop.classList.toggle("sqd-hidden"); 
-                gSubDropdownMain1.classList.toggle("sqd-hidden");
-                gSubDropdownMain2.classList.toggle("sqd-hidden");
+                gSubDropdownboxPop.classList.toggle("sqd-hidden");
                 gSubDropdown1.classList.remove('sqd-hidden');
                 gSubDropdown2.classList.remove('sqd-hidden');
                 dropdownBoxInnerText.textContent = dropdownBoxBottomShapeTextMain1.textContent;
@@ -1112,39 +1101,38 @@ export class SwitchStepComponentView implements ComponentView {
                     list2 = list2Email;
                     gSubDropdown2.classList.add("sqd-hidden");
                     inputArea.classList.remove("sqd-hidden");
+                    textInput.setAttribute("placeholder", "Email..."); 
+                } else if (choice1 == "First Name" || choice1 == "Last Name" || choice1 == "Full Name" || 
+                choice1 == "Phone Number") {
+                    list2 = ["Is"]; 
                 } else if (choice1 == 'Location') {
                     list2 = list2Loc;
-                } if (choice1 != 'Email Address') {
+                } if (choice1 != 'Email Address' && choice1 != "Birthday") {
                     inputArea.classList.add("sqd-hidden");
+                } if (choice1 != 'Location') {
+                    list3 = list3LocWithin;
+                    rect1.setAttribute("height", "100"); 
+                    rectInnerBorder.setAttribute("height", "72"); 
+                    locInputArea.classList.add("sqd-hidden"); 
                 }
                 // ===================== 2nd dropdown
                 const dropdownBoxBottomShape1 = Dom.svg("rect", {
                     width: DROPDOWN2_W,
                     height: list2.length * 25 + 10,
                     fill: "#fff",
-                    stroke: "#4FCCFC",
+                    stroke: "#247d99",
                     x: DROPDOWN_X2,
-                    y: DROPDOWN_Y + DROPDOWN_H,
+                    y: DROPDOWN_Y + DROPDOWN_H + 5,
                     rx: 4,
                     ry: 4
                 });
                 gSubDropdownbox1Pop.appendChild(dropdownBoxBottomShape1);
 
                 for (let i = 1; i <= list2.length; i++) {
-                    // const dropdownBoxBottomShape1 = Dom.svg("rect", {
-                    //     width: DROPDOWN2_W,
-                    //     height: DROPDOWN_H,
-                    //     class: "option select-field",
-                    //     fill: "#fff",
-                    //     stroke: "#a0a0a0",
-                    //     x: DROPDOWN_X2,
-                    //     y: DROPDOWN_Y + DROPDOWN_H * i,
-                    // });
-
                     const dropdownBoxBottomShape1Text = Dom.svg("text", {
                         class: "sqd-task-text",
                         x: DROPDOWN_X2 + 12,
-                        y: DROPDOWN_Y + 11 + DROPDOWN_H * i + 3,
+                        y: DROPDOWN_Y + 11 + DROPDOWN_H * i + 8,
                     });
                     dropdownBoxBottomShape1Text.textContent = list2[i - 1];
 
@@ -1153,9 +1141,8 @@ export class SwitchStepComponentView implements ComponentView {
                         height: DROPDOWN_H - 5,
                         class: "option select-field choice",
                         fill: "#fff",
-                        // stroke: "#a0a0a0",
                         x: DROPDOWN_X2 + 7,
-                        y: DROPDOWN_Y + DROPDOWN_H * i + 5,
+                        y: DROPDOWN_Y + DROPDOWN_H * i + 10,
                         rx: 4,
                         ry: 4,
                         id: `dropdownBoxBottomShape1cover${Date.now()}`,
@@ -1166,47 +1153,87 @@ export class SwitchStepComponentView implements ComponentView {
                     // Add event listners for 2nd dropdowns 
                     dropdownBoxBottomShape1cover.addEventListener("click", function (e) {
                         dropdownBoxInnerText1.textContent = dropdownBoxBottomShape1Text.textContent;
+                        dropdownBoxInnerText.setAttribute("style", "fill: #000000; font-size: 9pt");
                         gSubDropdownbox1Pop.classList.toggle("sqd-hidden");
                         choice2 = dropdownBoxInnerText1.textContent;
                         if (choice2 == 'Exists' || choice2 == 'Does not exist') {
                             list3 = list3Tag;
-                        } else if (choice2 == 'is') {
+                        } else if (choice2 == 'Is' && choice1 == "Gender") {
                             list3 = list3Gender;
+                            dropdownBoxInnerText2.textContent = "Nothing Selected"; 
+                            dropdownBoxInnerText2.setAttribute("style", "fill: #606060; font-size: 8pt"); 
                         } else if (choice2 == 'Month is') {
                             list3 = list3Bdm;
+                            dropdownBoxInnerText2.textContent = "Nothing Selected"; 
+                            dropdownBoxInnerText2.setAttribute("style", "fill: #606060; font-size: 8pt");
+                            inputArea.classList.add("sqd-hidden"); 
                         } else if (choice2 == 'Date is') {
-                            list3 = [1, 2, 3];
+                            gSubDropdown2.classList.add("sqd-hidden");
+                            inputArea.classList.remove("sqd-hidden");
+                            textInput.setAttribute("placeholder", "Enter Month/Day"); 
+                        } if (choice1 == "First Name" || choice1 == "Last Name" || choice1 == "Full Name") {
+                            gSubDropdown2.classList.add("sqd-hidden");
+                            inputArea.classList.remove("sqd-hidden");
+                            textInput.setAttribute("placeholder", "Enter Name"); 
+                        } if (choice1 == "Phone Number") {
+                            gSubDropdown2.classList.add("sqd-hidden");
+                            inputArea.classList.remove("sqd-hidden");
+                            textInput.setAttribute("placeholder", "Enter Phone #"); 
                         } else if (choice2 == 'Is Within' || choice2 == 'Is Not Within') {
                             list3 = list3LocWithin;
-                        } else if (choice2 == 'Is in Country' || choice2 == 'Is not in Country') {
+                            rect1.setAttribute("height", "120"); 
+                            rectInnerBorder.setAttribute("height", "90"); 
+                            locInputArea.classList.remove("sqd-hidden"); 
+                            gValBtn.classList.remove("sqd-hidden"); 
+                            if (locTextInput.value) {
+                                valBtnRect.setAttribute("stroke", "#247d99"); 
+                                valBtnText.setAttribute("fill", "#247d99"); 
+                            } else {
+                                valBtnRect.setAttribute("stroke", "#a0a0a0"); 
+                                valBtnText.setAttribute("fill", "#a0a0a0"); 
+                            }
+                        } else {
+                            locInputArea.classList.add("sqd-hidden"); 
+                            valBtnRect.classList.add("sqd-hidden"); 
+                        } if (choice2 == 'Is in Country' || choice2 == 'Is Not in Country') {
                             list3 = list3Ctry;
+                        } else if (choice2 == "Is in US State" || choice2 == "Is Not in US State") {
+                            list3 = list3State; 
                         }
+                        if (choice2 == "Is Blank") {
+                            dropdownBoxInnerText2.textContent = "Nothing Selected"; 
+                            dropdownBoxInnerText2.setAttribute("style", "fill: #606060; font-size: 8pt");
+                        } 
 
                         // ======================== 3rd dropdowns 
+                        const dropdownBoxBottomShape2 = Dom.svg("rect", {
+                            width: DROPDOWN1_W,
+                            height: list3.length * 25 + 10,
+                            fill: "#fff",
+                            stroke: "#247d99",
+                            x: DROPDOWN_X3,
+                            y: DROPDOWN_Y + DROPDOWN_H + 10,
+                            rx: 4, 
+                            ry: 4, 
+                        });
+                        gSubDropdownbox2Pop.appendChild(dropdownBoxBottomShape2); 
+
                         for (let i = 1; i <= list3.length; i++) {
-                            const dropdownBoxBottomShape2 = Dom.svg("rect", {
-                                width: DROPDOWN1_W,
-                                height: DROPDOWN_H,
-                                class: "option select-field",
-                                fill: "#fff",
-                                stroke: "#a0a0a0",
-                                x: DROPDOWN_X3,
-                                y: DROPDOWN_Y + DROPDOWN_H * i,
-                            });
                             const dropdownBoxBottomShape2Text = Dom.svg("text", {
                                 class: "sqd-task-text",
-                                x: DROPDOWN_X3 + 2,
-                                y: DROPDOWN_Y + 11 + DROPDOWN_H * i,
+                                x: DROPDOWN_X3 + 17,
+                                y: DROPDOWN_Y + 11 + DROPDOWN_H * i + 13,
                             });
                             dropdownBoxBottomShape2Text.textContent = list3[i - 1];
                             const dropdownBoxBottomShape2cover = Dom.svg("rect", {
-                                width: DROPDOWN1_W,
-                                height: DROPDOWN_H,
+                                width: DROPDOWN1_W - 20,
+                                height: DROPDOWN_H - 5,
                                 class: "option select-field choice",
                                 fill: "#fff",
-                                stroke: "#a0a0a0",
-                                x: DROPDOWN_X3,
-                                y: DROPDOWN_Y + DROPDOWN_H * i,
+                                x: DROPDOWN_X3 + 10,
+                                y: DROPDOWN_Y + DROPDOWN_H * i + 15,
+                                rx: 4, 
+                                ry: 4, 
                                 id: `dropdownBoxBottomShape2cover${Date.now()}`,
                             });
                             Dom.attrs(dropdownBoxBottomShape2cover, {
@@ -1221,32 +1248,18 @@ export class SwitchStepComponentView implements ComponentView {
 
                             // Append Child 3rd 
                             gSubDropdownbox2Pop.appendChild(dropdownBoxBottomShape2Text);
-                            gSubDropdownbox2Pop.insertBefore(
-                                dropdownBoxBottomShape2,
-                                dropdownBoxBottomShape2Text
-                            );
                             gSubDropdownbox2Pop.appendChild(dropdownBoxBottomShape2cover);
                         }
-
                     });
 
                     // Append Child 2nd 
                     gSubDropdownbox1Pop.appendChild(dropdownBoxBottomShape1Text);
-                    // gSubDropdownbox1Pop.insertBefore(
-                    //     dropdownBoxBottomShape1,
-                    //     dropdownBoxBottomShape1Text
-                    // );
                     gSubDropdownbox1Pop.appendChild(dropdownBoxBottomShape1cover);
                 }
-
             });
 
             // Append Child CONTACT INFO  
             gSubDropdownboxPopMain1.appendChild(dropdownBoxBottomShapeTextMain1);
-            // gSubDropdownboxPopMain1.insertBefore(
-            //     dropdownBoxBottomShapeRecMain1,
-            //     dropdownBoxBottomShapeTextMain1
-            // );
             gSubDropdownboxPopMain1.appendChild(dropdownBoxBottomShapecoverMain1);
         }
 
@@ -1264,15 +1277,6 @@ export class SwitchStepComponentView implements ComponentView {
         gSubDropdownboxPopMain2.appendChild(dropdownBoxBottomShapeMain2);
 
         for (let i = 1; i <= actions.length; i++) {
-            // const dropdownBoxBottomShapeMain2 = Dom.svg("rect", {
-            //     width: DROPDOWN1_W - 20,
-            //     height: DROPDOWN_H + 5,
-            //     class: "option select-field",
-            //     fill: "#fff",
-            //     stroke: "#a0a0a0",
-            //     x: DROPDOWN_X1,
-            //     y: DROPDOWN_Y + 2 * DROPDOWN_H + DROPDOWN_H * i,
-            // });
             const dropdownBoxBottomShapeTextMain2 = Dom.svg("text", {
                 class: "sqd-task-text",
                 x: DROPDOWN_X1 + 17,
@@ -1298,12 +1302,11 @@ export class SwitchStepComponentView implements ComponentView {
             dropdownBoxBottomShapecoverMain2.addEventListener("click", function (e) {
                 choice1 = dropdownBoxBottomShapeTextMain2.textContent;
                 gSubDropdownboxPopMain2.classList.toggle("sqd-hidden");
-                gSubDropdownboxPop.classList.toggle("sqd-hidden"); 
-                gSubDropdownMain1.classList.toggle("sqd-hidden");
-                gSubDropdownMain2.classList.toggle("sqd-hidden");
+                gSubDropdownboxPop.classList.toggle("sqd-hidden");
                 dropdownBoxInnerText.textContent = dropdownBoxBottomShapeTextMain2.textContent;
+                dropdownBoxInnerText.setAttribute("style", "fill: #000000; font-size: 9pt");
                 gSubDropdown1.classList.add('sqd-hidden');
-                gSubDropdown2.classList.remove('sqd-hidden');
+                gSubDropdown2.classList.add('sqd-hidden');
                 if (choice1 == 'Opened' || choice2 == 'Not Opened' || choice2 == 'Clicked' || choice2 == 'Not Clicked') {
                     list3 = list3Actions;
                 }
@@ -1343,6 +1346,7 @@ export class SwitchStepComponentView implements ComponentView {
                     dropdownBoxBottomShape2cover.addEventListener("click", function (e) {
                         dropdownBoxInnerText2.textContent = dropdownBoxBottomShape2Text.textContent;
                         gSubDropdownbox2Pop.classList.toggle("sqd-hidden");
+                        dropdownBoxInnerText2.setAttribute("style", "fill: #000000; font-size: 9pt");
                     });
 
                     // Append Child 3rd 
@@ -1357,10 +1361,6 @@ export class SwitchStepComponentView implements ComponentView {
 
             // Append Child ACTIONS
             gSubDropdownboxPopMain2.appendChild(dropdownBoxBottomShapeTextMain2);
-            // gSubDropdownboxPopMain2.insertBefore(
-            //     dropdownBoxBottomShapeMain2,
-            //     dropdownBoxBottomShapeTextMain2
-            // );
             gSubDropdownboxPopMain2.appendChild(dropdownBoxBottomShapecoverMain2);
         }
 
@@ -1398,8 +1398,8 @@ export class SwitchStepComponentView implements ComponentView {
         gSubDropdownMain2.appendChild(gSubDropdownboxPopMain2);
 
         gDropdown.appendChild(inputArea);
-        // gDropdown.appendChild(gSubDropdownMain2);
-        // gDropdown.appendChild(gSubDropdownMain1);
+        gDropdown.appendChild(locInputArea); 
+        gDropdown.appendChild(gValBtn); 
         gDropdown.appendChild(gSubDropdown2);
         gDropdown.appendChild(gSubDropdown1);
         gDropdown.appendChild(gSubDropdown);
@@ -1429,7 +1429,6 @@ export class SwitchStepComponentView implements ComponentView {
             gSubDropdown2.classList.toggle("sqd-hidden");
             gSubDropdownMain1.classList.toggle("sqd-hidden");
             gSubDropdownMain2.classList.toggle("sqd-hidden");
-            emailInput.classList.toggle("sqd-hidden");
         });
 
         upCheckIcon.addEventListener("click", function (e) {
@@ -1440,11 +1439,11 @@ export class SwitchStepComponentView implements ComponentView {
             gSubDropdown2.classList.toggle("sqd-hidden");
             gSubDropdownMain1.classList.toggle("sqd-hidden");
             gSubDropdownMain2.classList.toggle("sqd-hidden");
-            emailInput.classList.add("sqd-hidden");
+            textInput.classList.add("sqd-hidden");
             gUpPop3.classList.toggle("sqd-hidden");
 
             // =============== Add properties
-            if (dropdownBoxInnerText.textContent && dropdownBoxInnerText.textContent != "Condition") {
+            if (dropdownBoxInnerText.textContent && dropdownBoxInnerText.textContent != "Select a condition") {
                 // textRight.textContent = dropdownBoxInnerText.textContent;
                 step.properties["property"] = dropdownBoxInnerText.textContent;
             }
@@ -1456,18 +1455,18 @@ export class SwitchStepComponentView implements ComponentView {
                 // textRight.textContent = dropdownBoxInnerText2.textContent;
                 step.properties["value"] = dropdownBoxInnerText2.textContent;
             }
-            if (emailInput.value != "") {
+            if (textInput.value != "") {
                 // textRight.textContent = emailInput.value;
-                step.properties["value"] = emailInput.value;
+                step.properties["value"] = textInput.value;
             }
             textRight.textContent = "If " + step.properties["value"].toString() + " " + step.properties["condition"].toString() + " " + step.properties["property"].toString();;
         });
 
         upchangeIcon.addEventListener("click", function (e) {
             step.properties = {};
-            textRight.textContent = "Choose Condition ";
-            dropdownBoxInnerText.textContent = "";
-            dropdownBoxInnerText1.textContent = "";
+            textRight.textContent = "Choose Condition";
+            dropdownBoxInnerText.textContent = "Select a condition";
+            dropdownBoxInnerText1.textContent = "Is";
             dropdownBoxInnerText2.textContent = "";
             dropdownBoxInnerTextMain1.textContent = "CONTACT INFO";
             dropdownBoxInnerTextMain2.textContent = "ACTIONS";
@@ -1477,6 +1476,53 @@ export class SwitchStepComponentView implements ComponentView {
             gSubDropdownMain1.classList.add("sqd-hidden");
             gSubDropdownMain2.classList.add("sqd-hidden");
 
+        });
+
+        // edit button hover
+        editIcon.addEventListener("mouseover", function (e) {
+            rightEditImgContainerCircle.setAttribute("style", "fill: #2488cb");
+        });
+        editIcon.addEventListener("mouseout", function (e) {
+            rightEditImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
+        });
+        // copy hover
+        changeIcon.addEventListener("mouseover", function (e) {
+            rightCopyImgContainerCircle.setAttribute("style", "fill: #3498db");
+            // upCopyIcon.setAttribute("style", "color: #FFFFFF"); 
+        });
+        changeIcon.addEventListener("mouseout", function (e) {
+            rightCopyImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
+            // upCopyIcon.setAttribute("style", "color: #FFFFFF"); 
+        });
+        // delete hover
+        deleteIcon.addEventListener("mouseover", function (e) {
+            rightDeleteImgContainerCircle.setAttribute("style", "fill: #3498db");
+        });
+        deleteIcon.addEventListener("mouseout", function (e) {
+            rightDeleteImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
+        });
+        // check button hover
+        upCheckIcon.addEventListener("mouseover", function (e) {
+            checkImgContainerCircle.setAttribute("style", "fill: #2488cb");
+        });
+        upCheckIcon.addEventListener("mouseout", function (e) {
+            checkImgContainerCircle.setAttribute("style", "fill: #3498db");
+        });
+        // copy button hover
+        upchangeIcon.addEventListener("mouseover", function (e) {
+            copyImgContainerCircle.setAttribute("style", "fill: #3498db");
+            // upchangeIcon.setAttribute("style", "color: #FFFFFF"); 
+        });
+        upchangeIcon.addEventListener("mouseout", function (e) {
+            copyImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
+            // upCopyIcon.setAttribute("style", "color: #FFFFFF"); 
+        });
+        // delete button hover
+        upDeleteIcon.addEventListener("mouseover", function (e) {
+            deleteImgContainerCircle.setAttribute("style", "fill: #3498db");
+        });
+        upDeleteIcon.addEventListener("mouseout", function (e) {
+            deleteImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
         });
 
         // Show hints
@@ -1503,16 +1549,16 @@ export class SwitchStepComponentView implements ComponentView {
         dropdownBoxShapeAfter.addEventListener("click", function (e) {
             e.stopPropagation();
             gSubDropdownboxPop.classList.toggle("sqd-hidden");
-            gSubDropdownMain1.classList.toggle("sqd-hidden");
-            gSubDropdownMain2.classList.toggle("sqd-hidden");
-            if (!gSubDropdownboxPop.classList.contains("sqd-hidden")) {
-                gSubDropdownboxPop.classList.remove("sqd-hidden");
-            }
-            if (!gSubDropdownMain1.classList.contains("sqd-hidden") &&
-                !gSubDropdownMain2.classList.contains("sqd-hidden")) {
-                gSubDropdownMain1.classList.remove("sqd-hidden");
-                gSubDropdownMain2.classList.remove("sqd-hidden");
-            }
+            // gSubDropdownMain1.classList.toggle("sqd-hidden");
+            // gSubDropdownMain2.classList.toggle("sqd-hidden");
+            // if (gSubDropdownboxPop.classList.contains("sqd-hidden")) {
+            //     gSubDropdownboxPop.classList.remove("sqd-hidden");
+            // }
+            // if (!gSubDropdownMain1.classList.contains("sqd-hidden") &&
+            //     !gSubDropdownMain2.classList.contains("sqd-hidden")) {
+            //     gSubDropdownMain1.classList.remove("sqd-hidden");
+            //     gSubDropdownMain2.classList.remove("sqd-hidden");
+            // }
         });
         dropdownBoxShapeAfter1.addEventListener("click", function (e) {
             e.stopPropagation();
@@ -1542,7 +1588,7 @@ export class SwitchStepComponentView implements ComponentView {
             if (!gSubDropdownboxPopMain2.classList.contains("sqd-hidden")) {
                 gSubDropdownboxPopMain2.classList.remove("sqd-hidden");
             }
-            shapeHeight += shapeHeightActions; 
+            shapeHeight += shapeHeightActions;
         });
 
         JoinView.createStraightJoin(

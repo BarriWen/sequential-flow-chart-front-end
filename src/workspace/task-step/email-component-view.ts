@@ -279,7 +279,7 @@ export class EmailComponentView implements ComponentView {
       class: "sqd-task-deleteImgContainer",
     });
     const checkImgContainerCircle = Dom.svg("rect", {
-      class: "sqd-task-ImgContainerCircle",
+      class: "sqd-task-checkContainerCircle",
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       y: PADDING_Y - 40,
     });
@@ -289,7 +289,7 @@ export class EmailComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "./assets/check.svg";
+    const upCheckIconUrl = "./assets/check-inside.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
         href: upCheckIconUrl,
@@ -399,7 +399,7 @@ export class EmailComponentView implements ComponentView {
     const reminder1 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-reminder",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -423,7 +423,7 @@ export class EmailComponentView implements ComponentView {
     const reminder2 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-reminder",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -448,7 +448,7 @@ export class EmailComponentView implements ComponentView {
     const reminder3 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-reminder",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -482,7 +482,7 @@ export class EmailComponentView implements ComponentView {
     gRightPop3.appendChild(rightCopyImgContainer);
     gRightPop3.appendChild(rightDeleteImgContainer);
     gRightPop3.appendChild(rightEditImgContainer);
-    gRightPop3.appendChild(magnidyIcon);
+    // gRightPop3.appendChild(magnidyIcon);
     gUpPop3.appendChild(checkImgContainer);
     gUpPop3.appendChild(deleteImgContainer);
     gUpPop3.appendChild(copyImgContainer);
@@ -546,6 +546,53 @@ export class EmailComponentView implements ComponentView {
       }
       step["updatedAt"] = new Date();
     });
+
+    // edit button hover
+    editIcon.addEventListener("mouseover", function (e) {
+      rightEditImgContainerCircle.setAttribute("style", "fill: #2488cb"); 
+    }); 
+    editIcon.addEventListener("mouseout", function (e) {
+      rightEditImgContainerCircle.setAttribute("style", "fill: #FFFFFF"); 
+    }); 
+    // copy hover
+    copyIcon.addEventListener("mouseover", function (e) {
+      rightCopyImgContainerCircle.setAttribute("style", "fill: #3498db"); 
+      // upCopyIcon.setAttribute("style", "color: #FFFFFF"); 
+    }); 
+    copyIcon.addEventListener("mouseout", function (e) {
+      rightCopyImgContainerCircle.setAttribute("style", "fill: #FFFFFF"); 
+      // upCopyIcon.setAttribute("style", "color: #FFFFFF"); 
+    }); 
+    // delete hover
+    deleteIcon.addEventListener("mouseover", function (e) {
+      rightDeleteImgContainerCircle.setAttribute("style", "fill: #3498db"); 
+    }); 
+    deleteIcon.addEventListener("mouseout", function (e) {
+      rightDeleteImgContainerCircle.setAttribute("style", "fill: #FFFFFF"); 
+    }); 
+    // check button hover
+    upCheckIcon.addEventListener("mouseover", function (e) {
+      checkImgContainerCircle.setAttribute("style", "fill: #2488cb"); 
+    }); 
+    upCheckIcon.addEventListener("mouseout", function (e) {
+      checkImgContainerCircle.setAttribute("style", "fill: #3498db"); 
+    }); 
+    // copy button hover
+    upCopyIcon.addEventListener("mouseover", function (e) {
+      copyImgContainerCircle.setAttribute("style", "fill: #3498db"); 
+      upCopyIcon.setAttribute("style", "color: #FFFFFF"); 
+    }); 
+    upCopyIcon.addEventListener("mouseout", function (e) {
+      copyImgContainerCircle.setAttribute("style", "fill: #FFFFFF"); 
+      upCopyIcon.setAttribute("style", "color: #FFFFFF"); 
+    }); 
+    // delete button hover
+    upDeleteIcon.addEventListener("mouseover", function (e) {
+      deleteImgContainerCircle.setAttribute("style", "fill: #3498db"); 
+    }); 
+    upDeleteIcon.addEventListener("mouseout", function (e) {
+      deleteImgContainerCircle.setAttribute("style", "fill: #FFFFFF"); 
+    }); 
 
     // Show hints
     editIcon.addEventListener("mouseover", function () {
@@ -644,31 +691,35 @@ function createRect(className: string, xVal: number, yVal: number, w: number, h:
     });
   }
   return rect;
+  
 }
+
+
 function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElement, send: SVGElement, sub: SVGElement, cont: SVGElement) {
   const gSubDropdownbox = Dom.svg("g", {
     class: `sqd-task-group sub-dropdownbox`
   });
   dropdown.appendChild(gSubDropdownbox);
+  
 
   const rect1 = createRect(
-    "sqd-task-rect sqd-hidden", // Temporary hidden 
+    "sqd-task-rect", // Temporary hidden 
     0.5,
-    h - 15,
+    h - 30,
     w,
     4 * h + 5 * PADDING_Y,
     `dropdown${Date.now()}`,
     RECT_RADIUS);
   gSubDropdownbox.appendChild(rect1);
-  const rect2 = createRect(
-    "sqd-task-rect",
-    0.5,
-    h - 15,
-    w,
-    4 * h + PADDING_Y,
-    `dropdown${Date.now()}`,
-    RECT_RADIUS);
-  gSubDropdownbox.appendChild(rect2);
+  // const rect2 = createRect(
+  //   "sqd-task-rect",
+  //   0.5,
+  //   h - 15,
+  //   w,
+  //   4 * h + PADDING_Y,
+  //   `dropdown${Date.now()}`,
+  //   RECT_RADIUS);
+  // gSubDropdownbox.appendChild(rect2);
 
   let startX = rect1.getBBox().x;
   let startY = rect1.getBBox().y;

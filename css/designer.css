@@ -75,9 +75,17 @@
 }
 .sqd-email-input {
 	display: block;
-	width: 127px;
-	height: 20px; 
-	border-radius: 5px;
+	width: 120px;
+	height: 22px; 
+	border-radius: 4px;
+	border-width: 1px;
+    border-color: #808080;
+}
+.sqd-loc-input {
+	display: block;
+	width: 230px;
+	height: 22px; 
+	border-radius: 4px;
 	border-width: 1px;
     border-color: #808080;
 }
@@ -234,11 +242,14 @@
 .sqd-switch-rect {
 	stroke-width: 3; 
 }
+.sqd-task-reminder {
+	fill: #a0a0a0
+}
 
 .add-cond-text {
 	position: relative;
 	fill: #1080A0; 
-	font-size: 16px;
+	font-size: 14px;
 }
 
 .add-seg-btn-title {
@@ -257,7 +268,12 @@
 	dominant-baseline: central;
 	font-family: Sofia;
 }
-
+.switch-val-btn {
+	text-anchor: left;
+	text-align: center;
+	dominant-baseline: central;
+	font-family: Sofia;
+}
 /* .sqd-input + .sqd-output */
 
 .sqd-input {
@@ -516,6 +532,21 @@
 	left: 1164px;
 	top: 291px;
 	fill: #FFFFFF;
+	/* Black shadow 
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);*/
+	border-radius: 40px;
+	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2));
+	stroke-width: 2px;
+	cursor: pointer;
+	/*stroke: #5495d4;*/
+}
+.sqd-task-checkContainerCircle {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	left: 1164px;
+	top: 291px;
+	fill: #3498db;
 	/* Black shadow 
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);*/
 	border-radius: 40px;
