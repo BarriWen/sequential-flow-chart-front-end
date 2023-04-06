@@ -9,13 +9,14 @@ import { StepComponentFactory } from "../step-component-factory";
 const PH_WIDTH = 100;
 const PH_HEIGHT = 150;
 const SIZE = 30;
+let component_length = 0;
 
 function addStop() {
   const s = SIZE * 0.5;
   const m = (SIZE - s) / 2;
 
   const circle = Dom.svg("circle", {
-    class: "sqd-start-stop",
+    class: "sqd-start-stop sqd-hidden",
     cx: SIZE / 2,
     cy: SIZE / 2,
     r: SIZE / 2,
@@ -24,7 +25,7 @@ function addStop() {
   g.appendChild(circle);
 
   const stop = Dom.svg("rect", {
-    class: "sqd-start-stop-icon",
+    class: "sqd-start-stop-icon sqd-hidden",
     x: m,
     y: m,
     width: s,
@@ -54,6 +55,8 @@ export class SequenceComponentView implements ComponentView {
     const components = sequence.map((s) =>
       StepComponentFactory.create(g, s, sequence, configuration)
     );
+    component_length = components.length;
+    console.log(component_length);
 
     const maxJoinX =
       components.length > 0
@@ -160,6 +163,18 @@ export class SequenceComponentView implements ComponentView {
         .setAttribute("display", "none");
     }
 
+    let holderElement = document.getElementsByClassName('sqd-placeholder');
+    Dom.attrs(holderElement[0], {
+      visibility:'hidden'
+    });
+
+    let joinElement = document.getElementsByClassName('sqd-join');
+    if(joinElement.length >= 2){
+      Dom.attrs(joinElement[0], {
+        visibility:'hidden'
+      });
+    }
+
     return new SequenceComponentView(
       g,
       maxWidth,
@@ -195,8 +210,8 @@ export class SequenceComponentView implements ComponentView {
 function appendPlaceholder(g: SVGGElement, x: number, y: number): SVGElement {
   const g1 = Dom.svg("g", {
     class: "sqd-placeholder",
-    visibility: "hidden",
   });
+
   const circle = Dom.svg("circle", {
     class: "sqd-placeholder-circle",
     cx: x + PH_WIDTH / 2,
@@ -226,7 +241,9 @@ function appendPlaceholder(g: SVGGElement, x: number, y: number): SVGElement {
 
   g1.appendChild(circle);
   g1.appendChild(sign);
-  g.appendChild(g1);
+
+  g.insertBefore(g1, g.children[component_length+1])
+  
 
   return g1;
 }

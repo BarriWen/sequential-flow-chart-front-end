@@ -8,7 +8,7 @@ export class JoinView {
 			x1: start.x,
 			y1: start.y,
 			x2: start.x,
-			y2: start.y + height
+			y2: start.y + height,
 		});
 		parent.insertBefore(join, parent.firstChild);
 	}

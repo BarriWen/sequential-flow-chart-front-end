@@ -287,7 +287,7 @@ export class TagComponentView implements ComponentView {
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       x: 170,
       y: PADDING_Y - 40,
-      style: "fill:#5495d4"
+      style: "fill:#3498DB"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -579,7 +579,7 @@ export class TagComponentView implements ComponentView {
       checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
     });
     upCheckIcon.addEventListener("mouseup", function(){
-      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      checkImgContainerCircle.setAttribute("style", "fill:#3498DB");
     });
 
      // Show hints
@@ -644,6 +644,7 @@ export class TagComponentView implements ComponentView {
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
     inputView.setIsHidden(true);
     const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
+    outputView.setIsHidden(true)
     const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
     return new TagComponentView(
       g,
@@ -981,10 +982,10 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
       e.stopPropagation();
       console.log('Will be sending to back end',input.value);
       // Post tag to backend
-      const userID = 1;      //Need to be changed to an existing user
+      const userID = 1;  //Need to be changed to an existing user
       const journeyID = 4;  //Need to be changed to an existing journey
-      const data = {"tag_name": `${input.value}`};
-      const request = new Request(`http://localhost:8080/AddTag`, {
+      const data = { "tag_name": `${input.value}` };
+      const request = new Request(`/AddTag`,{
         method: 'POST', 
         headers: {
           "Content-Type": 'application/json'

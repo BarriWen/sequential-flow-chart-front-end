@@ -353,7 +353,7 @@ export class TriggerComponentView implements ComponentView {
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       x: 170 + addon,
       y: PADDING_Y - 40,
-      style: "fill:#5495d4"
+      style: "fill:#3498DB"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -819,7 +819,7 @@ export class TriggerComponentView implements ComponentView {
           dropdownBoxInnerText.textContent = dropdownBoxBottomShapeText.textContent;
           gSubDropdownboxPop.classList.toggle("sqd-hidden");
           dropdownBoxShape.style.stroke="#BFBFBF";
-          dropdownBoxInnerText.style.fill = "#a0a0a0";
+          dropdownBoxInnerText.style.fill = "#BFBFBF";
           downIcon.setAttribute("href", "./assets/list_down.svg");
         });
         gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
@@ -884,7 +884,7 @@ export class TriggerComponentView implements ComponentView {
         dropdownBoxInnerText1.textContent = dropdownBoxBottomShape1Text.textContent;
         gSubDropdownbox1Pop.classList.toggle("sqd-hidden");
         dropdownBoxShape1.style.stroke="#BFBFBF";
-        dropdownBoxInnerText1.style.fill = "#a0a0a0";
+        dropdownBoxInnerText1.style.fill = "#BFBFBF";
         downIcon1.setAttribute("href", "./assets/list_down.svg");
       });
 
@@ -981,7 +981,7 @@ export class TriggerComponentView implements ComponentView {
       checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
     });
     upCheckIcon.addEventListener("mouseup", function(){
-      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      checkImgContainerCircle.setAttribute("style", "fill:#3498DB");
     });
     
     upchangeIcon.addEventListener("mousedown", function(){
@@ -1224,6 +1224,7 @@ export class TriggerComponentView implements ComponentView {
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
     inputView.setIsHidden(true);
     const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
+    outputView.setIsHidden(true)
     const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
     return new TriggerComponentView(
       g,

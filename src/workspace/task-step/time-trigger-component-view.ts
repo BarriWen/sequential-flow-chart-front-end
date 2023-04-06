@@ -189,7 +189,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     if(step.name == "Subscribe" || step.name == "Unsubscribe"){
       moreUrl = "./assets/more2.svg";
     }else{
-      moreUrl = "./assets/more3.svg"
+      moreUrl = "./assets/more4.svg"
     }
 
     const gmoreIcon = Dom.svg("g", {
@@ -346,7 +346,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       x: 170 + addon,
       y: PADDING_Y - 40,
-      style: "fill:#5495d4"
+      style: "fill:#3498DB"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -814,7 +814,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           dropdownBoxInnerText.textContent = dropdownBoxBottomShapeText.textContent;
           gSubDropdownboxPop.classList.toggle("sqd-hidden");
           dropdownBoxShape.style.stroke="#BFBFBF";
-          dropdownBoxInnerText.style.fill = "#a0a0a0";
+          dropdownBoxInnerText.style.fill = "#BFBFBF";
           downIcon.setAttribute("href", "./assets/list_down.png");
         });
         gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
@@ -879,7 +879,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         dropdownBoxInnerText1.textContent = dropdownBoxBottomShape1Text.textContent;
         gSubDropdownbox1Pop.classList.toggle("sqd-hidden");
         dropdownBoxShape1.style.stroke="#BFBFBF";
-        dropdownBoxInnerText1.style.fill = "#a0a0a0";
+        dropdownBoxInnerText1.style.fill = "#BFBFBF";
         downIcon1.setAttribute("href", "./assets/list_down.png");
 
         if(dropdownBoxInnerText1.textContent == "Once"){
@@ -1862,7 +1862,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     });
     upCheckIcon.addEventListener("mouseup", function(e){
       e.stopPropagation();
-      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      checkImgContainerCircle.setAttribute("style", "fill:#3498DB");
     });
     
     upchangeIcon.addEventListener("mousedown", function(){
@@ -2143,6 +2143,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
     inputView.setIsHidden(true);
     const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
+    outputView.setIsHidden(true)
     const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
     return new TimeTriggerTaskStepComponentView(
       g,

@@ -507,3 +507,11 @@
 .content-text {
 	fill:#5495d4;
 }
+
+.sqd-start-stop{
+	visibility: none;
+}
+
+.sqd-start-stop-icon{
+	visibility: none;
+}
