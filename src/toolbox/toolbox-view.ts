@@ -31,11 +31,11 @@ export class ToolboxView {
 			placeholder: 'Search...'
 		});
 
-		root.appendChild(header);
+		// root.appendChild(header);
 		root.appendChild(body);
-		header.appendChild(headerTitle);
-		header.appendChild(headerToggleIcon);
-		body.appendChild(filterInput);
+		// header.appendChild(headerTitle);
+		// header.appendChild(headerToggleIcon);
+		// body.appendChild(filterInput);
 		parent.appendChild(root);
 
 		const scrollboxView = ScrollBoxView.create(body, parent);
@@ -49,7 +49,7 @@ export class ToolboxView {
 		private readonly filterInput: HTMLInputElement,
 		private readonly scrollboxView: ScrollBoxView,
 		private readonly context: DesignerContext
-	) {}
+	) { }
 
 	public bindToggleIsCollapsedClick(handler: () => void) {
 		function forward(e: Event) {
@@ -76,18 +76,25 @@ export class ToolboxView {
 	}
 
 	public setGroups(groups: ToolboxGroupConfiguration[]) {
-		const list = Dom.element('div');
-
-		groups.forEach(group => {
-			const groupTitle = Dom.element('div', {
-				class: 'sqd-toolbox-group-title'
-			});
-			groupTitle.innerText = group.name;
-			list.appendChild(groupTitle);
-
-			group.steps.forEach(s => ToolboxItem.create(list, s, this.context));
+		const listFilter = Dom.element('div');
+		const groupTitleFilter = Dom.element('div', {
+			class: 'sqd-toolbox-filter-title'
 		});
-		this.scrollboxView.setContent(list);
+		groupTitleFilter.innerText = groups[0].name;
+		listFilter.appendChild(groupTitleFilter);
+		groups[0].steps.forEach(s => ToolboxItem.create(listFilter, s, this.context));
+		listFilter.setAttribute("class", "group-filter"); 
+		this.scrollboxView.setContent(listFilter);
+
+		const listAction = Dom.element('div'); 
+		const groupTitleAction = Dom.element('div', {
+			class: 'sqd-toolbox-action-title'
+		});
+		groupTitleAction.innerText = groups[1].name;
+		listAction.appendChild(groupTitleAction);
+		groups[1].steps.forEach(s => ToolboxItem.create(listAction, s, this.context));
+		listAction.setAttribute("class", "group-action"); 
+		this.scrollboxView.setContent(listAction);
 	}
 
 	public destroy() {

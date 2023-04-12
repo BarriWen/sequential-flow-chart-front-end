@@ -10,8 +10,10 @@ export class ScrollBoxView {
 		parent.appendChild(root);
 
 		const view = new ScrollBoxView(root, viewport);
+		// const view2 = new ScrollBoxView(root2, viewport); 
 		window.addEventListener('resize', view.onResizeHandler, false);
-		root.addEventListener('wheel', e => view.onWheel(e), false);
+		window.addEventListener('resize', view.onResizeHandler, false);
+		// root.addEventListener('wheel', e => view.onWheel(e), false);
 		root.addEventListener('touchstart', e => view.onTouchStart(e), false);
 		root.addEventListener('mousedown', e => view.onMouseDown(e), false);
 		return view;
@@ -35,9 +37,9 @@ export class ScrollBoxView {
 	public constructor(private readonly root: HTMLElement, private readonly viewport: HTMLElement) {}
 
 	public setContent(element: HTMLElement) {
-		if (this.content) {
-			this.root.removeChild(this.content.element);
-		}
+		// if (this.content) {
+		// 	this.root.removeChild(this.content.element);
+		// }
 		element.classList.add('sqd-scrollbox-body');
 		this.root.appendChild(element);
 		this.reload(element);
@@ -57,11 +59,11 @@ export class ScrollBoxView {
 		const maxHeightPercent = 0.7;
 		const minDistance = 200;
 
-		let height = Math.min(this.viewport.clientHeight * maxHeightPercent, element.clientHeight);
-		height = Math.min(height, this.viewport.clientHeight - minDistance);
+		let height = 300; // Math.min(this.viewport.clientHeight * maxHeightPercent, element.clientHeight);
+		// height = Math.min(height, this.viewport.clientHeight - minDistance);
 
 		this.root.style.height = height + 'px';
-		element.style.top = '0px';
+		// element.style.top = '0px';
 
 		this.content = {
 			element,

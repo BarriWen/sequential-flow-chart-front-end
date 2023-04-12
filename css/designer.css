@@ -29,7 +29,8 @@
 	z-index: 20;
 	box-sizing: border-box;
 	border-radius: 10px;
-	width: 130px;
+	width: 150px;
+	height: 275px;
 	user-select: none;
 }
 .sqd-toolbox-header {
@@ -62,8 +63,31 @@
 	position: absolute;
 	top: 0;
 	left: 0;
+	border-radius: 12px;
 }
-.sqd-toolbox-filter {
+.scrollbox-div {
+	position: absolute;
+	top: 50px; 
+}
+.group-filter {
+	position: absolute; 
+	top: 0;
+	left: 0; 
+	height: 75px;
+	width: 135px;
+	background-color: white;
+	box-shadow: 6px 6px 6px rgba(52, 152, 219, 0.3); 
+}
+.group-action {
+	position: absolute; 
+	top: 90px; 
+	left: 0; 
+	height: 175px;
+	width: 135px;
+	background-color: white;
+	box-shadow: 6px 6px 6px rgba(52, 152, 219, 0.3); 
+}
+/* .sqd-toolbox-filter {
 	display: block;
 	box-sizing: border-box;
 	padding: 6px 8px;
@@ -72,10 +96,16 @@
 	margin: 0 10px 10px;
 	box-sizing: border-box;
 	border-radius: 10px;
+} */
+
+.switch-title {
+	width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
-.sqd-email-input {
+.sqd-text-input {
 	display: block;
-	width: 120px;
+	width: 115px;
 	height: 22px; 
 	border-radius: 4px;
 	border-width: 1px;
@@ -89,11 +119,17 @@
 	border-width: 1px;
     border-color: #808080;
 }
-.sqd-toolbox-group-title {
-	text-align: center;
-	padding: 5px 0;
-	margin: 0 10px 10px;
-	border-radius: 10px;
+.sqd-toolbox-filter-title {
+	font-size: 10pt;
+	font-family: Sofia Pro Medium;
+	color: #247d99; 
+	margin: 16px 0px 5px 13px;
+}
+.sqd-toolbox-action-title {
+	font-size: 10pt;
+	font-family: Sofia Pro Medium;
+	color: #3f55db; 
+	margin: 16px 0px 5px 13px;
 }
 .sqd-toolbox-item {
 	position: relative;
@@ -105,11 +141,10 @@
 }
 .sqd-toolbox-item-icon {
 	position: absolute;
-	top: 50%;
-	left: 5px;
+	top: 38%;
 	margin-top: -10px;
-	width: 20px;
-	height: 20px;
+	width: 25px;
+	height: 25px;
 }
 .sqd-toolbox-item-icon.sqd-no-icon {
 	border-radius: 4px;
@@ -119,14 +154,15 @@
 	height: 100%;
 }
 .sqd-toolbox-item-text {
+	font-size: 10pt;
+	font-family: Sofia Pro Light;
 	position: relative;
 	display: block;
-	padding: 10px 10px 10px 30px;
+	padding: 10px 3px 10px 30px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
-
 .sqd-drag {
 	position: absolute;
 	z-index: 9999999;
@@ -134,7 +170,6 @@
 }
 
 /* .sqd-control-bar */
-
 .sqd-control-bar {
 	position: absolute;
 	bottom: 10px;
@@ -266,7 +301,7 @@
 	text-anchor: left;
 	text-align: center;
 	dominant-baseline: central;
-	font-family: Sofia;
+	font-family: Sofia Pro Regular;
 }
 .switch-val-btn {
 	text-anchor: left;

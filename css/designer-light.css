@@ -7,19 +7,19 @@
 
 /* light > .sqd-toolbox */
 
-.sqd-theme-light .sqd-toolbox {
+/* .sqd-theme-light .sqd-toolbox {
 	background: #FFF;
 	box-shadow: 0 0 10px rgb(0, 192, 255, 0.5), 0 2px 4px rgba(0, 0, 0, .15);
-}
+} */
 .sqd-theme-light .sqd-toolbox-filter {
 	border: 1px solid #C3C3C3;
 }
 .sqd-theme-light .sqd-toolbox-filter:focus {
 	border-color: #939393;
 }
-.sqd-theme-light .sqd-toolbox-group-title {
+/* .sqd-theme-light .sqd-toolbox-group-title {
 	background: #E5E5E5;
-}
+} */
 .sqd-theme-light .sqd-toolbox-item {
 	
 }
@@ -111,8 +111,11 @@
 .sqd-theme-light .sqd-task-rect.sqd-selected {
 	stroke: #ED4800;
 }
-.sqd-theme-light .sqd-task-text {
+/* .sqd-theme-light .sqd-task-text {
 	fill: #000;
+} */
+.task-title {
+	fill: #949ca0; 
 }
 .sqd-theme-light .sqd-task-empty-icon {
 	fill: #C6C6C6;
