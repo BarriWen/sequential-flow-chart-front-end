@@ -155,14 +155,12 @@ export class SwitchStepComponentView implements ComponentView {
             width: 300, 
         });
 
-        if (step.properties["value"]) {
-            textRight.textContent = "If " + step.properties["value"].toString() + " " + 
-            step.properties["condition"] + " " + 
-            step.properties["property"].toString();
-
-        } else {
-            textRight.textContent = "Choose Condition";
-        }
+        // if (step.properties["value"]) {
+        //     textRight.textContent = "If " + step.properties["value"].toString() + " " + 
+        //     step.properties["condition"] + " " + 
+        //     step.properties["property"].toString();
+        // }
+            textRight.textContent = "Condition Setting";
         g1.appendChild(textRight);
         g1.insertBefore(rectLeft, text);
         g1.appendChild(textRight);
@@ -171,7 +169,7 @@ export class SwitchStepComponentView implements ComponentView {
             x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 132,
             y: boxHeight / 2,
             class: "sqd-task-text",
-        });
+        }); 
         textRightReminder.textContent = "Please set up your filter";
         const rectRight = Dom.svg("rect", {
             x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 80,
