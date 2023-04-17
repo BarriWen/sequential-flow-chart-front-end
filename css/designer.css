@@ -119,15 +119,16 @@
 	border-width: 1px;
     border-color: #808080;
 }
+
 .sqd-toolbox-filter-title {
 	font-size: 10pt;
-	font-family: Sofia Pro Medium;
+	font-family: sofiaProMed;
 	color: #247d99; 
 	margin: 16px 0px 5px 13px;
 }
 .sqd-toolbox-action-title {
 	font-size: 10pt;
-	font-family: Sofia Pro Medium;
+	font-family: sofiaProMed;
 	color: #3f55db; 
 	margin: 16px 0px 5px 13px;
 }
@@ -155,7 +156,7 @@
 }
 .sqd-toolbox-item-text {
 	font-size: 10pt;
-	font-family: Sofia Pro Light;
+	font-family: sofiaProLit;
 	position: relative;
 	display: block;
 	padding: 10px 3px 10px 30px;
@@ -297,17 +298,30 @@
 .sqd-task-rect.sqd-selected {
 	stroke-width: 2.5;
 }
+
+@font-face {
+	font-family: sofiaProReg;
+	src: url(../assets/SofiaProRegular.ttf);
+}
+@font-face {
+	font-family: sofiaProMed;
+	src: url(../assets/SofiaProMedium.ttf);
+}
+@font-face {
+	font-family: sofiaProLit;
+	src: url(../assets/SofiaProLight.ttf);
+}
 .sqd-task-text {
 	text-anchor: left;
 	text-align: center;
 	dominant-baseline: central;
-	font-family: Sofia Pro Regular;
+	font-family: sofiaProReg;
 }
 .switch-val-btn {
 	text-anchor: left;
 	text-align: center;
 	dominant-baseline: central;
-	font-family: Sofia;
+	font-family: sofiaProReg;
 }
 /* .sqd-input + .sqd-output */
 
