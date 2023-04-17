@@ -250,12 +250,12 @@ body{
 /* light > .sqd-placeholder */
 
 .sqd-theme-light .sqd-placeholder {
-	fill: #5495d4;
+	fill: #3498DB;
 	stroke: #FFF;
 }
 .sqd-placeholder-icon{
 	stroke: #fff;
-	/* stroke-width: 2; */
+	stroke-width: 1.7;
 }
 #outside-circle{
 	fill: #cee2f0;
@@ -267,7 +267,7 @@ body{
 
 dialog{
 	border: none;
-	box-shadow: 3px 3px 8px #3498db;
+	box-shadow: 1px 3px 6px #3498db;
 	border-radius: 10px;
 	background-size: 150%;
 }
@@ -298,6 +298,11 @@ dialog{
 	text-align: left;
 	padding-left: 60px;
 }
+
+.triggers:focus{
+	
+}
+
 
 .triggers:hover{
 	color: #3498DB;

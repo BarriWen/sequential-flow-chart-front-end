@@ -216,7 +216,7 @@ function appendPlaceholder(g: SVGGElement, x: number, y: number): SVGElement {
     class: "sqd-placeholder-circle",
     cx: x + PH_WIDTH / 2,
     cy: y + PH_HEIGHT / 2,
-    r: SIZE / 3,
+    r: SIZE / 3 + 2,
   });
   const startX = x + PH_WIDTH / 2 - SIZE / 8;
   const startY = y + PH_HEIGHT / 2 - SIZE / 8;
@@ -225,16 +225,17 @@ function appendPlaceholder(g: SVGGElement, x: number, y: number): SVGElement {
 
   const sign = Dom.svg("path", {
     class: "sqd-placeholder-icon",
-    d: `M ${startX} ${y + PH_HEIGHT / 2} H ${endX} M ${
+    d: `M ${startX-3.5} ${y + PH_HEIGHT / 2} H ${endX+3.5} M ${
       x + PH_WIDTH / 2
-    } ${startY} V ${endY}`,
+    } ${startY-3.5} V ${endY+3.5}`,
   });
+  
   // Outside circle
   const outside = Dom.svg("circle", {
     id: "outside-circle",
     cx: x + PH_WIDTH / 2,
     cy: y + PH_HEIGHT / 2,
-    r: SIZE,
+    r: 27,
   });
   Dom.toggleClass(outside, true, "sqd-hidden");
   g1.appendChild(outside);

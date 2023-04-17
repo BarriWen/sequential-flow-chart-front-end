@@ -71,8 +71,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const triggerHint = Dom.svg("rect", {
       class: "sqd-task-rect-triggerhint",
       x:266.953 + addon,
-      y:0.5,
-      height:boxHeight,
+      y:0.5-3,
+      height:boxHeight+6,
       width: 175,
       rx:9,
       ry:9

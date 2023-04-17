@@ -78,8 +78,8 @@ export class TriggerComponentView implements ComponentView {
     const triggerHint = Dom.svg("rect", {
       class: "sqd-task-rect-triggerhint",
       x:266.953 + addon,
-      y:0.5,
-      height:boxHeight,
+      y:0.5-3,
+      height:boxHeight+6,
       width: 175,
       rx:9,
       ry:9
@@ -1023,13 +1023,13 @@ export class TriggerComponentView implements ComponentView {
         type: "submit",
         class: "popup-button"
       });
-      btn1.innerText = "Confirm";
+      btn1.innerText = "Cancel";
       form.appendChild(btn1);
       const btn2 = Dom.element("button", {
         type: "submit",
         class: "popup-button2"
       });
-      btn2.innerText = "Cancel";
+      btn2.innerText = "Confirm";
       form.appendChild(btn2);
 
       const designer = document.getElementById("designer");
@@ -1042,7 +1042,7 @@ export class TriggerComponentView implements ComponentView {
         prompt("Wrong window", "ok");
       }
 
-      btn2.addEventListener("click", function (e) {
+      btn1.addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
         const designer = document.getElementById("designer");
@@ -1051,7 +1051,7 @@ export class TriggerComponentView implements ComponentView {
         }
       });
 
-      btn1.addEventListener("click", function (e) {
+      btn2.addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
         

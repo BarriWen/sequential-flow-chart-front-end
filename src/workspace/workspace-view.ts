@@ -87,6 +87,7 @@ export class WorkspaceView {
         e.preventDefault();
         const dialogBox = Dom.element("dialog", {
           class: "triggers-list",
+          autofocus: "false"
         });
         const triggers = [
           "Subscribe",
@@ -123,6 +124,7 @@ export class WorkspaceView {
         const dialogForm = Dom.element("form", {
           // class: 'triggers-list',
           method: "dialog",
+          autofocus: "false"
         });
 
         const prompt = Dom.element("p");
