@@ -56,7 +56,7 @@ export class SequenceComponentView implements ComponentView {
       StepComponentFactory.create(g, s, sequence, configuration)
     );
     component_length = components.length;
-    console.log(component_length);
+    // console.log(component_length);
 
     const maxJoinX =
       components.length > 0
@@ -151,13 +151,12 @@ export class SequenceComponentView implements ComponentView {
       if (components.length == 1) {
         parent.childNodes[0].removeChild(lines[2]);
       } else {
-        // console.log(lines);
-        parent.childNodes[0].removeChild(lines[components.length+1]);
+        parent.childNodes[0].removeChild(lines[components.length + 1]);
         if (containsSwitch) {
           parent.childNodes[0].removeChild(lines[0]);
+          console.log(lines); 
         }
       }
-      // console.log(document.getElementsByClassName("sqd-input")[0]);
       document
         .getElementsByClassName("sqd-input")[0]
         .setAttribute("display", "none");

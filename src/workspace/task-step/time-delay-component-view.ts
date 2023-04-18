@@ -1,4 +1,4 @@
-import { data } from "jQuery";
+
 import { Dom } from "../../core/dom";
 import { Vector } from "../../core/vector";
 import { TaskStep } from "../../definition";
