@@ -22,7 +22,7 @@ export class TagComponentView implements ComponentView {
     public readonly inputView: InputView,
     public readonly outputView: OutputView,
     public readonly validationErrorView: ValidationErrorView
-  ) {}
+  ) { }
   public static create(
     parent: SVGElement,
     step: TaskStep,
@@ -142,8 +142,8 @@ export class TagComponentView implements ComponentView {
     const moreUrl = "./assets/moreTag.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
-          href: moreUrl,
-        })
+        href: moreUrl,
+      })
       : Dom.svg("rect", {
           class: "sqd-task-empty-icon",
           rx: 4,
@@ -194,13 +194,13 @@ export class TagComponentView implements ComponentView {
     const copyUrl = "./assets/copy.svg";
     const copyIcon = copyUrl
       ? Dom.svg("image", {
-          href: copyUrl,
-        })
+        href: copyUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(copyIcon, {
       class: "moreicon",
       id: `RightCopyIcon-${step.id}`,
@@ -228,13 +228,13 @@ export class TagComponentView implements ComponentView {
     const deleteUrl = "./assets/delete.svg";
     const deleteIcon = deleteUrl
       ? Dom.svg("image", {
-          href: deleteUrl,
-        })
+        href: deleteUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(deleteIcon, {
       class: "moreicon",
       id: `RightDeleteIcon-${step.id}`,
@@ -262,13 +262,13 @@ export class TagComponentView implements ComponentView {
     const editUrl = "./assets/edit.svg";
     const editIcon = editUrl
       ? Dom.svg("image", {
-          href: editUrl,
-        })
+        href: editUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(editIcon, {
       class: "moreicon",
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 53,
@@ -298,13 +298,13 @@ export class TagComponentView implements ComponentView {
     const upCheckIconUrl = "./assets/check-inside.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
-          href: upCheckIconUrl,
-        })
+        href: upCheckIconUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(upCheckIcon, {
       class: "checkIcon-inside",
       x: 177.4,
@@ -331,13 +331,13 @@ export class TagComponentView implements ComponentView {
     const upDeleteIconUrl = "./assets/delete.svg";
     const upDeleteIcon = upDeleteIconUrl
       ? Dom.svg("image", {
-          href: upDeleteIconUrl,
-        })
+        href: upDeleteIconUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(upDeleteIcon, {
       class: "moreicon",
       id: `UpDeleteIcon-${step.id}`,
@@ -366,13 +366,13 @@ export class TagComponentView implements ComponentView {
     const upCopyIconUrl = "./assets/copy.svg";
     const upCopyIcon = upCopyIconUrl
       ? Dom.svg("image", {
-          href: upCopyIconUrl,
-        })
+        href: upCopyIconUrl,
+      })
       : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
+        class: "sqd-task-empty-icon",
+        rx: 4,
+        ry: 4,
+      });
     Dom.attrs(upCopyIcon, {
       class: "moreicon",
       id: `UpCopyIcon-${step.id}`,
@@ -497,19 +497,11 @@ export class TagComponentView implements ComponentView {
     const gDropdown = Dom.svg("g", {
       class: `sqd-task-group dropdown sqd-hidden Collapsed`,
     });
-    // const rect1 = Dom.svg("rect", {
-    //   x: 0.5,
-    //   y: boxHeight,
-    //   class: "sqd-task-rect",
-    //   width: boxWidth,
-    //   height: 4 * boxHeight,
-    //   rx: RECT_RADIUS,
-    //   ry: RECT_RADIUS,
-    // });
-    // Dom.attrs(rect1, {
-    //   id: `dropdown${Date.now()}`,
-    // });
-    
+
+    const gDropdownbox = Dom.svg("g", {
+      class: `sqd-task-group sub-dropdownbox`
+    });
+
     g.appendChild(moreIcon);
     g.appendChild(moreIconDot);
     g.appendChild(gRightPop3);
@@ -550,7 +542,7 @@ export class TagComponentView implements ComponentView {
         gDropdown.classList.toggle("sqd-hidden");
       }
     });
-    
+
     // Edit
     editIcon.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -558,7 +550,7 @@ export class TagComponentView implements ComponentView {
       gUpPop3.classList.toggle("sqd-hidden");
       gRightPop3.classList.toggle("sqd-hidden");
     });
-    upCheckIcon.addEventListener("click", function(e){
+    upCheckIcon.addEventListener("click", function (e) {
       e.stopPropagation();
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
@@ -582,11 +574,11 @@ export class TagComponentView implements ComponentView {
       checkImgContainerCircle.setAttribute("style", "fill:#3498DB");
     });
 
-     // Show hints
-     editIcon.addEventListener("mouseover", function(){
+    // Show hints
+    editIcon.addEventListener("mouseover", function () {
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
-    editIcon.addEventListener("mouseout", function(){
+    editIcon.addEventListener("mouseout", function () {
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
     editIcon.addEventListener("mousedown", function(){
@@ -699,8 +691,8 @@ function addTxt(txt: string, xVal: number, yVal: number, idVal?: string) {
   }
   return nameText;
 }
-function createRect(className: string, xVal: number, yVal: number, w: number, h: number, id?: string, radius?: number){
-  const rect =  Dom.svg("rect", {
+function createRect(className: string, xVal: number, yVal: number, w: number, h: number, id?: string, radius?: number) {
+  const rect = Dom.svg("rect", {
     x: xVal,
     y: yVal,
     class: className,
@@ -725,6 +717,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
     class: `sqd-task-group `,
   });
   dropdown.appendChild(gSubDropdownbox);
+
   // Field names
   let hei = 50;
   if(step == "Remove Tag"){
@@ -789,7 +782,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
   gSubDropdownbox.insertBefore(dropdownBoxShape, dropdownBoxInnerText);
   gSubDropdownbox.appendChild(downIcon);
   gSubDropdownbox.appendChild(dropdownBoxShapeAfter);
-  
+
   // Selection list field
   const gSubDropdownboxPop = Dom.svg("g", {
     class: `sqd-task-group sub-dropdownbox-pop sqd-hidden`,
@@ -818,7 +811,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
 
   // Fetch tags from backend
   const userID = 1; //Need to be changed to current user
-  const request = new Request(`http://localhost:8080/tag/${userID}`, {method: 'GET'});
+  const request = new Request(`http://localhost:8080/tag/${userID}`, { method: 'GET' });
   let tags: string[] = [];
   // Async way to fetch tags
   const getTags = async () => {
@@ -925,7 +918,13 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
   g.insertBefore(nameText, g.firstChild);
 
   // Text wrapper
-  const rect = createRect("create-tag", nameText.getBBox().x, nameText.getBBox().y, nameText.getBBox().width, nameText.getBBox().height, `newTag${Date.now()}`);
+  const rect = createRect(
+    "create-tag", 
+    nameText.getBBox().x - 8, 
+    nameText.getBBox().y + 28, 
+    nameText.getBBox().width, 
+    nameText.getBBox().height, 
+    `newTag${Date.now()}`);
   g.insertBefore(rect, nameText);
 
   // Page to input new tag
@@ -935,7 +934,7 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
   parent.appendChild(container);
   const rect1 = createRect("sqd-task-rect", 0.5, 0.5, w, 2.5 * h+50, `dropdown${Date.now()}`, RECT_RADIUS);
   container.appendChild(rect1);
-  
+
   const inputArea = Dom.svg("foreignObject", {
     x: 1 + 2 * PADDING_X+8,
     y: h + 2 * PADDING_Y,
@@ -947,11 +946,11 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
     name: "newTag",
     type: "text",
     placeholder: "Name your new tag",
-    value: ""
+    value: "", 
   });
   inputArea.appendChild(input);
   container.appendChild(inputArea);
-  
+
 
   const backText = Dom.svg("text", {
     class: "new-tag-text",
@@ -968,19 +967,19 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
   
   container.appendChild(backText);
   // Add event listener
-  g.addEventListener("click", function(e) {
+  g.addEventListener("click", function (e) {
     e.stopPropagation();
     container.classList.toggle('sqd-hidden');
   });
-  backText.addEventListener("click", function(e) {
+  backText.addEventListener("click", function (e) {
     container.classList.toggle('sqd-hidden');
     input.value = "";
   });
-  
-  upCheckBut.addEventListener("click", function(e){
+
+  upCheckBut.addEventListener("click", function (e) {
     if (input.value) {
       e.stopPropagation();
-      console.log('Will be sending to back end',input.value);
+      console.log('Will be sending to back end', input.value);
       // Post tag to backend
       const userID = 1;  //Need to be changed to an existing user
       const journeyID = 4;  //Need to be changed to an existing journey
