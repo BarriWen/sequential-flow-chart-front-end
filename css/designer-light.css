@@ -173,7 +173,6 @@ body{
 
 .sqd-theme-light .sqd-task-text {
 	fill: #253947;
-	font-family: 'sofia-pro';
 }
 
 .sqd-theme-light .sqd-task-rect.sqd-selected {
@@ -245,7 +244,7 @@ body{
 /* light > .sqd-region */
 
 .sqd-theme-light .sqd-region {
-	stroke: #CECECE;
+	/* stroke: #CECECE; */
 }
 .sqd-theme-light .sqd-region.sqd-selected {
 	stroke: #ED4800;
@@ -259,8 +258,11 @@ body{
 .sqd-theme-light .sqd-label-rect.sqd-label-secondary {
 	fill: #35aeeb;
 }
-.sqd-theme-light .sqd-label-text {
-	fill:#000;
+.sqd-theme-light .sqd-label-text-yes {
+	fill:#68CE8F;
+}
+.sqd-theme-light .sqd-label-text-no {
+	fill:#EE7A69;
 }
 
 /* light > .sqd-start-stop */

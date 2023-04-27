@@ -102,6 +102,8 @@
 	width: 200px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	text-align: center;
+    dominant-baseline: central;
 }
 .sqd-text-input {
 	display: block;
@@ -113,7 +115,7 @@
 }
 .sqd-loc-input {
 	display: block;
-	width: 230px;
+	width: 374px;
 	height: 22px; 
 	border-radius: 4px;
 	border-width: 1px;
@@ -332,8 +334,8 @@
 /* .sqd-region */
 
 .sqd-region {
-	stroke-width: 2;
-	stroke-dasharray: 3;
+	/* stroke-width: 2; */
+	/* stroke-dasharray: 3; */
 }
 .sqd-region.sqd-selected {
 	stroke-width: 2;

@@ -3,9 +3,6 @@ export declare class ScrollBoxView {
     private readonly viewport;
     static create(parent: HTMLElement, viewport: HTMLElement): ScrollBoxView;
     private readonly onResizeHandler;
-    private readonly onTouchMoveHandler;
-    private readonly onMouseMoveHandler;
-    private readonly onTouchEndHandler;
     private readonly onMouseUpHandler;
     private content?;
     private scroll?;

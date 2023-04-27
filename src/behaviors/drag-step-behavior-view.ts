@@ -30,7 +30,7 @@ export class DragStepView {
 		return new DragStepView(stepComponent.view.width, stepComponent.view.height, layer);
 	}
 
-	private constructor(public readonly width: number, public readonly height: number, private readonly layer: HTMLElement) {}
+	private constructor(public readonly width: number, public readonly height: number, private readonly layer: HTMLElement) { }
 
 	public setPosition(position: Vector) {
 		this.layer.style.top = position.y - SAFE_OFFSET + 'px';

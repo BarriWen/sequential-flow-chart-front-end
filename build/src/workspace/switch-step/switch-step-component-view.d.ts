@@ -10,7 +10,6 @@ export declare class SwitchStepComponentView implements ComponentView {
     readonly joinX: number;
     readonly sequenceComponents: SequenceComponent[];
     private readonly regionView;
-    private readonly inputView;
     private readonly validationErrorView;
     private constructor();
     static create(parent: SVGElement, step: SwitchStep, configuration: StepsConfiguration): SwitchStepComponentView;
