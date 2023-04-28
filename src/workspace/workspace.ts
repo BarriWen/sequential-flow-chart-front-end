@@ -65,6 +65,7 @@ export class Workspace implements DesignerComponentProvider {
         });
 
         view.bindMouseDown((p, t, b) => workspace.onMouseDown(p, t, b));
+        view.bindMouseOver((p, t, b) => workspace.onMouseOver(p, t, b)); 
         view.bindTouchStart((e) => workspace.onTouchStart(e));
         view.bindContextMenu((e) => workspace.onContextMenu(e));
         view.bindWheel((e) => workspace.onWheel(e));
@@ -150,6 +151,12 @@ export class Workspace implements DesignerComponentProvider {
 
     private revalidate() {
         this.isValid = this.getRootComponent().validate();
+    }
+
+    private onMouseOver(position: Vector, target: Element, button: number) {
+        const isPrimaryButton = button === 0;
+        const isMiddleButton = button === 1;
+            // this.startBehavior(target, position, isMiddleButton);
     }
 
     private onMouseDown(position: Vector, target: Element, button: number) {
@@ -303,7 +310,7 @@ export class Workspace implements DesignerComponentProvider {
 
     private onIsDraggingChanged(isDragging: boolean) {
         this.getRootComponent().setIsDragging(isDragging);
-        if ( this.selectedStepComponent?.step.componentType != ComponentType.switch) {
+        if (this.selectedStepComponent?.step.componentType != ComponentType.switch) {
             var encapedComponents = document.querySelectorAll(".encapsulated");
             if (encapedComponents) {
                 encapedComponents.forEach((e) => e.classList.add("sqd-hidden"));

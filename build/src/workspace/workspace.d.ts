@@ -16,7 +16,7 @@ export declare class Workspace implements DesignerComponentProvider {
     moveViewPortToStep(stepComponent: StepComponent): void;
     destroy(): void;
     private revalidate;
-    private onMouseDown;
+    private onMouseOver;
     private onTouchStart;
     private onContextMenu;
     private startBehavior;

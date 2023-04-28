@@ -12,9 +12,9 @@ export class LabelView {
 			class: "sqd-label-text"
 		});
 		nameText.textContent = text;
-		if (nameText.textContent == "Yes") {
+		if (nameText.textContent == "YES") {
 			nameText.setAttribute("class", "sqd-label-text-yes sqd-label-text"); 
-		} if (nameText.textContent == "No") {
+		} if (nameText.textContent == "NO") {
 			nameText.setAttribute("class", "sqd-label-text-no sqd-label-text"); 
 		}
 		parent.appendChild(nameText);

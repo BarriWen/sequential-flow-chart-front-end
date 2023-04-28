@@ -226,6 +226,16 @@ export class WorkspaceView {
     return new Vector(this.canvas.clientWidth, this.canvas.clientHeight);
   }
 
+  public bindMouseOver(
+    handler: (position: Vector, target: Element, button: number) => void
+  ) {
+    this.canvas.addEventListener(
+      "mouseover",
+      (e) => handler(readMousePosition(e), e.target as Element, e.button),
+      false
+    );
+  }
+
   public bindMouseDown(
     handler: (position: Vector, target: Element, button: number) => void
   ) {

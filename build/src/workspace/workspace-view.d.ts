@@ -18,6 +18,7 @@ export declare class WorkspaceView {
     setPositionAndScale(position: Vector, scale: number): void;
     getClientPosition(): Vector;
     getClientSize(): Vector;
+    bindMouseOver(handler: (position: Vector, target: Element, button: number) => void): void;
     bindMouseDown(handler: (position: Vector, target: Element, button: number) => void): void;
     bindTouchStart(handler: (position: Vector) => void): void;
     bindContextMenu(handler: (e: MouseEvent) => void): void;
