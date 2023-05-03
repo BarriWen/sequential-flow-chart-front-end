@@ -19,7 +19,6 @@ describe('SwitchStepComponentView', () => {
 				type: 'test',
 				createdBy: '',
 				updatedBy: ''
-				
 			},
 			{}
 		);

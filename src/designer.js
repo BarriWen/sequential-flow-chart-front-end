@@ -1146,7 +1146,6 @@
 		ry: 4,
 	  });
 	  g.appendChild(stop);
-	  g.insertBefore(stop, gDropdown);
 	  return g;
 	}
   
@@ -8478,8 +8477,8 @@
 		// Add title box
 		const info = Dom.svg("svg", {
 		  class: "info-box",
-		  width: 340,
-		  height: 60,
+		  width: 320,
+		  height: 40,
 		});
 		const title = Dom.svg("text", {
 		  x: 160,
