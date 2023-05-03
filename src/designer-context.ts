@@ -246,6 +246,8 @@ export function promptChoices(context: DesignerContext, component: StepComponent
   const dialogBox = Dom.element("dialog", {
     class: "confirm-dialog",
     id: "dialog-box",
+    x: 20, 
+    y: 50, 
   });
 
   const title = Dom.element("h3", {
@@ -277,17 +279,23 @@ export function promptChoices(context: DesignerContext, component: StepComponent
       choice.insertAdjacentHTML("afterend", "</br>");
     }
   } else {
-    title.innerText = "Are you sure to delete this block?";
+    title.innerHTML = "Are you sure you want to<br>&nbsp&nbsp&nbsp&nbsp&nbspdelete the trigger?";
   }
   dialogBox.appendChild(title);
 
   const btn1 = Dom.element("button", {
     type: "submit",
+    class: "popup-button", 
+    height: 25, 
+    width: 50
   });
   btn1.innerText = "Confirm";
   form.appendChild(btn1);
   const btn2 = Dom.element("button", {
     type: "submit",
+    class: "popup-button2", 
+    height: 25, 
+    width: 50
   });
   btn2.innerText = "Cancel";
   
@@ -301,11 +309,10 @@ export function promptChoices(context: DesignerContext, component: StepComponent
     }
   });
   form.appendChild(btn2);
+
   dialogBox.appendChild(form);
  context.layoutController.parent.appendChild(dialogBox);
 
-
-  console.log(dialogBox);
   if (typeof dialogBox.showModal === "function") {
     dialogBox.showModal();
   } else {
