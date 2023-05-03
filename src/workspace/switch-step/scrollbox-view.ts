@@ -1,6 +1,6 @@
-import { Dom } from '../core/dom';
-import { readMousePosition, readTouchPosition } from '../core/event-readers';
-import { Vector } from '../core/vector';
+import { Dom } from '../../core/dom';
+import { readMousePosition, readTouchPosition } from '../../core/event-readers';
+import { Vector } from '../../core/vector';
 
 export class ScrollBoxView {
 	public static create(parent: HTMLElement, viewport: HTMLElement): ScrollBoxView {

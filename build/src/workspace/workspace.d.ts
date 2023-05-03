@@ -17,6 +17,7 @@ export declare class Workspace implements DesignerComponentProvider {
     destroy(): void;
     private revalidate;
     private onMouseOver;
+    private onMouseDown;
     private onTouchStart;
     private onContextMenu;
     private startBehavior;

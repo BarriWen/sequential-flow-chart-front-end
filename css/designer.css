@@ -319,6 +319,9 @@
 	dominant-baseline: central;
 	font-family: sofiaProReg;
 }
+.main-text {
+	font-size: 9pt;
+}
 .switch-val-btn {
 	text-anchor: left;
 	text-align: center;
