@@ -10,9 +10,11 @@ export class ScrollBoxView {
 		parent.appendChild(root);
 
 		const view = new ScrollBoxView(root, viewport);
+		// const view2 = new ScrollBoxView(root2, viewport); 
 		window.addEventListener('resize', view.onResizeHandler, false);
-		root.addEventListener('wheel', e => view.onWheel(e), false);
-		root.addEventListener('touchstart', e => view.onTouchStart(e), false);
+		window.addEventListener('resize', view.onResizeHandler, false);
+		// root.addEventListener('wheel', e => view.onWheel(e), false);
+		// root.addEventListener('touchstart', e => view.onTouchStart(e), false);
 		root.addEventListener('mousedown', e => view.onMouseDown(e), false);
 		return view;
 	}

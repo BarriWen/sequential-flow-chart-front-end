@@ -230,9 +230,13 @@
 	text-anchor: left;
 	text-align: center;
 	dominant-baseline: central;
-	font-family: Sofia;
-    
-
+	font-family: sofiaProReg;
+}
+.switch-val-btn {
+	text-anchor: left;
+	text-align: center;
+	dominant-baseline: central;
+	font-family: sofiaProReg;
 }
 
 /* .sqd-input + .sqd-output */
