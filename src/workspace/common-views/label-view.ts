@@ -7,16 +7,11 @@ const MIN_LABEL_WIDTH = 50;
 export class LabelView {
 	public static create(parent: SVGElement, x: number, y: number, text: string, theme?: string) {
 		const nameText = Dom.svg('text', {
+			class: 'sqd-label-text',
 			x,
-			y: y + LABEL_HEIGHT / 2, 
-			class: "sqd-label-text"
+			y: y + LABEL_HEIGHT / 2
 		});
 		nameText.textContent = text;
-		if (nameText.textContent == "YES") {
-			nameText.setAttribute("class", "sqd-label-text-yes sqd-label-text"); 
-		} if (nameText.textContent == "NO") {
-			nameText.setAttribute("class", "sqd-label-text-no sqd-label-text"); 
-		}
 		parent.appendChild(nameText);
 		const nameWidth = Math.max(nameText.getBBox().width + LABEL_PADDING_X * 2, MIN_LABEL_WIDTH);
 
@@ -32,6 +27,6 @@ export class LabelView {
 		if (theme) {
 			nameRect.classList.add(`sqd-label-${theme}`);
 		}
-		// parent.insertBefore(nameRect, nameText);
+		parent.insertBefore(nameRect, nameText);
 	}
 }
