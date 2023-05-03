@@ -5,4 +5,4 @@ export declare class SimpleEvent<T> {
     forward(value: T): void;
     count(): number;
 }
-export type SimpleEventListener<T> = (value: T) => void;
+export declare type SimpleEventListener<T> = (value: T) => void;

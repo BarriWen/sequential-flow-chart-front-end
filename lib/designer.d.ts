@@ -5,13 +5,13 @@ declare class SimpleEvent<T> {
     forward(value: T): void;
     count(): number;
 }
-type SimpleEventListener<T> = (value: T) => void;
+declare type SimpleEventListener<T> = (value: T) => void;
 
 interface Definition {
     sequence: Sequence;
     properties: Properties;
 }
-type Sequence = Step[];
+declare type Sequence = Step[];
 interface Step {
     branches: any;
     id: string;
@@ -43,7 +43,7 @@ interface ToolboxConfiguration {
     isHidden?: boolean;
     groups: ToolboxGroupConfiguration[];
 }
-type StepDefinition = Omit<Step, 'id'>;
+declare type StepDefinition = Omit<Step, 'id'>;
 interface ToolboxGroupConfiguration {
     name: string;
     steps: StepDefinition[];
@@ -55,8 +55,8 @@ interface StepsConfiguration {
     iconUrlProvider?: StepIconUrlProvider;
     validator?: StepValidator;
 }
-type StepIconUrlProvider = (componentType: ComponentType, type: string) => string | null;
-type StepValidator = (step: Step) => boolean;
+declare type StepIconUrlProvider = (componentType: ComponentType, type: string) => string | null;
+declare type StepValidator = (step: Step) => boolean;
 interface EditorsConfiguration {
     isHidden?: boolean;
     stepEditorProvider: StepEditorProvider;
@@ -66,13 +66,13 @@ interface StepEditorContext {
     notifyNameChanged(): void;
     notifyPropertiesChanged(): void;
 }
-type StepEditorProvider = (step: Step, context: StepEditorContext) => HTMLElement;
+declare type StepEditorProvider = (step: Step, context: StepEditorContext) => HTMLElement;
 interface GlobalEditorContext {
     notifyPropertiesChanged(): void;
 }
-type GlobalEditorProvider = (definition: Definition, context: GlobalEditorContext) => HTMLElement;
+declare type GlobalEditorProvider = (definition: Definition, context: GlobalEditorContext) => HTMLElement;
 
-type StepOrName = Step | string;
+declare type StepOrName = Step | string;
 declare class StepsTranverser {
     static getParents(definition: Definition, needle: Sequence | Step): StepOrName[];
 }
