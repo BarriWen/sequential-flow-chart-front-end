@@ -1465,7 +1465,7 @@ export class SwitchStepComponentView implements ComponentView {
                         while (gSubDropdownbox2Pop.firstChild) {
                             gSubDropdownbox2Pop.removeChild(gSubDropdownbox2Pop.firstChild);
                         }
-                        if (choice2 == 'Exists' || choice2 == 'Does not exist') {
+                        if (choice2 == 'Exists' || choice2 == 'Does Not Exist') {
                             list3 = list3Tag;
                         } else if (choice1 == "Gender") {
                             list3 = list3Gender;
