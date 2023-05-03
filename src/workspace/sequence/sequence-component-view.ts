@@ -9,22 +9,23 @@ import { StepComponentFactory } from "../step-component-factory";
 const PH_WIDTH = 100;
 const PH_HEIGHT = 150;
 const SIZE = 30;
+let component_length = 0;
 
 function addStop() {
   const s = SIZE * 0.5;
   const m = (SIZE - s) / 2;
 
   const circle = Dom.svg("circle", {
-    class: "sqd-start-stop",
+    class: "sqd-start-stop sqd-hidden",
     cx: SIZE / 2,
     cy: SIZE / 2,
     r: SIZE / 2,
   });
-  const g = Dom.svg("g", { class: "stop" });
+  const g = Dom.svg("g", { class: "stop" , id: "stop"});
   g.appendChild(circle);
 
   const stop = Dom.svg("rect", {
-    class: "sqd-start-stop-icon",
+    class: "sqd-start-stop-icon sqd-hidden",
     x: m,
     y: m,
     width: s,
@@ -45,9 +46,17 @@ export class SequenceComponentView implements ComponentView {
     const g = Dom.svg("g");
     parent.appendChild(g);
 
+    // const gGroup = Dom.svg("g", {
+    //   class: "sqd-task-GGGroup"
+    // });
+
+    // g.appendChild(gGroup);
+
     const components = sequence.map((s) =>
       StepComponentFactory.create(g, s, sequence, configuration)
     );
+    component_length = components.length;
+    // console.log(component_length);
 
     const maxJoinX =
       components.length > 0
@@ -103,7 +112,10 @@ export class SequenceComponentView implements ComponentView {
 
       // Calculate location
       g.appendChild(stop);
+      g.insertBefore(stop, g.firstChild);
     }
+
+    
 
     let containsSwitch;
     for (i = 0; i < components.length; i++) {
@@ -137,18 +149,29 @@ export class SequenceComponentView implements ComponentView {
       const lines = parent.childNodes[0].childNodes;
 
       if (components.length == 1) {
-        parent.childNodes[0].removeChild(lines[1]);
+        parent.childNodes[0].removeChild(lines[2]);
       } else {
-        // console.log(lines);
         parent.childNodes[0].removeChild(lines[components.length]);
         if (containsSwitch) {
           parent.childNodes[0].removeChild(lines[0]);
+          console.log(lines); 
         }
       }
-      // console.log(document.getElementsByClassName("sqd-input")[0]);
       document
         .getElementsByClassName("sqd-input")[0]
         .setAttribute("display", "none");
+    }
+
+    let holderElement = document.getElementsByClassName('sqd-placeholder');
+    Dom.attrs(holderElement[0], {
+      visibility:'hidden'
+    });
+
+    let joinElement = document.getElementsByClassName('sqd-join');
+    if(joinElement.length >= 2){
+      Dom.attrs(joinElement[0], {
+        visibility:'hidden'
+      });
     }
 
     return new SequenceComponentView(
@@ -186,13 +209,13 @@ export class SequenceComponentView implements ComponentView {
 function appendPlaceholder(g: SVGGElement, x: number, y: number): SVGElement {
   const g1 = Dom.svg("g", {
     class: "sqd-placeholder",
-    visibility: "hidden",
   });
+
   const circle = Dom.svg("circle", {
     class: "sqd-placeholder-circle",
     cx: x + PH_WIDTH / 2,
     cy: y + PH_HEIGHT / 2,
-    r: SIZE / 3,
+    r: SIZE / 3 + 2,
   });
   const startX = x + PH_WIDTH / 2 - SIZE / 8;
   const startY = y + PH_HEIGHT / 2 - SIZE / 8;
@@ -201,23 +224,26 @@ function appendPlaceholder(g: SVGGElement, x: number, y: number): SVGElement {
 
   const sign = Dom.svg("path", {
     class: "sqd-placeholder-icon",
-    d: `M ${startX} ${y + PH_HEIGHT / 2} H ${endX} M ${
+    d: `M ${startX-3.5} ${y + PH_HEIGHT / 2} H ${endX+3.5} M ${
       x + PH_WIDTH / 2
-    } ${startY} V ${endY}`,
+    } ${startY-3.5} V ${endY+3.5}`,
   });
+  
   // Outside circle
   const outside = Dom.svg("circle", {
     id: "outside-circle",
     cx: x + PH_WIDTH / 2,
     cy: y + PH_HEIGHT / 2,
-    r: SIZE,
+    r: 27,
   });
   Dom.toggleClass(outside, true, "sqd-hidden");
   g1.appendChild(outside);
 
   g1.appendChild(circle);
   g1.appendChild(sign);
-  g.appendChild(g1);
+
+  g.insertBefore(g1, g.children[component_length+1])
+  
 
   return g1;
 }

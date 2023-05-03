@@ -41,7 +41,7 @@ export class StopComponentView implements ComponentView {
 
 function createCircle(isStart: boolean): SVGGElement {
 	const circle = Dom.svg('circle', {
-		class: 'sqd-start-stop',
+		class: 'sqd-start-stop sqd-hidden',
 		cx: SIZE / 2,
 		cy: SIZE / 2,
 		r: SIZE / 2
@@ -55,7 +55,7 @@ function createCircle(isStart: boolean): SVGGElement {
 
 	if (isStart) {
 		const start = Dom.svg('path', {
-			class: 'sqd-start-stop-icon',
+			class: 'sqd-start-stop-icon sqd-hidden',
 			transform: `translate(${m}, ${m})`,
 			d: `M ${s * 0.2} 0 L ${s} ${s / 2} L ${s * 0.2} ${s} Z`
 		});
@@ -79,7 +79,7 @@ function createCircle(isStart: boolean): SVGGElement {
 // set a function to create more end points
 function createEndPoint(g: SVGGElement){
 	const circle = Dom.svg('circle', {
-		class: 'sqd-start-stop',
+		class: 'sqd-start-stod sqd-hidden',
 		cx: SIZE / 2,
 		cy: SIZE / 2,
 		r: SIZE / 2
@@ -89,7 +89,7 @@ function createEndPoint(g: SVGGElement){
 	const m = (SIZE - s) / 2;
 
 	const stop = Dom.svg('rect', {
-		class: 'sqd-start-stop-icon',
+		class: 'sqd-start-stop-icon sqd-hidden',
 		x: m,
 		y: m,
 		width: s,
@@ -97,5 +97,10 @@ function createEndPoint(g: SVGGElement){
 		rx: 4,
 		ry: 4
 	});
+	
+	function getStop(){
+		return stop;
+	}
+
 	g.appendChild(stop);
 }

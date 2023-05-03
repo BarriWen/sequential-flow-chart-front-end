@@ -8,7 +8,7 @@ export class JoinView {
 			x1: start.x,
 			y1: start.y,
 			x2: start.x,
-			y2: start.y + height
+			y2: start.y + height,
 		});
 		parent.insertBefore(join, parent.firstChild);
 	}
@@ -27,6 +27,8 @@ export class JoinView {
 				d: `M ${start.x} ${start.y} q ${x * c * 0.3} ${y * c * 0.8} ${x * c} ${y * c} l ${x * l} 0 q ${x * c * 0.7} ${
 					y * c * 0.2
 				} ${x * c} ${y * c}`
+				// M 224 58 q -2.4 6.4 -8 8 l -96 0 q -5.6 1.6 -8 8
+				// "M 224 58 q 2.4 6.4 8 8 l 96 0 q 5.6 1.6 8 8"
 			});
 			parent.insertBefore(join, parent.firstChild);
 		}

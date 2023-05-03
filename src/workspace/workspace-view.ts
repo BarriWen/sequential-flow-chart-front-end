@@ -44,6 +44,10 @@ export class WorkspaceView {
         fill: `url(#${gridPatternId})`,
       })
     );
+    canvas.addEventListener("click", function(){
+      const test = document.getElementsByClassName("sqd-task-rect-Subscribe");
+      // Dom.attrs(test[0], {y: 50})
+    });
     canvas.appendChild(foreground);
     workspace.appendChild(canvas);
     parent.appendChild(workspace);
@@ -72,7 +76,10 @@ export class WorkspaceView {
     private readonly configuration: StepsConfiguration
   ) {}
 
+  
+
   public editStartComp(sequence: Sequence, journeyID: string) {
+    
     const start = document.getElementById("start");
     const tempThis = this;
     if (start != null) {
@@ -80,14 +87,32 @@ export class WorkspaceView {
         e.preventDefault();
         const dialogBox = Dom.element("dialog", {
           class: "triggers-list",
+          autofocus: "false"
         });
         const triggers = [
           "Subscribe",
           "Unsubscribe",
           "Place a Purchase",
           "Abandon Checkout",
-          "Time Trigger",
+          "Time Trigger"
         ];
+
+        const triggers_content =[
+          "The automation begins when a contact subscribes to a list.",
+          "The automation begins when a contact unsubscribes from a list.",
+          "The automation begins when a contact makes a purchase.",
+          "The automaiton begins when a contact abandons a cart.",
+          "The automation begins when a contact schedules a specific date."
+        ];
+
+        const triggers_img = [
+          "../assets/subscribe.png",
+          "../assets/unsubscribe.png",
+          "../assets/purchase.png",
+          "../assets/abandon.png",
+          "../assets/time-trigger.png"
+        ];
+
         const types = [
           "Subscribe",
           "Unsubscribe",
@@ -99,7 +124,15 @@ export class WorkspaceView {
         const dialogForm = Dom.element("form", {
           // class: 'triggers-list',
           method: "dialog",
+          autofocus: "false"
         });
+
+        const prompt = Dom.element("p");
+        Dom.attrs(prompt, {
+          class: "prompt",
+        });
+        prompt.innerHTML = "Please Select the Trigger";
+        dialogForm.appendChild(prompt);
 
         for (let i = 0; i < triggers.length; i++) {
           const btn1 = Dom.element("button");
@@ -109,8 +142,9 @@ export class WorkspaceView {
             name: "userChoice",
             value: i,
           });
-
-          btn1.innerText = triggers[i];
+      
+          btn1.innerHTML = `<span style="font-size:16px">${triggers[i]}</span><br/>${triggers_content[i]}`;
+          btn1.style.backgroundImage = `url("${triggers_img[i]}")`;
           btn1.addEventListener("click", function (e: MouseEvent) {
             e.preventDefault();
             const target = e.target as HTMLInputElement;
@@ -118,7 +152,7 @@ export class WorkspaceView {
               id: `start-component-${journeyID}`,
               componentType: ComponentType.task,
               type: "save",
-              name: triggers[parseInt(target.value)],
+              name: triggers[i],
               createdAt: new Date(),
               createdBy: "userID",
               updatedAt: new Date(),
@@ -142,6 +176,12 @@ export class WorkspaceView {
           dialogBox.showModal();
         } catch (error) {
           console.log(error);
+        }
+
+        dialogBox.addEventListener("click", onClick);
+
+        function onClick(event:MouseEvent) {
+          dialogBox.close();
         }
       });
     }
@@ -184,6 +224,16 @@ export class WorkspaceView {
 
   public getClientSize(): Vector {
     return new Vector(this.canvas.clientWidth, this.canvas.clientHeight);
+  }
+
+  public bindMouseOver(
+    handler: (position: Vector, target: Element, button: number) => void
+  ) {
+    this.canvas.addEventListener(
+      "mouseover",
+      (e) => handler(readMousePosition(e), e.target as Element, e.button),
+      false
+    );
   }
 
   public bindMouseDown(
