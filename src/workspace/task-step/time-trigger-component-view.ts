@@ -115,8 +115,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       y: boxHeight / 1.7+1,
       class: "sqd-task-text_2",
     });
-    if (step.properties["Select List"]) {
-      textRight.textContent = step.properties["Select List"].toString();
+    if (step.properties["list"]) {
+      textRight.textContent = step.properties["list"].toString();
     }
     else {
       textRight.textContent = "To Any List";
@@ -697,8 +697,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       x: ICON_SIZE + 5 * PADDING_X+25 + addon,
       y: 1.4 * boxHeight+18,
     });
-    if(step.properties["Select List"]){
-      dropdownBoxInnerText.textContent = step.properties["Select List"].toString();
+    if(step.properties["list"]){
+      dropdownBoxInnerText.textContent = step.properties["list"].toString();
     }else{
       dropdownBoxInnerText.textContent = "Any list";
     }
@@ -710,8 +710,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       x: ICON_SIZE + 5 * PADDING_X+25 + addon,
       y: 1.95 * boxHeight+34.5,
     });
-    if(step.properties["Runs"]){
-      dropdownBoxInnerText1.textContent = step.properties["Runs"].toString();
+    if(step.properties["frequency"]){
+      dropdownBoxInnerText1.textContent = step.properties["frequency"].toString();
     }else{
       dropdownBoxInnerText1.textContent = "Once";
     }
@@ -956,8 +956,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     calendarWrapper.appendChild(calendarDiv);
 
     let databefore!:string[];
-    if(step.properties["time"]){
-      databefore = step.properties["time"].toString().split(',');
+    if(step.properties["send"]){
+      databefore = step.properties["send"].toString().split('T');
     }
     
     let OnceDates!:string[];
@@ -1690,13 +1690,13 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     gWeeks.insertBefore(gEndDate, gWeeks.firstChild);
     gWeeks.insertBefore(timezone,gWeeks.firstChild);
 
-    if(step.properties["Runs"] == "Once"){
+    if(step.properties["frequency"] == "Once"){
       gOnce.classList.remove("sqd-hidden");
       if(!gWeeks.classList.contains("sqd-hidden")){
         gWeeks.classList.add("sqd-hidden");
         rect1.setAttribute("height", "460");
       }
-    }else if (step.properties["Runs"] == "Recurring"){
+    }else if (step.properties["frequency"] == "Recurring"){
       gWeeks.classList.remove("sqd-hidden");
       if(!gOnce.classList.contains("sqd-hidden")){
         gOnce.classList.add("sqd-hidden");
@@ -1820,24 +1820,24 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           return;
         }
         //@ts-ignore
-        step.properties["time"] = weekAndTime + 'End date:'+`${document.getElementsByClassName("date-input")[0].value}`+'/'+`${document.getElementsByClassName("date-input")[1].value}`+'/'+`${document.getElementsByClassName("date-input-year")[0].value}`;
+        step.properties["send"] = weekAndTime + 'End date:'+`${document.getElementsByClassName("date-input")[0].value}`+'/'+`${document.getElementsByClassName("date-input")[1].value}`+'/'+`${document.getElementsByClassName("date-input-year")[0].value}`;
       }else{
         if((OnceDates && OnceDates.length == 0) || !OnceDates){
           alert("please select a day");
           return;
         }else{
-          step.properties["time"] = '';
+          step.properties["send"] = '';
           for(let k=0;k<OnceDates.length;k++){
-            step.properties["time"] += OnceDates[k] + ",";
+            step.properties["send"] += OnceDates[k] + "T";
           }
           
           if(parseInt(setTimeInput.value) > 0 && parseInt(setTimeInput.value) < 13 && Number.isInteger(parseInt(setTimeInput.value))){
-            step.properties["time"] += setTimeInput.value;
+            step.properties["send"] += setTimeInput.value + ':00';
 
             if(setTimeAmRect.classList.contains("selected")){
-              step.properties["time"] += "AM";
+              step.properties["send"] += "AM";
             }else{
-              step.properties["time"] += "PM";
+              step.properties["send"] += "PM";
             }
           }else{
             alert("please enter correct hour");
@@ -1849,10 +1849,10 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
       //@ts-ignore
-      step.properties["Select List"] = dropdownBoxInnerText.textContent;
+      step.properties["list"] = dropdownBoxInnerText.textContent;
       textRight.textContent = dropdownBoxInnerText.textContent;
       //@ts-ignore
-      step.properties["Runs"] = dropdownBoxInnerText1.textContent;
+      step.properties["frequency"] = dropdownBoxInnerText1.textContent;
 
       step.updatedAt = new Date();
     });
@@ -1958,7 +1958,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           }
         }
         
-        step.properties["time"] = ''; 
+        step.properties["send"] = ''; 
         
         const designer = document.getElementById("designer");
         while (designer?.childNodes[1]) {
@@ -2049,7 +2049,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           }
         }
         
-        step.properties["time"] = ''; 
+        step.properties["send"] = ''; 
 
         
         const designer = document.getElementById("designer");
