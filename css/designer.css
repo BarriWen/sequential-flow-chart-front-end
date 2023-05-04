@@ -319,6 +319,9 @@
 	dominant-baseline: central;
 	font-family: sofiaProReg;
 }
+.dropdown-inner-text {
+	font-size: 9pt;
+}
 .main-text {
 	font-size: 9pt;
 }
@@ -391,7 +394,7 @@
 	stroke-width: 1;
 }
 .choice:hover {
-	fill: #70b0ff;
+	fill: #247d99;
 }
 
 /* Start component */

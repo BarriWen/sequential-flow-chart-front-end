@@ -1,27 +1,30 @@
 export declare class ScrollBoxView {
     private readonly root;
     private readonly viewport;
-    static create(parent: HTMLElement, viewport: HTMLElement): ScrollBoxView;
+    static create(parent: SVGGElement, viewport: SVGGElement): ScrollBoxView;
     private readonly onResizeHandler;
+    private readonly onTouchMoveHandler;
+    private readonly onMouseMoveHandler;
+    private readonly onTouchEndHandler;
     private readonly onMouseUpHandler;
     private content?;
     private scroll?;
-    constructor(root: HTMLElement, viewport: HTMLElement);
-    setContent(element: HTMLElement): void;
+    constructor(root: SVGGElement, viewport: SVGGElement);
+    setContent(element: SVGGElement): void;
     refresh(): void;
     destroy(): void;
     private reload;
     private onResize;
     private onWheel;
+    private startScroll;
+    private moveScroll;
+    private stopScroll;
+    private getScrollTop;
+    private setScrollTop;
     private onTouchStart;
     private onMouseDown;
     private onTouchMove;
     private onMouseMove;
     private onTouchEnd;
     private onMouseUp;
-    private startScroll;
-    private moveScroll;
-    private stopScroll;
-    private getScrollTop;
-    private setScrollTop;
 }

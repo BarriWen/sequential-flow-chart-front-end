@@ -3,8 +3,8 @@ import { readMousePosition, readTouchPosition } from '../../core/event-readers';
 import { Vector } from '../../core/vector';
 
 export class ScrollBoxView {
-	public static create(parent: HTMLElement, viewport: HTMLElement): ScrollBoxView {
-		const root = Dom.element('div', {
+	public static create(parent: SVGGElement, viewport: SVGGElement): ScrollBoxView {
+		const root = Dom.svg('g', {
 			class: 'sqd-scrollbox'
 		});
 		parent.appendChild(root);
@@ -13,19 +13,19 @@ export class ScrollBoxView {
 		window.addEventListener('resize', view.onResizeHandler, false);
 		window.addEventListener('resize', view.onResizeHandler, false);
 		root.addEventListener('wheel', e => view.onWheel(e), false);
-		// root.addEventListener('touchstart', e => view.onTouchStart(e), false);
+		root.addEventListener('touchstart', e => view.onTouchStart(e), false);
 		root.addEventListener('mousedown', e => view.onMouseDown(e), false);
 		return view;
 	}
 
 	private readonly onResizeHandler = () => this.onResize();
-	// private readonly onTouchMoveHandler = (e: TouchEvent) => this.onTouchMove(e);
-	// private readonly onMouseMoveHandler = (e: MouseEvent) => this.onMouseMove(e);
-	// private readonly onTouchEndHandler = (e: TouchEvent) => this.onTouchEnd(e);
+	private readonly onTouchMoveHandler = (e: TouchEvent) => this.onTouchMove(e);
+	private readonly onMouseMoveHandler = (e: MouseEvent) => this.onMouseMove(e);
+	private readonly onTouchEndHandler = (e: TouchEvent) => this.onTouchEnd(e);
 	private readonly onMouseUpHandler = (e: MouseEvent) => this.onMouseUp(e);
 
 	private content?: {
-		element: HTMLElement;
+		element: SVGGElement;
 		height: number;
 	};
 	private scroll?: {
@@ -33,12 +33,12 @@ export class ScrollBoxView {
 		startScrollTop: number;
 	};
 
-	public constructor(private readonly root: HTMLElement, private readonly viewport: HTMLElement) {}
+	public constructor(private readonly root: SVGGElement, private readonly viewport: SVGGElement) {}
 
-	public setContent(element: HTMLElement) {
-		// if (this.content) {
-		// 	this.root.removeChild(this.content.element);
-		// }
+	public setContent(element: SVGGElement) {
+		if (this.content) {
+			this.root.removeChild(this.content.element);
+		}
 		element.classList.add('sqd-scrollbox-body');
 		this.root.appendChild(element);
 		this.reload(element);
@@ -54,15 +54,15 @@ export class ScrollBoxView {
 		window.removeEventListener('resize', this.onResizeHandler, false);
 	}
 
-	private reload(element: HTMLElement) {
+	private reload(element: SVGGElement) {
 		const maxHeightPercent = 0.7;
 		const minDistance = 200;
 
-		let height = 300; // Math.min(this.viewport.clientHeight * maxHeightPercent, element.clientHeight);
-		// height = Math.min(height, this.viewport.clientHeight - minDistance);
+		let height = Math.min(this.viewport.clientHeight * maxHeightPercent, element.clientHeight);
+		height = Math.min(height, this.viewport.clientHeight - minDistance);
 
 		this.root.style.height = height + 'px';
-		// element.style.top = '0px';
+		element.style.top = '0px';
 
 		this.content = {
 			element,
@@ -81,6 +81,52 @@ export class ScrollBoxView {
 			const delta = e.deltaY > 0 ? -25 : 25;
 			const scrollTop = this.getScrollTop();
 			this.setScrollTop(scrollTop + delta);
+		}
+	}
+
+	private startScroll(startPosition: Vector) {
+		if (!this.scroll) {
+			window.addEventListener('touchmove', this.onTouchMoveHandler, false);
+			window.addEventListener('mousemove', this.onMouseMoveHandler, false);
+			window.addEventListener('touchend', this.onTouchEndHandler, false);
+			window.addEventListener('mouseup', this.onMouseUpHandler, false);
+		}
+
+		this.scroll = {
+			startPositionY: startPosition.y,
+			startScrollTop: this.getScrollTop()
+		};
+	}
+
+	private moveScroll(position: Vector) {
+		if (this.scroll) {
+			const delta = position.y - this.scroll.startPositionY;
+			this.setScrollTop(this.scroll.startScrollTop + delta);
+		}
+	}
+
+	private stopScroll() {
+		if (this.scroll) {
+			window.removeEventListener('touchmove', this.onTouchMoveHandler, false);
+			window.removeEventListener('mousemove', this.onMouseMoveHandler, false);
+			window.removeEventListener('touchend', this.onTouchEndHandler, false);
+			window.removeEventListener('mouseup', this.onMouseUpHandler, false);
+			this.scroll = undefined;
+		}
+	}
+
+	private getScrollTop(): number {
+		if (this.content && this.content.element.style.top) {
+			return parseInt(this.content.element.style.top);
+		}
+		return 0;
+	}
+
+	private setScrollTop(scrollTop: number) {
+		if (this.content) {
+			const max = this.content.element.clientHeight - this.content.height;
+			const limited = Math.max(Math.min(scrollTop, 0), -max);
+			this.content.element.style.top = limited + 'px';
 		}
 	}
 
@@ -111,51 +157,5 @@ export class ScrollBoxView {
 	private onMouseUp(e: MouseEvent) {
 		e.preventDefault();
 		this.stopScroll();
-	}
-
-	private startScroll(startPosition: Vector) {
-		if (!this.scroll) {
-			// window.addEventListener('touchmove', this.onTouchMoveHandler, false);
-			// window.addEventListener('mousemove', this.onMouseMoveHandler, false);
-			// window.addEventListener('touchend', this.onTouchEndHandler, false);
-			window.addEventListener('mouseup', this.onMouseUpHandler, false);
-		}
-
-		this.scroll = {
-			startPositionY: startPosition.y,
-			startScrollTop: this.getScrollTop()
-		};
-	}
-
-	private moveScroll(position: Vector) {
-		if (this.scroll) {
-			const delta = position.y - this.scroll.startPositionY;
-			this.setScrollTop(this.scroll.startScrollTop + delta);
-		}
-	}
-
-	private stopScroll() {
-		if (this.scroll) {
-			// window.removeEventListener('touchmove', this.onTouchMoveHandler, false);
-			// window.removeEventListener('mousemove', this.onMouseMoveHandler, false);
-			// window.removeEventListener('touchend', this.onTouchEndHandler, false);
-			window.removeEventListener('mouseup', this.onMouseUpHandler, false);
-			this.scroll = undefined;
-		}
-	}
-
-	private getScrollTop(): number {
-		if (this.content && this.content.element.style.top) {
-			return parseInt(this.content.element.style.top);
-		}
-		return 0;
-	}
-
-	private setScrollTop(scrollTop: number) {
-		if (this.content) {
-			const max = this.content.element.clientHeight - this.content.height;
-			const limited = Math.max(Math.min(scrollTop, 0), -max);
-			this.content.element.style.top = limited + 'px';
-		}
 	}
 }
