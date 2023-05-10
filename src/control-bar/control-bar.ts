@@ -5,14 +5,14 @@ export class ControlBar {
 	public static create(parent: HTMLElement, context: DesignerContext): ControlBar {
 		const view = ControlBarView.create(parent);
 		const bar = new ControlBar(view, context);
-		view.bindResetButtonClick(() => bar.onResetButtonClicked());
+		// view.bindResetButtonClick(() => bar.onResetButtonClicked());
 		view.bindZoomInButtonClick(() => bar.onZoomInButtonClicked());
 		view.bindZoomOutButtonClick(() => bar.onZoomOutButtonClicked());
-		view.bindMoveButtonClick(() => bar.onMoveButtonClicked());
-		view.bindDeleteButtonClick(() => bar.onDeleteButtonClicked());
-		context.onIsReadonlyChanged.subscribe(() => bar.onIsReadonlyChanged());
-		context.onSelectedStepChanged.subscribe(() => bar.onSelectedStepChanged());
-		context.onIsMoveModeEnabledChanged.subscribe(i => bar.onIsMoveModeEnabledChanged(i));
+		// view.bindMoveButtonClick(() => bar.onMoveButtonClicked());
+		// view.bindDeleteButtonClick(() => bar.onDeleteButtonClicked());
+		// context.onIsReadonlyChanged.subscribe(() => bar.onIsReadonlyChanged());
+		// context.onSelectedStepChanged.subscribe(() => bar.onSelectedStepChanged());
+		// context.onIsMoveModeEnabledChanged.subscribe(i => bar.onIsMoveModeEnabledChanged(i));
 		return bar;
 	}
 
@@ -43,20 +43,20 @@ export class ControlBar {
 		}
 	}
 
-	private onIsReadonlyChanged() {
-		this.refreshDeleteButtonVisibility();
-	}
+	// private onIsReadonlyChanged() {
+	// 	this.refreshDeleteButtonVisibility();
+	// }
 
-	private onSelectedStepChanged() {
-		this.refreshDeleteButtonVisibility();
-	}
+	// private onSelectedStepChanged() {
+	// 	this.refreshDeleteButtonVisibility();
+	// }
 
-	private onIsMoveModeEnabledChanged(isEnabled: boolean) {
-		this.view.setIsMoveButtonDisabled(!isEnabled);
-	}
+	// private onIsMoveModeEnabledChanged(isEnabled: boolean) {
+	// 	this.view.setIsMoveButtonDisabled(!isEnabled);
+	// }
 
-	private refreshDeleteButtonVisibility() {
-		const isHidden = !this.context.selectedStep || this.context.isReadonly;
-		this.view.setIsDeleteButtonHidden(isHidden);
-	}
+	// private refreshDeleteButtonVisibility() {
+	// 	const isHidden = !this.context.selectedStep || this.context.isReadonly;
+	// 	this.view.setIsDeleteButtonHidden(isHidden);
+	// }
 }

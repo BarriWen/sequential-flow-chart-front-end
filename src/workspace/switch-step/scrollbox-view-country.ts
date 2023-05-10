@@ -2,14 +2,14 @@ import { Dom } from '../../core/dom';
 import { readMousePosition, readTouchPosition } from '../../core/event-readers';
 import { Vector } from '../../core/vector';
 
-export class ScrollBoxView {
-	public static create(parent: SVGGElement, viewport: SVGElement): ScrollBoxView {
+export class ScrollBoxViewCountry {
+	public static create(parent: SVGGElement, viewport: SVGElement): ScrollBoxViewCountry {
 		const root = Dom.svg('svg', {
 			class: 'sqd-scrollbox'
 		});
 		parent.appendChild(root);
 
-		const view = new ScrollBoxView(root, viewport);
+		const view = new ScrollBoxViewCountry(root, viewport);
 		window.addEventListener('resize', view.onResizeHandler, false);
 		window.addEventListener('resize', view.onResizeHandler, false);
 		root.addEventListener('wheel', e => view.onWheel(e), false);
@@ -62,7 +62,7 @@ export class ScrollBoxView {
 		height = Math.min(height, this.viewport.clientHeight - minDistance);
 
 		// this.root.style.height = height + 'px';
-		this.root.setAttribute("height", `${10000}`); 
+		this.root.setAttribute("height", `${7000}`); 
 		element.setAttribute("y", "0");
 		// element.setAttribute("top", "0"); 
 

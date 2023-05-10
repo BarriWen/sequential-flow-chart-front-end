@@ -10,7 +10,8 @@ import { InputView } from "../common-views/input-view";
 import { ComponentView } from "../component";
 import { SequenceComponent } from "../sequence/sequence-component";
 import { countryList, usStateList } from "./variousCountryListFormats.js";
-import { ScrollBoxView } from "./scrollbox-view";
+import { ScrollBoxViewCountry } from "./scrollbox-view-country";
+import { ScrollBoxViewLocation } from "./scrollbox-view-location";
 
 const MIN_CHILDREN_WIDTH = 200;
 const PADDING_X = 12;
@@ -34,7 +35,8 @@ export class SwitchStepComponentView implements ComponentView {
         public readonly joinX: number,
         public readonly sequenceComponents: SequenceComponent[],
         private readonly regionView: RegionView,
-        private readonly scrollboxView: ScrollBoxView,
+        private readonly scrollboxViewCountry: ScrollBoxViewCountry,
+        private readonly scrollboxViewLocation: ScrollBoxViewLocation,
         private readonly validationErrorView: ValidationErrorView
     ) // public readonly icon1: SVGElement,
     // public readonly icon2: SVGElement,
@@ -1124,6 +1126,14 @@ export class SwitchStepComponentView implements ComponentView {
         });
         inputArea.appendChild(textInput);
 
+        const datePrompt = Dom.svg("text", {
+            class: "sqd-date-prompt sqd-hidden", 
+            fill: "#F00000", 
+            x: DROPDOWN_X3 - 3,
+            y: DROPDOWN_Y + 40,
+        }); 
+        datePrompt.textContent = "Incorrect Date Format"; 
+
         const locInputArea = Dom.svg("foreignObject", {
             class: "location-input sqd-hidden",
             id: 'searchbox',
@@ -1141,6 +1151,17 @@ export class SwitchStepComponentView implements ComponentView {
         });
         locInputArea.appendChild(locTextInput);
 
+        const searchPopSvg = Dom.svg("svg", {
+            class: "location-dropdown",
+        })
+
+        const searchPopBody = Dom.svg("svg", {
+            class: "location-dropdown-body"
+        });
+        const searchPopItemDiv = Dom.svg("svg", {
+            class: "location-scrollbox",
+        });
+
         async function performSearch(url: any) {
             const response = await fetch(url, {
                 method: "GET",
@@ -1152,23 +1173,12 @@ export class SwitchStepComponentView implements ComponentView {
             return response.json();
         }
 
-
         let delay: number;
-        let locInputList: any;
         locTextInput.addEventListener('input', function (e) {
             clearTimeout(delay);
             let url: any;
             let city = locTextInput.value;
-            // locInputList = locTextInput.value.split(" "); 
-            // const city = locInputList[0];
-            // const region = locInputList[1]; 
-            // const country = locInputList[2]; 
-            // console.log(locInputList); 
-            // if (locInputList.length == 1) {
-            url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${city}`;
-            // } if (locInputList.length == 3) {
-            // url = `https://wft-geo-db.p.rapidapi.com/v1/geo/countries/${country}/regions/${region}/cities?namePrefix=${city}`; 
-            // } 
+            url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${city}&limit=10`;
 
             delay = setTimeout(function (e) {
                 if (city.length < 5) {
@@ -1201,7 +1211,7 @@ export class SwitchStepComponentView implements ComponentView {
 
             const locInputBottomShape = Dom.svg("rect", {
                 width: 374,
-                height: results.length * DROPDOWN_H + 10,
+                height: 5 * DROPDOWN_H + 10,
                 class: "option select-field",
                 fill: "#fff",
                 stroke: "#247d99",
@@ -1250,9 +1260,11 @@ export class SwitchStepComponentView implements ComponentView {
                 });
 
                 // Append Child ACTIONS 3rd 
-                locInputPop.appendChild(locInputBottomShapeText);
-                locInputPop.appendChild(locInputBottomShapeCover);
+                searchPopItemDiv.appendChild(locInputBottomShapeText);
+                searchPopItemDiv.appendChild(locInputBottomShapeCover);
             }
+            searchPopSvg.appendChild(searchPopBody); 
+            locInputPop.appendChild(searchPopSvg); 
         }
 
 
@@ -1290,11 +1302,6 @@ export class SwitchStepComponentView implements ComponentView {
 
         const dropdownPopSvg2 = Dom.svg("svg", {
             class: "country-dropdown",
-            // width: DROPDOWN1_W,
-            // height: 120, 
-            // x: DROPDOWN_X3,
-            // y: DROPDOWN_Y + DROPDOWN_H + 5,
-            // height: "220"
         })
 
         const dropdownPopBody2 = Dom.svg("svg", {
@@ -1500,6 +1507,21 @@ export class SwitchStepComponentView implements ComponentView {
                     inputArea.classList.add("sqd-hidden");
                     gSubDropdown2.classList.remove("sqd-hidden");
                 }
+
+                if (choice1 == "Birthday") {
+                    let dateformat = /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])$/;
+                    textInput.addEventListener("input", function (e) {
+                        if (!textInput.value.match(dateformat)) {
+                            console.log("wrong date format");
+                            datePrompt.classList.remove("sqd-hidden"); 
+                            textInput.setAttribute("style", "border-color: #FF0000");
+                        } else {
+                            datePrompt.classList.add("sqd-hidden"); 
+                            textInput.setAttribute("style", "border-color: #BFBFBF");
+                        }
+                    });
+
+                }
                 // ===================== 2nd dropdown
                 const dropdownBoxBottomShape1 = Dom.svg("rect", {
                     width: DROPDOWN2_W,
@@ -1555,7 +1577,7 @@ export class SwitchStepComponentView implements ComponentView {
                         } else if (choice2 == 'Date is') {
                             gSubDropdown2.classList.add("sqd-hidden");
                             inputArea.classList.remove("sqd-hidden");
-                            textInput.setAttribute("placeholder", "Enter Month/Day");
+                            // textInput.setAttribute("placeholder", "Enter Month/Day");
                         } if (choice2 == 'Is Within' || choice2 == 'Is Not Within') {
                             list3 = list3LocWithin;
                             rect1.setAttribute("height", "140");
@@ -1919,6 +1941,7 @@ export class SwitchStepComponentView implements ComponentView {
         gSubDropdownMain2.appendChild(gSubDropdownboxPopMain2_1);
 
         gDropdown.appendChild(inputArea);
+        gDropdown.appendChild(datePrompt); 
         gDropdown.appendChild(locInputArea);
         gDropdown.appendChild(locInputPop);
         gDropdown.appendChild(gValBtn);
@@ -2346,9 +2369,12 @@ export class SwitchStepComponentView implements ComponentView {
             )
         );
 
-        const scrollboxView: ScrollBoxView = ScrollBoxView.create(dropdownPopBody2, gSubDropdownbox2Pop);
-        scrollboxView.setContent(dropdownPopItemDiv2)
-        // scrollboxView.setContent(dropdownPopBodyDiv2); 
+        const scrollboxViewCountry: ScrollBoxViewCountry = ScrollBoxViewCountry.create(dropdownPopBody2, gSubDropdownbox2Pop);
+        scrollboxViewCountry.setContent(dropdownPopItemDiv2)
+
+        const scrollboxViewLocation: ScrollBoxViewLocation = ScrollBoxViewLocation.create(searchPopBody, locInputPop); 
+        scrollboxViewLocation.setContent(searchPopItemDiv); 
+
         const regionView = RegionView.create(g, containerWidths, containerHeight);
 
         const validationErrorView = ValidationErrorView.create(
@@ -2364,7 +2390,8 @@ export class SwitchStepComponentView implements ComponentView {
             containerWidths[0],
             sequenceComponents,
             regionView,
-            scrollboxView,
+            scrollboxViewCountry,
+            scrollboxViewLocation, 
             validationErrorView
         );
     }

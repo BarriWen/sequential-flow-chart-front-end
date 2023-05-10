@@ -48,10 +48,11 @@ body{
 
 .sqd-theme-light .sqd-control-bar {
 	background: #FFF;
-	box-shadow: 0 0 8px rgba(0, 0, 0, .15), 0 2px 4px rgba(0, 0, 0, .15);
+	/* box-shadow: 0 0 8px rgba(0, 0, 0, .15), 0 2px 4px rgba(0, 0, 0, .15); */
+	box-shadow: 6px 6px 6px rgba(52, 152, 219, 0.3);
 }
 .sqd-theme-light .sqd-control-bar-button {
-	border: 1px solid #C3C3C3;
+	/* border: 1px solid #C3C3C3; */
 }
 .sqd-theme-light .sqd-control-bar-button:hover {
 	border-color: #939393;

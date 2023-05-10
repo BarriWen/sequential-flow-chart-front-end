@@ -9,8 +9,4 @@ export declare class ControlBar {
     private onZoomOutButtonClicked;
     private onMoveButtonClicked;
     private onDeleteButtonClicked;
-    private onIsReadonlyChanged;
-    private onSelectedStepChanged;
-    private onIsMoveModeEnabledChanged;
-    private refreshDeleteButtonVisibility;
 }
