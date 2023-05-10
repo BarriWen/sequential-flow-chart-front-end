@@ -1,7 +1,7 @@
 export declare class ScrollBoxView {
     private readonly root;
     private readonly viewport;
-    static create(parent: SVGGElement, viewport: SVGGElement): ScrollBoxView;
+    static create(parent: SVGGElement, viewport: SVGElement): ScrollBoxView;
     private readonly onResizeHandler;
     private readonly onTouchMoveHandler;
     private readonly onMouseMoveHandler;
@@ -9,7 +9,7 @@ export declare class ScrollBoxView {
     private readonly onMouseUpHandler;
     private content?;
     private scroll?;
-    constructor(root: SVGGElement, viewport: SVGGElement);
+    constructor(root: SVGGElement, viewport: SVGElement);
     setContent(element: SVGGElement): void;
     refresh(): void;
     destroy(): void;
