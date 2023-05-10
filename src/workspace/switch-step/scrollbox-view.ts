@@ -3,8 +3,8 @@ import { readMousePosition, readTouchPosition } from '../../core/event-readers';
 import { Vector } from '../../core/vector';
 
 export class ScrollBoxView {
-	public static create(parent: SVGGElement, viewport: SVGGElement): ScrollBoxView {
-		const root = Dom.svg('g', {
+	public static create(parent: SVGGElement, viewport: SVGElement): ScrollBoxView {
+		const root = Dom.svg('svg', {
 			class: 'sqd-scrollbox'
 		});
 		parent.appendChild(root);
@@ -33,7 +33,7 @@ export class ScrollBoxView {
 		startScrollTop: number;
 	};
 
-	public constructor(private readonly root: SVGGElement, private readonly viewport: SVGGElement) {}
+	public constructor(private readonly root: SVGGElement, private readonly viewport: SVGElement) {}
 
 	public setContent(element: SVGGElement) {
 		if (this.content) {
@@ -61,8 +61,10 @@ export class ScrollBoxView {
 		let height = Math.min(this.viewport.clientHeight * maxHeightPercent, element.clientHeight);
 		height = Math.min(height, this.viewport.clientHeight - minDistance);
 
-		this.root.style.height = height + 'px';
-		element.style.top = '0px';
+		// this.root.style.height = height + 'px';
+		this.root.setAttribute("height", `${10000}`); 
+		element.setAttribute("y", "0");
+		// element.setAttribute("top", "0"); 
 
 		this.content = {
 			element,
@@ -116,17 +118,22 @@ export class ScrollBoxView {
 	}
 
 	private getScrollTop(): number {
-		if (this.content && this.content.element.style.top) {
-			return parseInt(this.content.element.style.top);
+		let posY: any; 
+		if (this.content && this.content.element.hasAttribute("y")) {
+			posY = this.content.element.getAttribute("y");
+			console.log(posY); 
+			return parseInt(posY); 
 		}
 		return 0;
 	}
 
 	private setScrollTop(scrollTop: number) {
 		if (this.content) {
-			const max = this.content.element.clientHeight - this.content.height;
+			const max = 6100;
 			const limited = Math.max(Math.min(scrollTop, 0), -max);
-			this.content.element.style.top = limited + 'px';
+			// this.content.element.style.top = limited + 'px';
+			this.content.element.setAttribute("y", `${limited}`); 
+			console.log("limited" + limited); 
 		}
 	}
 
