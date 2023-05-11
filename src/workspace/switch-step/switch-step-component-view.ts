@@ -129,7 +129,7 @@ export class SwitchStepComponentView implements ComponentView {
       x: containerWidths[0] - textWidth - 85,
       y: PADDING_TOP,
       class: "sqd-task-rect",
-      width: 420,
+      width: boxWidth,
       height: boxHeight,
       rx: 15,
       ry: 15,
@@ -146,7 +146,7 @@ export class SwitchStepComponentView implements ComponentView {
 
     });
     const textRight = Dom.svg("text", {
-      x: ICON_SIZE + containerWidths[0] -30,
+      x: ICON_SIZE + containerWidths[0] + 40,
       y: boxHeight / 1.7 + PADDING_TOP,
       class: "sqd-task-text",
 
@@ -277,7 +277,7 @@ export class SwitchStepComponentView implements ComponentView {
     });
     const rightDeleteImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 182,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
       y: PADDING_Y + 40, // + 27,
     });
     Dom.attrs(rightDeleteImgContainerCircle, {
@@ -299,7 +299,7 @@ export class SwitchStepComponentView implements ComponentView {
     Dom.attrs(deleteIcon, {
       class: "moreicon",
       id: `RightDeleteIcon-${step.id}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 185,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 85,
       y: PADDING_Y + 43,
       width: 22,
       height: 22,
@@ -311,7 +311,7 @@ export class SwitchStepComponentView implements ComponentView {
     });
     const rightEditImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 182, // 348
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82, // 348
       y: PADDING_Y - 20, // -30
     });
     Dom.attrs(rightEditImgContainerCircle, {
@@ -332,7 +332,7 @@ export class SwitchStepComponentView implements ComponentView {
       });
     Dom.attrs(editIcon, {
       class: "moreicon",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 185,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 85,
       y: PADDING_Y - 16,
       width: ICON_SIZE,
       height: ICON_SIZE,
