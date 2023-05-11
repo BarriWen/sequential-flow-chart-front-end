@@ -752,6 +752,5 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
       send.textContent = sendInput.value;
     }
   });
-  
-  console.log(cont.textContent);
+
 }
