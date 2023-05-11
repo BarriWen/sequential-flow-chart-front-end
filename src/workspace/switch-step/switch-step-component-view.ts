@@ -144,9 +144,9 @@ export class SwitchStepComponentView implements ComponentView {
 
         });
 
-        if (step.properties["value"]) {
-            textRight.textContent = "If " + step.properties["value"].toString() + " exists in the " + step.properties["property"].toString();
-
+        var conbinedTextRight = "";
+        if (step.properties["subject"]) {
+            textRight.textContent = conbinedTextRight;
         } else {
             textRight.textContent = "Choose Condition";
         }
@@ -347,7 +347,7 @@ export class SwitchStepComponentView implements ComponentView {
         });
         const checkImgContainerCircle = Dom.svg("rect", {
             class: "sqd-task-ImgContainerCircle",
-            x:containerWidths[0] + 5 * PADDING_X + 3 * ICON_SIZE - 56,
+            x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 239,
             y: PADDING_Y - 30,
         });
         Dom.attrs(checkImgContainerCircle, {
@@ -369,7 +369,7 @@ export class SwitchStepComponentView implements ComponentView {
         Dom.attrs(upCheckIcon, {
             class: "moreicon",
             // id: `tagUpCheckIcon`,
-            x: containerWidths[0] + 5 * PADDING_X + 3 * ICON_SIZE - 52, // 200
+            x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 243, // 200
             y: PADDING_Y - 26,
             width: 22,
             height: 22,
@@ -381,7 +381,7 @@ export class SwitchStepComponentView implements ComponentView {
         });
         const deleteImgContainerCircle = Dom.svg("rect", {
             class: "sqd-task-ImgContainerCircle",
-            x: containerWidths[0] + 5 * PADDING_X + 3 * ICON_SIZE + 14, 
+            x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 309, // 262 -> 420
             y: PADDING_Y - 30,
         });
         Dom.attrs(deleteImgContainerCircle, {
@@ -403,7 +403,7 @@ export class SwitchStepComponentView implements ComponentView {
         Dom.attrs(upDeleteIcon, {
             class: "moreicon",
             id: `UpDeleteIcon-${step.id}`,
-            x: containerWidths[0] + 5 * PADDING_X + 3 * ICON_SIZE + 18,
+            x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 313,
             y: PADDING_Y - 26,
             width: ICON_SIZE,
             height: ICON_SIZE,
@@ -411,17 +411,12 @@ export class SwitchStepComponentView implements ComponentView {
         deleteImgContainer.appendChild(deleteImgContainerCircle);
         deleteImgContainer.appendChild(upDeleteIcon);
 
-        upDeleteIcon.addEventListener("click", function(e) {
-            console.log("Up delete clicked"); 
-        })
-      : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
+        const copyImgContainer = Dom.svg("g", {
+            class: "sqd-task-deleteImgContainer",
         });
         const copyImgContainerCircle = Dom.svg("rect", {
             class: "sqd-task-ImgContainerCircle",
-            x: containerWidths[0] + 5 * PADDING_X + 3 * ICON_SIZE - 21,
+            x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 274,
             y: PADDING_Y - 30,
         });
         Dom.attrs(copyImgContainerCircle, {
@@ -443,7 +438,7 @@ export class SwitchStepComponentView implements ComponentView {
         Dom.attrs(upchangeIcon, {
             class: "moreicon",
             id: `UpChangeIcon-${step.id}`,
-            x: containerWidths[0] + 5 * PADDING_X + 3 * ICON_SIZE - 17,
+            x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 278,
             y: PADDING_Y - 26,
             width: ICON_SIZE,
             height: ICON_SIZE,
@@ -645,10 +640,10 @@ export class SwitchStepComponentView implements ComponentView {
             class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
         });
         const gSubDropdown1 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
+            class: `sqd-task-group sub-dropdown Collapsed`,
         });
         const gSubDropdown2 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
+            class: `sqd-task-group sub-dropdown Collapsed`,
         });
         const gSubDropdownMain1 = Dom.svg("g", {
             class: `sqd-task-group sub-dropdown Collapsed`,
@@ -1141,7 +1136,7 @@ export class SwitchStepComponentView implements ComponentView {
             dropdownBoxBottomShapeTextMain2.textContent = actions[i - 1];
             const dropdownBoxBottomShapecoverMain2 = Dom.svg("rect", {
                 width: DROPDOWN1_W,
-                height: DROPDOWN_H,
+                height: 15,
                 class: "option select-field choice",
                 fill: "#fff",
                 stroke: "#a0a0a0",
@@ -1168,7 +1163,7 @@ export class SwitchStepComponentView implements ComponentView {
                 // ======================== 3rd dropdowns 
                 for (let i = 1; i <= list3.length; i++) {
                     const dropdownBoxBottomShape2 = Dom.svg("rect", {
-                        width: DROPDOWN1_W,
+                        width: DROPDOWN3_W,
                         height: DROPDOWN_H,
                         class: "option select-field",
                         fill: "#fff",
@@ -1183,7 +1178,7 @@ export class SwitchStepComponentView implements ComponentView {
                     });
                     dropdownBoxBottomShape2Text.textContent = list3[i - 1];
                     const dropdownBoxBottomShape2cover = Dom.svg("rect", {
-                        width: DROPDOWN1_W,
+                        width: DROPDOWN3_W,
                         height: DROPDOWN_H,
                         class: "option select-field choice",
                         fill: "#fff",
@@ -1275,7 +1270,7 @@ export class SwitchStepComponentView implements ComponentView {
             gRightPop3.classList.toggle("sqd-hidden");
         });
 
-        // ========================= More icons event listener 
+        // ========================= Edit
         editIcon.addEventListener("click", function (e) {
             e.stopPropagation();
             gDropdown.classList.toggle("sqd-hidden");
@@ -1317,24 +1312,8 @@ export class SwitchStepComponentView implements ComponentView {
                 // textRight.textContent = emailInput.value;
                 step.properties["value"] = emailInput.value;
             }
-            textRight.textContent = "If " + step.properties["value"].toString() + " exists in the " + step.properties["property"].toString();; 
+            textRight.textContent = "if " + step.properties["value"].toString() + " exists in the " + step.properties["property"].toString();
         });
-
-        upchangeIcon.addEventListener("click", function(e) {
-            step.properties = {}; 
-            textRight.textContent = "Choose Condition "; 
-            dropdownBoxInnerText.textContent = ""; 
-            dropdownBoxInnerText1.textContent = ""; 
-            dropdownBoxInnerText2.textContent = ""; 
-            dropdownBoxInnerTextMain1.textContent = "CONTACT INFO"; 
-            dropdownBoxInnerTextMain2.textContent = "ACTIONS"; 
-            gSubDropdown.classList.remove("sqd-hidden"); 
-            gSubDropdown1.classList.remove("sqd-hidden"); 
-            gSubDropdown2.classList.remove("sqd-hidden"); 
-            gSubDropdownMain1.classList.add("sqd-hidden"); 
-            gSubDropdownMain2.classList.add("sqd-hidden"); 
-
-        }); 
 
         // Show hints
         editIcon.addEventListener("mouseover", function () {
