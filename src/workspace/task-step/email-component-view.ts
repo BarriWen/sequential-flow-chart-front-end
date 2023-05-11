@@ -297,8 +297,7 @@ export class EmailComponentView implements ComponentView {
     });
     const checkImgContainerCircle = Dom.svg("rect", {
       class: "sqd-task-ImgContainerCircle",
-      // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
-      x: 170,
+      x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       y: PADDING_Y - 40,
       style: "fill:#5495d4"
     });
@@ -308,7 +307,7 @@ export class EmailComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "./assets/check-inside.svg";
+    const upCheckIconUrl = "./assets/check.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -420,7 +419,7 @@ export class EmailComponentView implements ComponentView {
     const reminder1 = Dom.svg("rect", {
       x: 0.5 ,
       y: 0.5,
-      class: "sqd-task-rect-pop",
+      class: "sqd-task-rect",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -444,7 +443,7 @@ export class EmailComponentView implements ComponentView {
     const reminder2 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect-pop",
+      class: "sqd-task-rect",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -469,7 +468,7 @@ export class EmailComponentView implements ComponentView {
     const reminder3 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect-pop",
+      class: "sqd-task-rect",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -503,7 +502,7 @@ export class EmailComponentView implements ComponentView {
     gRightPop3.appendChild(rightCopyImgContainer);
     gRightPop3.appendChild(rightDeleteImgContainer);
     gRightPop3.appendChild(rightEditImgContainer);
-    // gRightPop3.appendChild(magnidyIcon);
+    gRightPop3.appendChild(magnidyIcon);
     gUpPop3.appendChild(checkImgContainer);
     gUpPop3.appendChild(deleteImgContainer);
     gUpPop3.appendChild(copyImgContainer);
@@ -585,15 +584,8 @@ export class EmailComponentView implements ComponentView {
       step["updatedAt"] = new Date();
     });
 
-    upCheckIcon.addEventListener("mousedown", function(){
-      checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
-    });
-    upCheckIcon.addEventListener("mouseup", function(){
-      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
-    });
-
-     // Show hints
-     editIcon.addEventListener("mouseover", function(){
+    // Show hints
+    editIcon.addEventListener("mouseover", function () {
       gRightPop3Reminder1.classList.toggle("sqd-hidden");
     });
     editIcon.addEventListener("mouseout", function(){
@@ -736,9 +728,26 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     class: `sqd-task-group sub-dropdownbox`
   });
   dropdown.appendChild(gSubDropdownbox);
-  
-  const rect1 = createRect("sqd-task-rect", 0.5, h, w, 4 * h + PADDING_Y, `dropdown${Date.now()}`, RECT_RADIUS);
+
+  const rect1 = createRect(
+    "sqd-task-rect sqd-hidden", // Temporary hidden 
+    0.5,
+    h - 15,
+    w,
+    4 * h + 5 * PADDING_Y,
+    `dropdown${Date.now()}`,
+    RECT_RADIUS);
   gSubDropdownbox.appendChild(rect1);
+  const rect2 = createRect(
+    "sqd-task-rect",
+    0.5,
+    h - 15,
+    w,
+    4 * h + PADDING_Y,
+    `dropdown${Date.now()}`,
+    RECT_RADIUS);
+  gSubDropdownbox.appendChild(rect2);
+
   let startX = rect1.getBBox().x;
   let startY = rect1.getBBox().y;
   let wid = rect1.getBBox().width;

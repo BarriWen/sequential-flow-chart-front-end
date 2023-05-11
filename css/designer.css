@@ -75,17 +75,9 @@
 }
 .sqd-email-input {
 	display: block;
-	width: 120px;
-	height: 22px; 
-	border-radius: 4px;
-	border-width: 1px;
-    border-color: #808080;
-}
-.sqd-loc-input {
-	display: block;
-	width: 230px;
-	height: 22px; 
-	border-radius: 4px;
+	width: 127px;
+	height: 20px; 
+	border-radius: 5px;
 	border-width: 1px;
     border-color: #808080;
 }
@@ -240,16 +232,27 @@
 	stroke-width: 3;
 	z-index: 100;
 }
+.sqd-switch-rect {
+	stroke-width: 3; 
+}
+
+.add-cond-text {
+	position: relative;
+	fill: #1080A0; 
+	font-size: 16px;
+}
+
+.add-seg-btn-title {
+	position:relative;
+	fill:#E0E0E0;
+	text-anchor: middle; 
+	font-size: 16px;
+}
+
 .sqd-task-rect.sqd-selected {
 	stroke-width: 2.5;
 }
 .sqd-task-text {
-	text-anchor: left;
-	text-align: center;
-	dominant-baseline: central;
-	font-family: Sofia;
-}
-.switch-val-btn {
 	text-anchor: left;
 	text-align: center;
 	dominant-baseline: central;
