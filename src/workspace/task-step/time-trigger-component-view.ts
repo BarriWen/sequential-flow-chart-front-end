@@ -545,89 +545,95 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       id: `dropdown${Date.now()}`,
     });
 
-    const choice1Text = Dom.element("label");
+    const dropdownRightButton = Dom.svg("text", {
+      class: "sqd-task-text select-field",
+      x: ICON_SIZE + 9 * PADDING_X + addon,
+      y: 1.35 * boxHeight,
+    });
+    const dropdownRightButton1 = Dom.svg("text", {
+      class: "sqd-task-text select-field",
+      x: ICON_SIZE + 9 * PADDING_X + addon,
+      y: 1.9 * boxHeight,
+    });
+    const dropdownBoxInnerText = Dom.svg("text", {
+      class: "sqd-task-text",
+      x: ICON_SIZE + 5 * PADDING_X+25 + addon,
+      y: 1.4 * boxHeight+18,
+    });
+    dropdownBoxInnerText.textContent = "Any list";
+    dropdownBoxInnerText.style.fill = "#BFBFBF";
 
-    choice1Text.innerText = "Select List";
-    choice1Text.setAttribute("class", "timeTriggerChoice1");
+    const dropdownBoxInnerText1 = Dom.svg("text", {
+      class: "sqd-task-text",
+      x: ICON_SIZE + 5 * PADDING_X+25 + addon,
+      y: 1.95 * boxHeight+34.5,
+    });
+    dropdownBoxInnerText1.textContent = "Once";
+    dropdownBoxInnerText1.style.fill = "#BFBFBF";
 
-    //const choice1TextNextLine = Dom.element("br");
+    const dropdownBoxShapeAfter = Dom.svg("rect", {
+      width: 100,
+      height: 20,
+      class: "option select-field",
+      fill: "#fff",
+      stroke: "#a0a0a0",
+      x: ICON_SIZE + 5 * PADDING_X+17 + addon,
+      y: 1.2 * boxHeight+15,
+      id: `dropdownBoxShape${Date.now()}`,
+    });
+    
+    Dom.attrs(dropdownBoxShapeAfter, {
+      opacity: 0,
+    });
+    const dropdownBoxShape1After = Dom.svg("rect", {
+      width: 100,
+      height: 20,
+      class: "option select-field",
+      fill: "#fff",
+      stroke: "#a0a0a0",
+      x: ICON_SIZE + 5 * PADDING_X+17 + addon,
+      y: 1.75 * boxHeight+32,
+      id: `dropdownBoxShape1${Date.now()}`,
+    });
+    Dom.attrs(dropdownBoxShape1After, {
+      opacity: 0,
+    });
+   
+    // Iterate thourgh list items and create options
+    // Sub dropdown menues
+    const gSubDropdownboxPop = Dom.svg("g", {
+      class: `sqd-task-group sub-dropdownbox-pop sqd-hidden`,
+    });
+    const gSubDropdownbox1Pop = Dom.svg("g", {
+      class: `sqd-task-group sub-dropdownbox-pop sqd-hidden`,
+    });
 
-    const choice2Text = Dom.element("label");
-    choice2Text.innerText = "Send Times";
-    choice2Text.setAttribute("class", "timeTriggerChoice2");
-    //add input for time delay tag
-    var foreignObjectTag = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "foreignObject"
-    ); //Create a rect in SVG's namespace
-    foreignObjectTag.setAttribute("x", "0.5"); //Set rect data
-    foreignObjectTag.setAttribute("y", "32"); //Set rect data
-    foreignObjectTag.setAttribute("width", "258"); //Set rect data
-    foreignObjectTag.setAttribute("height", "128"); //Set rect data
-    //foreignObjectTag.setAttribute("class", "sqd-hidden");
-    var divTimeTriggerSendTimeTag = document.createElementNS(
-      "http://www.w3.org/1999/xhtml",
-      "div"
-    );
-    var divTimeTriggerSelectListTag = document.createElementNS(
-      "http://www.w3.org/1999/xhtml",
-      "div"
-    );
-    divTimeTriggerSelectListTag.setAttribute(
-      "class",
-      "divTimeTriggerSelectListTag"
-    );
-    divTimeTriggerSendTimeTag.setAttribute(
-      "class",
-      "divTimeTriggerSendTimeTag"
-    );
-    //divTagWaitTime.setAttribute("class", "sqd-hidden");
-    var collection = document.createElement("Form");
-    collection.setAttribute("class", "timeTriggercollection");
-
-    var selectListSelect = document.createElement("select");
-    selectListSelect.setAttribute("class", "timeTriggerSelectTimeselect");
-
-    let selectList = ["List A", "List B", "List C"];
-    for (var i = 0; i < 3; i++) {
-      var optional = Dom.element("option", {
-        value: i,
-      });
-      optional.innerText = selectList[i];
-      selectListSelect.appendChild(optional);
-    }
-    collection.appendChild(choice1Text);
-    collection.appendChild(selectListSelect);
-
-    var sendTimecollection = document.createElement("Form");
-    sendTimecollection.setAttribute("class", "timeTriggersendTimecollection");
-    let sendTimes = ["Once", "Recurring"];
-    var sendTimeSelect = document.createElement("select");
-    sendTimeSelect.setAttribute("class", "timeTriggerSendTimeselect");
-    for (var i = 0; i < 2; i++) {
-      var optional = Dom.element("option", {
-        value: sendTimes[i],
-      });
-      optional.innerText = sendTimes[i];
-      sendTimeSelect.appendChild(optional);
-    }
-    var divTagInput = document.createElement("INPUT") as HTMLInputElement;
-    divTagInput.setAttribute("class", "timeTriggerdivTagInput");
-    divTagInput.setAttribute("type", "datetime-local");
-    let week = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      " Thursday",
-      "friday",
-      "Saturday",
-      "Sunday",
-    ];
-    var weekSelect = document.createElement("select");
-    weekSelect.setAttribute("class", "weekSelect  sqd-hidden");
-    for (var i = 0; i < 7; i++) {
-      var optional = Dom.element("option", {
-        value: week[i],
+    // Fetch audience list from backend
+    const userID = 123; //Need to be changed to current user
+    const request = new Request(`http://localhost:8080/dashboard/getAudiencelist/${userID}`, {method: 'GET'});
+    let list: string[] = [];
+    // Async way to fetch audience list
+    const getlist = async ()=> {
+      const response = await fetch(request);
+      if (response.ok) {
+        const val = await response.json();
+        modifyDropdown(val);
+      } 
+    };
+    
+    getlist();
+    
+    // Options
+    const modifyDropdown = function (list: string[]){
+      const dropdownBoxBottomShaperec = Dom.svg("rect", {
+        width:100,
+        height:list.length*25,
+        fill:"#fff",
+        stroke: "#4FCCFC",
+        x: ICON_SIZE + 5 * PADDING_X+17 + addon,
+        y: 1.75 * boxHeight + 22,
+        rx: 4,
+        ry: 4
       });
       gSubDropdownboxPop.appendChild(dropdownBoxBottomShaperec);
       
@@ -801,13 +807,6 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       type:"datetime-local",
       min: todayStr,
     });
-    if(step.properties["time"]){
-      //@ts-ignore
-      datePicker.value = step.properties["time"]
-    }else{
-      //@ts-ignore
-      datePicker.value = '';
-    }
     datePickerWrapper.appendChild(datePicker);
     gOnce.appendChild(datePickerWrapper);
 
@@ -825,13 +824,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
 
     week_text.textContent = "Set your delieverable dates:"
     gWeeks.appendChild(week_text);
-    
-    let databefore!:string[];
-    if(step.properties["time"]){
-      databefore = step.properties["time"].toString().split(',');
-    }else{
-      databefore = [];
-    }
+  
 
     for(let i=1;i<8;i++){
       var week = "";
@@ -863,6 +856,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       const gEachWeek = Dom.svg("g", {
         class: `sqd-week-${i}`
       });
+
       const checkbox = Dom.svg("rect", {
         class: "sqd-week-checkbox",
         x:PADDING_X+10 + addon,
@@ -872,14 +866,6 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         rx:5,
         ry:5
       });
-      const weekName = Dom.svg("text", {
-        x: PADDING_X+35 + addon,
-        y: 2 * boxHeight+85 +i*28,
-        class: "sqd-task-text-week",
-      });
-      weekName.textContent = week;
-      
-      
       const checkbox_img_url = "./assets/check-inside.svg";
       const checkbox_img = Dom.svg("image", {
         href: checkbox_img_url,
@@ -891,7 +877,6 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         y: 2 * boxHeight+78 +i*28,
         class: "week-checkbox-img"
       });
-      
       const checkboxShape = Dom.svg("rect", {
         x:PADDING_X+10 + addon,
         y:2 * boxHeight+75 +i*28,
@@ -902,6 +887,13 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         opacity: 0,
         class: "checkbox-shape"
       });
+
+      const weekName = Dom.svg("text", {
+        x: PADDING_X+35 + addon,
+        y: 2 * boxHeight+85 +i*28,
+        class: "sqd-task-text-week",
+      });
+      weekName.textContent = week;
       
       checkboxShape.addEventListener("click", function(e){
         if(!gEachWeek.classList.contains("selected")){
@@ -1006,21 +998,6 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         height: 7,
         width: 7
       });
-      let weekTemp = '';
-      for(let h=0;h<databefore.length;h++){
-        if(databefore[h].includes(week)){
-          weekTemp = databefore[h];
-          gEachWeek.classList.add("selected");
-          Dom.attrs(checkbox, {
-            style: "stroke:#5495d4;fill:#5495d4",
-          });
-          Dom.attrs(weekName, {
-            style: "fill:#5495d4"
-          });
-          timeText.textContent = weekTemp.slice(-4,-2);
-          rangeText.textContent = weekTemp.slice(-2);
-        }
-      }
 
       gTimeRange.appendChild(RangeBox);
       gTimeRange.appendChild(rangeText);
@@ -1092,11 +1069,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
             style: "fill:#949CA0"
           });
           timeicon.setAttribute("href", "./assets/down.svg");
-          if(k<10){
-            timeText.textContent = `0${k}`;
-          }else{
-            timeText.textContent = `${k}`;
-          }
+          timeText.textContent = `${k}`;
         });
         
         gTimeDropdow.appendChild(timeSelectBox);
@@ -1293,13 +1266,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       maxlength: 4,
     });
     yearWrapper.appendChild(yearInput);
-
-    if(databefore.length != 0){
-      const databeforeEndDate = databefore[databefore.length-1].split(':')[1].split('/');
-      monthInput.value = databeforeEndDate[0];
-      dateInput.value = databeforeEndDate[1];
-      yearInput.value = databeforeEndDate[2];
-    }
+    
 
     gEndDate.appendChild(endDateText);
     gEndDate.appendChild(monthWrapper);
@@ -1315,20 +1282,6 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
 
     gWeeks.insertBefore(gEndDate, gWeeks.firstChild);
     gWeeks.insertBefore(timezone,gWeeks.firstChild);
-
-    if(step.properties["Runs"] == "Once"){
-      gOnce.classList.remove("sqd-hidden");
-      if(!gWeeks.classList.contains("sqd-hidden")){
-        gWeeks.classList.add("sqd-hidden");
-        rect1.setAttribute("height", "190");
-      }
-    }else if (step.properties["Runs"] == "Recurring"){
-      gWeeks.classList.remove("sqd-hidden");
-      if(!gOnce.classList.contains("sqd-hidden")){
-        gOnce.classList.add("sqd-hidden");
-      }
-      rect1.setAttribute("height", "440");
-    }
     
     gDropdown.appendChild(gOnce);
     gDropdown.appendChild(gWeeks);
@@ -1358,12 +1311,6 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     g.appendChild(setUpReminder);
 
     let if_hintpop = true;
-    if(Object.keys(step.properties).length == 0){
-      if_hintpop = true;
-    }else{
-      if_hintpop = false;
-      gTriggerHint.classList.toggle("sqd-hidden");
-    }
     // Add EventListeners
     gmoreIcon.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -1397,13 +1344,16 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
       gRightPop3.classList.toggle("sqd-hidden");
-
+      gSubDropdown.classList.remove("sqd-hidden");
+      gSubDropdown1.classList.remove("sqd-hidden");
+    });
+    
     upCheckIcon.addEventListener("click", function(e){
       e.stopPropagation();
       let ifselected = false;
       let weekAndTime:string = '';
       if(dropdownBoxInnerText1.textContent == "Recurring"){
-        for(let i=2;i<9;i++){
+        for(let i=0;i<7;i++){
           if(gWeeks.children[i].classList.contains("selected")){
             weekAndTime += `${gWeeks.children[i].children[5].textContent}`+`${gWeeks.children[i].children[0].children[1].textContent}`+`${gWeeks.children[i].children[1].children[1].textContent},`;
             ifselected = true;
@@ -1552,11 +1502,10 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         e.preventDefault();
         e.stopPropagation();
         
-
         textRight.textContent = "To Any List"
         dropdownBoxInnerText.textContent = "Any list";
-        step.properties={};
-        
+        dropdownBoxInnerText1.textContent = "Once";
+
         
         const designer = document.getElementById("designer");
         while (designer?.childNodes[1]) {
