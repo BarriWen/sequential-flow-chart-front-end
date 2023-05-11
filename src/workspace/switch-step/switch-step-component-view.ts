@@ -132,21 +132,77 @@ export class SwitchStepComponentView implements ComponentView {
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,
 
-    });
-    const textRight = Dom.svg("text", {
-      x: ICON_SIZE + containerWidths[0] - PADDING_X*2,
-      y: boxHeight / 1.7+PADDING_TOP,
-      class: "sqd-task-text",
+        if (step.properties["value"]) {
+            textRight.textContent = "If " + step.properties["value"].toString() + " " + 
+            step.properties["condition"] + " " + 
+            step.properties["property"].toString();
 
-    });
-    if (step.properties["subject"]) {
-      textRight.textContent = step.properties["subject"].toString();
-    }else{
-      textRight.textContent = "Choose Condition";
-    }
-    g1.appendChild(textRight);
-    g1.insertBefore(rectLeft, text);
-    g1.appendChild(textRight);
+        } else {
+            textRight.textContent = "Choose Condition";
+        }
+        g1.appendChild(textRight);
+        g1.insertBefore(rectLeft, text);
+        g1.appendChild(textRight);
+
+        const textRightReminder = Dom.svg("text", {
+            x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 132,
+            y: boxHeight / 2,
+            class: "sqd-task-text",
+        });
+        textRightReminder.textContent = "Please set up your filter";
+        const rectRight = Dom.svg("rect", {
+            x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 80,
+            y: 0.5,
+            class: "sqd-task-rect",
+            width: boxWidth,
+            height: 2 * boxHeight,
+            rx: RECT_RADIUS,
+            ry: RECT_RADIUS,
+        });
+        const rectRightLine = Dom.svg("line", {
+            class: "sqd-join",
+            x1: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 50,
+            x2: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 81,
+            y1: 15,
+            y2: 15,
+        });
+        const clickOkBut = Dom.svg("rect", {
+            x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 182,
+            y: 1.25 * boxHeight,
+            class: "sqd-task-rect",
+            width: 40,
+            height: 20,
+            rx: 5,
+            ry: 5,
+        });
+        const clickOkButCover = Dom.svg("rect", {
+            x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 182,
+            y: 1.25 * boxHeight,
+            class: "option select-field choice",
+            width: 40,
+            height: 20,
+            rx: 5,
+            ry: 5,
+            id: `clickOkButCover${Date.now()}`,
+        });
+        Dom.attrs(clickOkButCover, {
+            opacity: 0.1,
+        });
+        const clickOkText = Dom.svg("text", {
+            x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 192,
+            y: 1.55 * boxHeight,
+            class: "sqd-task-text",
+        });
+        clickOkText.textContent = "OK";
+        const setUpReminder = Dom.svg("g", {
+            class: `sqd-task-group setup-reminder sqd-hidden`,
+        });
+        setUpReminder.appendChild(rectRightLine);
+        setUpReminder.appendChild(textRightReminder);
+        setUpReminder.insertBefore(rectRight, textRightReminder);
+        setUpReminder.appendChild(clickOkText);
+        setUpReminder.insertBefore(clickOkBut, clickOkText);
+        setUpReminder.appendChild(clickOkButCover);
 
 
 
