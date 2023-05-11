@@ -280,7 +280,7 @@ export class SwitchStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const changeUrl = "../assets/change.svg";
+    const changeUrl = "./assets/change.svg";
     const changeIcon = changeUrl
       ? Dom.svg("image", {
         href: changeUrl,
@@ -293,7 +293,7 @@ export class SwitchStepComponentView implements ComponentView {
     Dom.attrs(changeIcon, {
       class: "moreicon",
       id: `RightChangeIcon-${step.id}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 106,
+      x: MORE_X + 47,
       y: PADDING_Y + 14,
       width: ICON_SIZE,
       height: ICON_SIZE,
