@@ -1127,12 +1127,12 @@ export class SwitchStepComponentView implements ComponentView {
         inputArea.appendChild(textInput);
 
         const datePrompt = Dom.svg("text", {
-            class: "sqd-date-prompt sqd-hidden", 
-            fill: "#F00000", 
+            class: "sqd-date-prompt sqd-hidden",
+            fill: "#F00000",
             x: DROPDOWN_X3 - 3,
             y: DROPDOWN_Y + 40,
-        }); 
-        datePrompt.textContent = "Incorrect Date Format"; 
+        });
+        datePrompt.textContent = "Incorrect Date Format";
 
         const locInputArea = Dom.svg("foreignObject", {
             class: "location-input sqd-hidden",
@@ -1263,8 +1263,8 @@ export class SwitchStepComponentView implements ComponentView {
                 searchPopItemDiv.appendChild(locInputBottomShapeText);
                 searchPopItemDiv.appendChild(locInputBottomShapeCover);
             }
-            searchPopSvg.appendChild(searchPopBody); 
-            locInputPop.appendChild(searchPopSvg); 
+            searchPopSvg.appendChild(searchPopBody);
+            locInputPop.appendChild(searchPopSvg);
         }
 
 
@@ -1317,7 +1317,7 @@ export class SwitchStepComponentView implements ComponentView {
         let list2 = [''];
         let list2Tag = ['Exists', 'Does Not Exist'];
         let list2Gender = ['Is'];
-        let list2Bd = ['Month is', 'Date is', 'Is Before Date', 'Is After date', 'Is Blank'];
+        let list2Bd = ['Month Is', 'Date Is', 'Is Before Date', 'Is After date', 'Is Blank'];
         let list2Email = ['Contains', 'Does Not Contain', 'Is Blank'];
         let list2Name = ["Is", "Is Not", "Contains", "Does Not Contain", "Blank"];
         let list2Phone = ["Contains", "Does Not Contain", "Blank"];
@@ -1513,10 +1513,10 @@ export class SwitchStepComponentView implements ComponentView {
                     textInput.addEventListener("input", function (e) {
                         if (!textInput.value.match(dateformat)) {
                             console.log("wrong date format");
-                            datePrompt.classList.remove("sqd-hidden"); 
+                            datePrompt.classList.remove("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #FF0000");
                         } else {
-                            datePrompt.classList.add("sqd-hidden"); 
+                            datePrompt.classList.add("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #BFBFBF");
                         }
                     });
@@ -1571,10 +1571,10 @@ export class SwitchStepComponentView implements ComponentView {
                         }
                         if (choice2 == 'Exists' || choice2 == 'Does Not Exist') {
                             list3 = list3Tag;
-                        } else if (choice2 == 'Month is') {
+                        } else if (choice2 == 'Month Is') {
                             list3 = list3Bdm;
                             inputArea.classList.add("sqd-hidden");
-                        } else if (choice2 == 'Date is') {
+                        } else if (choice2 == 'Date Is') {
                             gSubDropdown2.classList.add("sqd-hidden");
                             inputArea.classList.remove("sqd-hidden");
                             // textInput.setAttribute("placeholder", "Enter Month/Day");
@@ -1941,7 +1941,7 @@ export class SwitchStepComponentView implements ComponentView {
         gSubDropdownMain2.appendChild(gSubDropdownboxPopMain2_1);
 
         gDropdown.appendChild(inputArea);
-        gDropdown.appendChild(datePrompt); 
+        gDropdown.appendChild(datePrompt);
         gDropdown.appendChild(locInputArea);
         gDropdown.appendChild(locInputPop);
         gDropdown.appendChild(gValBtn);
@@ -2045,12 +2045,24 @@ export class SwitchStepComponentView implements ComponentView {
                 // textRight.textContent = dropdownBoxInnerText.textContent;
                 step.properties["condition"] = dropdownBoxInnerText1.textContent;
             }
-            if (dropdownBoxInnerText2.textContent || dropdownBoxInnerText2.textContent != "" || locTextInput.value != "") {
+            if (locTextInput.value != "") {
                 // textRight.textContent = dropdownBoxInnerText2.textContent;
                 let value: any;
                 value = dropdownBoxInnerText2.textContent + ", " + locTextInput.value;
                 step.properties["value"] = value;
             }
+            if (choice1 == "Email Address" || choice1 == "Full Name" || choice1 == "First Name" || choice1 == "Last Name" || choice1 == "Phone Number") {
+                    let value = textInput.value;
+                    step.properties["value"] = value;
+            } if (choice1 == "Birthday" && choice2 == "Date Is") {
+                step.properties["value"] = textInput.value; 
+            } if (choice1 == "Tag" || choice1 == "Gender") {
+                if (dropdownBoxInnerText2.textContent) {
+                    step.properties["value"] = dropdownBoxInnerText2.textContent;
+                }
+            }
+
+
 
             // =================== Title 
             if (step.properties["property"].toString() == "Tag") {
@@ -2372,8 +2384,8 @@ export class SwitchStepComponentView implements ComponentView {
         const scrollboxViewCountry: ScrollBoxViewCountry = ScrollBoxViewCountry.create(dropdownPopBody2, gSubDropdownbox2Pop);
         scrollboxViewCountry.setContent(dropdownPopItemDiv2)
 
-        const scrollboxViewLocation: ScrollBoxViewLocation = ScrollBoxViewLocation.create(searchPopBody, locInputPop); 
-        scrollboxViewLocation.setContent(searchPopItemDiv); 
+        const scrollboxViewLocation: ScrollBoxViewLocation = ScrollBoxViewLocation.create(searchPopBody, locInputPop);
+        scrollboxViewLocation.setContent(searchPopItemDiv);
 
         const regionView = RegionView.create(g, containerWidths, containerHeight);
 
@@ -2391,7 +2403,7 @@ export class SwitchStepComponentView implements ComponentView {
             sequenceComponents,
             regionView,
             scrollboxViewCountry,
-            scrollboxViewLocation, 
+            scrollboxViewLocation,
             validationErrorView
         );
     }
