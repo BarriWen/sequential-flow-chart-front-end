@@ -150,6 +150,16 @@ export class TagComponentView implements ComponentView {
           rx: 4,
           ry: 4,
         });
+    const moreDotUrl = "./assets/more-dot.svg"
+    const moreIconDot = moreDotUrl
+      ? Dom.svg("image", {
+          href: moreDotUrl,
+        })
+      : Dom.svg("rect", {
+          class: "sqd-task-empty-icon",
+          rx: 4,
+          ry: 4,
+        });
     Dom.attrs(moreIcon, {
       class: "moreIcon",
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22,
@@ -509,6 +519,16 @@ export class TagComponentView implements ComponentView {
       e.stopPropagation();
       gRightPop3.classList.toggle("sqd-hidden");
     });
+    moreIconDot.addEventListener("click", function (e) {
+      e.stopPropagation();
+      gRightPop3.classList.toggle("sqd-hidden");
+      if (!gUpPop3.classList.contains("sqd-hidden")) {
+        gUpPop3.classList.toggle("sqd-hidden");
+      }
+      if (!gDropdown.classList.contains("sqd-hidden")) {
+        gDropdown.classList.toggle("sqd-hidden");
+      }
+    });
     
     // Edit
     editIcon.addEventListener("click", function (e) {
@@ -681,15 +701,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
   });
 
   // Fetch tags from backend
-  var url = window.location.pathname;
-  var userID  ;
-  if(url.includes("new")){
-    userID = url.slice(5);//Need to be changed to an existing user
-  }else{
-    userID = url.substring(1, url.lastIndexOf('/')+1);
-  }
-  
-  //Need to be changed to an existing journey; //Need to be changed to current user
+  const userID = 1; //Need to be changed to current user
   const request = new Request(`http://localhost:8080/tag/${userID}`, {method: 'GET'});
   let tags: string[] = [];
   // Async way to fetch tags

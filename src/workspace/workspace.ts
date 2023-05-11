@@ -194,23 +194,16 @@ export class Workspace implements DesignerComponentProvider {
           console.log("copy switch")
           promptChoices(fakeThis);
         });
-        const RightDeleteButton = document.getElementById(`RightDeleteIcon-${clickedStep.step.id}`);
-        if (RightDeleteButton) {
-          RightDeleteButton.addEventListener("click", function(e) {
-            console.log("trying to delete switch");
-            fakeThis.tryDeleteStep(clickedStep.step);
-          });
-        }
-        const UpDeleteButton = document.getElementById(`UpDeleteIcon-${clickedStep.step.id}`);
-        if (UpDeleteButton) {
-          UpDeleteButton.addEventListener("click", function(e) {
+        const deleteButton = document.getElementById(`RightDeleteIcon-${clickedStep.step.id}`);
+        if (deleteButton) {
+          deleteButton.addEventListener("click", function(e) {
             console.log("trying to delete switch");
             fakeThis.tryDeleteStep(clickedStep.step);
           });
         }
         
       } 
-      else if (clickedStep.step.componentType === ComponentType.task) {
+      else if (clickedStep.step.componentType === ComponentType.task){
         // Copy buttons
         const rightCopy = document.getElementById(`RightCopyIcon-${clickedStep.step.id}`);
         if (rightCopy) {

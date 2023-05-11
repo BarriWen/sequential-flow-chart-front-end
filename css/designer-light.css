@@ -8,8 +8,8 @@
 /* light > .sqd-toolbox */
 
 .sqd-theme-light .sqd-toolbox {
-	/* background: #FFF; */
-	/* box-shadow: 0 0 8px rgba(0, 0, 0, .15), 0 2px 4px rgba(0, 0, 0, .15); */
+	background: #FFF;
+	box-shadow: 0 0 8px rgba(0, 0, 0, .15), 0 2px 4px rgba(0, 0, 0, .15);
 }
 .sqd-theme-light .sqd-toolbox-filter {
 	border: 1px solid #C3C3C3;
@@ -86,6 +86,53 @@
 	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
 }
 
+.sqd-theme-light .sqd-task-rect-Subscribe{
+	fill: #FFF;
+	stroke: #43A2E3;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-Unsubscribe{
+	fill: #FFF;
+	stroke: #43A2E3;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-Place{
+	fill: #FFF;
+	stroke: #4FCCFC;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-Abandon{
+	fill: #FFF;
+	stroke: #4FCCFC;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-Time{
+	fill: #FFF;
+	stroke: #9EE8FF;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-inner{
+	fill: #FFF;
+	stroke: #4FCCFC;
+	stroke-width: 1.5;
+}
+
+.sqd-theme-light .sqd-task-rect-inner_2{
+	fill: #FFF;
+	stroke: #4FCCFC;
+	stroke-width: 1.4px;
+}
+
 #sqd-task-tag .sqd-task-rect{
 	stroke: #C2A5FF;
 }
@@ -114,12 +161,47 @@
 	font-family: 'sofia-pro';
 }
 
-.sqd-theme-light .sqd-task-rect.sqd-selected {
-	stroke: #ED4800;
+.sqd-theme-light .sqd-task-text_2{
+	font-family: 'sofia-pro';
+	fill: #949CA0;
 }
-.sqd-theme-light .sqd-task-text {
+
+.sqd-theme-light .sqd-task-text_3{
+	font-family: 'sofia-pro';
 	fill: #000;
+	font-size: 12px;
 }
+
+.sqd-task-text-week{
+	font-family: 'sofia-pro';
+	fill: #949CA0;
+	font-size: 12px;
+}
+
+.sqd-task-text-week2{
+	font-family: 'sofia-pro';
+	fill: #949CA0;
+	font-size: 13px;
+}
+
+.sqd-task-text-week3{
+	font-family: 'sofia-pro';
+	fill: #949CA0;
+	font-size: 12px;
+}
+
+.sqd-task-text-week4{
+	font-family: 'sofia-pro';
+	fill: #000;
+	font-size: 13px;
+}
+
+.sqd-task-text-week5{
+	font-family: 'sofia-pro';
+	fill: #000;
+	font-size: 13px;
+}
+
 .sqd-theme-light .sqd-task-empty-icon {
 	fill: #C6C6C6;
 }

@@ -10,10 +10,8 @@ export class ScrollBoxView {
 		parent.appendChild(root);
 
 		const view = new ScrollBoxView(root, viewport);
-		// const view2 = new ScrollBoxView(root2, viewport); 
 		window.addEventListener('resize', view.onResizeHandler, false);
-		window.addEventListener('resize', view.onResizeHandler, false);
-		// root.addEventListener('wheel', e => view.onWheel(e), false);
+		root.addEventListener('wheel', e => view.onWheel(e), false);
 		root.addEventListener('touchstart', e => view.onTouchStart(e), false);
 		root.addEventListener('mousedown', e => view.onMouseDown(e), false);
 		return view;
@@ -62,7 +60,7 @@ export class ScrollBoxView {
 		let height = Math.min(this.viewport.clientHeight * maxHeightPercent, element.clientHeight);
 		height = Math.min(height, this.viewport.clientHeight - minDistance);
 
-		this.root.style.height = height +5+ 'px';
+		this.root.style.height = height + 'px';
 		element.style.top = '0px';
 
 		this.content = {
