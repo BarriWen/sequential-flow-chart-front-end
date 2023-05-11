@@ -770,6 +770,20 @@ export class SwitchStepComponentView implements ComponentView {
         });
         // ================= dropdownRightButton
         const downArrowLink = "./assets/arrow.svg";
+        // const downArrowIcon = downArrowLink
+        //     ? Dom.svg("image", {
+        //         href: downArrowLink,
+        //     })
+        //     : Dom.svg("rect", {
+        //         class: "sqd-task-down-icon",
+        //     });
+        //     Dom.attrs(downArrowIcon, {
+        //         class: "down-arrow",
+        //         x: containerWidths[0] + 5 * PADDING_X + 3 * ICON_SIZE + 93,
+        //         y: PADDING_Y + 14,
+        //         width: 10,
+        //         height: 10,
+        //     });
 
         const dropdownRightButton = Dom.svg("image", {
             class: "sqd-task-text select-field",
@@ -1419,7 +1433,7 @@ export class SwitchStepComponentView implements ComponentView {
                 // textRight.textContent = emailInput.value;
                 step.properties["value"] = emailInput.value;
             }
-            textRight.textContent = "If " + step.properties["value"].toString() + " " + step.properties["condition"].toString() + " " + step.properties["property"].toString();;
+            textRight.textContent = "If " + step.properties["value"].toString() + " exists in the " + step.properties["property"].toString();;
         });
 
         upchangeIcon.addEventListener("click", function (e) {
