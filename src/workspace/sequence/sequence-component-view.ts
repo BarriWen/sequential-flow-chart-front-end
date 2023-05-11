@@ -139,8 +139,7 @@ export class SequenceComponentView implements ComponentView {
       if (components.length == 1) {
         parent.childNodes[0].removeChild(lines[1]);
       } else {
-        // console.log(lines);
-        parent.childNodes[0].removeChild(lines[components.length]);
+        parent.childNodes[0].removeChild(lines[components.length + 1]);
         if (containsSwitch) {
           parent.childNodes[0].removeChild(lines[0]);
         }
