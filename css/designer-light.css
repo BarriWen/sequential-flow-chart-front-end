@@ -9,7 +9,7 @@
 
 .sqd-theme-light .sqd-toolbox {
 	background: #FFF;
-	box-shadow: 0 0 8px rgba(0, 0, 0, .15), 0 2px 4px rgba(0, 0, 0, .15);
+	box-shadow: 0 0 10px rgb(0, 192, 255, 0.5), 0 2px 4px rgba(0, 0, 0, .15);
 }
 .sqd-theme-light .sqd-toolbox-filter {
 	border: 1px solid #C3C3C3;
@@ -157,8 +157,7 @@
 	stroke: #ED4800;
 }
 .sqd-theme-light .sqd-task-text {
-	fill: #253947;
-	font-family: 'sofia-pro';
+	fill: #000;
 }
 
 .sqd-theme-light .sqd-task-text_2{
