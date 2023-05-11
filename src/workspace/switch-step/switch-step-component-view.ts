@@ -816,7 +816,7 @@ export class SwitchStepComponentView implements ComponentView {
     });
     const dropdownBoxShapeAfter1 = Dom.svg("rect", {
       width: DROPDOWN2_W,
-      height: DROPDOWN_H,
+      height: 15,
       class: "option select-field",
       fill: "#fff",
       stroke: "#a0a0a0",
@@ -828,7 +828,7 @@ export class SwitchStepComponentView implements ComponentView {
       opacity: 0,
     });
     const dropdownBoxShapeAfter2 = Dom.svg("rect", {
-      width: DROPDOWN1_W,
+      width: DROPDOWN3_W,
       height: DROPDOWN_H,
       class: "option select-field",
       fill: "#fff",
