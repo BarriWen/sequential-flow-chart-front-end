@@ -45,14 +45,8 @@ export class SequenceComponentView implements ComponentView {
     const g = Dom.svg("g");
     parent.appendChild(g);
 
-    const gGroup = Dom.svg("g", {
-      class: "sqd-task-GGGroup"
-    });
-
-    g.appendChild(gGroup);
-
     const components = sequence.map((s) =>
-      StepComponentFactory.create(gGroup, s, sequence, configuration)
+      StepComponentFactory.create(g, s, sequence, configuration)
     );
 
     const maxJoinX =

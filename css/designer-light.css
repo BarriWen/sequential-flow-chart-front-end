@@ -93,6 +93,33 @@
 	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
 }
 
+.sqd-theme-light .sqd-task-rect-Unsubscribe{
+	fill: #FFF;
+	stroke: #399DE1;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-Place{
+	fill: #FFF;
+	stroke: #3FC8FA;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-Abandon{
+	fill: #FFF;
+	stroke: #3FC8FA;
+	stroke-width: 3px;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
+
+.sqd-theme-light .sqd-task-rect-inner{
+	fill: #FFF;
+	stroke: #4FCCFC;
+	stroke-width: 1.5;
+}
+
 #sqd-task-tag .sqd-task-rect{
 	stroke: #C2A5FF;
 }
@@ -124,42 +151,6 @@
 .sqd-theme-light .sqd-task-text_2{
 	font-family: 'sofia-pro';
 	fill: #949CA0;
-}
-
-.sqd-theme-light .sqd-task-text_3{
-	font-family: 'sofia-pro';
-	fill: #000;
-	font-size: 12px;
-}
-
-.sqd-task-text-week{
-	font-family: 'sofia-pro';
-	fill: #949CA0;
-	font-size: 12px;
-}
-
-.sqd-task-text-week2{
-	font-family: 'sofia-pro';
-	fill: #949CA0;
-	font-size: 13px;
-}
-
-.sqd-task-text-week3{
-	font-family: 'sofia-pro';
-	fill: #949CA0;
-	font-size: 12px;
-}
-
-.sqd-task-text-week4{
-	font-family: 'sofia-pro';
-	fill: #000;
-	font-size: 13px;
-}
-
-.sqd-task-text-week5{
-	font-family: 'sofia-pro';
-	fill: #000;
-	font-size: 13px;
 }
 
 .sqd-theme-light .sqd-task-empty-icon {
@@ -388,56 +379,3 @@ input{
 .content-option{
 	cursor: pointer;
 }
-
-.sqd-week-checkbox{
-	stroke: #949CA0;
-	stroke-width: 2px;
-	fill:white;
-}
-
-.checkbox-shape{
-	cursor: pointer;
-}
-
-.time-box{
-	stroke: #949CA0;
-	stroke-width: 1.4px;
-	fill:white;
-}
-
-.time-drop-rect{
-	stroke: #5495d4;
-	stroke-width: 1.4px;
-	fill: white;
-}
-
-.week-time-drop-rect{
-	stroke: none;
-	fill: white;
-	cursor: pointer;
-}
-
-.sqd-task-rect-endDate{
-	stroke: #949CA0;
-	stroke-width: 1.4px;
-	fill:white;
-}
-
-.date-input{
-	border: none;
-	border: solid 1.6px #949CA0;
-	border-radius: 3px;
-	height: 20px;
-	width: 27px;
-	text-align: center;
-}
-
-.date-input-year{
-	border: none;
-	border: solid 1.6px #949CA0;
-	border-radius: 3px;
-	height: 20px;
-	width: 45px;
-	text-align: center;
-}
-

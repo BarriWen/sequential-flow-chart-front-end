@@ -31,8 +31,9 @@ export class TriggerComponentView implements ComponentView {
     const g = Dom.svg("g", {
       class: `sqd-task-group sqd-type-${step.type}`,
     });
+    
     parent.appendChild(g);
-
+    console.log(parent.children[0]);
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
       x: PADDING_X/1.5,
@@ -626,8 +627,8 @@ export class TriggerComponentView implements ComponentView {
       x: ICON_SIZE + 9 * PADDING_X,
       y: 1.9 * boxHeight,
     });
-    dropdownRightButton.textContent = "▼";
-    dropdownRightButton1.textContent = "▼";
+    // dropdownRightButton.textContent = "▼";
+    // dropdownRightButton1.textContent = "▼";
     const dropdownBoxInnerText = Dom.svg("text", {
       class: "sqd-task-text",
       x: ICON_SIZE + 5 * PADDING_X,
@@ -694,6 +695,15 @@ export class TriggerComponentView implements ComponentView {
       gSubDropdownboxPop.appendChild(dropdownBoxBottomShaperec);
       
       for (let i = 1; i <= list.length; i++) {
+        // const dropdownBoxBottomShape = Dom.svg("rect", {
+        //   width: 100,
+        //   height: 20,
+        //   class: "option select-field",
+        //   fill: "#fff",
+        //   stroke: "#a0a0a0",
+        //   x: ICON_SIZE + 5 * PADDING_X+17,
+        //   y: 1.2 * boxHeight + 15 *i+15,
+        // });
         const dropdownBoxBottomShapeText = Dom.svg("text", {
           class: "sqd-task-text",
           x: ICON_SIZE + 5 * PADDING_X+25 + addon,
@@ -809,7 +819,26 @@ export class TriggerComponentView implements ComponentView {
     // Add EventListeners
     moreIcon.addEventListener("click", function (e) {
       e.stopPropagation();
-      gRightPop3.classList.toggle("sqd-hidden");
+
+      if(gDropdown.classList.contains("sqd-hidden")){
+        gRightPop3.classList.toggle("sqd-hidden");
+      }else{
+        gUpPop3.classList.toggle("sqd-hidden");
+      }
+      gTriggerHint.setAttribute("visibility", "hidden");
+      if_hintpop = false;
+    });
+
+    gmoreIcon.addEventListener("mouseover", function(){
+      if(if_hintpop){
+        gTriggerHint.setAttribute("visibility", "hidden");
+      }
+    });
+
+    gmoreIcon.addEventListener("mouseout", function(){
+      if(if_hintpop){
+        gTriggerHint.setAttribute("visibility", "visible");
+      }
     });
     
     // Edit
