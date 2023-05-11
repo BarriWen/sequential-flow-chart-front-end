@@ -12,11 +12,6 @@ export class LabelView {
 			y: y + LABEL_HEIGHT / 2
 		});
 		nameText.textContent = text;
-		if (nameText.textContent == "Yes") {
-			nameText.setAttribute("class", "sqd-label-text-yes sqd-label-text"); 
-		} if (nameText.textContent == "No") {
-			nameText.setAttribute("class", "sqd-label-text-no sqd-label-text"); 
-		}
 		parent.appendChild(nameText);
 		const nameWidth = Math.max(nameText.getBBox().width + LABEL_PADDING_X * 2, MIN_LABEL_WIDTH);
 

@@ -14,7 +14,7 @@ export class ScrollBoxView {
 		window.addEventListener('resize', view.onResizeHandler, false);
 		window.addEventListener('resize', view.onResizeHandler, false);
 		// root.addEventListener('wheel', e => view.onWheel(e), false);
-		// root.addEventListener('touchstart', e => view.onTouchStart(e), false);
+		root.addEventListener('touchstart', e => view.onTouchStart(e), false);
 		root.addEventListener('mousedown', e => view.onMouseDown(e), false);
 		return view;
 	}

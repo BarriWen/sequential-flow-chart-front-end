@@ -72,12 +72,41 @@
 	margin: 0 10px 10px;
 	box-sizing: border-box;
 	border-radius: 10px;
+} */
+
+.switch-title {
+	width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
-.sqd-toolbox-group-title {
-	text-align: center;
-	padding: 5px 0;
-	margin: 0 10px 10px;
-	border-radius: 10px;
+.sqd-text-input {
+	display: block;
+	width: 115px;
+	height: 22px; 
+	border-radius: 4px;
+	border-width: 1px;
+    border-color: #808080;
+}
+.sqd-loc-input {
+	display: block;
+	width: 230px;
+	height: 22px; 
+	border-radius: 4px;
+	border-width: 1px;
+    border-color: #808080;
+}
+
+.sqd-toolbox-filter-title {
+	font-size: 10pt;
+	font-family: sofiaProMed;
+	color: #247d99; 
+	margin: 16px 0px 5px 13px;
+}
+.sqd-toolbox-action-title {
+	font-size: 10pt;
+	font-family: sofiaProMed;
+	color: #3f55db; 
+	margin: 16px 0px 5px 13px;
 }
 .sqd-toolbox-item {
 	position: relative;
