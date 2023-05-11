@@ -382,7 +382,6 @@ function promptChoices(
     dialogBox.appendChild(title);
     const btn1 = Dom.element("button", {
       type: "submit",
-      class: "popup-button"
     });
     btn1.innerText = "Confirm";
     form.appendChild(btn1);

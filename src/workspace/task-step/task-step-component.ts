@@ -1,4 +1,4 @@
-import { Sequence, Step, TaskStep } from "../../definition";
+ import { Sequence, Step, TaskStep } from "../../definition";
 import { StepsConfiguration } from "../../designer-configuration";
 import { StepComponent, StepComponentState } from "../component";
 import { TriggerComponentView } from "./trigger-component-view";

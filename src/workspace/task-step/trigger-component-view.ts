@@ -32,6 +32,7 @@ export class TriggerComponentView implements ComponentView {
       class: `sqd-task-group sqd-type-${step.type}`,
     });
     parent.appendChild(g);
+
     const boxHeight = ICON_SIZE + PADDING_Y;
     const text = Dom.svg("text", {
       x: PADDING_X/1.5,
@@ -66,16 +67,17 @@ export class TriggerComponentView implements ComponentView {
       y: boxHeight / 1.7,
       class: "sqd-task-text",
     });
-    if (step.properties["Select List"]) {
-      textRight.textContent = step.properties["Select List"].toString();
+    if (step.properties["list"]) {
+      textRight.textContent = step.properties["list"].toString();
     }
     else {
       textRight.textContent = "Default list";
     }
     g.appendChild(textRight);
-
     g.insertBefore(rectLeft, text);
     g.appendChild(textRight);
+
+
     const textRightReminder = Dom.svg("text", {
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 132,
       y: boxHeight / 2,
@@ -135,7 +137,7 @@ export class TriggerComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "./assets/more.svg";
+    const moreUrl = "../assets/more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -166,7 +168,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const changeUrl = "./assets/change.svg";
+    const changeUrl = "../assets/change.svg";
     const changeIcon = changeUrl
       ? Dom.svg("image", {
           href: changeUrl,
@@ -200,7 +202,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const deleteUrl = "./assets/delete.svg";
+    const deleteUrl = "../assets/delete.svg";
     const deleteIcon = deleteUrl
       ? Dom.svg("image", {
           href: deleteUrl,
@@ -234,7 +236,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const editUrl = "./assets/edit.svg";
+    const editUrl = "../assets/edit.svg";
     const editIcon = editUrl
       ? Dom.svg("image", {
           href: editUrl,
@@ -268,7 +270,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "./assets/check.svg";
+    const upCheckIconUrl = "../assets/check.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -302,7 +304,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upDeleteIconUrl = "./assets/delete.svg";
+    const upDeleteIconUrl = "../assets/delete.svg";
     const upDeleteIcon = upDeleteIconUrl
       ? Dom.svg("image", {
           href: upDeleteIconUrl,
@@ -337,7 +339,7 @@ export class TriggerComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upchangeUrl = "./assets/change.svg";
+    const upchangeUrl = "../assets/change.svg";
     const upchangeIcon = upchangeUrl
       ? Dom.svg("image", {
           href: upchangeUrl,
@@ -465,6 +467,7 @@ export class TriggerComponentView implements ComponentView {
     gUpPop3.appendChild(checkImgContainer);
     gUpPop3.appendChild(deleteImgContainer);
     gUpPop3.appendChild(copyImgContainer);
+
     //add dropdown
     //**************************************************//
     //***********start with general node****************//
@@ -731,7 +734,7 @@ export class TriggerComponentView implements ComponentView {
       gUpPop3.classList.toggle("sqd-hidden");
       if (dropdownBoxInnerText.textContent && dropdownBoxInnerText.textContent != "Select") {
         textRight.textContent = dropdownBoxInnerText.textContent;
-        step.properties["Select List"] = dropdownBoxInnerText.textContent;
+        step.properties["list"] = dropdownBoxInnerText.textContent;
       }
       if (dropdownBoxInnerText1.textContent && dropdownBoxInnerText1.textContent != "Select") {
         step.properties["Run"] = dropdownBoxInnerText1.textContent;
@@ -771,7 +774,7 @@ export class TriggerComponentView implements ComponentView {
       e.stopPropagation();
       gSubDropdownbox1Pop.classList.toggle("sqd-hidden");
       if (!gSubDropdownboxPop.classList.contains("sqd-hidden")) {
-        gSubDropdownboxPop.classList.remove("sqd-hidden");
+        gSubDropdownboxPop.classList.remove("sqd-hidden"); 
       }
     });
 

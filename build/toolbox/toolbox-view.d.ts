@@ -5,7 +5,8 @@ export declare class ToolboxView {
     private readonly headerToggleIcon;
     private readonly body;
     private readonly filterInput;
-    private readonly scrollboxView;
+    private readonly scrollboxView1;
+    private readonly scrollboxView2;
     private readonly context;
     static create(parent: HTMLElement, context: DesignerContext): ToolboxView;
     private constructor();
