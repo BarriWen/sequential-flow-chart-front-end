@@ -29,7 +29,8 @@
 	z-index: 20;
 	box-sizing: border-box;
 	border-radius: 10px;
-	width: 130px;
+	width: 200px;
+	height: 300px;
 	user-select: none;
 }
 .sqd-toolbox-header {
@@ -62,6 +63,41 @@
 	position: absolute;
 	top: 0;
 	left: 0;
+}
+
+.sqd-scrollbox {
+	position: relative;
+	overflow: hidden;
+	margin: 17px;
+} */
+.sqd-scrollbox-body {
+	/* position: absolute;
+	top: 0;
+	left: 0; */
+	position: absolute;
+	top: 0px;
+	left: 10px;
+	/* z-index: 20; */
+	box-sizing: border-box; 
+	border-radius: 10px; 
+	width: 130px;
+	user-select: none;
+}
+
+.sqd-scrollbox-title-1 {
+	display: block;
+	font-size: 1.2em;
+	line-height: 1em;
+	font-weight: bold;
+	margin: 10px;
+}
+
+.sqd-scrollbox-title-2 {
+	display: block;
+	font-size: 1.2em;
+	line-height: 1em;
+	font-weight: bold;
+	margin: 10px;
 }
 .sqd-toolbox-filter {
 	display: block;
@@ -240,6 +276,11 @@
 	font-family: Sofia;
     
 
+}
+
+#timetrigger-dropdown{
+	position: absolute;
+	z-index: 300;
 }
 
 /* .sqd-input + .sqd-output */
