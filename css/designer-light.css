@@ -93,40 +93,6 @@
 	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
 }
 
-.sqd-theme-light .sqd-task-rect-Unsubscribe{
-	fill: #FFF;
-	stroke: #399DE1;
-	stroke-width: 3px;
-	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
-}
-
-.sqd-theme-light .sqd-task-rect-Place{
-	fill: #FFF;
-	stroke: #3FC8FA;
-	stroke-width: 3px;
-	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
-}
-
-.sqd-theme-light .sqd-task-rect-Abandon{
-	fill: #FFF;
-	stroke: #3FC8FA;
-	stroke-width: 3px;
-	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
-}
-
-.sqd-theme-light .sqd-task-rect-Time{
-	fill: #FFF;
-	stroke: #3FC8FA;
-	stroke-width: 3px;
-	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
-}
-
-.sqd-theme-light .sqd-task-rect-inner{
-	fill: #FFF;
-	stroke: #4FCCFC;
-	stroke-width: 1.5;
-}
-
 #sqd-task-tag .sqd-task-rect{
 	stroke: #C2A5FF;
 }
