@@ -43,6 +43,41 @@ export class TriggerComponentView implements ComponentView {
     g.appendChild(text);
     const textWidth = Math.max(text.getBBox().width, MIN_TEXT_WIDTH);
     const boxWidth = ICON_SIZE + 8 * PADDING_X + 2 * textWidth;
+
+    const gTriggerHint = Dom.svg("g", {
+      class: "sqd-task-group-pop",
+    });
+
+    const join = Dom.svg('line', {
+			class: 'sqd-join-pop',
+			x1: 241.953 + addon,
+			y1: 16,
+			x2: 274.953 + addon,
+			y2: 16
+		});
+
+    const triggerHint = Dom.svg("rect", {
+      class: "sqd-task-rect-triggerhint",
+      x:266.953 + addon,
+      y:0.5,
+      height:boxHeight,
+      width: 175,
+      rx:9,
+      ry:9
+    });
+
+    const hint_text = Dom.svg("text", {
+      x: 276.953 + addon,
+      y: 17,
+      class: "sqd-task-text",
+    });
+    hint_text.textContent = "Please set up your trigger"
+
+    gTriggerHint.appendChild(join);
+    gTriggerHint.appendChild(triggerHint);
+    gTriggerHint.appendChild(hint_text);
+    
+
     const rect = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
@@ -740,6 +775,168 @@ export class TriggerComponentView implements ComponentView {
         step.properties["Run"] = dropdownBoxInnerText1.textContent;
       }
       step.updatedAt = new Date();
+    });
+    upCheckIcon.addEventListener("mousedown", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
+    });
+    upCheckIcon.addEventListener("mouseup", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#3498DB");
+    });
+    
+    upchangeIcon.addEventListener("mousedown", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      upchangeIcon.setAttribute("href", "./assets/chang-inside.svg")
+    });
+    upchangeIcon.addEventListener("mouseup", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:white");
+      upchangeIcon.setAttribute("href", "./assets/change.svg")
+    });
+    upchangeIcon.addEventListener("click", function(e){
+      e.stopPropagation();
+      // if_hintpop = true;
+      // gTriggerHint.setAttribute("visibility", "visible");
+
+      const dialogBox = Dom.element("dialog", {
+        class: "confirm-dialog",
+        id: "dialog-box",
+      });
+    
+      const title = Dom.element("h3", {
+        class: "confirm-dialog-content",
+      });
+      const title2 = Dom.element("h3", {
+        class: "confirm-dialog-content-warning",
+      });
+      const form = Dom.element("form", {
+        method: "dialog",
+        id: "dialog-form",
+      });
+
+      title.innerHTML = "Are you sure you want to<br>&nbsp&nbsp&nbsp&nbsp&nbspchange the trigger?";
+      title2.innerHTML = "This will clear all your settings";
+
+      dialogBox.appendChild(title);
+      dialogBox.appendChild(title2);
+
+      const btn1 = Dom.element("button", {
+        type: "submit",
+        class: "popup-button"
+      });
+      btn1.innerText = "Confirm";
+      form.appendChild(btn1);
+      const btn2 = Dom.element("button", {
+        type: "submit",
+        class: "popup-button2"
+      });
+      btn2.innerText = "Cancel";
+      form.appendChild(btn2);
+
+      const designer = document.getElementById("designer");
+      designer?.appendChild(dialogBox);
+      dialogBox.appendChild(form);
+
+      if (typeof dialogBox.showModal === "function") {
+        dialogBox.showModal();
+      } else {
+        prompt("Wrong window", "ok");
+      }
+
+      btn2.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const designer = document.getElementById("designer");
+        while (designer?.childNodes[1]) {
+          designer?.removeChild(designer.childNodes[1]);
+        }
+      });
+
+      btn1.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        textRight.textContent = "To Any List"
+        dropdownBoxInnerText.textContent = "Any list";
+        dropdownBoxInnerText1.textContent = "Once";
+
+        
+        const designer = document.getElementById("designer");
+        while (designer?.childNodes[1]) {
+          designer?.removeChild(designer.childNodes[1]);
+        }
+      });
+    });
+
+    changeIcon.addEventListener("click", function(e){
+      e.stopPropagation();
+
+      const dialogBox = Dom.element("dialog", {
+        class: "confirm-dialog",
+        id: "dialog-box",
+      });
+    
+      const title = Dom.element("h3", {
+        class: "confirm-dialog-content",
+      });
+      const title2 = Dom.element("h3", {
+        class: "confirm-dialog-content-warning",
+      });
+      const form = Dom.element("form", {
+        method: "dialog",
+        id: "dialog-form",
+      });
+
+      title.innerHTML = "Are you sure you want to<br>&nbsp&nbsp&nbsp&nbsp&nbspchange the trigger?";
+      title2.innerHTML = "This will clear all your settings";
+
+      dialogBox.appendChild(title);
+      dialogBox.appendChild(title2);
+
+      const btn1 = Dom.element("button", {
+        type: "submit",
+        class: "popup-button"
+      });
+      btn1.innerText = "Confirm";
+      form.appendChild(btn1);
+      const btn2 = Dom.element("button", {
+        type: "submit",
+        class: "popup-button2"
+      });
+      btn2.innerText = "Cancel";
+      form.appendChild(btn2);
+
+      const designer = document.getElementById("designer");
+      designer?.appendChild(dialogBox);
+      dialogBox.appendChild(form);
+
+      if (typeof dialogBox.showModal === "function") {
+        dialogBox.showModal();
+      } else {
+        prompt("Wrong window", "ok");
+      }
+
+      btn2.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const designer = document.getElementById("designer");
+        while (designer?.childNodes[1]) {
+          designer?.removeChild(designer.childNodes[1]);
+        }
+      });
+
+      btn1.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        textRight.textContent = "To Any List"
+        dropdownBoxInnerText.textContent = "Any list";
+        dropdownBoxInnerText1.textContent = "Once";
+
+        
+        const designer = document.getElementById("designer");
+        while (designer?.childNodes[1]) {
+          designer?.removeChild(designer.childNodes[1]);
+        }
+      });
     });
 
      // Show hints

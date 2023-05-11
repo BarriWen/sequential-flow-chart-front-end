@@ -47,6 +47,41 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     g.appendChild(text);
     const textWidth = Math.max(text.getBBox().width, MIN_TEXT_WIDTH);
     const boxWidth = ICON_SIZE + 8 * PADDING_X + 2 * textWidth;
+
+    const gTriggerHint = Dom.svg("g", {
+      class: "sqd-task-group-pop",
+    });
+
+    const join = Dom.svg('line', {
+			class: 'sqd-join-pop',
+			x1: 241.953 + addon,
+			y1: 16,
+			x2: 274.953 + addon,
+			y2: 16
+		});
+
+    const triggerHint = Dom.svg("rect", {
+      class: "sqd-task-rect-triggerhint",
+      x:266.953 + addon,
+      y:0.5,
+      height:boxHeight,
+      width: 175,
+      rx:9,
+      ry:9
+    });
+
+    const hint_text = Dom.svg("text", {
+      x: 276.953 + addon,
+      y: 17,
+      class: "sqd-task-text",
+    });
+    hint_text.textContent = "Please set up your trigger"
+
+    gTriggerHint.appendChild(join);
+    gTriggerHint.appendChild(triggerHint);
+    gTriggerHint.appendChild(hint_text);
+    
+
     const rect = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,

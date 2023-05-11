@@ -382,7 +382,7 @@ function promptChoices(
       type: "submit",
     });
     btn2.innerText = "Cancel";
-    btn1.addEventListener("click", function (e) {
+    btn2.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
       const designer = document.getElementById("designer");
@@ -402,7 +402,7 @@ function promptChoices(
     }
 
     // Event Listener
-    btn2.addEventListener("click", function (e) {
+    btn1.addEventListener("click", function (e) {
       // e.preventDefault();
       e.stopPropagation();
      
