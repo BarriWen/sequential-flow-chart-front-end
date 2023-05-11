@@ -6,6 +6,8 @@ import { InputView } from "../common-views/input-view";
 import { OutputView } from "../common-views/output-view";
 import { ValidationErrorView } from "../common-views/validation-error-view";
 import { ComponentView } from "../component";
+
+
 // import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 // import { TaskStepComponentView } from "./task-step-component-view";
 // import { ListItem } from "ng-multiselect-dropdown/multiselect.model";
@@ -531,11 +533,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       id:"timetrigger-dropdown"
     });
     const rect1 = Dom.svg("rect", {
-      x: 0.5,
-      y: boxHeight,
-      class: "sqd-task-rect",
-      width: boxWidth,
-      height: 6 * boxHeight,
+      x: 0.5 + addon,
+      y: 0.5,
+      class: `sqd-task-rect-${step.name}`,
+      width: 258,
+      height: 190,
       rx: RECT_RADIUS,
       ry: RECT_RADIUS,
     });
@@ -730,7 +732,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         if(dropdownBoxInnerText1.textContent == "Once"){
           gWeeks.classList.add("sqd-hidden");
           gOnce.classList.remove("sqd-hidden");
-          rect1.setAttribute("height", "460");
+          rect1.setAttribute("height", "190");
         }else{
           gOnce.classList.add("sqd-hidden");
           gWeeks.classList.remove("sqd-hidden");
@@ -750,267 +752,701 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     
 
     //implement the once choice of time-trigger
-  //   let today = new Date();
-  //   let yyyy = today.getFullYear();
-  //   let dd = today.getDate();
-  //   let ddd ='';
-  //   let mm = today.getMonth()+1;
-  //   let mmm = '';
-  //   let hh = today.getHours();
-  //   let hhh = '';
-  //   let nn = today.getMinutes();
-  //   let nnn = '';
-  //   if (dd < 10) {
-  //     ddd = '0' + dd;
-  //   }else{
-  //     ddd = dd.toString();
-  //   }
+    let today = new Date();
+    let yyyy = today.getFullYear();
+    let dd = today.getDate();
+    let ddd ='';
+    let mm = today.getMonth()+1;
+    let mmm = '';
+    let hh = today.getHours();
+    let hhh = '';
+    let nn = today.getMinutes();
+    let nnn = '';
+    if (dd < 10) {
+      ddd = '0' + dd;
+    }else{
+      ddd = dd.toString();
+    }
    
-  //   if (mm < 10) {
-  //     mmm = '0' + mm;
-  //   }else{
-  //     mmm = mm.toString();
-  //   }
-  //   if (hh < 10) {
-  //    hhh = '0' + hh;
-  //   } else{
-  //    hhh = hh.toString();
-  //   }
-  //   if (nn < 10) {
-  //     nnn = '0' + nn;
-  //    } else{
-  //     nnn = nn.toString();
-  //    }
+    if (mm < 10) {
+      mmm = '0' + mm;
+    }else{
+      mmm = mm.toString();
+    }
+    if (hh < 10) {
+     hhh = '0' + hh;
+    } else{
+     hhh = hh.toString();
+    }
+    if (nn < 10) {
+      nnn = '0' + nn;
+     } else{
+      nnn = nn.toString();
+     }
    
-  //  let todayStr = yyyy + '-' + mmm + '-' + ddd + 'T' + hhh + ':' + nnn;
-  //   console.log(todayStr);
-    
+   let todayStr = yyyy + '-' + mmm + '-' + ddd + 'T' + hhh + ':' + nnn;
+    console.log(todayStr);
 
     const gOnce = Dom.svg("g",{
-      class: "sqd-task-group-once",
+      class: "sqd-task-group-once"
     });
-    const calendarWrapper = Dom.svg("foreignObject",{
-      x:3+addon,
-      y:2 * boxHeight+40,
-      height: 320,
-      width: 250,
-    })
-    const calendarDiv= Dom.element("div", {
-      id: 'calendar',
-    })
-    calendarWrapper.appendChild(calendarDiv);
+    const datePickerWrapper = Dom.svg("foreignObject", {
+      x:PADDING_X+30 + addon,
+      y:2 * boxHeight+70,
+      height: 27,
+      width: 200,
+    });
+    const datePicker = Dom.element("input", {
+      class: "date-picker",
+      type:"datetime-local",
+      min: todayStr,
+    });
+    if(step.properties["time"]){
+      //@ts-ignore
+      datePicker.value = step.properties["time"]
+    }else{
+      //@ts-ignore
+      datePicker.value = '';
+    }
+    datePickerWrapper.appendChild(datePicker);
+    gOnce.appendChild(datePickerWrapper);
 
+
+    //implement the recurring choice of time-trigger
+    const gWeeks = Dom.svg("g", {
+      class: "sqd-task-group-week sqd-hidden"
+    });
+    
+    const week_text = Dom.svg("text", {
+      x: PADDING_X+10 + addon,
+      y: 2 * boxHeight+85,
+      class: "sqd-task-text_3",
+    });
+
+    week_text.textContent = "Set your delieverable dates:"
+    gWeeks.appendChild(week_text);
+    
     let databefore!:string[];
     if(step.properties["time"]){
       databefore = step.properties["time"].toString().split(',');
+    }else{
+      databefore = [];
     }
-    
-    let OnceDates!:string[];
-    //@ts-ignore
-    let calendar = new VanillaCalendar(calendarDiv,{
-      settings: {
-        selection: {
-          day: 'multiple',
-        },
-        range: {
-          disablePast: true,
-        },
-        visibility: {
-          weekend: false,
-        },
-        iso8601: false,
-      },
-      actions: {
-        //@ts-ignore
-        clickDay(event, dates) {
-          OnceDates = dates;
-        },
-      },
-    });
-    if(databefore && databefore.length != 0 && dropdownBoxInnerText1.textContent == "Once"){
-      let temp = [...databefore];
-      temp.pop();
-      OnceDates = temp;
-      //@ts-ignore
-      calendar = new VanillaCalendar(calendarDiv,{
-        settings: {
-          selection: {
-            day: 'multiple',
-          },
-          range: {
-            disablePast: true,
-          },
-          selected: {
-            dates: temp,
-          },
-          visibility: {
-            weekend: false,
-          },
-          iso8601: false,
-        },
-        actions: {
-          //@ts-ignore
-          clickDay(event, dates) {
-            OnceDates = dates;
-          },
-        },
+
+    for(let i=1;i<8;i++){
+      var week = "";
+
+      switch(i){
+        case 1:
+          week = "Monday";
+          break;
+        case 2:
+          week = "Tuesday";
+          break;
+        case 3:
+          week = "Wednesday";
+          break;
+        case 4:
+          week = "Thursday";
+          break;
+        case 5:
+          week = "Friday";
+          break;
+        case 6:
+          week = "Saturday";
+          break;
+        case 7:
+          week = "Sunday";
+          break;
+      }
+
+      const gEachWeek = Dom.svg("g", {
+        class: `sqd-week-${i}`
       });
+      const checkbox = Dom.svg("rect", {
+        class: "sqd-week-checkbox",
+        x:PADDING_X+10 + addon,
+        y:2 * boxHeight+75 +i*28,
+        height: 13,
+        width: 13,
+        rx:5,
+        ry:5
+      });
+      const weekName = Dom.svg("text", {
+        x: PADDING_X+35 + addon,
+        y: 2 * boxHeight+85 +i*28,
+        class: "sqd-task-text-week",
+      });
+      weekName.textContent = week;
+      
+      
+      const checkbox_img_url = "./assets/check-inside.svg";
+      const checkbox_img = Dom.svg("image", {
+        href: checkbox_img_url,
+      });
+      Dom.attrs(checkbox_img, {
+        height: 8,
+        width:8,
+        x: PADDING_X+10 + addon+2.4,
+        y: 2 * boxHeight+78 +i*28,
+        class: "week-checkbox-img"
+      });
+      
+      const checkboxShape = Dom.svg("rect", {
+        x:PADDING_X+10 + addon,
+        y:2 * boxHeight+75 +i*28,
+        height: 13,
+        width: 13,
+        rx:5,
+        ry:5,
+        opacity: 0,
+        class: "checkbox-shape"
+      });
+      
+      checkboxShape.addEventListener("click", function(e){
+        if(!gEachWeek.classList.contains("selected")){
+          gEachWeek.classList.add("selected");
+          Dom.attrs(checkbox, {
+            style: "stroke:#5495d4;fill:#5495d4",
+          });
+          Dom.attrs(weekName, {
+            style: "fill:#5495d4"
+          });
+        }else{
+          gEachWeek.classList.remove("selected");
+          Dom.attrs(checkbox, {
+            style: "stroke:#949CA0;fill:white",
+          });
+
+          Dom.attrs(weekName, {
+            style: "fill:#949CA0"
+          });
+        }
+      });
+       
+      const gTime = Dom.svg("g", {
+        class: "sqd-task-group"
+      });
+      const timeBox = Dom.svg("rect", {
+        x: PADDING_X+120 + addon,
+        y: 2 * boxHeight+75 +i*28,
+        height: 14,
+        width: 40,
+        class: "time-box",
+        rx:3,
+        ry:3
+      });
+      const timeBoxShape = Dom.svg("rect", {
+        x: PADDING_X+120 + addon,
+        y: 2 * boxHeight+75 +i*28,
+        height: 14,
+        width: 40,
+        rx:3,
+        ry:3,
+        opacity: 0,
+        class: "checkbox-shape"
+      });
+      const timeText = Dom.svg("text", {
+        x: PADDING_X+132 + addon,
+        y: 2 * boxHeight+85.5 +i*28,
+        class: "sqd-task-text-week2"
+      });
+      timeText.textContent = "12";
+
+      const time_box_url = "./assets/down.svg";
+      const timeicon = Dom.svg("image", {
+        x:PADDING_X+150 + addon,
+        y:2 * boxHeight+79 +i*28,
+        class: "week-drop-icon",
+        href: time_box_url,
+        height: 7,
+        width: 7
+      });
+
+      gTime.appendChild(timeBox);
+      gTime.appendChild(timeText);
+      gTime.appendChild(timeicon);
+      gTime.appendChild(timeBoxShape);
+
+      const gTimeRange = Dom.svg("g", {
+        class: "sqd-task-group"
+      })
+      const RangeBox = Dom.svg("rect", {
+        x: PADDING_X+170 + addon,
+        y: 2 * boxHeight+75 +i*28,
+        height: 14,
+        width: 40,
+        class: "time-box",
+        rx:3,
+        ry:3
+      });
+      const RangeBoxShape = Dom.svg("rect", {
+        x: PADDING_X+170 + addon,
+        y: 2 * boxHeight+75 +i*28,
+        height: 14,
+        width: 40,
+        rx:3,
+        ry:3,
+        opacity: 0,
+        class: "checkbox-shape"
+      });
+      const rangeText = Dom.svg("text", {
+        x: PADDING_X+177 + addon,
+        y: 2 * boxHeight+85.5 +i*28,
+        class: "sqd-task-text-week3"
+      });
+      rangeText.textContent = "AM";
+
+      const range_box_url = "./assets/down.svg";
+      const rangeicon = Dom.svg("image", {
+        x:PADDING_X+200 + addon,
+        y:2 * boxHeight+79 +i*28,
+        class: "week-drop-icon",
+        href: range_box_url,
+        height: 7,
+        width: 7
+      });
+      let weekTemp = '';
+      for(let h=0;h<databefore.length;h++){
+        if(databefore[h].includes(week)){
+          weekTemp = databefore[h];
+          gEachWeek.classList.add("selected");
+          Dom.attrs(checkbox, {
+            style: "stroke:#5495d4;fill:#5495d4",
+          });
+          Dom.attrs(weekName, {
+            style: "fill:#5495d4"
+          });
+          timeText.textContent = weekTemp.slice(-4,-2);
+          rangeText.textContent = weekTemp.slice(-2);
+        }
+      }
+
+      gTimeRange.appendChild(RangeBox);
+      gTimeRange.appendChild(rangeText);
+      gTimeRange.appendChild(rangeicon);
+      gTimeRange.appendChild(RangeBoxShape);
+      
+      //implement the dropdown menu for time
+      const gTimeDropdow = Dom.svg("g", {
+        class: "sqd-task-group sqd-hidden"
+      });
+      const timeDropRect = Dom.svg("rect", {
+        x: PADDING_X+120 + addon,
+        y: 2 * boxHeight+93 +i*28,
+        height: 173,
+        width: 40,
+        rx:3,
+        ry:3,
+        class: "time-drop-rect"
+      });
+      
+      gTimeDropdow.appendChild(timeDropRect);
+
+      for(let k=1;k<13;k++){
+        const timeSelectBox = Dom.svg("rect", {
+          x: PADDING_X+122 + addon,
+          y: 2 * boxHeight+81 +i*28 +k*14,
+          height: 14,
+          width: 36,
+          class: "week-time-drop-rect",
+          rx:2,
+          ry:2
+        });
+        const timeSelectBoxShape = Dom.svg("rect", {
+          x: PADDING_X+122 + addon,
+          y: 2 * boxHeight+82 +i*28 +k*14,
+          height: 12,
+          width: 36,
+          class: "week-time-drop-rect",
+          rx:3,
+          ry:3,
+          opacity: 0
+        });
+
+        const timeSelectText = Dom.svg("text", {
+          x: PADDING_X+135 + addon,
+          y: 2 * boxHeight+92.5 +i*28 +k*14,
+          class: "sqd-task-text-week4",
+        });
+        timeSelectText.textContent =`${k}`;
+
+        if(k>9){
+          Dom.attrs(timeSelectText, {
+            x:PADDING_X+133 + addon
+          });
+        }
+
+        timeSelectBoxShape.addEventListener("mouseover", function(){
+          timeSelectBox.setAttribute("style", "fill:#EDF5FF")
+        });
+        timeSelectBoxShape.addEventListener("mouseout", function(){
+          timeSelectBox.setAttribute("style", "fill:white")
+        })
+        timeSelectBoxShape.addEventListener("click", function(){
+          gTimeDropdow.classList.add("sqd-hidden");
+          Dom.attrs(timeBox, {
+            style: "stroke:#949CA0"
+          });
+          Dom.attrs(timeText, {
+            style: "fill:#949CA0"
+          });
+          timeicon.setAttribute("href", "./assets/down.svg");
+          if(k<10){
+            timeText.textContent = `0${k}`;
+          }else{
+            timeText.textContent = `${k}`;
+          }
+        });
+        
+        gTimeDropdow.appendChild(timeSelectBox);
+        gTimeDropdow.appendChild(timeSelectText);
+        gTimeDropdow.appendChild(timeSelectBoxShape);
+      }
+
+      //implement the dropdown for time range
+      const gRangeDropdow = Dom.svg("g", {
+        class: "sqd-task-group sqd-hidden"
+      });
+      const RangeDropRect = Dom.svg("rect", {
+        x: PADDING_X+170 + addon,
+        y: 2 * boxHeight+93 +i*28,
+        height: 33,
+        width: 40,
+        rx:3,
+        ry:3,
+        class: "time-drop-rect"
+      });
+      
+      gRangeDropdow.appendChild(RangeDropRect);
+
+      for(let m=1;m<3;m++){
+        const rangeSelectBox = Dom.svg("rect", {
+          x: PADDING_X+172 + addon,
+          y: 2 * boxHeight+81 +i*28 +m*14,
+          height: 14,
+          width: 36,
+          class: "week-time-drop-rect",
+          rx:2,
+          ry:2
+        });
+        const rangeSelectBoxShape = Dom.svg("rect", {
+          x: PADDING_X+172 + addon,
+          y: 2 * boxHeight+82 +i*28 +m*14,
+          height: 12,
+          width: 36,
+          class: "week-time-drop-rect",
+          rx:3,
+          ry:3,
+          opacity: 0
+        });
+
+        const rangeSelectText = Dom.svg("text", {
+          x: PADDING_X+177 + addon,
+          y: 2 * boxHeight+92.5 +i*28 +m*14,
+          class: "sqd-task-text-week5",
+        });
+        if(m==1){
+          rangeSelectText.textContent = "AM";
+        }else{
+          rangeSelectText.textContent = "PM";
+        }
+
+        rangeSelectBoxShape.addEventListener("mouseover", function(){
+          rangeSelectBox.setAttribute("style", "fill:#EDF5FF")
+        });
+        rangeSelectBoxShape.addEventListener("mouseout", function(){
+          rangeSelectBox.setAttribute("style", "fill:white")
+        })
+        rangeSelectBoxShape.addEventListener("click", function(){
+          gRangeDropdow.classList.add("sqd-hidden");
+          Dom.attrs(RangeBox, {
+            style: "stroke:#949CA0"
+          });
+          Dom.attrs(rangeText, {
+            style: "fill:#949CA0"
+          });
+          rangeicon.setAttribute("href", "./assets/down.svg");
+          if(m==1){
+            rangeText.textContent = "AM";
+          }else{
+            rangeText.textContent = "PM";
+          };
+        });
+
+        gRangeDropdow.appendChild(rangeSelectBox);
+        gRangeDropdow.appendChild(rangeSelectText);
+        gRangeDropdow.appendChild(rangeSelectBoxShape);
+      }
+
+      timeBoxShape.addEventListener("click", function(){
+        gTimeDropdow.classList.toggle("sqd-hidden");
+
+        if(!gTimeDropdow.classList.contains("sqd-hidden")){
+          Dom.attrs(timeBox, {
+            style: "stroke:#5495d4"
+          });
+          Dom.attrs(timeText, {
+            style: "fill:#000"
+          });
+          timeicon.setAttribute("href", "./assets/up.svg")
+        }else{
+          Dom.attrs(timeBox, {
+            style: "stroke:#949CA0"
+          });
+          Dom.attrs(timeText, {
+            style: "fill:#949CA0"
+          });
+          timeicon.setAttribute("href", "./assets/down.svg")
+        }
+      });
+
+      RangeBoxShape.addEventListener("click", function(){
+        gRangeDropdow.classList.toggle("sqd-hidden");
+
+        if(!gRangeDropdow.classList.contains("sqd-hidden")){
+          Dom.attrs(RangeBox, {
+            style: "stroke:#5495d4"
+          });
+          Dom.attrs(rangeText, {
+            style: "fill:#000"
+          });
+          rangeicon.setAttribute("href", "./assets/up.svg")
+        }else{
+          Dom.attrs(RangeBox, {
+            style: "stroke:#949CA0"
+          });
+          Dom.attrs(rangeText, {
+            style: "fill:#949CA0"
+          });
+          rangeicon.setAttribute("href", "./assets/down.svg")
+        }
+      });
+
+      gEachWeek.appendChild(gTime);
+      gEachWeek.appendChild(gTimeRange);
+      gEachWeek.appendChild(checkbox);
+      gEachWeek.appendChild(checkbox_img);
+      gEachWeek.appendChild(checkboxShape);
+      gEachWeek.appendChild(weekName);
+      gEachWeek.appendChild(gTimeDropdow);
+      gEachWeek.appendChild(gRangeDropdow);
+      gWeeks.appendChild(gEachWeek);
+      gWeeks.insertBefore(gEachWeek, gWeeks.firstChild);
     }
-    calendar.init();
-
-    const calendarBr = Dom.svg("line", {
-      x1:addon,
-			y1: 2 * boxHeight+327,
-			x2: 258+addon,
-			y2: 2 * boxHeight+327,
-      stroke: "#3FC8FA",
-      class: "sqd-calendar-line"
-    });
     
-    //implement the set time feature
-    const gSetTime = Dom.svg("g", {
-      class: "sqd-task-group",
+    //implement of end date section
+    const gEndDate = Dom.svg("g", {
+      class: "sqd-task-group"
     });
-    
-    const setTimeText = Dom.svg("text", {
-      class: "sqd-task-text-settime",
-      x: PADDING_X+10 + addon,
-      y: 2 * boxHeight+350,
-    });
-    setTimeText.textContent = "Set time(hour)";
 
-    const setTimeWrapper = Dom.svg("foreignObject",{
-      x:PADDING_X+114 + addon,
-      y:2 * boxHeight+340,
-      height: 30,
-      width: 40,
+    const endDateText = Dom.svg("text", {
+      x:PADDING_X+10 + addon,
+      y:2 * boxHeight+316,
     });
-    const setTimeInput = Dom.element("input", {
-      class: "settime-input",
+    endDateText.textContent = "End Date";
+
+    const monthWrapper = Dom.svg("foreignObject", {
+      x:PADDING_X+80 + addon,
+      y:2 * boxHeight+300,
+      height: 27,
+      width: 35,
+    });
+    const monthInput = Dom.element("input", {
+      class: "date-input",
       type: "text",
-      placeholder: "00",
+      placeholder: "MM",
+      x:0.5,
+      y:0.5,
       maxlength: 2,
     });
-    if(databefore &&  databefore.length != 0 && dropdownBoxInnerText1.textContent == "Once"){
-      console.log(databefore);
-      setTimeInput.value = databefore[databefore.length-1].slice(0,2);
+    monthWrapper.appendChild(monthInput);
+
+    const dateWrapper = Dom.svg("foreignObject", {
+      x:PADDING_X+120 + addon,
+      y:2 * boxHeight+300,
+      height: 27,
+      width: 35,
+    });
+    const dateInput = Dom.element("input", {
+      class: "date-input",
+      type: "text",
+      placeholder: "DD",
+      x:0.5,
+      y:0.5,
+      maxlength: 2,
+    });
+    dateWrapper.appendChild(dateInput);
+
+    const yearWrapper = Dom.svg("foreignObject", {
+      x:PADDING_X+160 + addon,
+      y:2 * boxHeight+300,
+      height: 27,
+      width: 55,
+    });
+    const yearInput = Dom.element("input", {
+      class: "date-input-year",
+      type: "text",
+      placeholder: "YYYY",
+      x:0.5,
+      y:0.5,
+      maxlength: 4,
+    });
+    yearWrapper.appendChild(yearInput);
+
+    if(databefore.length != 0){
+      const databeforeEndDate = databefore[databefore.length-1].split(':')[1].split('/');
+      monthInput.value = databeforeEndDate[0];
+      dateInput.value = databeforeEndDate[1];
+      yearInput.value = databeforeEndDate[2];
     }
-    setTimeWrapper.appendChild(setTimeInput);
+
+    gEndDate.appendChild(endDateText);
+    gEndDate.appendChild(monthWrapper);
+    gEndDate.appendChild(dateWrapper);
+    gEndDate.appendChild(yearWrapper);
+
+    const timezone = Dom.svg("text", {
+      x:PADDING_X+10 + addon,
+      y:2 * boxHeight+345,
+      class: "sqd-task-text_3"
+    })
+    timezone.textContent = "Based on your timezone(PST)";
+
+    gWeeks.insertBefore(gEndDate, gWeeks.firstChild);
+    gWeeks.insertBefore(timezone,gWeeks.firstChild);
+
+    if(step.properties["Runs"] == "Once"){
+      gOnce.classList.remove("sqd-hidden");
+      if(!gWeeks.classList.contains("sqd-hidden")){
+        gWeeks.classList.add("sqd-hidden");
+        rect1.setAttribute("height", "190");
+      }
+    }else if (step.properties["Runs"] == "Recurring"){
+      gWeeks.classList.remove("sqd-hidden");
+      if(!gOnce.classList.contains("sqd-hidden")){
+        gOnce.classList.add("sqd-hidden");
+      }
+      rect1.setAttribute("height", "440");
+    }
     
-    const setTimeBr = Dom.svg("line", {
-      x1: PADDING_X+121 + addon,
-			y1: 2 * boxHeight+354,
-			x2: PADDING_X+141 + addon,
-			y2: 2 * boxHeight+354,
-      stroke: "#3FC8FA",
-      class: "sqd-calendar-line"
+    gDropdown.appendChild(gOnce);
+    gDropdown.appendChild(gWeeks);
+    gSubDropdownbox.appendChild(dropdownRightButton);
+    gSubDropdownbox1.appendChild(dropdownRightButton1);
+    gSubDropdownbox.insertBefore(dropdownBoxShape, dropdownRightButton);
+    gSubDropdownbox1.insertBefore(dropdownBoxShape1, dropdownRightButton1);
+    gSubDropdownbox.appendChild(dropdownBoxInnerText);
+    gSubDropdownbox1.appendChild(dropdownBoxInnerText1);
+    gSubDropdownbox.appendChild(dropdownBoxShapeAfter);
+    gSubDropdownbox1.appendChild(dropdownBoxShape1After);
+    gSubDropdown.appendChild(gSubDropdownbox);
+    gSubDropdown.appendChild(downImgContainer);
+    gSubDropdown.appendChild(gSubDropdownboxPop);
+    gSubDropdown1.appendChild(gSubDropdownbox1);
+    gSubDropdown1.appendChild(gSubDropdownbox1Pop);
+    gSubDropdown1.appendChild(downImgContainer1);
+    gDropdown.appendChild(gSubDropdown1);
+    gDropdown.appendChild(gSubDropdown);
+    g.appendChild(gTriggerHint);
+    g.appendChild(gmoreIcon);
+    g.appendChild(gRightPop3);
+    g.appendChild(gDropdown);
+    g.insertBefore(gDropdown, rect)
+    g.appendChild(gRightPop3Reminder);
+    g.appendChild(gUpPop3);
+    g.appendChild(setUpReminder);
+
+    let if_hintpop = true;
+    if(Object.keys(step.properties).length == 0){
+      if_hintpop = true;
+    }else{
+      if_hintpop = false;
+      gTriggerHint.classList.toggle("sqd-hidden");
+    }
+    // Add EventListeners
+    gmoreIcon.addEventListener("click", function (e) {
+      e.stopPropagation();
+
+      if(gDropdown.classList.contains("sqd-hidden")){
+        gRightPop3.classList.toggle("sqd-hidden");
+      }else{
+        gDropdown.classList.toggle("sqd-hidden");
+        gUpPop3.classList.toggle("sqd-hidden");
+        gRightPop3.classList.toggle("sqd-hidden");
+      }
+      gTriggerHint.classList.add("sqd-hidden");
+      if_hintpop = false;
     });
 
-    const setTimeRangeRect = Dom.svg("rect", {
-      class: "set-time-rect",
-      x:PADDING_X+147 + addon,
-      y:2 * boxHeight+338,
-      rx: 10,
-      ry: 10,
-      width: 74,
-      height: 20
-    });
-
-    const setTimeAmText = Dom.svg("text", {
-      class: "sqd-task-text-settime-am",
-      x: PADDING_X+159 + addon,
-      y: 2 * boxHeight+351,
-    });
-    setTimeAmText.textContent = "AM";
-    const setTimeAmRect = Dom.svg("rect", {
-      class: "set-time-rect-m selected",
-      x: PADDING_X+150 + addon,
-      y: 2 * boxHeight+340,
-      rx: 9,
-      ry: 9,
-      width: 37,
-      height: 15.5,
-      fill: "#5495d4"
-    });
-
-    const setTimePmText = Dom.svg("text", {
-      class: "sqd-task-text-settime-pm",
-      x: PADDING_X+191 + addon,
-      y: 2 * boxHeight+351,
-    });
-    setTimePmText.textContent = "PM";
-    const setTimePmRect = Dom.svg("rect", {
-      class: "set-time-rect-m",
-      x: PADDING_X+181 + addon,
-      y: 2 * boxHeight+340,
-      rx: 9,
-      ry: 9,
-      width: 37,
-      height: 15.5,
-      fill: "white"
-    });
-
-    const setTimeAmRectShape = Dom.svg("rect", {
-      class: "set-time-shape",
-      x: PADDING_X+150 + addon,
-      y: 2 * boxHeight+340,
-      rx: 9,
-      ry: 9,
-      width: 37,
-      height: 15.5,
-      opacity: 0
-    });
-
-    const setTimePmRectShape = Dom.svg("rect", {
-      class: "set-time-shape",
-      x: PADDING_X+181 + addon,
-      y: 2 * boxHeight+340,
-      rx: 9,
-      ry: 9,
-      width: 37,
-      height: 15.5,
-      opacity: 0
-    });
-
-    const setTimeTimeZone = Dom.svg("text", {
-      class: "sqd-task-text_3",
-      x: PADDING_X+10 + addon,
-      y: 2 * boxHeight+377,
-    });
-    setTimeTimeZone.textContent = "Based on your timezone(PST)";
-
-    setTimeInput.addEventListener("change", function(){
-      if(parseInt(setTimeInput.value) < 10){
-        setTimeInput.value = '0' + setTimeInput.value;
+    gmoreIcon.addEventListener("mouseover", function(){
+      if(if_hintpop){
+        gTriggerHint.classList.remove("sqd-hidden");
       }
     });
-    sendTimecollection.appendChild(choice2Text);
-    sendTimecollection.appendChild(sendTimeSelect);
-    sendTimecollection.appendChild(weekSelect);
-    sendTimecollection.appendChild(divTagInput);
 
-    divTimeTriggerSelectListTag.appendChild(collection);
-    divTimeTriggerSendTimeTag.appendChild(sendTimecollection);
-    foreignObjectTag.appendChild(divTimeTriggerSelectListTag);
-    foreignObjectTag.appendChild(divTimeTriggerSendTimeTag);
-    gDropdown.appendChild(rect1);
-    gDropdown.appendChild(foreignObjectTag);
-
-    moreIcon.addEventListener("click", function () {
-      gRightPop3.classList.toggle("sqd-hidden");
+    gmoreIcon.addEventListener("mouseout", function(){
+      if(if_hintpop){
+        gTriggerHint.classList.add("sqd-hidden");
+      }
     });
-    editIcon.addEventListener("click", function () {
+    
+    // Edit
+    editIcon.addEventListener("click", function (e) {
+      e.stopPropagation();
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
       gRightPop3.classList.toggle("sqd-hidden");
 
-      if (step.properties.list){
-        const index = selectList.findIndex(a => a === step.properties.list.toString());
-        selectListSelect.selectedIndex = index;
-      }
-      if (step.properties.frequency) {
-        const index = sendTimes.findIndex(a => a === step.properties.frequency.toString());
-        sendTimeSelect.selectedIndex = index;
+    upCheckIcon.addEventListener("click", function(e){
+      e.stopPropagation();
+      let ifselected = false;
+      let weekAndTime:string = '';
+      if(dropdownBoxInnerText1.textContent == "Recurring"){
+        for(let i=2;i<9;i++){
+          if(gWeeks.children[i].classList.contains("selected")){
+            weekAndTime += `${gWeeks.children[i].children[5].textContent}`+`${gWeeks.children[i].children[0].children[1].textContent}`+`${gWeeks.children[i].children[1].children[1].textContent},`;
+            ifselected = true;
+          }
+        }
+        if(ifselected == false){
+          alert("please select at least one weekday");
+          return;
+        }
+        const d = new Date();
+        let todayMonth = d.getMonth()+1;
+        let todayYear = d.getFullYear();
+        let todayDate = d.getDate();
+        //@ts-ignore
+        let inputMonth = parseInt(document.getElementsByClassName("date-input")[0].value);
+        //@ts-ignore
+        let inputDate = parseInt(document.getElementsByClassName("date-input")[1].value);
+        //@ts-ignore
+        let inputYear = parseInt(document.getElementsByClassName("date-input-year")[0].value);
+
+        if(inputYear < todayYear || isNaN(inputYear)){
+          alert("please input right year of end date");
+          return;
+        }
+        if((inputMonth < todayMonth && inputYear == todayYear) || inputMonth > 12 || inputMonth < 1 || isNaN(inputMonth)){
+          alert("please input right month of end date");
+          return;
+        }
+        //@ts-ignore
+        if(isNaN(inputDate) || (inputDate < todayDate && inputMonth == todayMonth && inputYear == todayYear)){
+          alert("please input right date of end date");
+          return;
+        }
+        let lastDayOfMonth = new Date(inputYear, inputMonth, 0);
+        if(inputDate > lastDayOfMonth.getDate()){
+          alert("please input right date of end date");
+          return;
+        }
+        //@ts-ignore
+        step.properties["time"] = weekAndTime + 'End date:'+`${document.getElementsByClassName("date-input")[0].value}`+'/'+`${document.getElementsByClassName("date-input")[1].value}`+'/'+`${document.getElementsByClassName("date-input-year")[0].value}`;
+      }else{
+        //@ts-ignore
+        step.properties["time"] = `${gOnce.children[0].children[0].value}`;
       }
 
       if (step.properties.frequency == "Once" && divTagInput.value) {
@@ -1102,14 +1538,104 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       } else {
         prompt("Wrong window", "ok");
       }
-      else if (sendTimeSelect.value == "Recurring" && weekSelect.value){
-        step.properties.send = weekSelect.value;
-        textRight.textContent = "Every " + weekSelect.value;
-        divTagInput.value = "";
+
+      btn2.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const designer = document.getElementById("designer");
+        while (designer?.childNodes[1]) {
+          designer?.removeChild(designer.childNodes[1]);
+        }
+      });
+
+      btn1.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+
+        textRight.textContent = "To Any List"
+        dropdownBoxInnerText.textContent = "Any list";
+        step.properties={};
+        
+        
+        const designer = document.getElementById("designer");
+        while (designer?.childNodes[1]) {
+          designer?.removeChild(designer.childNodes[1]);
+        }
+      });
+    });
+
+    changeIcon.addEventListener("click", function(e){
+      e.stopPropagation();
+
+      const dialogBox = Dom.element("dialog", {
+        class: "confirm-dialog",
+        id: "dialog-box",
+      });
+    
+      const title = Dom.element("h3", {
+        class: "confirm-dialog-content",
+      });
+      const title2 = Dom.element("h3", {
+        class: "confirm-dialog-content-warning",
+      });
+      const form = Dom.element("form", {
+        method: "dialog",
+        id: "dialog-form",
+      });
+
+      title.innerHTML = "Are you sure you want to<br>&nbsp&nbsp&nbsp&nbsp&nbspchange the trigger?";
+      title2.innerHTML = "This will clear all your settings";
+
+      dialogBox.appendChild(title);
+      dialogBox.appendChild(title2);
+
+      const btn1 = Dom.element("button", {
+        type: "submit",
+        class: "popup-button"
+      });
+      btn1.innerText = "Confirm";
+      form.appendChild(btn1);
+      const btn2 = Dom.element("button", {
+        type: "submit",
+        class: "popup-button2"
+      });
+      btn2.innerText = "Cancel";
+      form.appendChild(btn2);
+
+      const designer = document.getElementById("designer");
+      designer?.appendChild(dialogBox);
+      dialogBox.appendChild(form);
+
+      if (typeof dialogBox.showModal === "function") {
+        dialogBox.showModal();
+      } else {
+        prompt("Wrong window", "ok");
       }
-      step.properties.frequency = sendTimeSelect.value;
-      step.properties.list = selectList[parseInt(selectListSelect.value)];
-      step["updatedAt"] = new Date();
+
+      btn2.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const designer = document.getElementById("designer");
+        while (designer?.childNodes[1]) {
+          designer?.removeChild(designer.childNodes[1]);
+        }
+      });
+
+      btn1.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        textRight.textContent = "To Any List"
+        dropdownBoxInnerText.textContent = "Any list";
+        dropdownBoxInnerText1.textContent = "Once";
+
+        
+        const designer = document.getElementById("designer");
+        while (designer?.childNodes[1]) {
+          designer?.removeChild(designer.childNodes[1]);
+        }
+      });
     });
     // Show hints
     editIcon.addEventListener("mouseover", function(){

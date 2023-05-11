@@ -33,8 +33,7 @@ export class SwitchStepComponentView implements ComponentView {
     const g = Dom.svg("g", {
       class: `sqd-switch-group sqd-type-${step.type}`,
     });
-    // parent.insertBefore(g, parent.firstChild);
-    parent.appendChild(g);
+    parent.insertBefore(g, parent.firstChild);
 
     const branchNames = Object.keys(step.branches);
     const sequenceComponents = branchNames.map((bn) =>
@@ -584,16 +583,8 @@ export class SwitchStepComponentView implements ComponentView {
             class: "add-cond-text", 
         }); 
 
-        addConditionText.textContent = "Add another condition"; 
-        
-        const addSegmentBtnClickArea = Dom.svg("rect", {
-            class: "sqd-add-seg-area", 
-            x: containerWidths[0] - textWidth - 94,
-            y: PADDING_TOP + 145, 
-            width: boxWidth - 25, 
-            height: 33, 
-            fill: "rgba(255, 255, 255, 0)"
-        }); 
+    const inputView = InputView.createRoundInput(g, containerWidths[0], 0);
+    const regionView = RegionView.create(g, containerWidths, containerHeight);
 
         const addSegBtnTitle = Dom.svg("text", {
             class: "add-seg-btn-title", 

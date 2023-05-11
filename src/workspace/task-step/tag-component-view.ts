@@ -6,9 +6,6 @@ import { InputView } from "../common-views/input-view";
 import { OutputView } from "../common-views/output-view";
 import { ValidationErrorView } from "../common-views/validation-error-view";
 import { ComponentView } from "../component";
-import { StepComponentFactory } from "../step-component-factory";
-import { TaskStepComponent } from "./task-step-component";
-import { journeyProperties } from "../../definition";
 const PADDING_X = 12;
 const PADDING_Y = 10;
 const MIN_TEXT_WIDTH = 70;
@@ -140,20 +137,10 @@ export class TagComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "../assets/tag_more.svg";
+    const moreUrl = "./assets/more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
-        })
-      : Dom.svg("rect", {
-          class: "sqd-task-empty-icon",
-          rx: 4,
-          ry: 4,
-        });
-    const moreDotUrl = "./assets/more-dot.svg"
-    const moreIconDot = moreDotUrl
-      ? Dom.svg("image", {
-          href: moreDotUrl,
         })
       : Dom.svg("rect", {
           class: "sqd-task-empty-icon",
@@ -276,7 +263,6 @@ export class TagComponentView implements ComponentView {
       class: "sqd-task-ImgContainerCircle",
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       y: PADDING_Y - 40,
-      style: "fill:#5495d4"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -284,7 +270,7 @@ export class TagComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "../assets/check.svg";
+    const upCheckIconUrl = "./assets/check.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -520,16 +506,6 @@ export class TagComponentView implements ComponentView {
       e.stopPropagation();
       gRightPop3.classList.toggle("sqd-hidden");
     });
-    moreIconDot.addEventListener("click", function (e) {
-      e.stopPropagation();
-      gRightPop3.classList.toggle("sqd-hidden");
-      if (!gUpPop3.classList.contains("sqd-hidden")) {
-        gUpPop3.classList.toggle("sqd-hidden");
-      }
-      if (!gDropdown.classList.contains("sqd-hidden")) {
-        gDropdown.classList.toggle("sqd-hidden");
-      }
-    });
     
     // Edit
     editIcon.addEventListener("click", function (e) {
@@ -547,12 +523,6 @@ export class TagComponentView implements ComponentView {
         step.properties["tag"] = textRight.textContent;
         step["updatedAt"] = new Date();
       }
-    });
-    upCheckIcon.addEventListener("mousedown", function(){
-      checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
-    });
-    upCheckIcon.addEventListener("mouseup", function(){
-      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
     });
 
      // Show hints
@@ -757,8 +727,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
     };
   };
 }
-
-function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement, tagId: string) {
+function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement) {
   const g = Dom.svg("g", {
     class: `create-tag`,
   });
@@ -826,7 +795,7 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
       const userID = 1;      //Need to be changed to an existing user
       const journeyID = 4;  //Need to be changed to an existing journey
       const data = {"tag_name": `${input.value}`};
-      const request = new Request(`http://localhost:8080/AddTag`, {
+      const request = new Request(`http://localhost:8080/tags/${userID}/${journeyID}`, {
         method: 'POST', 
         headers: {
           "Content-Type": 'application/json'

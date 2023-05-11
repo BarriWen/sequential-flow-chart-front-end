@@ -1,4 +1,3 @@
-import { data } from "jQuery";
 import { Dom } from "../../core/dom";
 import { Vector } from "../../core/vector";
 import { TaskStep } from "../../definition";
@@ -140,7 +139,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "../assets/send_more.svg";
+    const moreUrl = "./assets/more.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -268,7 +267,6 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
       class: "sqd-task-ImgContainerCircle",
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       y: PADDING_Y - 40,
-      style: "fill:#5495d4"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -276,7 +274,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "../assets/check.svg";
+    const upCheckIconUrl = "./assets/check.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -606,13 +604,6 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
         divTagInputTimes.value = "";
         step["updatedAt"] = new Date();
       }
-      
-    });
-    upCheckIcon.addEventListener("mousedown", function(){
-      checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
-    });
-    upCheckIcon.addEventListener("mouseup", function(){
-      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
     });
 
      // Show hints
