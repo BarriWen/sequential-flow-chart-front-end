@@ -9,7 +9,7 @@
 
 .sqd-theme-light .sqd-toolbox {
 	background: #FFF;
-	box-shadow: 0 0 10px rgb(0, 192, 255, 0.5), 0 2px 4px rgba(0, 0, 0, .15);
+	box-shadow: 0 0 8px rgba(0, 0, 0, .15), 0 2px 4px rgba(0, 0, 0, .15);
 }
 .sqd-theme-light .sqd-toolbox-filter {
 	border: 1px solid #C3C3C3;
@@ -84,12 +84,6 @@
 	fill: #FFF;
 	stroke: #247D99;
 	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
-}
-
-.sqd-theme-light .sqd-task-rect-inner{
-	fill: #FFF;
-	stroke: #4FCCFC;
-	stroke-width: 1.5;
 }
 
 #sqd-task-tag .sqd-task-rect{

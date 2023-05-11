@@ -78,8 +78,6 @@
 	width: 127px;
 	height: 20px; 
 	border-radius: 5px;
-	border-width: 1px;
-    border-color: #808080;
 }
 .sqd-toolbox-group-title {
 	text-align: center;
@@ -232,10 +230,6 @@
 	stroke-width: 3;
 	z-index: 100;
 }
-.sqd-switch-rect {
-	stroke-width: 3; 
-}
-
 .sqd-task-rect.sqd-selected {
 	stroke-width: 2.5;
 }
