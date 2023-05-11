@@ -492,7 +492,6 @@ export class EmailComponentView implements ComponentView {
     const gDropdown = Dom.svg("g", {
       class: `sqd-task-group dropdown sqd-hidden Collapsed`
     });
-
     
     g.appendChild(moreIcon);
     g.appendChild(gRightPop3);
@@ -651,26 +650,9 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     class: `sqd-task-group sub-dropdownbox`
   });
   dropdown.appendChild(gSubDropdownbox);
-
-  const rect1 = createRect(
-    "sqd-task-rect sqd-hidden", // Temporary hidden 
-    0.5,
-    h - 15,
-    w,
-    4 * h + 5 * PADDING_Y,
-    `dropdown${Date.now()}`,
-    RECT_RADIUS);
+  
+  const rect1 = createRect("sqd-task-rect", 0.5, h, w, 4 * h + PADDING_Y, `dropdown${Date.now()}`, RECT_RADIUS);
   gSubDropdownbox.appendChild(rect1);
-  const rect2 = createRect(
-    "sqd-task-rect",
-    0.5,
-    h - 15,
-    w,
-    4 * h + PADDING_Y,
-    `dropdown${Date.now()}`,
-    RECT_RADIUS);
-  gSubDropdownbox.appendChild(rect2);
-
   let startX = rect1.getBBox().x;
   let startY = rect1.getBBox().y;
   let wid = rect1.getBBox().width;
@@ -738,41 +720,26 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
   // Add content option 1
   startY = content.getBBox().y;
   height = content.getBBox().height;
-  const tem = addTxt('Template', startX+5, startY + PADDING_Y * 5);
+  const tem = addTxt('Template', startX + 10, startY + PADDING_Y * 5);
   gSubDropdownbox.appendChild(tem);
   Dom.attrs(tem, {class: "content-text"});
-  const template = createRect("content-option", startX, startY + height + PADDING_Y / 2, 65 , 60, "", RECT_RADIUS);
+  const template = createRect("content-option", startX, startY + height + PADDING_Y / 2, 75 , 60, "", RECT_RADIUS);
   gSubDropdownbox.insertBefore(template, tem);
 
   // Add content option 2
   startX = template.getBBox().x + template.getBBox().width + PADDING_X;
-  const txt = addTxt('Text Only', startX + 3-5, startY + PADDING_Y * 5);
+  const txt = addTxt('Text Only', startX + 3, startY + PADDING_Y * 5);
   gSubDropdownbox.appendChild(txt);
   Dom.attrs(txt, {class: "content-text"});
-  const txtWrapper = createRect("content-option", startX - PADDING_X / 2, startY + height + PADDING_Y / 2, 65 , 60, "", RECT_RADIUS);
+  const txtWrapper = createRect("content-option", startX - PADDING_X / 2, startY + height + PADDING_Y / 2, 75 , 60, "", RECT_RADIUS);
   gSubDropdownbox.insertBefore(txtWrapper, txt);
-
-  const dropdownBoxShapeAfter = Dom.svg("rect", {
-    width: 65,
-    height: 60,
-    class: "option select-field",
-    fill: "#fff",
-    stroke: "#a0a0a0",
-    x: startX - PADDING_X / 2,
-    y: startY + height + PADDING_Y / 2,
-  });
-  Dom.attrs(dropdownBoxShapeAfter, {
-    opacity: 0,
-  });
-  dropdownBoxShapeAfter.setAttribute("cursor", "pointer");
-  gSubDropdownbox.appendChild(dropdownBoxShapeAfter);
   
   // Add content option 3
   startX = txtWrapper.getBBox().x + txtWrapper.getBBox().width + PADDING_X * 2;
-  const html = addTxt('HTML', startX-5, startY + PADDING_Y * 5);
+  const html = addTxt('HTML', startX, startY + PADDING_Y * 5);
   gSubDropdownbox.appendChild(html);
   Dom.attrs(html, {class: "content-text"});
-  const htmlWrapper = createRect("content-option", startX - 3 * PADDING_X / 2 , startY + height + PADDING_Y /2 , 65 , 60, "", RECT_RADIUS);
+  const htmlWrapper = createRect("content-option", startX - 3 * PADDING_X / 2 , startY + height + PADDING_Y /2 , 75 , 60, "", RECT_RADIUS);
   gSubDropdownbox.insertBefore(htmlWrapper, html);
 
   // Add Event Listeners
