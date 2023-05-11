@@ -180,7 +180,17 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     setUpReminder.appendChild(clickOkText);
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
-    const moreUrl = "../assets/trigger_more.svg";
+    var moreUrl;
+    const moreDotUrl = "./assets/more-dot.svg"
+    if(step.name == "Subscribe" || step.name == "Unsubscribe"){
+      moreUrl = "./assets/more2.svg";
+    }else{
+      moreUrl = "./assets/more3.svg"
+    }
+
+    const gmoreIcon = Dom.svg("g", {
+      class: "moreIcon-group"
+    });
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -308,6 +318,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       class: "sqd-task-ImgContainerCircle",
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       y: PADDING_Y - 40,
+      style: "fill:#5495d4"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -616,16 +627,361 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       var optional = Dom.element("option", {
         value: week[i],
       });
-      optional.innerText = week[i];
-      weekSelect.appendChild(optional);
+      gSubDropdownboxPop.appendChild(dropdownBoxBottomShaperec);
+      
+      for (let i = 1; i <= list.length; i++) {
+        const dropdownBoxBottomShapeText = Dom.svg("text", {
+          class: "sqd-task-text",
+          x: ICON_SIZE + 5 * PADDING_X+25 + addon,
+          y: 1.4 * boxHeight + 22*i + 27,
+        });
+        
+
+        dropdownBoxBottomShapeText.textContent = list[i-1];
+        const dropdownBoxBottomShapecover = Dom.svg("rect", {
+          width: 90,
+          height: 20,
+          class: "option select-field choice",
+          fill: "#fff",
+          stroke: "none",
+          x: ICON_SIZE + 5 * PADDING_X+22 + addon,
+          y: 1.2 * boxHeight + 22*i + 25,
+          id: `dropdownBoxBottomShapecover${Date.now()}`,
+          rx: 4,
+          ry: 4,
+        });
+
+        Dom.attrs(dropdownBoxBottomShapecover, {
+          opacity: 0.07,
+        });
+        // Add event listners
+        dropdownBoxBottomShapecover.addEventListener("click", function (e) {
+          dropdownBoxInnerText.textContent = dropdownBoxBottomShapeText.textContent;
+          gSubDropdownboxPop.classList.toggle("sqd-hidden");
+          dropdownBoxShape.style.stroke="#BFBFBF";
+          dropdownBoxInnerText.style.fill = "#a0a0a0";
+          downIcon.setAttribute("href", "./assets/list_down.png");
+        });
+        gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
+      // gSubDropdownboxPop.insertBefore(
+      //    dropdownBoxBottomShape,
+      //   dropdownBoxBottomShapeText
+      // );
+      gSubDropdownboxPop.appendChild(dropdownBoxBottomShapecover);
+      }
     }
-    sendTimeSelect.addEventListener("change", function () {
-      if (sendTimeSelect.value == "Once") {
-        divTagInput.classList.remove("sqd-hidden");
-        weekSelect.classList.add("sqd-hidden");
-      } else {
-        divTagInput.classList.add("sqd-hidden");
-        weekSelect.classList.remove("sqd-hidden");
+
+    // Run time choices
+    list = ['Once','Recurring'];
+    const dropdownBoxBottomShape1rec = Dom.svg("rect", {
+      width:100,
+      height:list.length*25,
+      fill:"#fff",
+      stroke: "#4FCCFC",
+      x: ICON_SIZE + 5 * PADDING_X+17 + addon,
+      y: 1.75 * boxHeight + 57,
+      rx: 4,
+      ry: 4
+    });
+    gSubDropdownbox1Pop.appendChild(dropdownBoxBottomShape1rec);
+
+    // Options
+    for (let i = 1; i <= list.length; i++) {
+      // const dropdownBoxBottomShape1 = Dom.svg("rect", {
+      //   width: 100,
+      //   height: 20,
+      //   class: "option select-field",
+      //   fill: "#fff",
+      //   stroke: "#a0a0a0",
+      //   x: ICON_SIZE + 5 * PADDING_X+17,
+      //   y: 1.75 * boxHeight + 15 * i+32,
+      // });
+  
+      const dropdownBoxBottomShape1Text = Dom.svg("text", {
+        class: "sqd-task-text",
+        x: ICON_SIZE + 5 * PADDING_X+25 + addon,
+        y: 1.95 * boxHeight + 20 * i+45,
+      });
+      dropdownBoxBottomShape1Text.textContent = list[i-1];
+      const dropdownBoxBottomShape1cover = Dom.svg("rect", {
+        width: 90,
+        height: 20,
+        class: "option select-field choice",
+        fill: "#fff",
+        stroke: "none",
+        x: ICON_SIZE + 5 * PADDING_X+22 + addon,
+        y: 1.75 * boxHeight + 20 * i+42,
+        id: `dropdownBoxBottomShape1cover${Date.now()}`,
+        rx: 4,
+        ry: 4,
+      });
+      Dom.attrs(dropdownBoxBottomShape1cover, {
+        opacity: 0.07,
+      });
+      
+      // Add event listners
+      dropdownBoxBottomShape1cover.addEventListener("click", function (e) {
+        dropdownBoxInnerText1.textContent = dropdownBoxBottomShape1Text.textContent;
+        gSubDropdownbox1Pop.classList.toggle("sqd-hidden");
+        dropdownBoxShape1.style.stroke="#BFBFBF";
+        dropdownBoxInnerText1.style.fill = "#a0a0a0";
+        downIcon1.setAttribute("href", "./assets/list_down.png");
+
+        if(dropdownBoxInnerText1.textContent == "Once"){
+          gWeeks.classList.add("sqd-hidden");
+          gOnce.classList.remove("sqd-hidden");
+          rect1.setAttribute("height", "460");
+        }else{
+          gOnce.classList.add("sqd-hidden");
+          gWeeks.classList.remove("sqd-hidden");
+          rect1.setAttribute("height", "440");
+        }
+        
+      });
+
+      // Append Child
+      gSubDropdownbox1Pop.appendChild(dropdownBoxBottomShape1Text);
+      // gSubDropdownbox1Pop.insertBefore(
+      //   dropdownBoxBottomShape1,
+      //   dropdownBoxBottomShape1Text
+      // );
+      gSubDropdownbox1Pop.appendChild(dropdownBoxBottomShape1cover);
+    }
+    
+
+    //implement the once choice of time-trigger
+  //   let today = new Date();
+  //   let yyyy = today.getFullYear();
+  //   let dd = today.getDate();
+  //   let ddd ='';
+  //   let mm = today.getMonth()+1;
+  //   let mmm = '';
+  //   let hh = today.getHours();
+  //   let hhh = '';
+  //   let nn = today.getMinutes();
+  //   let nnn = '';
+  //   if (dd < 10) {
+  //     ddd = '0' + dd;
+  //   }else{
+  //     ddd = dd.toString();
+  //   }
+   
+  //   if (mm < 10) {
+  //     mmm = '0' + mm;
+  //   }else{
+  //     mmm = mm.toString();
+  //   }
+  //   if (hh < 10) {
+  //    hhh = '0' + hh;
+  //   } else{
+  //    hhh = hh.toString();
+  //   }
+  //   if (nn < 10) {
+  //     nnn = '0' + nn;
+  //    } else{
+  //     nnn = nn.toString();
+  //    }
+   
+  //  let todayStr = yyyy + '-' + mmm + '-' + ddd + 'T' + hhh + ':' + nnn;
+  //   console.log(todayStr);
+    
+
+    const gOnce = Dom.svg("g",{
+      class: "sqd-task-group-once",
+    });
+    const calendarWrapper = Dom.svg("foreignObject",{
+      x:3+addon,
+      y:2 * boxHeight+40,
+      height: 320,
+      width: 250,
+    })
+    const calendarDiv= Dom.element("div", {
+      id: 'calendar',
+    })
+    calendarWrapper.appendChild(calendarDiv);
+
+    let databefore!:string[];
+    if(step.properties["time"]){
+      databefore = step.properties["time"].toString().split(',');
+    }
+    
+    let OnceDates!:string[];
+    //@ts-ignore
+    let calendar = new VanillaCalendar(calendarDiv,{
+      settings: {
+        selection: {
+          day: 'multiple',
+        },
+        range: {
+          disablePast: true,
+        },
+        visibility: {
+          weekend: false,
+        },
+        iso8601: false,
+      },
+      actions: {
+        //@ts-ignore
+        clickDay(event, dates) {
+          OnceDates = dates;
+        },
+      },
+    });
+    if(databefore && databefore.length != 0 && dropdownBoxInnerText1.textContent == "Once"){
+      let temp = [...databefore];
+      temp.pop();
+      OnceDates = temp;
+      //@ts-ignore
+      calendar = new VanillaCalendar(calendarDiv,{
+        settings: {
+          selection: {
+            day: 'multiple',
+          },
+          range: {
+            disablePast: true,
+          },
+          selected: {
+            dates: temp,
+          },
+          visibility: {
+            weekend: false,
+          },
+          iso8601: false,
+        },
+        actions: {
+          //@ts-ignore
+          clickDay(event, dates) {
+            OnceDates = dates;
+          },
+        },
+      });
+    }
+    calendar.init();
+
+    const calendarBr = Dom.svg("line", {
+      x1:addon,
+			y1: 2 * boxHeight+327,
+			x2: 258+addon,
+			y2: 2 * boxHeight+327,
+      stroke: "#3FC8FA",
+      class: "sqd-calendar-line"
+    });
+    
+    //implement the set time feature
+    const gSetTime = Dom.svg("g", {
+      class: "sqd-task-group",
+    });
+    
+    const setTimeText = Dom.svg("text", {
+      class: "sqd-task-text-settime",
+      x: PADDING_X+10 + addon,
+      y: 2 * boxHeight+350,
+    });
+    setTimeText.textContent = "Set time(hour)";
+
+    const setTimeWrapper = Dom.svg("foreignObject",{
+      x:PADDING_X+114 + addon,
+      y:2 * boxHeight+340,
+      height: 30,
+      width: 40,
+    });
+    const setTimeInput = Dom.element("input", {
+      class: "settime-input",
+      type: "text",
+      placeholder: "00",
+      maxlength: 2,
+    });
+    if(databefore &&  databefore.length != 0 && dropdownBoxInnerText1.textContent == "Once"){
+      console.log(databefore);
+      setTimeInput.value = databefore[databefore.length-1].slice(0,2);
+    }
+    setTimeWrapper.appendChild(setTimeInput);
+    
+    const setTimeBr = Dom.svg("line", {
+      x1: PADDING_X+121 + addon,
+			y1: 2 * boxHeight+354,
+			x2: PADDING_X+141 + addon,
+			y2: 2 * boxHeight+354,
+      stroke: "#3FC8FA",
+      class: "sqd-calendar-line"
+    });
+
+    const setTimeRangeRect = Dom.svg("rect", {
+      class: "set-time-rect",
+      x:PADDING_X+147 + addon,
+      y:2 * boxHeight+338,
+      rx: 10,
+      ry: 10,
+      width: 74,
+      height: 20
+    });
+
+    const setTimeAmText = Dom.svg("text", {
+      class: "sqd-task-text-settime-am",
+      x: PADDING_X+159 + addon,
+      y: 2 * boxHeight+351,
+    });
+    setTimeAmText.textContent = "AM";
+    const setTimeAmRect = Dom.svg("rect", {
+      class: "set-time-rect-m selected",
+      x: PADDING_X+150 + addon,
+      y: 2 * boxHeight+340,
+      rx: 9,
+      ry: 9,
+      width: 37,
+      height: 15.5,
+      fill: "#5495d4"
+    });
+
+    const setTimePmText = Dom.svg("text", {
+      class: "sqd-task-text-settime-pm",
+      x: PADDING_X+191 + addon,
+      y: 2 * boxHeight+351,
+    });
+    setTimePmText.textContent = "PM";
+    const setTimePmRect = Dom.svg("rect", {
+      class: "set-time-rect-m",
+      x: PADDING_X+181 + addon,
+      y: 2 * boxHeight+340,
+      rx: 9,
+      ry: 9,
+      width: 37,
+      height: 15.5,
+      fill: "white"
+    });
+
+    const setTimeAmRectShape = Dom.svg("rect", {
+      class: "set-time-shape",
+      x: PADDING_X+150 + addon,
+      y: 2 * boxHeight+340,
+      rx: 9,
+      ry: 9,
+      width: 37,
+      height: 15.5,
+      opacity: 0
+    });
+
+    const setTimePmRectShape = Dom.svg("rect", {
+      class: "set-time-shape",
+      x: PADDING_X+181 + addon,
+      y: 2 * boxHeight+340,
+      rx: 9,
+      ry: 9,
+      width: 37,
+      height: 15.5,
+      opacity: 0
+    });
+
+    const setTimeTimeZone = Dom.svg("text", {
+      class: "sqd-task-text_3",
+      x: PADDING_X+10 + addon,
+      y: 2 * boxHeight+377,
+    });
+    setTimeTimeZone.textContent = "Based on your timezone(PST)";
+
+    setTimeInput.addEventListener("change", function(){
+      if(parseInt(setTimeInput.value) < 10){
+        setTimeInput.value = '0' + setTimeInput.value;
       }
     });
     sendTimecollection.appendChild(choice2Text);
@@ -672,10 +1028,79 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     upCheckIcon.addEventListener("click", function () {
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
-      if (sendTimeSelect.value == "Once" && divTagInput.value) {
-        step.properties.send = divTagInput.value;
-        textRight.textContent = divTagInput.value;
-        weekSelect.value = "";
+      //@ts-ignore
+      step.properties["Select List"] = dropdownBoxInnerText.textContent;
+      textRight.textContent = dropdownBoxInnerText.textContent;
+      //@ts-ignore
+      step.properties["Runs"] = dropdownBoxInnerText1.textContent;
+
+      step.updatedAt = new Date();
+    });
+    upCheckIcon.addEventListener("mousedown", function(e){
+      e.stopPropagation();
+      checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
+    });
+    upCheckIcon.addEventListener("mouseup", function(e){
+      e.stopPropagation();
+      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
+    });
+    
+    upchangeIcon.addEventListener("mousedown", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:#5495d4");
+      upchangeIcon.setAttribute("href", "./assets/chang-inside.svg")
+    });
+    upchangeIcon.addEventListener("mouseup", function(){
+      copyImgContainerCircle.setAttribute("style", "fill:white");
+      upchangeIcon.setAttribute("href", "./assets/change.svg")
+    });
+    upchangeIcon.addEventListener("click", function(e){
+      e.stopPropagation();
+      // if_hintpop = true;
+      // gTriggerHint.setAttribute("visibility", "visible");
+
+      const dialogBox = Dom.element("dialog", {
+        class: "confirm-dialog",
+        id: "dialog-box",
+      });
+    
+      const title = Dom.element("h3", {
+        class: "confirm-dialog-content",
+      });
+      const title2 = Dom.element("h3", {
+        class: "confirm-dialog-content-warning",
+      });
+      const form = Dom.element("form", {
+        method: "dialog",
+        id: "dialog-form",
+      });
+
+      title.innerHTML = "Are you sure you want to<br>&nbsp&nbsp&nbsp&nbsp&nbspchange the trigger?";
+      title2.innerHTML = "This will clear all your settings";
+
+      dialogBox.appendChild(title);
+      dialogBox.appendChild(title2);
+
+      const btn1 = Dom.element("button", {
+        type: "submit",
+        class: "popup-button"
+      });
+      btn1.innerText = "Confirm";
+      form.appendChild(btn1);
+      const btn2 = Dom.element("button", {
+        type: "submit",
+        class: "popup-button2"
+      });
+      btn2.innerText = "Cancel";
+      form.appendChild(btn2);
+
+      const designer = document.getElementById("designer");
+      designer?.appendChild(dialogBox);
+      dialogBox.appendChild(form);
+
+      if (typeof dialogBox.showModal === "function") {
+        dialogBox.showModal();
+      } else {
+        prompt("Wrong window", "ok");
       }
       else if (sendTimeSelect.value == "Recurring" && weekSelect.value){
         step.properties.send = weekSelect.value;

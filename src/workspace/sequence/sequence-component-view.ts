@@ -48,8 +48,6 @@ export class SequenceComponentView implements ComponentView {
     const components = sequence.map((s) =>
       StepComponentFactory.create(g, s, sequence, configuration)
     );
-    component_length = components.length;
-    console.log(component_length);
 
     const maxJoinX =
       components.length > 0

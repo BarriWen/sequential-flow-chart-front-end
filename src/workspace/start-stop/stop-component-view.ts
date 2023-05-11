@@ -79,13 +79,25 @@ function createCircle(isStart: boolean): SVGGElement {
 
 // set a function to create more end points
 function createEndPoint(g: SVGGElement){
-	// const circle = Dom.svg('circle', {
-	// 	class: 'sqd-start-stop',
-	// 	cx: SIZE / 2,
-	// 	cy: SIZE / 2,
-	// 	r: SIZE / 2
-	// });
+	const circle = Dom.svg('circle', {
+		class: 'sqd-start-stod',
+		cx: SIZE / 2,
+		cy: SIZE / 2,
+		r: SIZE / 2
+	});
+	g.appendChild(circle);
+	const s = SIZE * 0.5;
+	const m = (SIZE - s) / 2;
 
+	const stop = Dom.svg('rect', {
+		class: 'sqd-start-stop-icon',
+		x: m,
+		y: m,
+		width: s,
+		height: s,
+		rx: 4,
+		ry: 4
+	});
 	
 	// g.appendChild(circle);
 	// const s = SIZE * 0.5;

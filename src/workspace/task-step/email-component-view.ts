@@ -300,7 +300,7 @@ export class EmailComponentView implements ComponentView {
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       x: 170,
       y: PADDING_Y - 40,
-      style: "fill:#3498DB"
+      style: "fill:#5495d4"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -589,7 +589,7 @@ export class EmailComponentView implements ComponentView {
       checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
     });
     upCheckIcon.addEventListener("mouseup", function(){
-      checkImgContainerCircle.setAttribute("style", "fill:#3498DB");
+      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
     });
 
      // Show hints
@@ -654,7 +654,6 @@ export class EmailComponentView implements ComponentView {
 
     const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
     const outputView = OutputView.create(g, boxWidth / 2, boxHeight);
-    outputView.setIsHidden(true)
     const validationErrorView = ValidationErrorView.create(g, boxWidth, 0);
     return new EmailComponentView(
       g,

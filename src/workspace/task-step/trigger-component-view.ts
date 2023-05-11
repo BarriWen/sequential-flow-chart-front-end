@@ -298,6 +298,7 @@ export class TriggerComponentView implements ComponentView {
       class: "sqd-task-ImgContainerCircle",
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       y: PADDING_Y - 40,
+      style: "fill:#5495d4"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -646,36 +647,48 @@ export class TriggerComponentView implements ComponentView {
         x: ICON_SIZE + 5 * PADDING_X,
         y: 1.2 * boxHeight + 15 *i,
       });
-      const dropdownBoxBottomShapeText = Dom.svg("text", {
-        class: "sqd-task-text",
-        x: ICON_SIZE + 5 * PADDING_X,
-        y: 1.4 * boxHeight + 15*i,
-      });
-      dropdownBoxBottomShapeText.textContent = list[i-1];
-      const dropdownBoxBottomShapecover = Dom.svg("rect", {
-        width: 60,
-        height: 15,
-        class: "option select-field choice",
-        fill: "#fff",
-        stroke: "#a0a0a0",
-        x: ICON_SIZE + 5 * PADDING_X,
-        y: 1.2 * boxHeight + 15*i,
-        id: `dropdownBoxBottomShapecover${Date.now()}`,
-      });
-      Dom.attrs(dropdownBoxBottomShapecover, {
-        opacity: 0.3,
-      });
-      // Add event listners
-      dropdownBoxBottomShapecover.addEventListener("click", function (e) {
-        dropdownBoxInnerText.textContent = dropdownBoxBottomShapeText.textContent;
-        gSubDropdownboxPop.classList.toggle("sqd-hidden");
-      });
-      gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
-    gSubDropdownboxPop.insertBefore(
-      dropdownBoxBottomShape,
-      dropdownBoxBottomShapeText
-    );
-    gSubDropdownboxPop.appendChild(dropdownBoxBottomShapecover);
+      gSubDropdownboxPop.appendChild(dropdownBoxBottomShaperec);
+      
+      for (let i = 1; i <= list.length; i++) {
+        const dropdownBoxBottomShapeText = Dom.svg("text", {
+          class: "sqd-task-text",
+          x: ICON_SIZE + 5 * PADDING_X+25 + addon,
+          y: 1.4 * boxHeight + 22*i + 27,
+        });
+        
+
+        dropdownBoxBottomShapeText.textContent = list[i-1];
+        const dropdownBoxBottomShapecover = Dom.svg("rect", {
+          width: 90,
+          height: 20,
+          class: "option select-field choice",
+          fill: "#fff",
+          stroke: "none",
+          x: ICON_SIZE + 5 * PADDING_X+22 + addon,
+          y: 1.2 * boxHeight + 22*i + 25,
+          id: `dropdownBoxBottomShapecover${Date.now()}`,
+          rx: 4,
+          ry: 4,
+        });
+
+        Dom.attrs(dropdownBoxBottomShapecover, {
+          opacity: 0.07,
+        });
+        // Add event listners
+        dropdownBoxBottomShapecover.addEventListener("click", function (e) {
+          dropdownBoxInnerText.textContent = dropdownBoxBottomShapeText.textContent;
+          gSubDropdownboxPop.classList.toggle("sqd-hidden");
+          dropdownBoxShape.style.stroke="#BFBFBF";
+          dropdownBoxInnerText.style.fill = "#a0a0a0";
+          downIcon.setAttribute("href", "./assets/list_down.svg");
+        });
+        gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
+      // gSubDropdownboxPop.insertBefore(
+      //    dropdownBoxBottomShape,
+      //   dropdownBoxBottomShapeText
+      // );
+      gSubDropdownboxPop.appendChild(dropdownBoxBottomShapecover);
+      }
     }
    
     // Run time choices
@@ -715,6 +728,9 @@ export class TriggerComponentView implements ComponentView {
       dropdownBoxBottomShape1cover.addEventListener("click", function (e) {
         dropdownBoxInnerText1.textContent = dropdownBoxBottomShape1Text.textContent;
         gSubDropdownbox1Pop.classList.toggle("sqd-hidden");
+        dropdownBoxShape1.style.stroke="#BFBFBF";
+        dropdownBoxInnerText1.style.fill = "#a0a0a0";
+        downIcon1.setAttribute("href", "./assets/list_down.svg");
       });
       // Append Child
       gSubDropdownbox1Pop.appendChild(dropdownBoxBottomShape1Text);
@@ -780,7 +796,7 @@ export class TriggerComponentView implements ComponentView {
       checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
     });
     upCheckIcon.addEventListener("mouseup", function(){
-      checkImgContainerCircle.setAttribute("style", "fill:#3498DB");
+      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
     });
     
     upchangeIcon.addEventListener("mousedown", function(){

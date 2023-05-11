@@ -276,6 +276,7 @@ export class TagComponentView implements ComponentView {
       class: "sqd-task-ImgContainerCircle",
       x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 89,
       y: PADDING_Y - 40,
+      style: "fill:#5495d4"
     });
     Dom.attrs(checkImgContainerCircle, {
       width: 30,
@@ -547,6 +548,12 @@ export class TagComponentView implements ComponentView {
         step["updatedAt"] = new Date();
       }
     });
+    upCheckIcon.addEventListener("mousedown", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
+    });
+    upCheckIcon.addEventListener("mouseup", function(){
+      checkImgContainerCircle.setAttribute("style", "fill:#5495d4");
+    });
 
      // Show hints
      editIcon.addEventListener("mouseover", function(){
@@ -816,12 +823,10 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
       e.stopPropagation();
       console.log('Will be sending to back end',input.value);
       // Post tag to backend
-      var url = window.location.pathname;
-      
-      const userID = url.slice(5);//Need to be changed to an existing user
-      const journeyID = 4  //Need to be changed to an existing journey
+      const userID = 1;      //Need to be changed to an existing user
+      const journeyID = 4;  //Need to be changed to an existing journey
       const data = {"tag_name": `${input.value}`};
-      const request = new Request(`http://localhost:8080/tags/${userID}`, {
+      const request = new Request(`http://localhost:8080/AddTag`, {
         method: 'POST', 
         headers: {
           "Content-Type": 'application/json'
