@@ -9,7 +9,7 @@ import { ValidationErrorView } from "../common-views//validation-error-view";
 import { InputView } from "../common-views/input-view";
 import { ComponentView } from "../component";
 import { SequenceComponent } from "../sequence/sequence-component";
-import { countryList, usStateList } from "./variousCountryListFormats.js";
+import { countryList, usStateList } from "./variousCountryListFormats";
 import { ScrollBoxViewCountry } from "./scrollbox-view-country";
 import { ScrollBoxViewLocation } from "./scrollbox-view-location";
 
@@ -126,7 +126,7 @@ export class SwitchStepComponentView implements ComponentView {
         const text = Dom.svg("text", {
             x: ICON_SIZE + containerWidths[0] - PADDING_X * 17 + 69, // * 17 - 10 
             y: boxHeight / 2.0 + PADDING_TOP + 1,
-            class: "sqd-task-text encapsulated",
+            class: "sqd-task-text sqd-switch-text encapsulated",
         });
         text.textContent = "If/Else";
         const textMid = Dom.svg("text", {
@@ -165,7 +165,7 @@ export class SwitchStepComponentView implements ComponentView {
         const rectLeft = Dom.svg("rect", {
             x: containerWidths[0] - textWidth - 28, // 19 (-107)
             y: PADDING_TOP,
-            class: "sqd-switch-rect encapsulated",
+            class: "sqd-switch-rect-left encapsulated",
             width: textWidth - 35,
             height: boxHeight,
             rx: RECT_RADIUS,
@@ -252,7 +252,7 @@ export class SwitchStepComponentView implements ComponentView {
                 href: moreUrl,
             })
             : Dom.svg("rect", {
-                class: "sqd-task-empty-icon",
+                class: "sqd-task-empty-icon sqd-task-more-icon",
                 rx: 4,
                 ry: 4,
             });
@@ -596,7 +596,7 @@ export class SwitchStepComponentView implements ComponentView {
         // ============ Add dropdowns =============
         // ======= Start with general node ========
         const gDropdown = Dom.svg("g", {
-            class: `sqd-task-group dropdown sqd-hidden Collapsed`,
+            class: `sqd-task-group dropdown sqd-hidden`, // Collapsed
         });
 
         const gDropdownbox = Dom.svg("g", {

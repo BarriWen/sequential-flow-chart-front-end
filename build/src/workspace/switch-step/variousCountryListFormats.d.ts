@@ -1,2 +1,2 @@
-export const usStateList: string[];
-export const countryList: string[];
+export declare const usStateList: string[];
+export declare const countryList: string[];

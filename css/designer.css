@@ -279,6 +279,9 @@
 .sqd-switch-rect {
 	stroke-width: 3; 
 }
+.sqd-switch-rect-left {
+	stroke-width: 3; 
+}
 .sqd-task-reminder {
 	fill: #a0a0a0
 }

@@ -280,8 +280,18 @@ export class Workspace implements DesignerComponentProvider {
         }
         else {
             var but = document.querySelectorAll(".Collapsed");
+            var rect = document.getElementsByClassName("sqd-switch-rect"); 
+            var rectLeft = document.getElementsByClassName("sqd-switch-rect-left"); 
+            var text = document.getElementsByClassName("sqd-switch-text"); 
+            var moreIcon = document.getElementsByClassName("sqd-task-more-icon"); 
+            
             if (but) {
                 but.forEach((e) => e.classList.add("sqd-hidden"));
+                /* rect.setAttribute("width", `258`);
+            rect.setAttribute("x", `${containerWidths[0] - textWidth - 28}`);
+            rectLeft.setAttribute("x", `${containerWidths[0] - textWidth - 28}`);
+            text.setAttribute("x", `${ICON_SIZE + containerWidths[0] - PADDING_X * 17 + 69}`);
+            moreIcon.setAttribute("x", `${ICON_SIZE + containerWidths[0] + PADDING_X + textWidth - 27}`); */
             }
             this.context.behaviorController.start(
                 position,

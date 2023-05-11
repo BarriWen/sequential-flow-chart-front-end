@@ -140,6 +140,11 @@ body{
 	stroke: #1080A0;
 	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
 }
+.sqd-theme-light .sqd-switch-rect-left {
+	fill: #FFF;
+	stroke: #1080A0;
+	filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .15));
+}
 
 .sqd-switch-inner-rect {
 	fill: #FFF;
