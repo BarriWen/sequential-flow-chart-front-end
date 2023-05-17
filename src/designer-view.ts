@@ -289,6 +289,70 @@ export class DesignerView {
     dialogForm.appendChild(column2);
     dialogForm.appendChild(column3);
 
+    // Left Toolbox
+    const emailyToolbox = Dom.element("div", {
+      class: "emaily-toolbox", 
+    }); 
+
+    const toolboxBody = Dom.element("div", {
+      class: "toolbox-body", 
+    }); 
+
+
+    const dashboardIcon = Dom.element("img", {
+      src: "./assets/dashboard.svg", 
+      class: "dashboard-icon emaily-toolbox-icon", 
+      height: 20, 
+      width: 20, 
+    }); 
+
+    const flowIcon = Dom.element("img", {
+      src: "./assets/flow.svg", 
+      class: "flow-icon emaily-toolbox-icon", 
+      height: 20, 
+      width: 20, 
+    });
+
+    const usersIcon = Dom.element("img", {
+      src: "./assets/users.svg", 
+      class: "users-icon emaily-toolbox-icon", 
+      height: 20, 
+      width: 20, 
+    });
+
+    const fileIcon = Dom.element("img", {
+      src: "./assets/file.svg", 
+      class: "file-icon emaily-toolbox-icon", 
+      height: 20, 
+      width: 20, 
+    });
+
+    const lineDivider = Dom.element("img", {
+      src: "./assets/lineDivider.svg", 
+      class: "line-divider emaily-toolbox-icon", 
+      height: 25, 
+      width: 25, 
+    });
+
+    const settingsIcon = Dom.element("img", {
+      src: "./assets/settings.svg", 
+      class: "settings-icon emaily-toolbox-icon", 
+      height: 20, 
+      width: 20, 
+    });
+
+    toolboxBody.appendChild(dashboardIcon); 
+    toolboxBody.appendChild(flowIcon); 
+    toolboxBody.appendChild(usersIcon);
+    toolboxBody.appendChild(fileIcon);
+    toolboxBody.appendChild(lineDivider); 
+    toolboxBody.appendChild(settingsIcon);
+    emailyToolbox.appendChild(toolboxBody)
+    root.appendChild(emailyToolbox); 
+
+
+
+
     const view = new DesignerView(
       root,
       context.layoutController,

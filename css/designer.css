@@ -24,8 +24,8 @@
 }
 .sqd-toolbox {
 	position: absolute;
-	top: 200px;
-	left: 10px;
+	top: 250px;
+	right: 310px;
 	z-index: 20;
 	box-sizing: border-box;
 	border-radius: 10px;
@@ -97,6 +97,45 @@
 	box-sizing: border-box;
 	border-radius: 10px;
 } */
+
+.emaily-toolbox {
+	position: absolute;
+    left: 25px;
+    width: 60px;
+    height: 320px;
+    top: 250px;
+}
+.toolbox-body {
+	position: absolute; 
+	width: 40px; 
+	height: 296px; 
+	border-radius: 25px;
+	background-color: #3498DB;
+	box-shadow: 4px 4px 4px rgba(52, 152, 219, 0.3); 
+}
+
+.emaily-toolbox-icon {
+	position: absolute;
+	left: 10px; 
+}
+.dashboard-icon {
+	top: 35px; 
+}
+.flow-icon {
+	top: 80px; 
+}
+.users-icon {
+	top: 125px; 
+}
+.file-icon {
+	top: 170px; 
+}
+.line-divider {
+	top: 210px; 
+}
+.settings-icon {
+	top: 245px; 
+}
 
 .switch-title {
 	width: 200px;
