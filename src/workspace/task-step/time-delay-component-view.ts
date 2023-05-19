@@ -609,11 +609,11 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
     
     const waitTimeInput = Dom.element("input", {
       class: "delay-input",
-      type: "text",
+      type: "number",
       placeholder: "Enter",
       x:0.5,
       y:0.5,
-      maxlength: 3,
+      // maxlength: 3,
     });
     divTagWaitTime.appendChild(waitTimeInput);
 
