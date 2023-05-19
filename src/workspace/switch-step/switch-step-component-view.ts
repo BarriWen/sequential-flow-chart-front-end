@@ -2043,7 +2043,9 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxInnerText.textContent == "Full Name" ||
                 dropdownBoxInnerText.textContent == "First Name" ||
                 dropdownBoxInnerText.textContent == "Last Name" ||
-                dropdownBoxInnerText.textContent == "Phone Number") {
+                dropdownBoxInnerText.textContent == "Phone Number" ||
+                dropdownBoxInnerText.textContent == "Birthday" ||
+                dropdownBoxInnerText.textContent == "Location") {
                 step.properties["type"] = "Contact Info";
             } if (dropdownBoxInnerText.textContent == "Opend" ||
                 dropdownBoxInnerText.textContent == "Not Opend" ||
@@ -2070,7 +2072,11 @@ export class SwitchStepComponentView implements ComponentView {
                     step.properties["value"] = value;
             } if (choice1 == "Birthday" && choice2 == "Date Is") {
                 step.properties["value"] = textInput.value; 
-            } if (choice1 == "Tag" || choice1 == "Gender") {
+            } else {
+                let value:any = dropdownBoxInnerText2.textContent; 
+                step.properties["value"] = value; 
+            }
+            if (choice1 == "Tag" || choice1 == "Gender") {
                 if (dropdownBoxInnerText2.textContent) {
                     step.properties["value"] = dropdownBoxInnerText2.textContent;
                 }
