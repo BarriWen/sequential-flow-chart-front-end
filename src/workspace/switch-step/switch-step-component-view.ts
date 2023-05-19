@@ -2037,6 +2037,20 @@ export class SwitchStepComponentView implements ComponentView {
             gUpPop3.classList.add("sqd-hidden");
 
             // =============== Add properties
+            if (dropdownBoxInnerText.textContent == "Tag" ||
+                dropdownBoxInnerText.textContent == "Gender" ||
+                dropdownBoxInnerText.textContent == "Email" ||
+                dropdownBoxInnerText.textContent == "Full Name" ||
+                dropdownBoxInnerText.textContent == "First Name" ||
+                dropdownBoxInnerText.textContent == "Last Name" ||
+                dropdownBoxInnerText.textContent == "Phone Number") {
+                step.properties["type"] = "Contact Info";
+            } if (dropdownBoxInnerText.textContent == "Opend" ||
+                dropdownBoxInnerText.textContent == "Not Opend" ||
+                dropdownBoxInnerText.textContent == "Clicked" ||
+                dropdownBoxInnerText.textContent == "Not Clicked") {
+                    step.properties["type"] = "Actions";
+                }
             if (dropdownBoxInnerText.textContent && dropdownBoxInnerText.textContent != "Select a condition") {
                 // textRight.textContent = dropdownBoxInnerText.textContent;
                 step.properties["property"] = dropdownBoxInnerText.textContent;
