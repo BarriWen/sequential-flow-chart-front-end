@@ -122,8 +122,8 @@ export class TriggerComponentView implements ComponentView {
       y: boxHeight / 1.7+1,
       class: "sqd-task-text_2",
     });
-    if (step.properties["Select List"]) {
-      textRight.textContent = step.properties["Select List"].toString();
+    if (step.properties["list"]) {
+      textRight.textContent = step.properties["list"].toString();
     }
     else {
       textRight.textContent = "To Any List";
@@ -704,8 +704,8 @@ export class TriggerComponentView implements ComponentView {
       x: ICON_SIZE + 5 * PADDING_X+25 + addon,
       y: 1.4 * boxHeight+18,
     });
-    if(step.properties["Select List"]){
-      dropdownBoxInnerText.textContent = step.properties["Select List"].toString();
+    if(step.properties["list"]){
+      dropdownBoxInnerText.textContent = step.properties["list"].toString();
     }else{
       dropdownBoxInnerText.textContent = "Any list";
     }
@@ -716,8 +716,8 @@ export class TriggerComponentView implements ComponentView {
       x: ICON_SIZE + 5 * PADDING_X+25 + addon,
       y: 1.95 * boxHeight+34.5,
     });
-    if(step.properties["Run"]){
-      dropdownBoxInnerText1.textContent = step.properties["Run"].toString();
+    if(step.properties["frequency"]){
+      dropdownBoxInnerText1.textContent = step.properties["frequency"].toString();
     }else{
       dropdownBoxInnerText1.textContent = "Once";
     }
@@ -970,10 +970,10 @@ export class TriggerComponentView implements ComponentView {
       gUpPop3.classList.toggle("sqd-hidden");
       if (dropdownBoxInnerText.textContent && dropdownBoxInnerText.textContent != "Select") {
         textRight.textContent = dropdownBoxInnerText.textContent;
-        step.properties["Select List"] = dropdownBoxInnerText.textContent;
+        step.properties["list"] = dropdownBoxInnerText.textContent;
       }
       if (dropdownBoxInnerText1.textContent && dropdownBoxInnerText1.textContent != "Select") {
-        step.properties["Run"] = dropdownBoxInnerText1.textContent;
+        step.properties["frequency"] = dropdownBoxInnerText1.textContent;
       }
       step.updatedAt = new Date();
     });
