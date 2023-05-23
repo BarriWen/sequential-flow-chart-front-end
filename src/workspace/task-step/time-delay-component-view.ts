@@ -832,6 +832,7 @@ export class TimeDelayTaskStepComponentView implements ComponentView {
       gDropdown.classList.toggle("sqd-hidden");
 
       gUpPop3.classList.toggle("sqd-hidden");
+      step.properties["date"] = ""; 
 
       if(choice1.checked){
         step.properties["date"] = OnceDates[0];

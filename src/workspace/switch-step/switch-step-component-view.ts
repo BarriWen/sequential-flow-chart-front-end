@@ -1725,6 +1725,10 @@ export class SwitchStepComponentView implements ComponentView {
             gSubDropdownMain1.classList.toggle("sqd-hidden");
             gSubDropdownMain2.classList.toggle("sqd-hidden");
             gUpPop3.classList.toggle("sqd-hidden");
+            step.properties["property"] = ""; 
+            step.properties["condition"] = ""; 
+            step.properties["value"] = ""; 
+            step.properties["type"] = ""; 
 
             // =============== Add properties
             if (dropdownBoxInnerText.textContent && dropdownBoxInnerText.textContent != "Select a condition") {
