@@ -161,7 +161,7 @@ export class WorkspaceView {
               branches: undefined,
             });
 
-            console.log(3722, sequence);
+            // console.log(3722, sequence);
             tempThis.render(sequence, journeyID);
             dialogBox.close();
           });

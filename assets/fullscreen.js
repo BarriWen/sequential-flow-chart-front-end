@@ -165,9 +165,9 @@ function createDesinger(startDefinition){
 	setTimeout(saver,timeout); 			// Auto saving starts
 	designer.onDefinitionChanged.subscribe((newDefinition) => {
 		clearTimeout(timeoutID);
-		console.log('the definition has changed', newDefinition);
+		// console.log('the definition has changed', newDefinition);
 		designer.context.definition.properties.updatedAt = new Date();
-		console.log("Save journey when definition changes");
+		// console.log("Save journey when definition changes");
 		setTimeout(saver,0); 
 	});
 }

@@ -47,7 +47,7 @@ export class DesignerView {
     title.textContent = String(context.definition.properties.journeyName);
     info.appendChild(title);
     const nameWidth = Math.max(info.getBBox().width + LABEL_PADDING_X * 2, 320);
-    console.log(info.getBBox());
+    // console.log(info.getBBox());
     const rect = Dom.svg("rect", {
       class: "info-box-rect",
       width: nameWidth,

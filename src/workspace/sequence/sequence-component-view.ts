@@ -25,7 +25,7 @@ function addStop() {
   g.appendChild(circle);
 
   const stop = Dom.svg("rect", {
-    class: "sqd-start-stop-icon sqd-hidden",
+    class: "sqd-start-stop-icon",
     x: m,
     y: m,
     width: s,
@@ -147,14 +147,17 @@ export class SequenceComponentView implements ComponentView {
         display: "none",
       });
       const lines = parent.childNodes[0].childNodes;
+      console.log("Component Length: " + components.length); 
+      console.log(lines); 
 
       if (components.length == 1) {
-        parent.childNodes[0].removeChild(lines[2]);
-      } else {
-        parent.childNodes[0].removeChild(lines[components.length]);
+        parent.childNodes[0].removeChild(lines[1]);
+      } 
+      else {
         if (containsSwitch) {
-          parent.childNodes[0].removeChild(lines[0]);
-          console.log(lines); 
+          parent.childNodes[0].removeChild(lines[components.length]);
+        } else {
+          parent.childNodes[0].removeChild(lines[components.length + 1]);
         }
       }
       document

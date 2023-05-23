@@ -79,7 +79,7 @@ function createCircle(isStart: boolean): SVGGElement {
 // set a function to create more end points
 function createEndPoint(g: SVGGElement){
 	const circle = Dom.svg('circle', {
-		class: 'sqd-start-stod sqd-hidden',
+		class: 'sqd-start-stod',
 		cx: SIZE / 2,
 		cy: SIZE / 2,
 		r: SIZE / 2
@@ -89,7 +89,7 @@ function createEndPoint(g: SVGGElement){
 	const m = (SIZE - s) / 2;
 
 	const stop = Dom.svg('rect', {
-		class: 'sqd-start-stop-icon sqd-hidden',
+		class: 'sqd-start-stop-icon',
 		x: m,
 		y: m,
 		width: s,

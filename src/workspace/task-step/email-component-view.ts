@@ -156,7 +156,7 @@ export class EmailComponentView implements ComponentView {
       width: ICON_SIZE,
       height: ICON_SIZE,
     });
-    const moreUrl = "./assets/more.svg";
+    const moreUrl = "./assets/emailMore.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -400,7 +400,7 @@ export class EmailComponentView implements ComponentView {
     const reminder1 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -408,13 +408,13 @@ export class EmailComponentView implements ComponentView {
     });
     Dom.attrs(reminder1, {
       id: `reminder1${Date.now()}`,
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
-      y: PADDING_Y - 35,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 90,
+      y: PADDING_Y - 40,
     });
     const reminderText1 = Dom.svg("text", {
       class: "sqd-task-text",
-      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 72.5,
-      y: PADDING_Y - 23,
+      x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 78.5,
+      y: PADDING_Y - 26,
     });
     Dom.attrs(reminderText1, {
       //class: 'sqd-hidden',
@@ -424,7 +424,7 @@ export class EmailComponentView implements ComponentView {
     const reminder2 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -433,13 +433,13 @@ export class EmailComponentView implements ComponentView {
     Dom.attrs(reminder2, {
       id: `reminder2${Date.now()}`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 75,
-      y: PADDING_Y,
+      y: PADDING_Y - 5,
     });
 
     const reminderText2 = Dom.svg("text", {
       class: "sqd-task-text",
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 80,
-      y: PADDING_Y + 12,
+      y: PADDING_Y + 7,
     });
     Dom.attrs(reminderText2, {
       //class: 'sqd-hidden',
@@ -449,7 +449,7 @@ export class EmailComponentView implements ComponentView {
     const reminder3 = Dom.svg("rect", {
       x: 0.5,
       y: 0.5,
-      class: "sqd-task-rect",
+      class: "sqd-task-rect-pop",
       width: 50,
       height: 25,
       rx: RECT_RADIUS,
@@ -458,13 +458,13 @@ export class EmailComponentView implements ComponentView {
     Dom.attrs(reminder3, {
       id: `reminder3${Date.now()}`,
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 82,
-      y: PADDING_Y + 35,
+      y: PADDING_Y + 30,
     });
 
     const reminderText3 = Dom.svg("text", {
       class: "sqd-task-text",
       x: ICON_SIZE + 4 * PADDING_X + 2 * textWidth + 22 + 67,
-      y: PADDING_Y + 47,
+      y: PADDING_Y + 42,
     });
     Dom.attrs(reminderText3, {
       //class: 'sqd-hidden',
