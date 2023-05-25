@@ -40,15 +40,15 @@ export class StopComponentView implements ComponentView {
 }
 
 function createCircle(isStart: boolean): SVGGElement {
-	const circle = Dom.svg('circle', {
-		class: 'sqd-start-stop sqd-hidden',
-		cx: SIZE / 2,
-		cy: SIZE / 2,
-		r: SIZE / 2
-	});
+	// const circle = Dom.svg('circle', {
+	// 	class: 'sqd-start-stop sqd-hidden',
+	// 	cx: SIZE / 2,
+	// 	cy: SIZE / 2,
+	// 	r: SIZE / 2
+	// });
 
 	const g = Dom.svg('g');
-	g.appendChild(circle);
+	// g.appendChild(circle);
 
 	const s = SIZE * 0.5;
 	const m = (SIZE - s) / 2;
@@ -70,7 +70,21 @@ function createCircle(isStart: boolean): SVGGElement {
 		//     rx: 4,
 		//     ry: 4
 		// });
-		// g.appendChild(stop);
+		const endAuto = Dom.svg("image", {
+			class: "sqd-end-icon", 
+			href: "./assets/end.svg", 
+			width: 20, 
+			height: 20, 
+		}); 
+
+		const endText = Dom.svg("text", {
+			class: "sqd-end-text", 
+			x: 10, 
+			y: 10, 
+		}); 
+		endText.textContent = "End this automation"; 
+		g.appendChild(endAuto);
+		g.appendChild(endText); 
 		createEndPoint(g);
 	}
 	return g;
@@ -88,19 +102,26 @@ function createEndPoint(g: SVGGElement){
 	const s = SIZE * 0.5;
 	const m = (SIZE - s) / 2;
 
-	const stop = Dom.svg('rect', {
-		class: 'sqd-start-stop-icon',
-		x: m,
-		y: m,
-		width: s,
-		height: s,
-		rx: 4,
-		ry: 4
-	});
+	// const stop = Dom.svg('rect', {
+	// 	class: 'sqd-start-stop-icon',
+	// 	x: m,
+	// 	y: m,
+	// 	width: s,
+	// 	height: s,
+	// 	rx: 4,
+	// 	ry: 4
+	// });
+
+	const endAuto = Dom.svg("image", {
+        class: "sqd-end-icon", 
+        href: "./assets/end.svg", 
+        width: 20, 
+        height: 20, 
+    }); 
 	
 	function getStop(){
-		return stop;
+		return endAuto;
 	}
 
-	g.appendChild(stop);
+	g.appendChild(endAuto);
 }

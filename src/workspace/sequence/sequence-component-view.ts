@@ -15,25 +15,42 @@ function addStop() {
   const s = SIZE * 0.5;
   const m = (SIZE - s) / 2;
 
-  const circle = Dom.svg("circle", {
-    class: "sqd-start-stop sqd-hidden",
-    cx: SIZE / 2,
-    cy: SIZE / 2,
-    r: SIZE / 2,
-  });
+//   const circle = Dom.svg("circle", {
+//     class: "sqd-start-stop sqd-hidden",
+//     cx: SIZE / 2,
+//     cy: SIZE / 2,
+//     r: SIZE / 2,
+//   });
   const g = Dom.svg("g", { class: "stop" , id: "stop"});
-  g.appendChild(circle);
+//   g.appendChild(circle);
 
-  const stop = Dom.svg("rect", {
-    class: "sqd-start-stop-icon",
-    x: m,
-    y: m,
-    width: s,
-    height: s,
-    rx: 4,
-    ry: 4,
-  });
-  g.appendChild(stop);
+//   const stop = Dom.svg("rect", {
+//     class: "sqd-start-stop-icon",
+//     x: m,
+//     y: m,
+//     width: s,
+//     height: s,
+//     rx: 4,
+//     ry: 4,
+//   });
+
+  const endAuto = Dom.svg("image", {
+    class: "sqd-end-icon", 
+    href: "./assets/end.svg", 
+    width: 20, 
+    height: 20, 
+    x: 5, 
+    y: 5, 
+}); 
+
+const endText = Dom.svg("text", {
+    class: "sqd-end-text", 
+    x: -43, 
+    y: 40, 
+}); 
+endText.textContent = "End this automation"; 
+  g.appendChild(endAuto);
+  g.appendChild(endText); 
   return g;
 }
 
