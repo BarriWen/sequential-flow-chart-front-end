@@ -1135,8 +1135,10 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     setTimeTimeZone.textContent = "Based on your timezone(PST)";
 
     setTimeInput.addEventListener("change", function(){
-      if(parseInt(setTimeInput.value) < 10){
-        setTimeInput.value = '0' + setTimeInput.value;
+      if (parseInt(setTimeInput.value) < 10) {
+        if (setTimeInput.value.length === 1) {
+          setTimeInput.value = '0' + setTimeInput.value;
+        }
       }
     });
     setTimePmRectShape.addEventListener("click", function(){
