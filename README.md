@@ -3,7 +3,7 @@
 ### To run this project, build first
    1. Open terminal in project folder, run the following commands:
       ```
-      npm install rollup
+      npm install
       ```
       ```
       npm run-script build
