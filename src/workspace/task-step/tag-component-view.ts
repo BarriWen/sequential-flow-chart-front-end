@@ -614,18 +614,25 @@ export class TagComponentView implements ComponentView {
             e.stopPropagation();
             gDropdown.classList.toggle("sqd-hidden");
             gUpPop3.classList.toggle("sqd-hidden");
+            step.properties["tag"] = "";
 
-            if (g.children[0].children[3]) {
-                if (g.children[0].children[3].classList.contains("sqd-hidden")) {
-                    textRight.textContent = tempText;
-                    step.properties["tag"] = textRight.textContent;
-                    step["updatedAt"] = new Date();
-                }
-            } else {
-                textRight.textContent = tempText;
+            if (newTag.textContent) {
+                textRight.textContent = newTag.textContent;
                 step.properties["tag"] = textRight.textContent;
                 step["updatedAt"] = new Date();
-            }
+              }
+
+            // if (g.children[0].children[3]) {
+            //     if (g.children[0].children[3].classList.contains("sqd-hidden")) {
+            //         textRight.textContent = tempText;
+            //         step.properties["tag"] = textRight.textContent;
+            //         step["updatedAt"] = new Date();
+            //     }
+            // } else {
+            //     textRight.textContent = tempText;
+            //     step.properties["tag"] = textRight.textContent;
+            //     step["updatedAt"] = new Date();
+            // }
         });
         upCheckIcon.addEventListener("mousedown", function () {
             checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
@@ -738,6 +745,8 @@ export class TagComponentView implements ComponentView {
         this.validationErrorView.setIsHidden(isValid);
     }
 }
+
+// =============== Functions Start 
 function addTxt(txt: string, xVal: number, yVal: number, idVal?: string) {
     const nameText = Dom.svg("text", {
         x: xVal + 15,
@@ -751,6 +760,7 @@ function addTxt(txt: string, xVal: number, yVal: number, idVal?: string) {
     }
     return nameText;
 }
+
 function createRect(className: string, xVal: number, yVal: number, w: number, h: number, id?: string, radius?: number) {
     const rect = Dom.svg("rect", {
         x: xVal,
@@ -772,6 +782,7 @@ function createRect(className: string, xVal: number, yVal: number, w: number, h:
     }
     return rect;
 }
+
 function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: SVGElement, temp: string, step: string) {
     const gSubDropdownbox = Dom.svg("g", {
         class: `sqd-task-group `,
@@ -850,7 +861,6 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
     dropdown.appendChild(gSubDropdownboxPop);
 
 
-
     dropdownBoxShapeAfter.addEventListener("click", function (e) {
         gDropdownList.classList.toggle("sqd-hidden");
 
@@ -879,7 +889,6 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
         if (response.ok) {
             const val = await response.json();
             tags = val;
-            console.log("Successed Get Tags");
             return tags;
         } else {
             return Promise.reject(response.status);
@@ -1037,30 +1046,31 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
         input.value = "";
     });
 
+
     upCheckBut.addEventListener("click", function (e) {
-        if (input.value) {
-            e.stopPropagation();
-            console.log('Will be sending to back end', input.value);
-            // Post tag to backend
-            const userID = 1;  //Need to be changed to an existing user
-            const journeyID = 4;  //Need to be changed to an existing journey
-            const data = { "tag_name": `${input.value}` };
-            const request = new Request(`/AddTag`, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-            // Send tag to backend 
-            textToChange.textContent = input.value;
-            container.classList.toggle('sqd-hidden');
-            input.value = "";
-            fetch(request).then((response) => {
-                if (!response.ok) {
-                    console.log("Connection error", response.status);
-                }
-            });
-        }
+      if (input.value) {
+        e.stopPropagation();
+        console.log('Will be sending to back end', input.value);
+        // Post tag to backend
+        const userID = 1;  //Need to be changed to an existing user
+        const journeyID = 4;  //Need to be changed to an existing journey
+        const data = { "tag_name": `${input.value}` };
+        const request = new Request(`/AddTag`,{
+          method: 'POST', 
+          headers: {
+            "Content-Type": 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+        // Send tag to backend 
+        textToChange.textContent = input.value;
+        container.classList.toggle('sqd-hidden');
+        input.value = "";
+        fetch(request).then((response) => {
+          if (!response.ok) {
+            console.log("Connection error", response.status);
+          }
+        });
+      }
     });
 }

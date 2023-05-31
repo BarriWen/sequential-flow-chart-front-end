@@ -1778,6 +1778,10 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       e.stopPropagation();
       let ifselected = false;
       let weekAndTime:string = '';
+      step.properties["send"] = ""; 
+      step.properties["list"] = ""; 
+      step.properties["frequency"] = ""; 
+
       if(dropdownBoxInnerText1.textContent == "Recurring"){
         for(let i=2;i<9;i++){
           if(gWeeks.children[i].classList.contains("selected")){

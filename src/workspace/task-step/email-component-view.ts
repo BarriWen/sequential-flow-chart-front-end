@@ -1,4 +1,5 @@
 import { Dom } from "../../core/dom";
+import { StepsTranverser } from "../../core/steps-traverser";
 import { Vector } from "../../core/vector";
 import { TaskStep } from "../../definition";
 import { StepsConfiguration } from "../../designer-configuration";
@@ -542,6 +543,10 @@ export class EmailComponentView implements ComponentView {
       e.stopPropagation();
       gDropdown.classList.toggle("sqd-hidden");
       gUpPop3.classList.toggle("sqd-hidden");
+      step.properties["subject"] = ""; 
+      step.properties["sender"] = ""; 
+      step.properties["address"] = ""; 
+      step.properties["template"] = ""; 
       if (newSend.textContent) {
         step.properties.sender = newSend.textContent;
       }
