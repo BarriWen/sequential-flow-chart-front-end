@@ -764,6 +764,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       const response = await fetch(request);
       if (response.ok) {
         const val = await response.json();
+        console.log("Get Tag List"); 
         modifyDropdown(val);
       } 
     };
