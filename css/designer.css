@@ -482,13 +482,14 @@
 	border-radius: 10px;
 	border: 2px solid #5495d4;
 	width: 300px;
-	height: 150px;
+	height: auto;
+	display: flex;
 	background: white;
 }
 .info-box-prompt-input{
 	position: relative;
 	outline: 0;
-	width: 270px;
+	width: 100%;
 	top: 10px;
 	left: 10px;
 	border-width: 0 0 1px;
@@ -504,6 +505,7 @@
 	width: 33.33%;
 	top: 10px;
 	left: 5px; 
+	margin-bottom: 20px;
 }
 .info-box-prompt-column-text{
 	position: relative;
@@ -514,10 +516,10 @@
 	position: relative;
 	float: left;
 	width: 70%;
-	height: 50px;
+	height: auto;
 	padding: 5px 5px;
 	border: 1px solid #5495d4;
-	resize: none;
+	resize: vertical;
 	margin-top: 2px;
 	border-radius: 5px;
 }
