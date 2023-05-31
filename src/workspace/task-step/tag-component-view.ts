@@ -51,7 +51,7 @@ export class TagComponentView implements ComponentView {
 
         const join = Dom.svg('line', {
             class: 'sqd-join-pop',
-            x1: 238 + addon,
+            x1: 233 + addon,
             y1: 16,
             x2: 274 + addon,
             y2: 16
@@ -174,7 +174,7 @@ export class TagComponentView implements ComponentView {
         setUpReminder.appendChild(clickOkText);
         setUpReminder.insertBefore(clickOkBut, clickOkText);
         setUpReminder.appendChild(clickOkButCover);
-        const moreUrl = "./assets/moreTag.svg";
+        const moreUrl = "./assets/moreIconTag.svg";
         const moreIcon = moreUrl
             ? Dom.svg("image", {
                 href: moreUrl,
@@ -540,7 +540,7 @@ export class TagComponentView implements ComponentView {
 
         g.appendChild(gTriggerHint);
         g.appendChild(moreIcon);
-        g.appendChild(moreIconDot);
+        // g.appendChild(moreIconDot);
         g.appendChild(gRightPop3);
         g.insertBefore(gDropdown, rect);
         const newTag = Dom.svg("text", {
@@ -560,7 +560,7 @@ export class TagComponentView implements ComponentView {
 
         // Hint pop
         let if_hintpop = true;
-        if (step.properties["Tag"] == "" && step.properties["New"]) {
+        if (Object.keys(step.properties).length == 0) {
             if_hintpop = true;
         } else {
             if_hintpop = false;
@@ -585,23 +585,11 @@ export class TagComponentView implements ComponentView {
                 gTriggerHint.classList.remove("sqd-hidden");
             }
         });
-        moreIconDot.addEventListener("mouseover", function () {
-            if (if_hintpop) {
-                gTriggerHint.classList.remove("sqd-hidden");
+        moreIcon.addEventListener("mouseout", function(){
+            if(if_hintpop){
+              gTriggerHint.classList.add("sqd-hidden");
             }
-        });
-        moreIconDot.addEventListener("click", function (e) {
-            e.stopPropagation();
-            gRightPop3.classList.toggle("sqd-hidden");
-            if (!gUpPop3.classList.contains("sqd-hidden")) {
-                gUpPop3.classList.toggle("sqd-hidden");
-            }
-            if (!gDropdown.classList.contains("sqd-hidden")) {
-                gDropdown.classList.toggle("sqd-hidden");
-            }
-            gTriggerHint.classList.add("sqd-hidden");
-            if_hintpop = false;
-        });
+          });
 
         // Edit
         editIcon.addEventListener("click", function (e) {

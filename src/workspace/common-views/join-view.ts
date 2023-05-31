@@ -31,6 +31,24 @@ export class JoinView {
 				// "M 224 58 q 2.4 6.4 8 8 l 96 0 q 5.6 1.6 8 8"
 			});
 			parent.insertBefore(join, parent.firstChild);
+
+			const endAuto = Dom.svg("image", {
+				class: "sqd-end-icon",
+				href: "./assets/end.svg",
+				width: 20,
+				height: 20,
+				x: target.x - 10, // 112
+				y: target.y + 50 + 89, // 124
+			});
+		
+			const endText = Dom.svg("text", {
+				class: "sqd-end-text",
+				x: target.x - 57, // 102
+				y: target.y + 50 + 126, // 134
+			});
+			endText.textContent = "End this automation";
+			parent.appendChild(endAuto); 
+			parent.appendChild(endText); 
 		}
 	}
 }
