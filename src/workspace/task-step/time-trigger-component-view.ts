@@ -1135,8 +1135,10 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     setTimeTimeZone.textContent = "Based on your timezone(PST)";
 
     setTimeInput.addEventListener("change", function(){
-      if(parseInt(setTimeInput.value) < 10){
-        setTimeInput.value = '0' + setTimeInput.value;
+      if (parseInt(setTimeInput.value) < 10) {
+        if (setTimeInput.value.length === 1) {
+          setTimeInput.value = '0' + setTimeInput.value;
+        }
       }
     });
     setTimePmRectShape.addEventListener("click", function(){
@@ -1674,6 +1676,24 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         yearInput.value = databeforeEndDate[2];
       }
     }
+
+    // Convert monthInput to two digits
+    monthInput.addEventListener("change", function(){
+      if (parseInt(monthInput.value) < 10) {
+        if (monthInput.value.length === 1) {
+          monthInput.value = '0' + monthInput.value;
+        }
+      }
+    });
+
+    // Convert dateInput to two digits
+    dateInput.addEventListener("change", function(){
+      if (parseInt(dateInput.value) < 10) {
+        if (dateInput.value.length === 1) {
+          dateInput.value = '0' + dateInput.value;
+        }
+      }
+    });
 
     gEndDate.appendChild(endDateText);
     gEndDate.appendChild(monthWrapper);
