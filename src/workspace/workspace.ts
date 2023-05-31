@@ -326,17 +326,17 @@ export class Workspace implements DesignerComponentProvider {
                 encapedComponents.forEach((e) => e.classList.add("sqd-hidden"));
             }
             var joins = document.querySelectorAll(".sqd-join");
-            if (joins) {
-                joins.forEach((e) => e.classList.add("sqd-hidden"));
-            }
+            // if (joins) {
+            //     joins.forEach((e) => e.classList.add("sqd-hidden"));
+            // }
             var labelText = document.querySelectorAll(".sqd-label-text");
             if (labelText) {
                 labelText.forEach((e) => e.classList.add("sqd-hidden"));
             }
             var joinCir = document.querySelectorAll(".sqd-placeholder-circle");
-            if (joinCir) {
-                joinCir.forEach((e) => e.classList.add("sqd-hidden"));
-            }
+            // if (joinCir) {
+            //     joinCir.forEach((e) => e.classList.add("sqd-hidden"));
+            // }
             var capsules = document.querySelectorAll(".capsule");
             if (capsules) {
                 capsules.forEach((e) => e.classList.remove("sqd-hidden"));

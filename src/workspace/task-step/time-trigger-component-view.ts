@@ -764,9 +764,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       const response = await fetch(request);
       if (response.ok) {
         const val = await response.json();
-        console.log("Get Tag List"); 
         modifyDropdown(val);
-      } 
+      }
     };
     
     getlist();
@@ -1048,7 +1047,6 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       maxlength: 2,
     });
     if(databefore &&  databefore.length != 0 && dropdownBoxInnerText1.textContent == "Once"){
-      console.log(databefore);
       setTimeInput.value = databefore[databefore.length-1].slice(0,2);
     }
     setTimeWrapper.appendChild(setTimeInput);

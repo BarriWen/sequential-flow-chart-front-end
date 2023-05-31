@@ -484,7 +484,7 @@ export class SwitchStepComponentView implements ComponentView {
             class: `sqd-task-group right-popup sqd-hidden Collapsed`,
         });
         const gUpPop3 = Dom.svg("g", {
-            class: `sqd-task-group up-popup sqd-hidden Collapsed`,
+            class: `sqd-task-group up-popup sqd-hidden`,
         });
         //add reminder prompt
         const gRightPop3Reminder = Dom.svg("g", {
@@ -690,25 +690,25 @@ export class SwitchStepComponentView implements ComponentView {
 
         // =============== gSubDropdown
         const gSubDropdown = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
+            class: `sqd-task-group sub-dropdown sqd-hidden`,
         });
         const gSubDropdown1 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
+            class: `sqd-task-group sub-dropdown sqd-hidden`,
         });
         const gSubDropdown2 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
+            class: `sqd-task-group sub-dropdown sqd-hidden`,
         });
         const gSubDropdownAct1 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
+            class: `sqd-task-group sub-dropdown sqd-hidden`,
         });
         const gSubDropdownAct2 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
+            class: `sqd-task-group sub-dropdown sqd-hidden`,
         });
         const gSubDropdownMain1 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
+            class: `sqd-task-group sub-dropdown sqd-hidden`,
         });
         const gSubDropdownMain2 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown Collapsed sqd-hidden`,
+            class: `sqd-task-group sub-dropdown sqd-hidden`,
         });
 
         // =============== gSubDropdownbox
