@@ -751,7 +751,9 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     class: "new-tag-input email-field",
     name: "address",
     type: "text",
-    placeholder: "Enter email address"
+    maxlength: 64,
+    placeholder: "Enter email address before @",
+    pattern: "^[^@]*$"  // no "@" allowed in the input
   });
   if (addr.textContent) {
     Dom.attrs(addressInput, {
@@ -841,7 +843,11 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
       cont.textContent = textInput.value;
     }
     if (addressInput.value) {
-      addr.textContent = addressInput.value;
+      if (addressInput.value.includes('@')) { // No domain part
+        alert('Invalid email address, only input the address before domain("@")');
+      } else {
+        addr.textContent = addressInput.value;
+      }
     }
   });
   
