@@ -553,9 +553,13 @@ export class EmailComponentView implements ComponentView {
       if (newSub.textContent) {
         textRight.textContent = newSub.textContent; 
         step.properties.subject = textRight.textContent;
+        textRight.textContent = newSub.textContent.substring(0, 13); // Limit display length
       }
       if (newCont.textContent){
         step.properties.content = newCont.textContent;
+      }
+      if (newAddress.textContent) {
+        step.properties.address = newAddress.textContent;
       }
       step["updatedAt"] = new Date();
     });
@@ -702,6 +706,7 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     class: "new-tag-input email-field",
     name: "sender",
     type: "text",
+    maxlength: 25,
     placeholder: "Enter name",
   });
   if (send.textContent) {
@@ -725,6 +730,7 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     class: "new-tag-input email-field",
     name: "subject",
     type: "text",
+    maxlength: 78, // <= 78 characters (see RFC 5322)
     placeholder: "Enter #1 Subject"
   });
   if (sub.textContent) {
@@ -747,11 +753,11 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     type: "text",
     placeholder: "Enter email address"
   });
-  // if (addr.textContent) {
-  //   Dom.attrs(addressInput, {
-  //     value: addr.textContent
-  //   });
-  // }
+  if (addr.textContent) {
+    Dom.attrs(addressInput, {
+      value: addr.textContent
+    });
+  }
   gSubDropdownbox.appendChild(addressWrapper);
   addressWrapper.appendChild(addressInput);
   
@@ -831,8 +837,11 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     if (sendInput.value) {
       send.textContent = sendInput.value;
     }
-    if(textInput.value){
+    if (textInput.value){
       cont.textContent = textInput.value;
+    }
+    if (addressInput.value) {
+      addr.textContent = addressInput.value;
     }
   });
   

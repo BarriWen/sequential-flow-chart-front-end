@@ -1848,13 +1848,44 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         if((OnceDates && OnceDates.length == 0) || !OnceDates){
           alert("please select a day");
           return;
-        }else{
+        } else {
           step.properties["send"] = '';
           for(let k=0;k<OnceDates.length;k++){
             step.properties["send"] += OnceDates[k] + "T";
           }
           
-          if(parseInt(setTimeInput.value) > 0 && parseInt(setTimeInput.value) < 13 && Number.isInteger(parseInt(setTimeInput.value))){
+          if (parseInt(setTimeInput.value) > 0 && parseInt(setTimeInput.value) < 13 && Number.isInteger(parseInt(setTimeInput.value))) {
+            // Validate hours
+            let currentDate = new Date();
+            let currentHours = currentDate.getHours();
+            for (let dateString of OnceDates) {
+              let parts = dateString.split('-'); // Split the string into parts.
+              let year = parseInt(parts[0]);
+              let month = parseInt(parts[1]);
+              let day = parseInt(parts[2]);
+              if (year === currentDate.getFullYear()
+                && month === currentDate.getMonth() + 1
+                && day === currentDate.getDate()
+              )
+              {
+                let h = parseInt(setTimeInput.value);
+                if (setTimeAmRect.classList.contains("selected")) {
+                  if (currentHours >= 12 || h <= currentHours || (h === 12 && currentHours === 0)) {
+                    alert("please enter correct hour");
+                    return;
+                  }
+                } else {
+                  if (h != 12) {
+                    h += 12;
+                  }
+                  if (h <= currentHours) {
+                    alert("please enter correct hour");
+                    return;
+                  }
+                }
+              }
+            }
+
             step.properties["send"] += setTimeInput.value + ':00';
 
             if(setTimeAmRect.classList.contains("selected")){
