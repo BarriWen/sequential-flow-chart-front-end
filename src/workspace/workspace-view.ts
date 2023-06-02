@@ -154,9 +154,9 @@ export class WorkspaceView {
               type: "save",
               name: triggers[i],
               createdAt: new Date(),
-              createdBy: "userID",
+              createdBy: "123",
               updatedAt: new Date(),
-              updatedBy: "userID",
+              updatedBy: "123",
               properties: {},
               branches: undefined,
             });
