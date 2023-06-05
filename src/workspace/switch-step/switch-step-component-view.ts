@@ -952,7 +952,7 @@ export class SwitchStepComponentView implements ComponentView {
             let property: any = step.properties["condition"];
             dropdownBoxInnerText1.textContent = property;
         } else {
-            dropdownBoxInnerText1.textContent = "Is";
+            dropdownBoxInnerText1.textContent = "";
             dropdownBoxInnerText1.setAttribute("style", "fill: #bfbfbf")
         }
         const dropdownBoxInnerText2 = Dom.svg("text", {
@@ -1382,7 +1382,7 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxShapeAfter.setAttribute("width", `${DROPDOWN1_W}`);
                 dropdownBoxInnerText.setAttribute("style", "fill: #000000");
                 dropdownBoxInnerText1.setAttribute("style", "fill: #bfbfbf");
-                dropdownBoxInnerText1.textContent = "Is";
+                dropdownBoxInnerText1.textContent = "";
                 dropdownBoxInnerText2.textContent = "Nothing Selected";
                 dropdownBoxInnerText2.setAttribute("style", "fill: #bfbfbf");
                 dropdownRightButtonDown.setAttribute("x", `${DROPDOWN_X1 + DROPDOWN1_W - 20}`);
@@ -2124,7 +2124,7 @@ export class SwitchStepComponentView implements ComponentView {
             step.properties = {};
             textRight.textContent = "Choose Condition";
             dropdownBoxInnerText.textContent = "Select a condition";
-            dropdownBoxInnerText1.textContent = "Is";
+            dropdownBoxInnerText1.textContent = "";
             dropdownBoxInnerText2.textContent = "";
             dropdownBoxInnerTextMain1.textContent = "CONTACT INFO";
             dropdownBoxInnerTextMain2.textContent = "ACTIONS";
