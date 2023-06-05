@@ -605,9 +605,16 @@ export class TagComponentView implements ComponentView {
             step.properties["tag"] = "";
 
             if (newTag.textContent) {
-                textRight.textContent = newTag.textContent;
-                step.properties["tag"] = textRight.textContent;
-                step["updatedAt"] = new Date();
+                if (newTag.textContent.trim() == "") {
+                    alert("new tag cannot be whitespace");
+                    newTag.textContent = ""; // reset
+                    return; // If it's only whitespace, return immediately.
+                } else {
+                    textRight.textContent = newTag.textContent;
+                    step.properties["tag"] = textRight.textContent;
+                    textRight.textContent = newTag.textContent.substring(0, 13); // Limit display length
+                    step["updatedAt"] = new Date();
+                }
               }
 
             // if (g.children[0].children[3]) {
@@ -1005,6 +1012,7 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
         type: "text",
         placeholder: "Name your new tag",
         value: "",
+        maxlength: 25,
     });
     inputArea.appendChild(input);
     container.appendChild(inputArea);
