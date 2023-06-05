@@ -1131,7 +1131,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       x: PADDING_X+10 + addon,
       y: 2 * boxHeight+377,
     });
-    setTimeTimeZone.textContent = "Based on your timezone(PST)";
+    setTimeTimeZone.textContent = "Your Timezone: " + Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     setTimeInput.addEventListener("change", function(){
       if (parseInt(setTimeInput.value) < 10) {
@@ -1704,7 +1704,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       y:2 * boxHeight+345,
       class: "sqd-task-text_3"
     })
-    timezone.textContent = "Based on your timezone(PST)";
+    timezone.textContent = "Your Timezone: " + Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     gWeeks.insertBefore(gEndDate, gWeeks.firstChild);
     gWeeks.insertBefore(timezone,gWeeks.firstChild);
@@ -1843,7 +1843,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           return;
         }
         //@ts-ignore
-        step.properties["send"] = weekAndTime + 'End date:'+`${document.getElementsByClassName("date-input")[0].value}`+'/'+`${document.getElementsByClassName("date-input")[1].value}`+'/'+`${document.getElementsByClassName("date-input-year")[0].value}`;
+        // Append timezone info
+        step.properties["send"] = weekAndTime + 'End date:'+`${document.getElementsByClassName("date-input")[0].value}`+'/'+`${document.getElementsByClassName("date-input")[1].value}`+'/'+`${document.getElementsByClassName("date-input-year")[0].value}` + ',Timezone:' + Intl.DateTimeFormat().resolvedOptions().timeZone;
       }else{
         if((OnceDates && OnceDates.length == 0) || !OnceDates){
           alert("please select a day");
@@ -1893,6 +1894,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
             }else{
               step.properties["send"] += "PM";
             }
+            // Append timezone info
+            step.properties["send"] += "Z" + Intl.DateTimeFormat().resolvedOptions().timeZone;
           }else{
             alert("please enter correct hour");
             return;
