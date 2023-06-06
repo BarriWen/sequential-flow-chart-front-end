@@ -2050,7 +2050,7 @@ export class SwitchStepComponentView implements ComponentView {
             // =============== Add properties
             if (dropdownBoxInnerText.textContent == "Tag" ||
                 dropdownBoxInnerText.textContent == "Gender" ||
-                dropdownBoxInnerText.textContent == "Email" ||
+                dropdownBoxInnerText.textContent == "Email Address" ||
                 dropdownBoxInnerText.textContent == "Full Name" ||
                 dropdownBoxInnerText.textContent == "First Name" ||
                 dropdownBoxInnerText.textContent == "Last Name" ||
@@ -2058,8 +2058,8 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxInnerText.textContent == "Birthday" ||
                 dropdownBoxInnerText.textContent == "Location") {
                 step.properties["type"] = "Contact Info";
-            } if (dropdownBoxInnerText.textContent == "Opend" ||
-                dropdownBoxInnerText.textContent == "Not Opend" ||
+            } else if (dropdownBoxInnerText.textContent == "Opened" ||
+                dropdownBoxInnerText.textContent == "Not Opened" ||
                 dropdownBoxInnerText.textContent == "Clicked" ||
                 dropdownBoxInnerText.textContent == "Not Clicked") {
                     step.properties["type"] = "Actions";
@@ -2070,6 +2070,7 @@ export class SwitchStepComponentView implements ComponentView {
             }
             if (dropdownBoxInnerText1.textContent && dropdownBoxInnerText1.textContent != "") {
                 // textRight.textContent = dropdownBoxInnerText.textContent;
+                // console.log(dropdownBoxInnerText1.textContent);
                 step.properties["condition"] = dropdownBoxInnerText1.textContent;
             }
             if (locTextInput.value != "") {
