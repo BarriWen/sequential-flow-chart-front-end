@@ -606,8 +606,8 @@ export class TagComponentView implements ComponentView {
 
             if (newTag.textContent) {
                 if (newTag.textContent.trim() == "") {
-                    alert("new tag cannot be whitespace");
                     newTag.textContent = ""; // reset
+                    alert("new tag cannot be whitespace");
                     return; // If it's only whitespace, return immediately.
                 } else {
                     textRight.textContent = newTag.textContent;

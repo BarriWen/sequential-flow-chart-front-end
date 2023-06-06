@@ -1120,6 +1120,7 @@ export class SwitchStepComponentView implements ComponentView {
         const textInput = Dom.element('input', {
             class: `sqd-text-input`,
             type: 'text',
+            maxlength: 255, // general length limit
             // placeholder: 'Email...',
             value: "",
         });
@@ -2078,9 +2079,23 @@ export class SwitchStepComponentView implements ComponentView {
                 step.properties["value"] = value;
             }
             if (choice1 == "Email Address" || choice1 == "Full Name" || choice1 == "First Name" || choice1 == "Last Name" || choice1 == "Phone Number") {
-                    let value = textInput.value;
-                    step.properties["value"] = value;
-            } if (choice1 == "Birthday" && choice2 == "Date Is") {
+                if (textInput.value.trim() == "") {
+                    textInput.value = ""; // Reset
+                    alert("Input cannot be empty or whitespace");
+                    return; // If it's only whitespace or empty, return immediately
+                }
+                if (textInput.value.charAt(0) == ' '
+                    || textInput.value.charAt(textInput.value.length - 1) == ' '
+                    || /[^\w\s@.()-]/g.test(textInput.value)
+                    // Check illegal input other than alphanumeric,underscore, or certain symbols
+                ) {
+                    textInput.value = ""; // Reset
+                    alert("Invalid input or punctuation");
+                    return; // If it starts or ends with whitespace, return immediately
+                }
+                let value = textInput.value;
+                step.properties["value"] = value;
+            } else if (choice1 == "Birthday" && choice2 == "Date Is") {
                 step.properties["value"] = textInput.value; 
             } else {
                 let value:any = dropdownBoxInnerText2.textContent; 
