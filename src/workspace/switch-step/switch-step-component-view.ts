@@ -1383,7 +1383,7 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxInnerText.setAttribute("style", "fill: #000000");
                 dropdownBoxInnerText1.setAttribute("style", "fill: #bfbfbf");
                 dropdownBoxInnerText1.textContent = "Is";
-                dropdownBoxInnerText2.textContent = "Nothing Selected";
+                // dropdownBoxInnerText2.textContent = "Nothing Selected";
                 dropdownBoxInnerText2.setAttribute("style", "fill: #bfbfbf");
                 dropdownRightButtonDown.setAttribute("x", `${DROPDOWN_X1 + DROPDOWN1_W - 20}`);
                 dropdownRightButtonUp.setAttribute("x", `${DROPDOWN_X1 + DROPDOWN1_W - 20}`);
@@ -1962,7 +1962,7 @@ export class SwitchStepComponentView implements ComponentView {
         // ========== Add EventListeners for "More" icon 
         moreIcon.addEventListener("click", function (e) {
             e.stopPropagation();
-            if (rect1.classList.contains("sqd-hidden")) {
+            if (!gDropdown.classList.contains("sqd-hidden")) {
                 console.log("Not permitted");
             } else {
                 gRightPop3.classList.toggle("sqd-hidden");
@@ -1977,8 +1977,8 @@ export class SwitchStepComponentView implements ComponentView {
             rectLeft.setAttribute("x", `${containerWidths[0] - textWidth - 107}`);
             text.setAttribute("x", `${ICON_SIZE + containerWidths[0] - PADDING_X * 17 - 10}`);
             moreIcon.setAttribute("x", `${ICON_SIZE + containerWidths[0] + PADDING_X + textWidth + 45}`);
-            gDropdown.classList.toggle("sqd-hidden");
-            gUpPop3.classList.toggle("sqd-hidden");
+            gDropdown.classList.remove("sqd-hidden");
+            gUpPop3.classList.remove("sqd-hidden");
             gRightPop3.classList.toggle("sqd-hidden");
             gSubDropdown.classList.toggle("sqd-hidden");
             gSubDropdown1.classList.toggle("sqd-hidden");
@@ -2015,6 +2015,7 @@ export class SwitchStepComponentView implements ComponentView {
             text.setAttribute("x", `${ICON_SIZE + containerWidths[0] - PADDING_X * 17 + 69}`);
             moreIcon.setAttribute("x", `${ICON_SIZE + containerWidths[0] + PADDING_X + textWidth - 27}`);
             gDropdown.classList.add("sqd-hidden");
+            // gDropdownbox.classList.add("sqd-hidden"); 
             gSubDropdown.classList.add("sqd-hidden");
             gSubDropdown1.classList.add("sqd-hidden");
             gSubDropdown2.classList.add("sqd-hidden");
@@ -2034,22 +2035,21 @@ export class SwitchStepComponentView implements ComponentView {
             dropdownBoxInnerTextMain2.setAttribute("y", `${innerTextMain2DefaultY}`);
             dropdownBoxShapeAfterMain2.setAttribute("y", `${shapeAfterMain2DefaultY}`);
             gUpPop3.classList.add("sqd-hidden");
-            gDropdown.classList.toggle("sqd-hidden");
-            gSubDropdown.classList.toggle("sqd-hidden");
-            gSubDropdown1.classList.toggle("sqd-hidden");
-            gSubDropdown2.classList.toggle("sqd-hidden");
-            gSubDropdownMain1.classList.toggle("sqd-hidden");
-            gSubDropdownMain2.classList.toggle("sqd-hidden");
-            gUpPop3.classList.toggle("sqd-hidden");
-            step.properties["property"] = ""; 
-            step.properties["condition"] = ""; 
-            step.properties["value"] = ""; 
-            step.properties["type"] = ""; 
+            // gDropdown.classList.toggle("sqd-hidden");
+            // gSubDropdown.classList.toggle("sqd-hidden");
+            // gSubDropdown1.classList.toggle("sqd-hidden");
+            // gSubDropdown2.classList.toggle("sqd-hidden");
+            // gSubDropdownMain1.classList.toggle("sqd-hidden");
+            // gSubDropdownMain2.classList.toggle("sqd-hidden");
+            step.properties["property"] = "";
+            step.properties["condition"] = "";
+            step.properties["value"] = "";
+            step.properties["type"] = "";
 
             // =============== Add properties
             if (dropdownBoxInnerText.textContent == "Tag" ||
                 dropdownBoxInnerText.textContent == "Gender" ||
-                dropdownBoxInnerText.textContent == "Email" ||
+                dropdownBoxInnerText.textContent == "Email Address" ||
                 dropdownBoxInnerText.textContent == "Full Name" ||
                 dropdownBoxInnerText.textContent == "First Name" ||
                 dropdownBoxInnerText.textContent == "Last Name" ||
@@ -2061,8 +2061,8 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxInnerText.textContent == "Not Opend" ||
                 dropdownBoxInnerText.textContent == "Clicked" ||
                 dropdownBoxInnerText.textContent == "Not Clicked") {
-                    step.properties["type"] = "Actions";
-                }
+                step.properties["type"] = "Actions";
+            }
             if (dropdownBoxInnerText.textContent && dropdownBoxInnerText.textContent != "Select a condition") {
                 // textRight.textContent = dropdownBoxInnerText.textContent;
                 step.properties["property"] = dropdownBoxInnerText.textContent;
@@ -2077,16 +2077,16 @@ export class SwitchStepComponentView implements ComponentView {
                 value = dropdownBoxInnerText2.textContent + ", " + locTextInput.value;
                 step.properties["value"] = value;
             }
-            if (choice1 == "Email Address" || choice1 == "Full Name" || choice1 == "First Name" || choice1 == "Last Name" || choice1 == "Phone Number") {
-                    let value = textInput.value;
-                    step.properties["value"] = value;
-            } if (choice1 == "Birthday" && choice2 == "Date Is") {
-                step.properties["value"] = textInput.value; 
-            } else {
-                let value:any = dropdownBoxInnerText2.textContent; 
-                step.properties["value"] = value; 
-            }
-            if (choice1 == "Tag" || choice1 == "Gender") {
+            if (choice1 == "Email Address" || 
+                choice1 == "Full Name" ||
+                choice1 == "First Name" ||
+                choice1 == "Last Name" ||
+                choice1 == "Phone Number") {
+                let value = textInput.value;
+                step.properties["value"] = value;
+            } else if (choice1 == "Birthday" && choice2 == "Date Is") {
+                step.properties["value"] = textInput.value;
+            } else if (choice1 == "Tag" || choice1 == "Gender" || choice2 == "Date Is") {
                 if (dropdownBoxInnerText2.textContent) {
                     step.properties["value"] = dropdownBoxInnerText2.textContent;
                 }
@@ -2095,29 +2095,30 @@ export class SwitchStepComponentView implements ComponentView {
 
 
             // =================== Title 
-            if (step.properties["property"].toString() == "Tag") {
-                textRight.textContent = "If " + step.properties["value"].toString() + " " +
-                    step.properties["condition"].toString() + " in the " +
-                    step.properties["property"].toString() + "s";
-            }
-            if (step.properties["property"].toString() == "Location") {
-                if (step.properties["condition"].toString() == ("Is In Country" || "Is In US State")) {
-                    textRight.textContent = "If " + step.properties["property"].toString() + " Is In The " +
-                        step.properties["value"].toString();
-                } else if (step.properties["condition"].toString() == ("Is Not In Country" || "Is Not In US State")) {
-                    textRight.textContent = "If " + step.properties["property"].toString() + " Is Not In The " +
-                        step.properties["value"].toString();
-                } else {
-                    textRight.textContent = "If " + step.properties["property"].toString() + " " +
-                        step.properties["condition"].toString() + " " +
-                        dropdownBoxInnerText2.textContent + " Miles";
-                }
-            }
-            else {
-                textRight.textContent = "If " + step.properties["property"].toString() + " " +
-                    step.properties["condition"].toString() + " " +
-                    step.properties["value"].toString();
-            }
+            //     if (step.properties["property"].toString() == "Tag") {
+            //         textRight.textContent = "If " + step.properties["value"].toString() + " " +
+            //             step.properties["condition"].toString() + " in the " +
+            //             step.properties["property"].toString() + "s";
+            //     }
+            //     if (step.properties["property"].toString() == "Location") {
+            //         if (step.properties["condition"].toString() == ("Is In Country" || "Is In US State")) {
+            //             textRight.textContent = "If " + step.properties["property"].toString() + " Is In The " +
+            //                 step.properties["value"].toString();
+            //         } else if (step.properties["condition"].toString() == ("Is Not In Country" || "Is Not In US State")) {
+            //             textRight.textContent = "If " + step.properties["property"].toString() + " Is Not In The " +
+            //                 step.properties["value"].toString();
+            //         } else {
+            //             textRight.textContent = "If " + step.properties["property"].toString() + " " +
+            //                 step.properties["condition"].toString() + " " +
+            //                 dropdownBoxInnerText2.textContent + " Miles";
+            //         }
+            //     }
+            //     else {
+            //         textRight.textContent = "If " + step.properties["property"].toString() + " " +
+            //             step.properties["condition"].toString() + " " +
+            //             step.properties["value"].toString();
+            //     }
+            textRight.textContent = "Title in development";
         });
 
         upchangeIcon.addEventListener("click", function (e) {
