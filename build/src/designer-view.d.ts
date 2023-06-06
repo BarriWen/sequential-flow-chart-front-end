@@ -17,4 +17,4 @@ export declare class DesignerView {
     private onResize;
     private reloadLayout;
 }
-export type KeyUpHandler = (e: KeyboardEvent) => void;
+export declare type KeyUpHandler = (e: KeyboardEvent) => void;
