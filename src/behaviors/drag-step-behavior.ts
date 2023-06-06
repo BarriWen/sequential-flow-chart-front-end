@@ -37,9 +37,9 @@ export class DragStepBehavior implements Behavior {
   public onStart(position: Vector) {
     let offset: Vector;
     this.step["createdAt"] = new Date();
-    this.step["createdBy"] = "userID";
+    this.step["createdBy"] = "123";
     this.step["updatedAt"] = new Date();
-    this.step["updatedBy"] = "userID";
+    this.step["updatedBy"] = "123";
     if (this.movingStepComponent) {
       this.movingStepComponent.setState(StepComponentState.dragging);
 
