@@ -57,7 +57,6 @@ export class SequenceModifier {
         throw new Error("Unknown step");
       }
       parentSequence.splice(index, 1);
-      console.log(parentSequence.splice(index, 1));
     }
   }
 }

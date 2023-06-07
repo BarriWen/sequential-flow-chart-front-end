@@ -594,7 +594,7 @@ export class EmailComponentView implements ComponentView {
             step.properties["subject"] = "";
             step.properties["sender"] = "";
             step.properties["address"] = "";
-            step.properties["template"] = templateChoice;
+            step.properties["type"] = templateChoice;
             if (newSend.textContent) {
                 step.properties.sender = newSend.textContent;
             }
@@ -669,7 +669,7 @@ export class EmailComponentView implements ComponentView {
     public setIsSelected(isSelected: boolean) {
         Dom.toggleClass(this.rect, isSelected, "sqd-selected");
         Dom.toggleClass(this.g.children[1], isSelected, "sqd-selected");
-        Dom.toggleClass(this.g.children[6].children[0], isSelected, "sqd-selected");
+        Dom.toggleClass(this.g.children[7].children[0], isSelected, "sqd-selected");
     }
 
     public setIsValid(isValid: boolean) {
@@ -903,19 +903,19 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     classicDesignIcon.addEventListener("click", function (e) {
         e.stopPropagation();
         textInput.classList.toggle("sqd-hidden");
-        templateChoice = "Classic Design";
+        templateChoice = "Template";
     });
 
     textOnlyIcon.addEventListener("click", function (e) {
         e.stopPropagation();
         textInput.classList.toggle("sqd-hidden");
-        templateChoice = "Text Only";
+        templateChoice = "Text";
     });
 
     htmlIcon.addEventListener("click", function (e) {
         e.stopPropagation();
         textInput.classList.toggle("sqd-hidden");
-        templateChoice = "HTML";
+        templateChoice = "Html";
     });
 
     // Add Event Listeners
