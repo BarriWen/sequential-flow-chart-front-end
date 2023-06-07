@@ -54,6 +54,8 @@ export class SwitchStepComponentView implements ComponentView {
         parent.insertBefore(g, parent.firstChild);
 
         const branchNames = Object.keys(step.branches);
+        const labelNames = ["YES", "NO"]; 
+        console.log(branchNames); 
         const sequenceComponents = branchNames.map((bn) =>
             SequenceComponent.create(g, step.branches[bn], configuration)
         );
@@ -93,7 +95,7 @@ export class SwitchStepComponentView implements ComponentView {
                 g,
                 offsetX + joinXs[i] + PADDING_X,
                 PADDING_TOP + LABEL_HEIGHT + CONNECTION_HEIGHT + boxHeight / 2,
-                branchName,
+                labelNames[i],
                 "secondary"
             );
 

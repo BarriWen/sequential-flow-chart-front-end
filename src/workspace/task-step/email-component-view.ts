@@ -12,7 +12,7 @@ const PADDING_Y = 10;
 const MIN_TEXT_WIDTH = 70;
 const ICON_SIZE = 22;
 const RECT_RADIUS = 15;
-let templateChoice = ""; 
+let templateChoice = "";
 
 export class EmailComponentView implements ComponentView {
     private constructor(
@@ -46,6 +46,41 @@ export class EmailComponentView implements ComponentView {
         g.appendChild(text);
         const textWidth = Math.max(text.getBBox().width, MIN_TEXT_WIDTH);
         const boxWidth = ICON_SIZE + 8 * PADDING_X + 2 * textWidth;
+        var addon = 18;
+
+        const gHint = Dom.svg("g", {
+            class: "sqd-task-group-pop",
+        });
+
+        const join = Dom.svg('line', {
+            class: 'sqd-join-pop',
+            x1: 233 + addon,
+            y1: 16,
+            x2: 274 + addon,
+            y2: 16
+        });
+
+        const hint = Dom.svg("rect", {
+            class: "sqd-task-rect-triggerhint",
+            x: 266.953 + addon,
+            y: 0.5 - 3,
+            height: boxHeight + 6,
+            width: 205,
+            rx: 9,
+            ry: 9
+        });
+
+        const hint_text = Dom.svg("text", {
+            x: 276.953 + addon,
+            y: 17,
+            class: "sqd-task-text",
+        });
+        hint_text.textContent = "Please set up your Email setting";
+
+        gHint.appendChild(join);
+        gHint.appendChild(hint);
+        gHint.appendChild(hint_text);
+
         const rect = Dom.svg("rect", {
             x: 0.5,
             y: 0.5,
@@ -496,7 +531,7 @@ export class EmailComponentView implements ComponentView {
             class: `sqd-task-group dropdown sqd-hidden Collapsed`
         });
 
-
+        g.appendChild(gHint)
         g.appendChild(moreIcon);
         g.appendChild(gRightPop3);
         g.appendChild(gDropdown);
@@ -513,6 +548,15 @@ export class EmailComponentView implements ComponentView {
         g.appendChild(gUpPop3);
         g.appendChild(setUpReminder);
 
+        // Hint pop
+        let if_hintpop = true;
+        if (Object.keys(step.properties).length == 0) {
+            if_hintpop = true;
+        } else {
+            if_hintpop = false;
+            gHint.classList.toggle("sqd-hidden");
+        }
+
         // Add EventListeners
         moreIcon.addEventListener("click", function (e) {
             e.stopPropagation();
@@ -523,6 +567,8 @@ export class EmailComponentView implements ComponentView {
             if (!gDropdown.classList.contains("sqd-hidden")) {
                 gDropdown.classList.toggle("sqd-hidden");
             }
+            gHint.classList.add("sqd-hidden");
+            if_hintpop = false;
         });
 
         // Edit
@@ -785,7 +831,7 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     });
     classicDesignIcon.setAttribute("cursor", "pointer");
     gSubDropdownbox.appendChild(classicDesignIcon);
-    gSubDropdownbox.appendChild(classicDesignWrapper); 
+    gSubDropdownbox.appendChild(classicDesignWrapper);
 
     // Add content option 2
     startX = classicDesignWrapper.getBBox().x + classicDesignWrapper.getBBox().width + PADDING_X;
@@ -808,7 +854,7 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     });
     textOnlyIcon.setAttribute("cursor", "pointer");
     gSubDropdownbox.appendChild(textOnlyIcon);
-    gSubDropdownbox.appendChild(txtWrapper); 
+    gSubDropdownbox.appendChild(txtWrapper);
 
     // Add content option 3
     startX = txtWrapper.getBBox().x + txtWrapper.getBBox().width + PADDING_X * 2;
@@ -831,7 +877,7 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     });
     htmlIcon.setAttribute("cursor", "pointer");
     gSubDropdownbox.appendChild(htmlIcon);
-    gSubDropdownbox.appendChild(htmlWrapper); 
+    gSubDropdownbox.appendChild(htmlWrapper);
 
     //text-test field
     const textWrapper = Dom.svg("foreignObject", {
@@ -857,19 +903,19 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
     classicDesignIcon.addEventListener("click", function (e) {
         e.stopPropagation();
         textInput.classList.toggle("sqd-hidden");
-        templateChoice = "Classic Design"; 
+        templateChoice = "Classic Design";
     });
 
     textOnlyIcon.addEventListener("click", function (e) {
         e.stopPropagation();
         textInput.classList.toggle("sqd-hidden");
-        templateChoice = "Text Only"; 
+        templateChoice = "Text Only";
     });
 
     htmlIcon.addEventListener("click", function (e) {
         e.stopPropagation();
         textInput.classList.toggle("sqd-hidden");
-        templateChoice = "HTML"; 
+        templateChoice = "HTML";
     });
 
     // Add Event Listeners
