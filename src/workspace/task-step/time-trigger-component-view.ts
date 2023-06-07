@@ -1799,6 +1799,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       let ifselected = false;
       let weekAndTime:string = '';
       step.properties["send"] = ""; 
+      step.properties["timezone"] = ""; 
       step.properties["list"] = ""; 
       step.properties["frequency"] = ""; 
 
@@ -1843,8 +1844,9 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           return;
         }
         //@ts-ignore
-        // Append timezone info
-        step.properties["send"] = weekAndTime + 'End date:'+`${document.getElementsByClassName("date-input")[0].value}`+'/'+`${document.getElementsByClassName("date-input")[1].value}`+'/'+`${document.getElementsByClassName("date-input-year")[0].value}` + ',Timezone:' + Intl.DateTimeFormat().resolvedOptions().timeZone;
+        step.properties["send"] = weekAndTime + 'End date:' + `${document.getElementsByClassName("date-input")[0].value}` + '/' + `${document.getElementsByClassName("date-input")[1].value}` + '/' + `${document.getElementsByClassName("date-input-year")[0].value}`;
+        // Set timezone info
+        step.properties["timezone"] = Intl.DateTimeFormat().resolvedOptions().timeZone;
       }else{
         if((OnceDates && OnceDates.length == 0) || !OnceDates){
           alert("please select a day");
@@ -1894,8 +1896,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
             }else{
               step.properties["send"] += "PM";
             }
-            // Append timezone info
-            step.properties["send"] += "Z" + Intl.DateTimeFormat().resolvedOptions().timeZone;
+            // Set timezone info
+            step.properties["timezone"] = Intl.DateTimeFormat().resolvedOptions().timeZone;
           }else{
             alert("please enter correct hour");
             return;
