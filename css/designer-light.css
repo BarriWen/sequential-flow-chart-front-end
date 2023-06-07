@@ -3,12 +3,12 @@
 
 @font-face {
 	font-family: 'sofia-pro';
-	src: url('../Sofia/Sofia\ Pro\ Regular\ Az.otf'); 
+	src: url(../assets/SofiaProRegular.ttf); 
 }
 
 @font-face {
 	font-family: 'sofia-light';
-	src: url('../Sofia/Sofia\ Pro\ Light\ Az.otf'); 
+	src: url(../assets/SofiaProLight.ttf); 
 }
 
 body{
