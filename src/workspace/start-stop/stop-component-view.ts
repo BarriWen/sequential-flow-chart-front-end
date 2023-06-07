@@ -40,16 +40,7 @@ export class StopComponentView implements ComponentView {
 }
 
 function createCircle(isStart: boolean): SVGGElement {
-	// const circle = Dom.svg('circle', {
-	// 	class: 'sqd-start-stop sqd-hidden',
-	// 	cx: SIZE / 2,
-	// 	cy: SIZE / 2,
-	// 	r: SIZE / 2
-	// });
-
 	const g = Dom.svg('g');
-	// g.appendChild(circle);
-
 	const s = SIZE * 0.5;
 	const m = (SIZE - s) / 2;
 
@@ -61,15 +52,6 @@ function createCircle(isStart: boolean): SVGGElement {
 		});
 		g.appendChild(start);
 	} else {
-		// const stop = Dom.svg('rect', {
-		//     class: 'sqd-start-stop-icon',
-		//     x: m,
-		//     y: m,
-		//     width: s,
-		//     height: s,
-		//     rx: 4,
-		//     ry: 4
-		// });
 		const endAuto = Dom.svg("image", {
 			class: "sqd-end-icon", 
 			href: "./assets/end.svg", 
@@ -102,16 +84,6 @@ function createEndPoint(g: SVGGElement){
 	const s = SIZE * 0.5;
 	const m = (SIZE - s) / 2;
 
-	// const stop = Dom.svg('rect', {
-	// 	class: 'sqd-start-stop-icon',
-	// 	x: m,
-	// 	y: m,
-	// 	width: s,
-	// 	height: s,
-	// 	rx: 4,
-	// 	ry: 4
-	// });
-
 	const endAuto = Dom.svg("image", {
         class: "sqd-end-icon", 
         href: "./assets/end.svg", 
@@ -122,6 +94,5 @@ function createEndPoint(g: SVGGElement){
 	function getStop(){
 		return endAuto;
 	}
-
 	g.appendChild(endAuto);
 }

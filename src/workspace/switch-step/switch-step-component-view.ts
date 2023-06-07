@@ -2091,9 +2091,7 @@ export class SwitchStepComponentView implements ComponentView {
                     step.properties["value"] = dropdownBoxInnerText2.textContent;
                 }
             }
-
-
-
+            
             // =================== Title 
             //     if (step.properties["property"].toString() == "Tag") {
             //         textRight.textContent = "If " + step.properties["value"].toString() + " " +
