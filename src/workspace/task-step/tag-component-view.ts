@@ -606,21 +606,21 @@ export class TagComponentView implements ComponentView {
 
             if (newTag.textContent) {
                 textRight.textContent = newTag.textContent;
+                step.properties["newTag"] = textRight.textContent;
+                step["updatedAt"] = new Date();
+            }
+
+            if (g.children[0].children[3]) {
+                if (g.children[0].children[3].classList.contains("sqd-hidden")) {
+                    textRight.textContent = tempText;
+                    step.properties["tag"] = textRight.textContent;
+                    step["updatedAt"] = new Date();
+                }
+            } else {
+                textRight.textContent = tempText;
                 step.properties["tag"] = textRight.textContent;
                 step["updatedAt"] = new Date();
-              }
-
-            // if (g.children[0].children[3]) {
-            //     if (g.children[0].children[3].classList.contains("sqd-hidden")) {
-            //         textRight.textContent = tempText;
-            //         step.properties["tag"] = textRight.textContent;
-            //         step["updatedAt"] = new Date();
-            //     }
-            // } else {
-            //     textRight.textContent = tempText;
-            //     step.properties["tag"] = textRight.textContent;
-            //     step["updatedAt"] = new Date();
-            // }
+            }
         });
         upCheckIcon.addEventListener("mousedown", function () {
             checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
@@ -848,7 +848,6 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
     });
     dropdown.appendChild(gSubDropdownboxPop);
 
-
     dropdownBoxShapeAfter.addEventListener("click", function (e) {
         gDropdownList.classList.toggle("sqd-hidden");
 
@@ -890,9 +889,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
         }
     }).catch(console.log);
 
-    // const tags = ["Food", "Electronics", "Clothes"];
     const editTags = function (tags: string[]) {
-
         const dropDownRect = Dom.svg("rect", {
             x: 122.6875,
             y: 74,
@@ -1034,31 +1031,12 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
         input.value = "";
     });
 
-
     upCheckBut.addEventListener("click", function (e) {
-      if (input.value) {
-        e.stopPropagation();
-        console.log('Will be sending to back end', input.value);
-        // Post tag to backend
-        const userID = 1;  //Need to be changed to an existing user
-        const journeyID = 4;  //Need to be changed to an existing journey
-        const data = { "tag_name": `${input.value}` };
-        const request = new Request(`/AddTag`,{
-          method: 'POST', 
-          headers: {
-            "Content-Type": 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
-        // Send tag to backend 
-        textToChange.textContent = input.value;
-        container.classList.toggle('sqd-hidden');
-        input.value = "";
-        fetch(request).then((response) => {
-          if (!response.ok) {
-            console.log("Connection error", response.status);
-          }
-        });
-      }
+        if (input.value) {
+            e.stopPropagation();
+            textToChange.textContent = input.value;
+            container.classList.toggle('sqd-hidden');
+            input.value = "";
+        }
     });
 }
