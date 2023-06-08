@@ -18,8 +18,8 @@ declare function createIfStep(id: any, _true: any, _false: any): {
     type: string;
     name: string;
     branches: {
-        YES: any;
-        NO: any;
+        True: any;
+        False: any;
     };
     properties: {};
 };

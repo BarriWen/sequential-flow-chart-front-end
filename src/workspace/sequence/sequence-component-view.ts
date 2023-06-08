@@ -105,10 +105,8 @@ export class SequenceComponentView implements ComponentView {
 
             // Calculate location
             g.appendChild(stop);
-            g.insertBefore(stop, g.firstChild);
+            // g.insertBefore(stop, g.firstChild);
         }
-
-
 
         let containsSwitch;
         for (i = 0; i < components.length; i++) {
@@ -123,15 +121,14 @@ export class SequenceComponentView implements ComponentView {
                     components[i].step.branches.True.push(
                         components[i].parentSequence[i + 1]
                     );
-
                     // Remove from parent sequence of if/else & components
                     components[i].parentSequence.splice(i + 1, 1);
                     components.splice(i + 1, 1);
                 }
             }
         }
+
         // Hide start component, and placeholder & line below it
-        //if (components.length > 0 && components[0].step.id == 'start-component') {
         if (
             components.length > 0 &&
             components[0].step.id.startsWith("start-component")
@@ -140,25 +137,23 @@ export class SequenceComponentView implements ComponentView {
                 display: "none",
             });
             const lines = parent.childNodes[0].childNodes;
-            // console.log(lines); 
+
             if (components.length == 1) {
-                parent.childNodes[0].removeChild(lines[2]);
-            }
-            else {
+                parent.childNodes[0].removeChild(lines[1]);
+            } else {
+                parent.childNodes[0].removeChild(lines[components.length]);
                 if (containsSwitch) {
-                    parent.childNodes[0].removeChild(lines[components.length]);
                     parent.childNodes[0].removeChild(lines[0]);
-                } else {
-                      parent.childNodes[0].removeChild(lines[components.length + 1]);
                 }
             }
+
             document
                 .getElementsByClassName("sqd-input")[0]
                 .setAttribute("display", "none");
         }
 
         let holderElement = document.getElementsByClassName('sqd-placeholder');
-        console.log("Comp Len: " + components.length); 
+        // console.log("Comp Len: " + components.length); 
         if (components.length == 0) {
             Dom.attrs(holderElement[0], {
                 visibility: 'hidden'
@@ -168,14 +163,6 @@ export class SequenceComponentView implements ComponentView {
                 visibility: 'shown'
             });
         }
-
-
-        let joinElement = document.getElementsByClassName('sqd-join');
-        // if (joinElement.length >= 2) {
-        //     Dom.attrs(joinElement[0], {
-        //         visibility: 'hidden'
-        //     });
-        // }
 
         return new SequenceComponentView(
             g,
