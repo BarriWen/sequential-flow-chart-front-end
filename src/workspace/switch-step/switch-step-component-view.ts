@@ -1561,6 +1561,7 @@ export class SwitchStepComponentView implements ComponentView {
                     });
                     // Add event listners for 2nd dropdowns 
                     dropdownBoxBottomShape1cover.addEventListener("click", function (e) {
+                        dropdownBoxInnerTextAct1.textContent = ""; // Empty condition value of ACTIONS
                         dropdownRightButtonUp1.classList.add("sqd-hidden");
                         dropdownRightButtonDown1.classList.remove("sqd-hidden");
                         dropdownBoxInnerText1.textContent = dropdownBoxBottomShape1Text.textContent;
@@ -1826,6 +1827,7 @@ export class SwitchStepComponentView implements ComponentView {
             // Add event listners for Action 2nd dropdown 
             dropdownBoxBottomShapeAct2cover.addEventListener("click", function (e) {
                 dropdownBoxInnerTextAct1.textContent = dropdownBoxBottomShapeAct2Text.textContent;
+                dropdownBoxInnerText1.textContent = ""; // Empty condition value of CONTACT INFO
                 gSubDropdownboxAct1Pop.classList.toggle("sqd-hidden");
                 dropdownBoxInnerTextAct1.setAttribute("style", "fill: #000000; font-size: 9pt");
             });
@@ -2074,6 +2076,8 @@ export class SwitchStepComponentView implements ComponentView {
                 // textRight.textContent = dropdownBoxInnerText.textContent;
                 // console.log(dropdownBoxInnerText1.textContent);
                 step.properties["condition"] = dropdownBoxInnerText1.textContent;
+            } else if (dropdownBoxInnerTextAct1.textContent && dropdownBoxInnerTextAct1.textContent != "") {
+                step.properties["condition"] = dropdownBoxInnerTextAct1.textContent; // Set condition for ACTIONS
             }
             if (locTextInput.value != "") {
                 // textRight.textContent = dropdownBoxInnerText2.textContent;
@@ -2107,6 +2111,28 @@ export class SwitchStepComponentView implements ComponentView {
             } else if (choice1 == "Tag" || choice1 == "Gender" || choice2 == "Date Is") {
                 if (dropdownBoxInnerText2.textContent) {
                     step.properties["value"] = dropdownBoxInnerText2.textContent;
+                }
+            } else if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
+                if (dropdownBoxInnerTextAct1 && dropdownBoxInnerTextAct1.textContent != "") {
+                    if (textInput.value.trim() != "") {
+                        let num = parseFloat(textInput.value);
+                        if (isNaN(num)) {
+                            alert("please enter valid number");
+                            return;
+                        } else {
+                            if (dropdownBoxInnerTextAct2.textContent == "") {
+                                alert("Please select your time unit");
+                                return;
+                            }
+                            step.properties["value"] = num + "_" + dropdownBoxInnerTextAct2.textContent;
+                        }
+                    } else {
+                        alert("Time value cannot be empty");
+                        return;
+                    }
+                } else {
+                    alert("Please select your object")
+                    return;
                 }
             }
             
