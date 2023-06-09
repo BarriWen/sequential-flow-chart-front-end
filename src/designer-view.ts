@@ -6,6 +6,7 @@ import { LayoutController } from "./layout-controller";
 import { SmartEditor } from "./smart-editor/smart-editor";
 import { Toolbox } from "./toolbox/toolbox";
 import { Workspace } from "./workspace/workspace";
+import { rbButtonsBox} from "./rbButtons/rbButtons-box";
 
 const ICON_SIZE = 22;
 const LABEL_PADDING_X = 10;
@@ -255,6 +256,24 @@ export class DesignerView {
       Dom.toggleClass(dialogBox, false, "sqd-hidden");
     });
 
+    // emaily logo, use svg
+    const emailyLogo = Dom.svg("svg", {
+        class: "emaily-logo",
+        width: 200,
+        height: 80,
+    });
+    const emailyLogoUrl = "./assets/emaily-logo.svg";
+    const logo = Dom.svg("image", {
+        href: emailyLogoUrl,
+    });
+    Dom.attrs(logo, {
+      class: "logo",
+      width: 200,
+      height: 80,
+    });
+    emailyLogo.appendChild(logo);
+    root.appendChild(emailyLogo);
+
     const avatarSvg = Dom.svg("svg", {
       class: "avatar-box",
       width: 80,
@@ -288,6 +307,9 @@ export class DesignerView {
     dialogForm.appendChild(column1);
     dialogForm.appendChild(column2);
     dialogForm.appendChild(column3);
+
+    // right-bottom toolbox
+    rbButtonsBox.create(root, context);
 
     // Left Toolbox
     const emailyToolbox = Dom.element("div", {

@@ -212,20 +212,45 @@
 }
 
 /* .sqd-control-bar */
+/*.sqd-control-bar {*/
+/*	position: absolute;*/
+/*	bottom: 10px;*/
+/*	left: 10px;*/
+/*	z-index: 20;*/
+/*	padding: 8px 0 8px 8px;*/
+/*	border-radius: 25px;*/
+/*	white-space: nowrap;*/
+/*}*/
+
+.rb-buttons-box {
+	width: 55px;
+	height: 120px;
+	position: absolute;
+	bottom: 0;
+	left: 18px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
 .sqd-control-bar {
+	width: 110px;
 	position: absolute;
 	bottom: 10px;
-	left: 10px;
+	right: 325px;
 	z-index: 20;
-	padding: 8px 0 8px 8px;
+	padding: 8px;
 	border-radius: 25px;
 	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
+
 .sqd-control-bar-button {
 	display: inline-block;
 	width: 30px;
 	height: 30px;
-	margin-right: 8px;
 	cursor: pointer;
 }
 .sqd-control-bar-button-icon {
@@ -474,6 +499,13 @@
 	right: 50px;
 	margin: 12px 0 0 12px;
 }
+
+.emaily-logo {
+	position: absolute;
+	top: 2px;
+	left: -37px;
+}
+
 /* title-box prompt */
 .info-box-prompt{
 	position: absolute;

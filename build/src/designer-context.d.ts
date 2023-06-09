@@ -23,6 +23,7 @@ export declare class DesignerContext {
     readonly onIsToolboxCollapsedChanged: SimpleEvent<boolean>;
     readonly onIsSmartEditorCollapsedChanged: SimpleEvent<boolean>;
     readonly onDefinitionChanged: SimpleEvent<DefinitionChangedEvent>;
+    readonly onZoomChanged: SimpleEvent<number>;
     viewPort: ViewPort;
     selectedStep: Step | null;
     isReadonly: boolean;

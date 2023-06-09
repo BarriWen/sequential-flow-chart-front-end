@@ -31,6 +31,7 @@ export class DesignerContext {
   public readonly onIsSmartEditorCollapsedChanged = new SimpleEvent<boolean>();
   public readonly onDefinitionChanged =
     new SimpleEvent<DefinitionChangedEvent>();
+  public readonly onZoomChanged = new SimpleEvent<number>();
 
   public viewPort: ViewPort = {
     position: new Vector(0, 0),
