@@ -580,17 +580,6 @@ export class TagComponentView implements ComponentView {
             gHint.classList.add("sqd-hidden");
             if_hintpop = false;
         });
-        // moreIcon.addEventListener("mouseover", function () {
-        //     if (if_hintpop) {
-        //         gHint.classList.remove("sqd-hidden");
-        //     }
-        // });
-        // moreIcon.addEventListener("mouseout", function(){
-        //     if(if_hintpop){
-        //       gHint.classList.add("sqd-hidden");
-        //     }
-        //   });
-
         // Edit
         editIcon.addEventListener("click", function (e) {
             e.stopPropagation();
@@ -598,18 +587,19 @@ export class TagComponentView implements ComponentView {
             gUpPop3.classList.toggle("sqd-hidden");
             gRightPop3.classList.toggle("sqd-hidden");
         });
+        // Save 
         upCheckIcon.addEventListener("click", function (e) {
             e.stopPropagation();
             gDropdown.classList.toggle("sqd-hidden");
             gUpPop3.classList.toggle("sqd-hidden");
             step.properties["tag"] = "";
+            step.properties["newTag"] = ""; 
 
             if (newTag.textContent) {
                 textRight.textContent = newTag.textContent;
                 step.properties["newTag"] = textRight.textContent;
                 step["updatedAt"] = new Date();
             }
-
             if (g.children[0].children[3]) {
                 if (g.children[0].children[3].classList.contains("sqd-hidden")) {
                     textRight.textContent = tempText;
