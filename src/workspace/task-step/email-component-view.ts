@@ -923,22 +923,35 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
   // Add Event Listeners
   button.addEventListener("click", function(e) {
     e.stopPropagation();
-    if (subjectInput.value) {
+    if (subjectInput.value && subjectInput.value.trim() != "") {
       sub.textContent = subjectInput.value;
+    } else {
+        alert("Please enter valid subject");
+        subjectInput.value = ""; // Reset to empty
     }
-    if (sendInput.value) {
+    if (sendInput.value && sendInput.value.trim() != "") {
       send.textContent = sendInput.value;
+    } else {
+        alert("Please enter valid sender");
+        sendInput.value = "";
     }
-    if (textInput.value){
+    if (textInput.value && textInput.value != ""){
       cont.textContent = textInput.value;
+    } else {
+        alert("Text content should not be empty");
     }
-    if (addressInput.value) {
+    if (addressInput.value && addressInput.value.trim() != "") {
+          alert("Plesae enter valid email address (without domain)");
+          addressInput.value = ""; // Reset) {
       if (addressInput.value.includes('@')) { // No domain part
-        addressInput.value = ""; // reset the value to empty
+        addressInput.value = ""; // Reset the value to empty
         alert('Invalid email address, only input the address before domain("@")');
       } else {
         addr.textContent = addressInput.value;
       }
+    } else {
+        alert("Plesae enter valid email address (without domain)");
+        addressInput.value = ""; // Reset
     }
   });
   
