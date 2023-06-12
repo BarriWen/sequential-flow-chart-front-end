@@ -471,7 +471,7 @@
 .info-box{
 	position: absolute;
 	top: 10px;
-	left: 150px;
+	left: 100px;
 	margin: 12px 0 0 12px;
 }
 .info-box-rect{
@@ -502,8 +502,9 @@
 
 .emaily-logo {
 	position: absolute;
-	top: 2px;
-	left: -37px;
+	left: 5px;
+	width: 120px;
+	height: 80px;
 }
 
 /* title-box prompt */

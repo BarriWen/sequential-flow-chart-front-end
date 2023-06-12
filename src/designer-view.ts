@@ -37,17 +37,17 @@ export class DesignerView {
     // Add title box
     const info = Dom.svg("svg", {
       class: "info-box",
-      width: 340,
+      width: 370,
       height: 60,
     });
     const title = Dom.svg("text", {
-      x: 160,
+      x: 185,
       y: 25,
       class: "info-box-title",
     });
     title.textContent = String(context.definition.properties.journeyName);
     info.appendChild(title);
-    const nameWidth = Math.max(info.getBBox().width + LABEL_PADDING_X * 2, 320);
+    const nameWidth = Math.max(info.getBBox().width + LABEL_PADDING_X * 2, 350);
     // console.log(info.getBBox());
     const rect = Dom.svg("rect", {
       class: "info-box-rect",
@@ -55,6 +55,7 @@ export class DesignerView {
       height: 40,
       rx: 20,
       ry: 20,
+      x: 10,
     });
     info.insertBefore(rect, title);
     // Expanded titlebox
@@ -258,18 +259,14 @@ export class DesignerView {
 
     // emaily logo, use svg
     const emailyLogo = Dom.svg("svg", {
-        class: "emaily-logo",
-        width: 200,
-        height: 80,
+      class: "emaily-logo",
+      // width: 200,
+      // height: 80,
     });
-    const emailyLogoUrl = "./assets/emaily-logo.svg";
     const logo = Dom.svg("image", {
-        href: emailyLogoUrl,
-    });
-    Dom.attrs(logo, {
+      href: "./assets/emaily-logo.svg",
       class: "logo",
-      width: 200,
-      height: 80,
+      height: 84,
     });
     emailyLogo.appendChild(logo);
     root.appendChild(emailyLogo);
