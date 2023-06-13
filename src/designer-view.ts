@@ -34,6 +34,11 @@ export class DesignerView {
       SmartEditor.create(root, context);
     }
 
+    const mask = Dom.element("div", {
+        class: "sqd-designer-mask sqd-hidden",
+    });
+    root.appendChild(mask);
+
     // Add title box
     const info = Dom.svg("svg", {
       class: "info-box",
@@ -75,59 +80,61 @@ export class DesignerView {
     txt.insertAdjacentHTML("afterend", "</br>");
     // More text contents
     const column1 = Dom.element("div", {
-      class: "info-box-prompt-column",
+      class: "info-box-prompt-column info-box-prompt-column-left",
     });
     const txt1 = Dom.element("p", { class: "info-box-prompt-column-text" });
     txt1.textContent = "Owner";
     column1.appendChild(txt1);
-    txt1.insertAdjacentHTML("afterend", "</br>");
+    // txt1.insertAdjacentHTML("afterend", "</br>");
     const txt2 = Dom.element("p", { class: "info-box-prompt-column-text" });
     txt2.textContent = "Location";
     column1.appendChild(txt2);
-    txt2.insertAdjacentHTML("afterend", "</br>");
+    // txt2.insertAdjacentHTML("afterend", "</br>");
     const txt3 = Dom.element("p", { class: "info-box-prompt-column-text" });
     txt3.textContent = "Created";
     column1.appendChild(txt3);
-    txt3.insertAdjacentHTML("afterend", "</br>");
+    // txt3.insertAdjacentHTML("afterend", "</br>");
     const txt4 = Dom.element("p", { class: "info-box-prompt-column-text" });
     txt4.textContent = "Last Modified";
     column1.appendChild(txt4);
-    txt4.insertAdjacentHTML("afterend", "</br>");
+    // txt4.insertAdjacentHTML("afterend", "</br>");
 
     const column2 = Dom.element("div", {
-      class: "info-box-prompt-column",
+      class: "info-box-prompt-column info-box-prompt-column-middle",
     });
     const txt5 = Dom.element("p", { class: "info-box-prompt-column-text" });
     txt5.textContent = String(context.definition.properties.createdBy);
     column2.appendChild(txt5);
-    txt5.insertAdjacentHTML("afterend", "</br>");
+    // txt5.insertAdjacentHTML("afterend", "</br>");
     const txt6 = Dom.element("p", { class: "info-box-prompt-column-text" });
     txt6.textContent = "Location";
     column2.appendChild(txt6);
-    txt6.insertAdjacentHTML("afterend", "</br>");
+    // txt6.insertAdjacentHTML("afterend", "</br>");
     const txt7 = Dom.element("p", { class: "info-box-prompt-column-text" });
     let date = new Date(context.definition.properties.createdAt);
     txt7.textContent =
       date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
     column2.appendChild(txt7);
-    txt7.insertAdjacentHTML("afterend", "</br>");
+    // txt7.insertAdjacentHTML("afterend", "</br>");
     const txt8 = Dom.element("p", { class: "info-box-prompt-column-text" });
     date = new Date(context.definition.properties.createdAt);
     txt8.textContent =
       date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
     column2.appendChild(txt8);
-    txt8.insertAdjacentHTML("afterend", "</br>");
+    // txt8.insertAdjacentHTML("afterend", "</br>");
 
     const column3 = Dom.element("div", {
-      class: "info-box-prompt-column",
+      class: "info-box-prompt-column info-box-prompt-column-right",
     });
     const description = Dom.element("p", {
       class: "info-box-prompt-column-text",
+      style: "margin-bottom: 0;",
     });
     const descripArea = Dom.element("textarea", {
       class: "input-box-prompt-textarea",
       name: "description",
       value: context.definition.properties.description,
+      // placeholder: "The owner hasn't left any description for this journey",
     });
     description.textContent = "Description";
     column3.appendChild(description);
@@ -136,6 +143,12 @@ export class DesignerView {
     // Buttons
     const buttonDiv = Dom.element("div", {
       class: "info-box-prompt-btn-div",
+    });
+    const buttonDivLeft = Dom.element("div", {
+        class: "info-box-prompt-btn-div-left",
+    });
+    const buttonDivRight = Dom.element("div", {
+        class: "info-box-prompt-btn-div-right",
     });
     const btn1 = Dom.element("input", {
       class: "info-box-prompt-btn",
@@ -151,19 +164,23 @@ export class DesignerView {
       context.definition.properties.journeyName = txt.value;
       context.definition.properties.description = descripArea.value;
       Dom.toggleClass(dialogBox, true, "sqd-hidden");
+      Dom.toggleClass(mask, true, "sqd-hidden");
     });
-    buttonDiv.appendChild(btn1);
+    buttonDivLeft.appendChild(btn1);
     const btn2 = Dom.element("button", {
       class: "info-box-prompt-btn",
     });
     btn2.textContent = "Cancel";
+
     btn2.addEventListener("click", function (e) {
       e.stopPropagation();
       e.preventDefault();
       txt.value = "";
       Dom.toggleClass(dialogBox, true, "sqd-hidden");
+      Dom.toggleClass(mask, true, "sqd-hidden");
     });
-    buttonDiv.appendChild(btn2);
+    buttonDivLeft.appendChild(btn2);
+    buttonDiv.appendChild(buttonDivLeft);
     // Export button
     const btn3 = Dom.element("input", {
       class: "info-box-prompt-btn",
@@ -175,7 +192,7 @@ export class DesignerView {
       e.stopPropagation();
       Dom.toggleClass(exportPanel, false, "sqd-hidden");
     });
-    buttonDiv.appendChild(btn3);
+    buttonDivRight.appendChild(btn3);
     const btn4 = Dom.element("button", {
       class: "info-box-prompt-btn",
     });
@@ -184,7 +201,8 @@ export class DesignerView {
       e.stopPropagation();
       Dom.toggleClass(dialogBox, false, "sqd-hidden");
     });
-    buttonDiv.appendChild(btn4);
+    buttonDivRight.appendChild(btn4);
+    buttonDiv.appendChild(buttonDivRight);
 
     // Export panel view
     const choices = [
@@ -254,6 +272,7 @@ export class DesignerView {
     dialogBox.appendChild(dialogForm);
     Dom.toggleClass(dialogBox, true, "sqd-hidden");
     info.addEventListener("click", function () {
+      Dom.toggleClass(mask, false, "sqd-hidden");
       Dom.toggleClass(dialogBox, false, "sqd-hidden");
     });
 

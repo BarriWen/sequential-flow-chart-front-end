@@ -507,52 +507,74 @@
 	height: 80px;
 }
 
+/* Shadow mask when info-box appears */
+.sqd-designer-mask {
+	position: fixed;
+	top: 0; left: 0; right: 0; bottom: 0;
+	background-color: rgba(0, 0, 0, 0.2);
+	z-index: 9999;
+}
+
 /* title-box prompt */
 .info-box-prompt{
 	position: absolute;
-	top: 65px;
-	left: 170px;
-	border-radius: 10px;
-	border: 2px solid #5495d4;
-	width: 300px;
-	height: auto;
+	top: 20px;
+	left: 25px;
+	border-radius: 15px;
+	width: 380px;
+	height: 220px;
 	display: flex;
 	background: white;
+	z-index: 10000;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 .info-box-prompt-input{
 	position: relative;
 	outline: 0;
 	width: 100%;
 	top: 10px;
-	left: 10px;
 	border-width: 0 0 1px;
 	border-color:#5495d4;
 	margin-bottom: 10px;
+	text-align: center;
 }
 .info-box-prompt-input:focus{
 	border-color:#5495d4;
 }
 .info-box-prompt-column{
+	display: flex;
+	flex-direction: column;
 	position: relative;
 	float: left;
-	width: 33.33%;
-	top: 10px;
-	left: 5px; 
+	top: 25px;
 	margin-bottom: 20px;
 }
+
+.info-box-prompt-column-left {
+	width: 30%;
+}
+
+.info-box-prompt-column-middle {
+	width: 30%;
+	font-size: xx-small;
+}
+
+.info-box-prompt-column-right {
+	width: 40%;
+}
+
 .info-box-prompt-column-text{
 	position: relative;
 	display: inline-block;
-	margin: 3px 3px 3px 3px;
+	margin: 3px 3px 10px 3px;
 }
 .input-box-prompt-textarea{
 	position: relative;
 	float: left;
-	width: 70%;
-	height: auto;
+	height: 60px;
 	padding: 5px 5px;
 	border: 1px solid #5495d4;
-	resize: vertical;
+	resize: none;
 	margin-top: 2px;
 	border-radius: 5px;
 }
@@ -560,11 +582,39 @@
 /* Buttons */
 .info-box-prompt-btn-div{
 	position: absolute;
-	bottom: 5px;
-	right: 5px;
+	bottom: 30px;
+	right: 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
 }
+
+.info-box-prompt-btn-div-left {
+	position: absolute;
+	left: 20px;
+	width: 37%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.info-box-prompt-btn-div-right {
+	position: absolute;
+	right: 20px;
+	width: 37%;
+	display: flex;
+	justify-content: space-around;
+}
+
 .info-box-prompt-btn{
-	margin-left: 3px;
+	background-color: #5296d5;
+	border: none;
+	color: white;
+	padding: 5px 15px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 10px;
+	border-radius: 6px;
 }
 
 /* Triggers list */
