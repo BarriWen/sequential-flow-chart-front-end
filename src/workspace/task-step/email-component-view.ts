@@ -941,8 +941,6 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
         alert("Text content should not be empty");
     }
     if (addressInput.value && addressInput.value.trim() != "") {
-          alert("Plesae enter valid email address (without domain)");
-          addressInput.value = ""; // Reset) {
       if (addressInput.value.includes('@')) { // No domain part
         addressInput.value = ""; // Reset the value to empty
         alert('Invalid email address, only input the address before domain("@")');
