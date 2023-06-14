@@ -413,7 +413,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     deleteImgContainer.appendChild(upDeleteIcon);
     upDeleteIcon.addEventListener("mousedown", function(){
       deleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
-      upDeleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+      upDeleteIcon.setAttribute("href", "./assets/delete2.svg")
     });
     upDeleteIcon.addEventListener("mouseup", function(){
       deleteImgContainerCircle.setAttribute("style", "fill:white");
@@ -1562,7 +1562,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           Dom.attrs(timeText, {
             style: "fill:#000"
           });
-          timeicon.setAttribute("href", "./assets/up.svg")
+          timeicon.setAttribute("href", "./assets/upArrow.svg")
         }else{
           Dom.attrs(timeBox, {
             style: "stroke:#949CA0"
@@ -1584,7 +1584,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           Dom.attrs(rangeText, {
             style: "fill:#000"
           });
-          rangeicon.setAttribute("href", "./assets/up.svg")
+          rangeicon.setAttribute("href", "./assets/upArrow.svg")
         }else{
           Dom.attrs(RangeBox, {
             style: "stroke:#949CA0"
@@ -1921,7 +1921,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     
     upchangeIcon.addEventListener("mousedown", function(){
       copyImgContainerCircle.setAttribute("style", "fill:#5495d4");
-      upchangeIcon.setAttribute("href", "./assets/chang-inside.svg")
+      upchangeIcon.setAttribute("href", "./assets/change2.svg")
     });
     upchangeIcon.addEventListener("mouseup", function(){
       copyImgContainerCircle.setAttribute("style", "fill:white");
@@ -2133,7 +2133,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     });
     changeIcon.addEventListener("mousedown", function(){
       rightCopyImgContainerCircle.setAttribute("style", "fill:#5495d4");
-      changeIcon.setAttribute("href", "./assets/chang-inside.svg")
+      changeIcon.setAttribute("href", "./assets/change2.svg")
     });
     changeIcon.addEventListener("mouseup", function(){
       rightCopyImgContainerCircle.setAttribute("style", "fill:white");
@@ -2150,7 +2150,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     });
     deleteIcon.addEventListener("mousedown", function(){
       rightDeleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
-      deleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+      deleteIcon.setAttribute("href", "./assets/delete2.svg")
     });
     deleteIcon.addEventListener("mouseup", function(){
       rightDeleteImgContainerCircle.setAttribute("style", "fill:white");

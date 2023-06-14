@@ -10,6 +10,7 @@ const PH_WIDTH = 100;
 const PH_HEIGHT = 150;
 const SIZE = 30;
 let component_length = 0;
+let switch_length = 0; 
 
 function addStop() {
     const s = SIZE * 0.5;
@@ -91,10 +92,7 @@ export class SequenceComponentView implements ComponentView {
             if it's not a switch component */
         if (i > 0 && components[i - 1].step.componentType == ComponentType.task) {
             JoinView.createStraightJoin(
-                g,
-                new Vector(maxJoinX, offsetY - PH_HEIGHT),
-                PH_HEIGHT
-            );
+                g, new Vector(maxJoinX, offsetY - PH_HEIGHT), PH_HEIGHT);
             placeholders.push(
                 appendPlaceholder(g, maxJoinX - PH_WIDTH / 2, offsetY - PH_HEIGHT)
             );
@@ -104,6 +102,7 @@ export class SequenceComponentView implements ComponentView {
 
             g.insertBefore(stop, g.children[component_length + 1]); 
 
+
         }
 
         let containsSwitch;
@@ -112,8 +111,13 @@ export class SequenceComponentView implements ComponentView {
             if (components[i].step.componentType == ComponentType.switch) {
                 JoinView.createStraightJoin(g, new Vector(maxJoinX, 0), PH_HEIGHT);
                 containsSwitch = 1;
+                const stop = addStop(); 
+                Dom.translate(stop, maxJoinX - PH_WIDTH / 6.8, offsetY - PH_HEIGHT / 16);
+                console.log(g.children[component_length + 1]); 
+                console.log(g.children); 
                 // If there is one or more blocks below if/else,
                 // move them to the end of true branch
+                g.insertBefore(stop, g.children[1].children[7]); 
                 while (components[i + 1]) {
                     // Move every block to true branch
                     components[i].step.branches.True.push(
