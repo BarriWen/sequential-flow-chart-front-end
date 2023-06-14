@@ -17,7 +17,6 @@ import { StepDefinition } from "../designer-configuration";
 import { ObjectCloner } from "../core/object-cloner";
 import { Uid } from "../core/uid";
 import { DragStepBehavior } from "../behaviors/drag-step-behavior";
-import { SwitchStepComponent } from "./switch-step/switch-step-component";
 
 const WHEEL_DELTA = 0.1;
 const ZOOM_DELTA = 0.2;
@@ -65,7 +64,7 @@ export class Workspace implements DesignerComponentProvider {
         });
 
         view.bindMouseDown((p, t, b) => workspace.onMouseDown(p, t, b));
-        view.bindMouseOver((p, t, b) => workspace.onMouseOver(p, t, b)); 
+        view.bindMouseOver((p, t, b) => workspace.onMouseOver(p, t, b));
         view.bindTouchStart((e) => workspace.onTouchStart(e));
         view.bindContextMenu((e) => workspace.onContextMenu(e));
         view.bindWheel((e) => workspace.onWheel(e));
@@ -156,7 +155,7 @@ export class Workspace implements DesignerComponentProvider {
     private onMouseOver(position: Vector, target: Element, button: number) {
         const isPrimaryButton = button === 0;
         const isMiddleButton = button === 1;
-            // this.startBehavior(target, position, isMiddleButton);
+        // this.startBehavior(target, position, isMiddleButton);
     }
 
     private onMouseDown(position: Vector, target: Element, button: number) {
@@ -280,18 +279,8 @@ export class Workspace implements DesignerComponentProvider {
         }
         else {
             var but = document.querySelectorAll(".Collapsed");
-            var rect = document.getElementsByClassName("sqd-switch-rect"); 
-            var rectLeft = document.getElementsByClassName("sqd-switch-rect-left"); 
-            var text = document.getElementsByClassName("sqd-switch-text"); 
-            var moreIcon = document.getElementsByClassName("sqd-task-more-icon"); 
-            
             if (but) {
                 but.forEach((e) => e.classList.add("sqd-hidden"));
-                /* rect.setAttribute("width", `258`);
-            rect.setAttribute("x", `${containerWidths[0] - textWidth - 28}`);
-            rectLeft.setAttribute("x", `${containerWidths[0] - textWidth - 28}`);
-            text.setAttribute("x", `${ICON_SIZE + containerWidths[0] - PADDING_X * 17 + 69}`);
-            moreIcon.setAttribute("x", `${ICON_SIZE + containerWidths[0] + PADDING_X + textWidth - 27}`); */
             }
             this.context.behaviorController.start(
                 position,
@@ -320,28 +309,19 @@ export class Workspace implements DesignerComponentProvider {
 
     private onIsDraggingChanged(isDragging: boolean) {
         this.getRootComponent().setIsDragging(isDragging);
-        if (this.selectedStepComponent?.step.componentType != ComponentType.switch) {
-            var encapedComponents = document.querySelectorAll(".encapsulated");
-            if (encapedComponents) {
-                encapedComponents.forEach((e) => e.classList.add("sqd-hidden"));
-            }
-            var joins = document.querySelectorAll(".sqd-join");
-            // if (joins) {
-            //     joins.forEach((e) => e.classList.add("sqd-hidden"));
-            // }
-            var labelText = document.querySelectorAll(".sqd-label-text");
-            if (labelText) {
-                labelText.forEach((e) => e.classList.add("sqd-hidden"));
-            }
-            var joinCir = document.querySelectorAll(".sqd-placeholder-circle");
-            // if (joinCir) {
-            //     joinCir.forEach((e) => e.classList.add("sqd-hidden"));
-            // }
-            var capsules = document.querySelectorAll(".capsule");
-            if (capsules) {
-                capsules.forEach((e) => e.classList.remove("sqd-hidden"));
-            }
+        console.log("is dragging"); 
+        var encapedComponents = document.querySelectorAll(".encapsulated");
+        // if (encapedComponents) {
+        //     encapedComponents.forEach((e) => e.classList.add("sqd-hidden"));
+        // }
+        var labelText = document.querySelectorAll(".sqd-label-text");
+        if (labelText) {
+            labelText.forEach((e) => e.classList.add("sqd-hidden"));
         }
+        var capsules = document.querySelectorAll(".capsule");
+        // if (capsules) {
+        //     capsules.forEach((e) => e.classList.remove("sqd-hidden"));
+        // }
 
     }
 

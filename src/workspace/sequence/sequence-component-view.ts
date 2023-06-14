@@ -13,7 +13,6 @@ let component_length = 0;
 
 function addStop() {
     const s = SIZE * 0.5;
-    const m = (SIZE - s) / 2;
     const g = Dom.svg("g", { class: "stop", id: "stop" });
 
     const endAuto = Dom.svg("image", {
@@ -103,9 +102,8 @@ export class SequenceComponentView implements ComponentView {
             const stop = addStop();
             Dom.translate(stop, maxJoinX - PH_WIDTH / 6.8, offsetY - PH_HEIGHT / 16);
 
-            // Calculate location
-            g.appendChild(stop);
-            // g.insertBefore(stop, g.firstChild);
+            g.insertBefore(stop, g.children[component_length + 1]); 
+
         }
 
         let containsSwitch;

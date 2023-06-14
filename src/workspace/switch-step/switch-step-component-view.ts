@@ -1371,6 +1371,7 @@ export class SwitchStepComponentView implements ComponentView {
                 choice1 = dropdownBoxBottomShapeTextMain1.textContent;
                 gSubDropdownAct1.classList.add("sqd-hidden");
                 gSubDropdownAct2.classList.add("sqd-hidden");
+                actInputArea.classList.add("sqd-hidden"); 
                 dropdownBoxShape.setAttribute("width", `${DROPDOWN1_W}`);
                 dropdownBoxShape.setAttribute("stroke", "#bfbfbf");
                 dropdownBoxShapeAfter.setAttribute("width", `${DROPDOWN1_W}`);
@@ -1719,6 +1720,7 @@ export class SwitchStepComponentView implements ComponentView {
                 gSubDropdownboxPopMain2.classList.add("sqd-hidden");
                 gSubDropdownboxPop.classList.add("sqd-hidden");
                 dropdownBoxInnerText.textContent = dropdownBoxBottomShapeTextMain2.textContent;
+                dropdownBoxShape.setAttribute("stroke", "#bfbfbf");
                 dropdownBoxInnerText.setAttribute("style", "fill: #000000; font-size: 9pt");
                 gSubDropdown1.classList.add('sqd-hidden');
                 gSubDropdown2.classList.add('sqd-hidden');
@@ -1744,6 +1746,7 @@ export class SwitchStepComponentView implements ComponentView {
                 gSubDropdownboxPopMain2_1.classList.add("sqd-hidden");
                 gSubDropdownboxPop.classList.add("sqd-hidden");
                 dropdownBoxInnerText.textContent = dropdownBoxBottomShapeTextMain2_1.textContent;
+                dropdownBoxShape.setAttribute("stroke", "#bfbfbf");
                 dropdownBoxInnerText.setAttribute("style", "fill: #000000; font-size: 9pt");
                 gSubDropdown1.classList.add('sqd-hidden');
                 gSubDropdown2.classList.add('sqd-hidden');
@@ -1842,7 +1845,7 @@ export class SwitchStepComponentView implements ComponentView {
                 class: "option select-field choice",
                 fill: "#fff",
                 x: DROPDOWN_X3 + 50 + 5,
-                y: DROPDOWN_Y + DROPDOWN_H * i + 22,
+                y: DROPDOWN_Y + DROPDOWN_H * i + 15,
                 rx: 4,
                 ry: 4,
                 id: `dropdownBoxBottomShape2cover${Date.now()}`,
@@ -1956,7 +1959,6 @@ export class SwitchStepComponentView implements ComponentView {
             gDropdown.classList.remove("sqd-hidden");
             gUpPop3.classList.remove("sqd-hidden");
             gRightPop3.classList.toggle("sqd-hidden");
-            // gSubDropdownboxPop.classList.add("sqd-hidden"); 
             if (step.properties["type"] == "Contact Info" || !step.properties["type"]) {
                 gSubDropdown.classList.remove("sqd-hidden");
                 gSubDropdown1.classList.remove("sqd-hidden");
@@ -2048,6 +2050,11 @@ export class SwitchStepComponentView implements ComponentView {
                 if (dropdownBoxInnerText2.textContent) {
                     step.properties["value"] = dropdownBoxInnerText2.textContent;
                 }
+            }
+
+            if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
+                step.properties["condition"] = <string>dropdownBoxInnerTextAct1.textContent; 
+                step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent; 
             }
 
             // =================== Title 
