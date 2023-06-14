@@ -54,8 +54,8 @@ export class SwitchStepComponentView implements ComponentView {
         parent.insertBefore(g, parent.firstChild);
 
         const branchNames = Object.keys(step.branches);
-        const labelNames = ["YES", "NO"]; 
-        console.log(branchNames); 
+        const labelNames = ["YES", "NO"];
+        console.log(branchNames);
         const sequenceComponents = branchNames.map((bn) =>
             SequenceComponent.create(g, step.branches[bn], configuration)
         );
@@ -601,10 +601,10 @@ export class SwitchStepComponentView implements ComponentView {
         });
 
         const gDropdownbox = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdownbox`
+            class: `sqd-task-group dropdownbox`
         });
 
-        gDropdown.appendChild(gDropdownbox);
+        // gDropdown.appendChild(gDropdownbox);
 
         const rect1 = Dom.svg("rect", {
             x: containerWidths[0] - textWidth - 107,
@@ -619,7 +619,7 @@ export class SwitchStepComponentView implements ComponentView {
             id: `dropdown${Date.now()}`,
         });
 
-        gDropdownbox.appendChild(rect1);
+        gDropdown.appendChild(rect1);
 
         const rectInnerBorder = Dom.svg("rect", {
             x: containerWidths[0] - textWidth - 100,
@@ -675,7 +675,7 @@ export class SwitchStepComponentView implements ComponentView {
         });
 
         // gDropdownbox.appendChild(rectInnerBorder);
-        gDropdownbox.appendChild(actConditonText);
+        gDropdown.appendChild(actConditonText);
         // gDropdownbox.appendChild(addSegmentBtn);
         // gDropdownbox.appendChild(addSegBtnTitle);
         // gDropdownbox.appendChild(addSegmentBtnClickArea);
@@ -706,34 +706,12 @@ export class SwitchStepComponentView implements ComponentView {
             class: `sqd-task-group sub-dropdown sqd-hidden`,
         });
         const gSubDropdownMain1 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown sqd-hidden`,
+            class: `sqd-task-group sub-dropdown`,
         });
         const gSubDropdownMain2 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdown sqd-hidden`,
+            class: `sqd-task-group sub-dropdown`,
         });
 
-        // =============== gSubDropdownbox
-        const gSubDropdownbox = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdownbox`,
-        });
-        const gSubDropdownbox1 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdownbox`,
-        });
-        const gSubDropdownbox2 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdownbox`,
-        });
-        const gSubDropdownboxAct1 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdownbox`,
-        });
-        const gSubDropdownboxAct2 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdownbox`,
-        });
-        const gSubDropdownboxMain1 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdownbox`,
-        });
-        const gSubDropdownboxMain2 = Dom.svg("g", {
-            class: `sqd-task-group sub-dropdownbox`,
-        });
         // ================== dropdownBoxShape
         const dropdownBoxShape = Dom.svg("rect", {
             width: DROPDOWN1_W,
@@ -1122,10 +1100,24 @@ export class SwitchStepComponentView implements ComponentView {
         const textInput = Dom.element('input', {
             class: `sqd-text-input`,
             type: 'text',
-            // placeholder: 'Email...',
             value: "",
         });
         inputArea.appendChild(textInput);
+
+        const actInputArea = Dom.svg("foreignObject", {
+            class: "sqd-act-input-area sqd-hidden",
+            x: 280,
+            y: DROPDOWN_Y,
+            width: 65,
+            height: 30,
+        });
+
+        const actTextInput = Dom.element('input', {
+            class: `sqd-act-text-input`,
+            type: 'text',
+            value: "",
+        });
+        actInputArea.appendChild(actTextInput);
 
         const datePrompt = Dom.svg("text", {
             class: "sqd-date-prompt sqd-hidden",
@@ -1155,7 +1147,6 @@ export class SwitchStepComponentView implements ComponentView {
         const searchPopSvg = Dom.svg("svg", {
             class: "location-dropdown",
         })
-
         const searchPopBody = Dom.svg("svg", {
             class: "location-dropdown-body"
         });
@@ -1332,6 +1323,7 @@ export class SwitchStepComponentView implements ComponentView {
         let list3State = usStateList;
         let choice1: string | null = "";
         let choice2: string | null = "";
+
 
         // ============ 1st dropdown
         let shapeHeightContact = contInfo.length * CHOICE_H;
@@ -1584,20 +1576,7 @@ export class SwitchStepComponentView implements ComponentView {
                             rect1.setAttribute("height", "140");
                             rectInnerBorder.setAttribute("height", "90");
                             locInputArea.classList.remove("sqd-hidden");
-                            // gValBtn.classList.remove("sqd-hidden");
-                            // if (locTextInput.value) {
-                            //     valBtnRect.setAttribute("stroke", "#247d99");
-                            //     valBtnText.setAttribute("fill", "#247d99");
-                            // } else {
-                            //     valBtnRect.setAttribute("stroke", "#a0a0a0");
-                            //     valBtnText.setAttribute("fill", "#a0a0a0");
-                            // }
-                        } //else {
-                        // rect1.setAttribute("height", `${3 * boxHeight + 10}`);
-                        // rectInnerBorder.setAttribute("height", `${boxHeight + 20}`);
-                        // locInputArea.classList.add("sqd-hidden");
-
-                        // } 
+                        } 
                         if (choice2 == 'Is In Country' || choice2 == 'Is Not In Country') {
                             list3 = list3Ctry;
                         } else if (choice2 == "Is In US State" || choice2 == "Is Not In US State") {
@@ -1610,7 +1589,6 @@ export class SwitchStepComponentView implements ComponentView {
                         }
 
                         // ======================== 3rd dropdowns 
-
                         const dropdownBoxBottomShape2 = Dom.svg("rect", {
                             width: DROPDOWN1_W,
                             height: 120, // list3.length * 25 + 10,
@@ -1622,7 +1600,6 @@ export class SwitchStepComponentView implements ComponentView {
                             ry: 4,
                         });
                         gSubDropdownbox2Pop.appendChild(dropdownBoxBottomShape2);
-                        // dropdownPopItemDiv2.appendChild(dropdownBoxBottomShape2); 
 
                         for (let i = 1; i <= list3.length; i++) {
                             const dropdownBoxBottomShape2Text = Dom.svg("text", {
@@ -1746,14 +1723,16 @@ export class SwitchStepComponentView implements ComponentView {
                 gSubDropdown1.classList.add('sqd-hidden');
                 gSubDropdown2.classList.add('sqd-hidden');
                 dropdownBoxShape.setAttribute("width", `90`);
+                dropdownBoxBottomShape.setAttribute("height", `${shapeHeightCollapsed}`);
                 dropdownRightButtonDown.setAttribute("x", `${DROPDOWN_X1 + 70}`);
                 dropdownRightButtonUp.setAttribute("x", `${DROPDOWN_X1 + 70}`);
                 gSubDropdownAct1.classList.remove("sqd-hidden");
                 gSubDropdownAct2.classList.remove("sqd-hidden");
-                inputArea.classList.remove("sqd-hidden");
-                inputArea.setAttribute("x", `${280}`);
-                inputArea.setAttribute("width", `${65}`);
-                textInput.setAttribute("style", "width: 50px");
+                dropdownRightButtonUp.classList.add("sqd-hidden");
+                dropdownRightButtonDown.classList.remove("sqd-hidden");
+                dropdownRightButtonUpMain2.classList.add("sqd-hidden");
+                dropdownRightButtonDownMain2.classList.remove("sqd-hidden");
+                actInputArea.classList.remove("sqd-hidden"); 
             });
 
             dropdownBoxBottomShapecoverMain2_1.addEventListener("click", function (e) {
@@ -1771,12 +1750,13 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxShape.setAttribute("width", `90`);
                 dropdownRightButtonDown.setAttribute("x", `${DROPDOWN_X1 + 70}`);
                 dropdownRightButtonUp.setAttribute("x", `${DROPDOWN_X1 + 70}`);
+                dropdownRightButtonUp.classList.add("sqd-hidden");
+                dropdownRightButtonDown.classList.remove("sqd-hidden");
+                dropdownRightButtonUpMain2.classList.add("sqd-hidden");
+                dropdownRightButtonDownMain2.classList.remove("sqd-hidden");
                 gSubDropdownAct1.classList.remove("sqd-hidden");
                 gSubDropdownAct2.classList.remove("sqd-hidden");
-                inputArea.classList.remove("sqd-hidden");
-                inputArea.setAttribute("x", `${280}`);
-                inputArea.setAttribute("width", `${65}`);
-                textInput.setAttribute("style", "width: 50px");
+                actInputArea.classList.remove("sqd-hidden"); 
             });
 
             // Append Child ACTIONS
@@ -1886,62 +1866,56 @@ export class SwitchStepComponentView implements ComponentView {
 
         // =================== Append dropdowns
         // Right buttons
-        gSubDropdownbox.appendChild(dropdownRightButtonDown);
-        gSubDropdownbox.appendChild(dropdownRightButtonUp);
-        gSubDropdownbox1.appendChild(dropdownRightButtonDown1);
-        gSubDropdownbox1.appendChild(dropdownRightButtonUp1);
-        gSubDropdownbox2.appendChild(dropdownRightButtonDown2);
-        gSubDropdownbox2.appendChild(dropdownRightButtonUp2);
-        gSubDropdownboxAct1.appendChild(dropdownRightButtonDownAct1);
-        gSubDropdownboxAct1.appendChild(dropdownRightButtonUpAct1);
-        gSubDropdownboxAct2.appendChild(dropdownRightButtonDownAct2);
-        gSubDropdownboxAct2.appendChild(dropdownRightButtonUpAct2);
-        gSubDropdownboxMain1.appendChild(dropdownRightButtonDownMain1);
-        gSubDropdownboxMain1.appendChild(dropdownRightButtonUpMain1);
-        gSubDropdownboxMain2.appendChild(dropdownRightButtonDownMain2);
-        gSubDropdownboxMain2.appendChild(dropdownRightButtonUpMain2);
+        gSubDropdown.appendChild(dropdownRightButtonDown);
+        gSubDropdown.appendChild(dropdownRightButtonUp);
+        gSubDropdown1.appendChild(dropdownRightButtonDown1);
+        gSubDropdown1.appendChild(dropdownRightButtonUp1);
+        gSubDropdown2.appendChild(dropdownRightButtonDown2);
+        gSubDropdown2.appendChild(dropdownRightButtonUp2);
+        gSubDropdownAct1.appendChild(dropdownRightButtonDownAct1);
+        gSubDropdownAct1.appendChild(dropdownRightButtonUpAct1);
+        gSubDropdownAct2.appendChild(dropdownRightButtonDownAct2);
+        gSubDropdownAct2.appendChild(dropdownRightButtonUpAct2);
+        gSubDropdownMain1.appendChild(dropdownRightButtonDownMain1);
+        gSubDropdownMain1.appendChild(dropdownRightButtonUpMain1);
+        gSubDropdownMain2.appendChild(dropdownRightButtonDownMain2);
+        gSubDropdownMain2.appendChild(dropdownRightButtonUpMain2);
         // Insert before 
-        gSubDropdownbox.insertBefore(dropdownBoxShape, dropdownRightButtonDown);
-        gSubDropdownbox1.insertBefore(dropdownBoxShape1, dropdownRightButtonDown1);
-        gSubDropdownbox2.insertBefore(dropdownBoxShape2, dropdownRightButtonDown2);
-        gSubDropdownboxAct1.insertBefore(dropdownBoxShapeAct1, dropdownRightButtonDownAct1);
-        gSubDropdownboxAct2.insertBefore(dropdownBoxShapeAct2, dropdownRightButtonDownAct2);
-        gSubDropdownboxMain1.insertBefore(dropdownBoxShapeMain1, dropdownRightButtonDownMain1);
-        gSubDropdownboxMain2.insertBefore(dropdownBoxShapeMain2, dropdownRightButtonDownMain2);
+        gSubDropdown.insertBefore(dropdownBoxShape, dropdownRightButtonDown);
+        gSubDropdown1.insertBefore(dropdownBoxShape1, dropdownRightButtonDown1);
+        gSubDropdown2.insertBefore(dropdownBoxShape2, dropdownRightButtonDown2);
+        gSubDropdownAct1.insertBefore(dropdownBoxShapeAct1, dropdownRightButtonDownAct1);
+        gSubDropdownAct2.insertBefore(dropdownBoxShapeAct2, dropdownRightButtonDownAct2);
+        gSubDropdownMain1.insertBefore(dropdownBoxShapeMain1, dropdownRightButtonDownMain1);
+        gSubDropdownMain2.insertBefore(dropdownBoxShapeMain2, dropdownRightButtonDownMain2);
         // Inner text
-        gSubDropdownbox.appendChild(dropdownBoxInnerText);
-        gSubDropdownbox1.appendChild(dropdownBoxInnerText1);
-        gSubDropdownbox2.appendChild(dropdownBoxInnerText2);
-        gSubDropdownboxAct1.appendChild(dropdownBoxInnerTextAct1);
-        gSubDropdownboxAct2.appendChild(dropdownBoxInnerTextAct2);
-        gSubDropdownboxMain1.appendChild(dropdownBoxInnerTextMain1);
-        gSubDropdownboxMain2.appendChild(dropdownBoxInnerTextMain2);
+        gSubDropdown.appendChild(dropdownBoxInnerText);
+        gSubDropdown1.appendChild(dropdownBoxInnerText1);
+        gSubDropdown2.appendChild(dropdownBoxInnerText2);
+        gSubDropdownAct1.appendChild(dropdownBoxInnerTextAct1);
+        gSubDropdownAct2.appendChild(dropdownBoxInnerTextAct2);
+        gSubDropdownMain1.appendChild(dropdownBoxInnerTextMain1);
+        gSubDropdownMain2.appendChild(dropdownBoxInnerTextMain2);
         // Shape after
-        gSubDropdownbox.appendChild(dropdownBoxShapeAfter);
-        gSubDropdownbox1.appendChild(dropdownBoxShapeAfter1);
-        gSubDropdownbox2.appendChild(dropdownBoxShapeAfter2);
-        gSubDropdownboxAct1.appendChild(dropdownBoxShapeAfterAct1);
-        gSubDropdownboxAct2.appendChild(dropdownBoxShapeAfterAct2);
-        gSubDropdownboxMain1.appendChild(dropdownBoxShapeAfterMain1);
-        gSubDropdownboxMain2.appendChild(dropdownBoxShapeAfterMain2);
-        // Dropdown box & pop
-        gSubDropdown.appendChild(gSubDropdownbox);
+        gSubDropdown.appendChild(dropdownBoxShapeAfter);
+        gSubDropdown1.appendChild(dropdownBoxShapeAfter1);
+        gSubDropdown2.appendChild(dropdownBoxShapeAfter2);
+        gSubDropdownAct1.appendChild(dropdownBoxShapeAfterAct1);
+        gSubDropdownAct2.appendChild(dropdownBoxShapeAfterAct2);
+        gSubDropdownMain1.appendChild(dropdownBoxShapeAfterMain1);
+        gSubDropdownMain2.appendChild(dropdownBoxShapeAfterMain2);
+        // Dropdown pop
         gSubDropdown.appendChild(gSubDropdownboxPop);
-        gSubDropdown1.appendChild(gSubDropdownbox1);
         gSubDropdown1.appendChild(gSubDropdownbox1Pop);
-        gSubDropdown2.appendChild(gSubDropdownbox2);
         gSubDropdown2.appendChild(gSubDropdownbox2Pop);
-        gSubDropdownAct1.appendChild(gSubDropdownboxAct1);
         gSubDropdownAct1.appendChild(gSubDropdownboxAct1Pop);
-        gSubDropdownAct2.appendChild(gSubDropdownboxAct2);
         gSubDropdownAct2.appendChild(gSubDropdownboxAct2Pop);
-        gSubDropdownMain1.appendChild(gSubDropdownboxMain1);
         gSubDropdownMain1.appendChild(gSubDropdownboxPopMain1);
-        gSubDropdownMain2.appendChild(gSubDropdownboxMain2);
         gSubDropdownMain2.appendChild(gSubDropdownboxPopMain2);
         gSubDropdownMain2.appendChild(gSubDropdownboxPopMain2_1);
 
         gDropdown.appendChild(inputArea);
+        gDropdown.appendChild(actInputArea);
         gDropdown.appendChild(datePrompt);
         gDropdown.appendChild(locInputArea);
         gDropdown.appendChild(locInputPop);
@@ -1982,25 +1956,18 @@ export class SwitchStepComponentView implements ComponentView {
             gDropdown.classList.remove("sqd-hidden");
             gUpPop3.classList.remove("sqd-hidden");
             gRightPop3.classList.toggle("sqd-hidden");
-            gSubDropdown.classList.toggle("sqd-hidden");
-            gSubDropdown1.classList.toggle("sqd-hidden");
-            gSubDropdown2.classList.toggle("sqd-hidden");
-            gSubDropdownMain1.classList.toggle("sqd-hidden");
-            gSubDropdownMain2.classList.toggle("sqd-hidden");
-
-            if (
-                choice1 != 'Email Address' &&
-                choice1 != "Birthday" &&
-                choice1 != "First Name" &&
-                choice1 != "Last Name" &&
-                choice1 != "Full Name" &&
-                choice1 != "Phone Number"
-            ) {
-                inputArea.classList.add("sqd-hidden");
+            // gSubDropdownboxPop.classList.add("sqd-hidden"); 
+            if (step.properties["type"] == "Contact Info" || !step.properties["type"]) {
+                gSubDropdown.classList.remove("sqd-hidden");
+                gSubDropdown1.classList.remove("sqd-hidden");
                 gSubDropdown2.classList.remove("sqd-hidden");
-            } else {
-                inputArea.classList.remove("sqd-hidden");
+            }
+
+            if (step.properties["type"] == "Actions") {
+                gSubDropdown1.classList.add("sqd-hidden");
                 gSubDropdown2.classList.add("sqd-hidden");
+                gSubDropdownAct1.classList.remove("sqd-hidden");
+                gSubDropdownAct2.classList.remove("sqd-hidden");
             }
         });
 
@@ -2017,12 +1984,7 @@ export class SwitchStepComponentView implements ComponentView {
             text.setAttribute("x", `${ICON_SIZE + containerWidths[0] - PADDING_X * 17 + 69}`);
             moreIcon.setAttribute("x", `${ICON_SIZE + containerWidths[0] + PADDING_X + textWidth - 27}`);
             gDropdown.classList.add("sqd-hidden");
-            // gDropdownbox.classList.add("sqd-hidden"); 
-            gSubDropdown.classList.add("sqd-hidden");
-            gSubDropdown1.classList.add("sqd-hidden");
-            gSubDropdown2.classList.add("sqd-hidden");
-            gSubDropdownMain1.classList.add("sqd-hidden");
-            gSubDropdownMain2.classList.add("sqd-hidden");
+            gDropdownbox.classList.add("sqd-hidden");
             gSubDropdownboxPopMain1.classList.add("sqd-hidden");
             gSubDropdownboxPopMain2.classList.add("sqd-hidden");
             gSubDropdownboxPopMain2_1.classList.add("sqd-hidden");
@@ -2037,12 +1999,6 @@ export class SwitchStepComponentView implements ComponentView {
             dropdownBoxInnerTextMain2.setAttribute("y", `${innerTextMain2DefaultY}`);
             dropdownBoxShapeAfterMain2.setAttribute("y", `${shapeAfterMain2DefaultY}`);
             gUpPop3.classList.add("sqd-hidden");
-            // gDropdown.classList.toggle("sqd-hidden");
-            // gSubDropdown.classList.toggle("sqd-hidden");
-            // gSubDropdown1.classList.toggle("sqd-hidden");
-            // gSubDropdown2.classList.toggle("sqd-hidden");
-            // gSubDropdownMain1.classList.toggle("sqd-hidden");
-            // gSubDropdownMain2.classList.toggle("sqd-hidden");
             step.properties["property"] = "";
             step.properties["condition"] = "";
             step.properties["value"] = "";
@@ -2059,8 +2015,8 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxInnerText.textContent == "Birthday" ||
                 dropdownBoxInnerText.textContent == "Location") {
                 step.properties["type"] = "Contact Info";
-            } if (dropdownBoxInnerText.textContent == "Opend" ||
-                dropdownBoxInnerText.textContent == "Not Opend" ||
+            } if (dropdownBoxInnerText.textContent == "Opened" ||
+                dropdownBoxInnerText.textContent == "Not Opened" ||
                 dropdownBoxInnerText.textContent == "Clicked" ||
                 dropdownBoxInnerText.textContent == "Not Clicked") {
                 step.properties["type"] = "Actions";
@@ -2079,7 +2035,7 @@ export class SwitchStepComponentView implements ComponentView {
                 value = dropdownBoxInnerText2.textContent + ", " + locTextInput.value;
                 step.properties["value"] = value;
             }
-            if (choice1 == "Email Address" || 
+            if (choice1 == "Email Address" ||
                 choice1 == "Full Name" ||
                 choice1 == "First Name" ||
                 choice1 == "Last Name" ||
@@ -2093,7 +2049,7 @@ export class SwitchStepComponentView implements ComponentView {
                     step.properties["value"] = dropdownBoxInnerText2.textContent;
                 }
             }
-            
+
             // =================== Title 
             //     if (step.properties["property"].toString() == "Tag") {
             //         textRight.textContent = "If " + step.properties["value"].toString() + " " +
@@ -2175,11 +2131,9 @@ export class SwitchStepComponentView implements ComponentView {
         // copy button hover
         upchangeIcon.addEventListener("mouseover", function (e) {
             copyImgContainerCircle.setAttribute("style", "fill: #3498db");
-            // upchangeIcon.setAttribute("style", "color: #FFFFFF"); 
         });
         upchangeIcon.addEventListener("mouseout", function (e) {
             copyImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
-            // upCopyIcon.setAttribute("style", "color: #FFFFFF"); 
         });
         // delete button hover
         upDeleteIcon.addEventListener("mouseover", function (e) {
@@ -2438,7 +2392,6 @@ export class SwitchStepComponentView implements ComponentView {
             validationErrorView
         );
     }
-
 
     public getClientPosition(): Vector {
         return this.regionView.getClientPosition();
