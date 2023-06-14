@@ -550,7 +550,7 @@ export class TagComponentView implements ComponentView {
         if (step.properties["tag"]) {
             temp = step.properties["tag"].toString();
         }
-        tagDropDown(gDropdown, boxHeight, boxWidth, newTag, temp, step.name);
+        tagDropDown(gDropdown, boxHeight, boxWidth, temp, step.name);
         if (step.name === "Add Tag") {
             addNewTag(gDropdown, boxHeight, boxWidth, upCheckIcon, newTag);
         }
@@ -580,17 +580,6 @@ export class TagComponentView implements ComponentView {
             gHint.classList.add("sqd-hidden");
             if_hintpop = false;
         });
-        // moreIcon.addEventListener("mouseover", function () {
-        //     if (if_hintpop) {
-        //         gHint.classList.remove("sqd-hidden");
-        //     }
-        // });
-        // moreIcon.addEventListener("mouseout", function(){
-        //     if(if_hintpop){
-        //       gHint.classList.add("sqd-hidden");
-        //     }
-        //   });
-
         // Edit
         editIcon.addEventListener("click", function (e) {
             e.stopPropagation();
@@ -598,36 +587,32 @@ export class TagComponentView implements ComponentView {
             gUpPop3.classList.toggle("sqd-hidden");
             gRightPop3.classList.toggle("sqd-hidden");
         });
+        // Save 
         upCheckIcon.addEventListener("click", function (e) {
             e.stopPropagation();
             gDropdown.classList.toggle("sqd-hidden");
             gUpPop3.classList.toggle("sqd-hidden");
-            step.properties["tag"] = "";
-
-            if (newTag.textContent) {
-                if (newTag.textContent.trim() == "") {
-                    newTag.textContent = ""; // reset
-                    alert("new tag cannot be whitespace");
-                    return; // If it's only whitespace, return immediately.
-                } else {
+            // console.log(operationSelected); 
+            if (operationSelected == "tag") {
+                textRight.textContent = tagSelected;
+                step.properties["tag"] = textRight.textContent;
+                step.properties["newTag"] = "";
+                step["updatedAt"] = new Date();
+            } else {
+                if (newTag.textContent) {
+                    if (newTag.textContent.trim() == "") {
+                        newTag.textContent = ""; // reset
+                        alert("new tag cannot be whitespace");
+                        return; // If it's only whitespace, return immediately.
+                    }
                     textRight.textContent = newTag.textContent;
-                    step.properties["tag"] = textRight.textContent;
-                    textRight.textContent = newTag.textContent.substring(0, 13); // Limit display length
+                    console.log(newTag.textContent);
+                    step.properties["newTag"] = <string | number>textRight.textContent;
+                    step.properties["tag"] = "";
                     step["updatedAt"] = new Date();
                 }
-              }
-
-            // if (g.children[0].children[3]) {
-            //     if (g.children[0].children[3].classList.contains("sqd-hidden")) {
-            //         textRight.textContent = tempText;
-            //         step.properties["tag"] = textRight.textContent;
-            //         step["updatedAt"] = new Date();
-            //     }
-            // } else {
-            //     textRight.textContent = tempText;
-            //     step.properties["tag"] = textRight.textContent;
-            //     step["updatedAt"] = new Date();
-            // }
+                operationSelected = "tag";
+            }
         });
         upCheckIcon.addEventListener("mousedown", function () {
             checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
@@ -778,7 +763,7 @@ function createRect(className: string, xVal: number, yVal: number, w: number, h:
     return rect;
 }
 
-function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: SVGElement, temp: string, step: string) {
+function tagDropDown(dropdown: SVGElement, h: number, w: number, temp: string, step: string) {
     const gSubDropdownbox = Dom.svg("g", {
         class: `sqd-task-group `,
     });
@@ -841,10 +826,8 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
     })
     gSubDropdownbox.appendChild(dropdownBoxInnerText);
     wid = wid + dropdownBoxInnerText.getBBox().width;
-    // const dropdownRightButton = addTxt("▼ ", startX + wid + PADDING_X * 9, startY + 6.5);
     startX = dropdownBoxInnerText.getBBox().x;
 
-    // gSubDropdownbox.appendChild(dropdownRightButton);
     gSubDropdownbox.insertBefore(dropdownBoxShape, dropdownBoxInnerText);
     gSubDropdownbox.appendChild(downIcon);
     gSubDropdownbox.appendChild(dropdownBoxShapeAfter);
@@ -854,7 +837,6 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
         class: `sqd-task-group sub-dropdownbox-pop sqd-hidden`,
     });
     dropdown.appendChild(gSubDropdownboxPop);
-
 
     dropdownBoxShapeAfter.addEventListener("click", function (e) {
         gDropdownList.classList.toggle("sqd-hidden");
@@ -897,9 +879,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
         }
     }).catch(console.log);
 
-    // const tags = ["Food", "Electronics", "Clothes"];
     const editTags = function (tags: string[]) {
-
         const dropDownRect = Dom.svg("rect", {
             x: 122.6875,
             y: 74,
@@ -947,7 +927,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
             DropDownEachRectShape.addEventListener("click", function () {
                 gDropdownList.classList.add("sqd-hidden");
                 dropdownBoxInnerText.textContent = tags[i];
-                tempText = dropdownBoxInnerText.textContent;
+                tagSelected = dropdownBoxInnerText.textContent;
                 downIcon.setAttribute("href", "./assets/list_down.svg");
                 dropdownBoxShape.setAttribute("stroke", "#a0a0a0");
                 dropdownBoxInnerText.setAttribute("fill", "#a0a0a0");
@@ -962,35 +942,36 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, textToChange: S
         gSubDropdownbox.parentElement.appendChild(gDropdownList);
     };
 }
-let tempText!: string;
-function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElement, textToChange: SVGElement) {
+let tagSelected!: string;
+let operationSelected: string = "tag"; 
+function addNewTag(parent: SVGElement, h: number, w: number, upCheckBtn: SVGElement, newTag: SVGElement) {
     const g = Dom.svg("g", {
         class: `create-tag`,
     });
     parent.insertBefore(g, parent.lastChild);
-    const nameText = Dom.svg("text", {
+    const createTagText = Dom.svg("text", {
         class: "new-tag-text",
         x: w / 4 + PADDING_X - 6,
         y: h + 5 * PADDING_Y + 20,
     });
-    nameText.textContent = "+Create a New Tag"
-    nameText.addEventListener("mouseover", function () {
-        nameText.setAttribute("style", "fill:#5495d4;stroke:#5495d4");
+    createTagText.textContent = "+Create a New Tag"
+    createTagText.addEventListener("mouseover", function () {
+        createTagText.setAttribute("style", "fill:#5495d4;stroke:#5495d4");
     });
-    nameText.addEventListener("mouseout", function () {
-        nameText.setAttribute("style", "fill:#67b1e3;stroke:#67b1e3");
+    createTagText.addEventListener("mouseout", function () {
+        createTagText.setAttribute("style", "fill:#67b1e3;stroke:#67b1e3");
     });
-    g.insertBefore(nameText, g.firstChild);
+    g.insertBefore(createTagText, g.firstChild);
 
     // Text wrapper
     const rect = createRect(
         "create-tag",
-        nameText.getBBox().x - 8,
-        nameText.getBBox().y + 28,
-        nameText.getBBox().width,
-        nameText.getBBox().height,
+        createTagText.getBBox().x - 8,
+        createTagText.getBBox().y + 28,
+        createTagText.getBBox().width,
+        createTagText.getBBox().height,
         `newTag${Date.now()}`);
-    g.insertBefore(rect, nameText);
+    g.insertBefore(rect, createTagText);
 
     // Page to input new tag
     const container = Dom.svg("g", {
@@ -1036,37 +1017,28 @@ function addNewTag(parent: SVGElement, h: number, w: number, upCheckBut: SVGElem
     g.addEventListener("click", function (e) {
         e.stopPropagation();
         container.classList.toggle('sqd-hidden');
+        if (container.classList.contains("sqd-hidden")) {
+            operationSelected = "tag"; 
+        } else {
+            operationSelected = "newTag";
+        }
     });
     backText.addEventListener("click", function (e) {
         container.classList.toggle('sqd-hidden');
+        if (container.classList.contains("sqd-hidden")) {
+            operationSelected = "tag"; 
+        } else {
+            operationSelected = "newTag";
+        }
         input.value = "";
     });
 
-
-    upCheckBut.addEventListener("click", function (e) {
-      if (input.value) {
-        e.stopPropagation();
-        console.log('Will be sending to back end', input.value);
-        // Post tag to backend
-        const userID = 1;  //Need to be changed to an existing user
-        const journeyID = 4;  //Need to be changed to an existing journey
-        const data = { "tag_name": `${input.value}` };
-        const request = new Request(`/AddTag`,{
-          method: 'POST', 
-          headers: {
-            "Content-Type": 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
-        // Send tag to backend 
-        textToChange.textContent = input.value;
-        container.classList.toggle('sqd-hidden');
-        input.value = "";
-        fetch(request).then((response) => {
-          if (!response.ok) {
-            console.log("Connection error", response.status);
-          }
-        });
-      }
+    upCheckBtn.addEventListener("click", function (e) {
+        if (input.value) {
+            e.stopPropagation();
+            newTag.textContent = input.value;
+            container.classList.toggle('sqd-hidden');
+            input.value = "";
+        }
     });
 }
