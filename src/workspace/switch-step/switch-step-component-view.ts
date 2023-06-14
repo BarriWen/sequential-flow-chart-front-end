@@ -282,6 +282,7 @@ export class SwitchStepComponentView implements ComponentView {
             ry: 50,
         });
         const changeUrl = "./assets/copy.svg";
+        const changeUrlWhite = "./assets/copy2.svg";
         const changeIcon = changeUrl
             ? Dom.svg("image", {
                 href: changeUrl,
@@ -318,6 +319,7 @@ export class SwitchStepComponentView implements ComponentView {
             ry: 50,
         });
         const deleteUrl = "./assets/delete.svg";
+        const deleteUrlWhite = "./assets/delete2.svg";
         const deleteIcon = deleteUrl
             ? Dom.svg("image", {
                 href: deleteUrl,
@@ -354,6 +356,7 @@ export class SwitchStepComponentView implements ComponentView {
             ry: 50,
         });
         const editUrl = "./assets/edit.svg";
+        const editUrlWhite = "./assets/edit2.svg";
         const editIcon = editUrl
             ? Dom.svg("image", {
                 href: editUrl,
@@ -1372,7 +1375,7 @@ export class SwitchStepComponentView implements ComponentView {
                 choice1 = dropdownBoxBottomShapeTextMain1.textContent;
                 gSubDropdownAct1.classList.add("sqd-hidden");
                 gSubDropdownAct2.classList.add("sqd-hidden");
-                actInputArea.classList.add("sqd-hidden"); 
+                actInputArea.classList.add("sqd-hidden");
                 dropdownBoxShape.setAttribute("width", `${DROPDOWN1_W}`);
                 dropdownBoxShape.setAttribute("stroke", "#bfbfbf");
                 dropdownBoxShapeAfter.setAttribute("width", `${DROPDOWN1_W}`);
@@ -1570,6 +1573,7 @@ export class SwitchStepComponentView implements ComponentView {
                         } else if (choice2 == 'Month Is') {
                             list3 = list3Bdm;
                             inputArea.classList.add("sqd-hidden");
+                            gSubDropdown2.classList.remove("sqd-hidden");
                         } else if (choice2 == 'Date Is') {
                             gSubDropdown2.classList.add("sqd-hidden");
                             inputArea.classList.remove("sqd-hidden");
@@ -1579,7 +1583,7 @@ export class SwitchStepComponentView implements ComponentView {
                             rect1.setAttribute("height", "140");
                             rectInnerBorder.setAttribute("height", "90");
                             locInputArea.classList.remove("sqd-hidden");
-                        } 
+                        }
                         if (choice2 == 'Is In Country' || choice2 == 'Is Not In Country') {
                             list3 = list3Ctry;
                         } else if (choice2 == "Is In US State" || choice2 == "Is Not In US State") {
@@ -1736,7 +1740,7 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownRightButtonDown.classList.remove("sqd-hidden");
                 dropdownRightButtonUpMain2.classList.add("sqd-hidden");
                 dropdownRightButtonDownMain2.classList.remove("sqd-hidden");
-                actInputArea.classList.remove("sqd-hidden"); 
+                actInputArea.classList.remove("sqd-hidden");
             });
 
             dropdownBoxBottomShapecoverMain2_1.addEventListener("click", function (e) {
@@ -1761,7 +1765,7 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownRightButtonDownMain2.classList.remove("sqd-hidden");
                 gSubDropdownAct1.classList.remove("sqd-hidden");
                 gSubDropdownAct2.classList.remove("sqd-hidden");
-                actInputArea.classList.remove("sqd-hidden"); 
+                actInputArea.classList.remove("sqd-hidden");
             });
 
             // Append Child ACTIONS
@@ -1965,7 +1969,9 @@ export class SwitchStepComponentView implements ComponentView {
             if (step.properties["type"] == "Contact Info" || !step.properties["type"]) {
                 gSubDropdown.classList.remove("sqd-hidden");
                 gSubDropdown1.classList.remove("sqd-hidden");
-                gSubDropdown2.classList.remove("sqd-hidden");
+                if (inputArea.classList.contains("sqd-hidden")) {
+                    gSubDropdown2.classList.remove("sqd-hidden");
+                }
             }
 
             if (step.properties["type"] == "Actions") {
@@ -2095,8 +2101,8 @@ export class SwitchStepComponentView implements ComponentView {
             }
 
             if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
-                step.properties["condition"] = <string>dropdownBoxInnerTextAct1.textContent; 
-                step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent; 
+                step.properties["condition"] = <string>dropdownBoxInnerTextAct1.textContent;
+                step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent;
             }
 
             // =================== Title 
@@ -2147,69 +2153,50 @@ export class SwitchStepComponentView implements ComponentView {
 
         });
 
-        // edit button hover
+        // Edit button interaction 
         editIcon.addEventListener("mouseover", function (e) {
-            rightEditImgContainerCircle.setAttribute("style", "fill: #2488cb");
+            gRightPop3Reminder1.classList.remove("sqd-hidden");
         });
         editIcon.addEventListener("mouseout", function (e) {
-            rightEditImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
+            gRightPop3Reminder1.classList.add("sqd-hidden");
         });
-        // copy hover
+        editIcon.addEventListener("mousedown", function (e) {
+            rightEditImgContainerCircle.setAttribute("style", "fill: #3498db");
+            editIcon.setAttribute("href", `${editUrlWhite}`);
+        });
+        editIcon.addEventListener("mouseup", function (e) {
+            rightEditImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
+            editIcon.setAttribute("href", `${editUrl}`);
+        });
+        // Copy button interaction 
         changeIcon.addEventListener("mouseover", function (e) {
-            rightCopyImgContainerCircle.setAttribute("style", "fill: #3498db");
-            // upCopyIcon.setAttribute("style", "color: #FFFFFF"); 
+            gRightPop3Reminder2.classList.remove("sqd-hidden");
         });
         changeIcon.addEventListener("mouseout", function (e) {
-            rightCopyImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
-            // upCopyIcon.setAttribute("style", "color: #FFFFFF"); 
+            gRightPop3Reminder2.classList.add("sqd-hidden");
         });
-        // delete hover
+        changeIcon.addEventListener("mousedown", function (e) {
+            rightCopyImgContainerCircle.setAttribute("style", "fill: #3498db");
+            changeIcon.setAttribute("href", `${changeUrlWhite}`);
+        });
+        changeIcon.addEventListener("mouseup", function (e) {
+            rightCopyImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
+            changeIcon.setAttribute("href", `${changeUrl}`);
+        });
+        // Delete button interaction 
         deleteIcon.addEventListener("mouseover", function (e) {
-            rightDeleteImgContainerCircle.setAttribute("style", "fill: #3498db");
+            gRightPop3Reminder3.classList.remove("sqd-hidden");
         });
         deleteIcon.addEventListener("mouseout", function (e) {
+            gRightPop3Reminder3.classList.add("sqd-hidden");
+        });
+        deleteIcon.addEventListener("mousedown", function (e) {
+            rightDeleteImgContainerCircle.setAttribute("style", "fill: #3498db");
+            deleteIcon.setAttribute("href", `${deleteUrlWhite}`);
+        });
+        deleteIcon.addEventListener("mouseup", function (e) {
             rightDeleteImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
-        });
-        // check button hover
-        upCheckIcon.addEventListener("mouseover", function (e) {
-            checkImgContainerCircle.setAttribute("style", "fill: #2488cb");
-        });
-        upCheckIcon.addEventListener("mouseout", function (e) {
-            checkImgContainerCircle.setAttribute("style", "fill: #3498db");
-        });
-        // copy button hover
-        upchangeIcon.addEventListener("mouseover", function (e) {
-            copyImgContainerCircle.setAttribute("style", "fill: #3498db");
-        });
-        upchangeIcon.addEventListener("mouseout", function (e) {
-            copyImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
-        });
-        // delete button hover
-        upDeleteIcon.addEventListener("mouseover", function (e) {
-            deleteImgContainerCircle.setAttribute("style", "fill: #3498db");
-        });
-        upDeleteIcon.addEventListener("mouseout", function (e) {
-            deleteImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
-        });
-
-        // Show hints
-        editIcon.addEventListener("mouseover", function () {
-            gRightPop3Reminder1.classList.toggle("sqd-hidden");
-        });
-        editIcon.addEventListener("mouseout", function () {
-            gRightPop3Reminder1.classList.toggle("sqd-hidden");
-        });
-        changeIcon.addEventListener("mouseover", () => {
-            gRightPop3Reminder2.classList.toggle("sqd-hidden");
-        });
-        changeIcon.addEventListener("mouseout", () => {
-            gRightPop3Reminder2.classList.toggle("sqd-hidden");
-        });
-        deleteIcon.addEventListener("mouseover", () => {
-            gRightPop3Reminder3.classList.toggle("sqd-hidden");
-        });
-        deleteIcon.addEventListener("mouseout", () => {
-            gRightPop3Reminder3.classList.toggle("sqd-hidden");
+            deleteIcon.setAttribute("href", `${deleteUrl}`);
         });
 
         // Event listeners in Dropdown

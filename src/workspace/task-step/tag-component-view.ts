@@ -666,7 +666,7 @@ export class TagComponentView implements ComponentView {
         });
         deleteIcon.addEventListener("mousedown", function () {
             rightDeleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
-            deleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+            deleteIcon.setAttribute("href", "./assets/delete2.svg")
         });
         deleteIcon.addEventListener("mouseup", function () {
             rightDeleteImgContainerCircle.setAttribute("style", "fill:white");
@@ -674,7 +674,7 @@ export class TagComponentView implements ComponentView {
         });
         upDeleteIcon.addEventListener("mousedown", function () {
             deleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
-            upDeleteIcon.setAttribute("href", "./assets/delete-inside.svg")
+            upDeleteIcon.setAttribute("href", "./assets/delete2.svg")
         });
         upDeleteIcon.addEventListener("mouseup", function () {
             deleteImgContainerCircle.setAttribute("style", "fill:white");
