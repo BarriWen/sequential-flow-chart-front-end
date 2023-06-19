@@ -2062,31 +2062,6 @@ export class SwitchStepComponentView implements ComponentView {
                 step.properties["condition"] = <string>dropdownBoxInnerTextAct1.textContent;
                 step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent;
             }
-
-            // =================== Title 
-            //     if (step.properties["property"].toString() == "Tag") {
-            //         textRight.textContent = "If " + step.properties["value"].toString() + " " +
-            //             step.properties["condition"].toString() + " in the " +
-            //             step.properties["property"].toString() + "s";
-            //     }
-            //     if (step.properties["property"].toString() == "Location") {
-            //         if (step.properties["condition"].toString() == ("Is In Country" || "Is In US State")) {
-            //             textRight.textContent = "If " + step.properties["property"].toString() + " Is In The " +
-            //                 step.properties["value"].toString();
-            //         } else if (step.properties["condition"].toString() == ("Is Not In Country" || "Is Not In US State")) {
-            //             textRight.textContent = "If " + step.properties["property"].toString() + " Is Not In The " +
-            //                 step.properties["value"].toString();
-            //         } else {
-            //             textRight.textContent = "If " + step.properties["property"].toString() + " " +
-            //                 step.properties["condition"].toString() + " " +
-            //                 dropdownBoxInnerText2.textContent + " Miles";
-            //         }
-            //     }
-            //     else {
-            //         textRight.textContent = "If " + step.properties["property"].toString() + " " +
-            //             step.properties["condition"].toString() + " " +
-            //             step.properties["value"].toString();
-            //     }
             textRight.textContent = "Title in development";
         });
 
@@ -2121,10 +2096,14 @@ export class SwitchStepComponentView implements ComponentView {
         editIcon.addEventListener("mousedown", function (e) {
             rightEditImgContainerCircle.setAttribute("style", "fill: #3498db");
             editIcon.setAttribute("href", `${editUrlWhite}`);
+            reminder1.classList.add("sqd-hidden"); 
+            reminderText1.classList.add("sqd-hidden");
         });
         editIcon.addEventListener("mouseup", function (e) {
             rightEditImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
             editIcon.setAttribute("href", `${editUrl}`);
+            reminder1.classList.remove("sqd-hidden"); 
+            reminderText1.classList.remove("sqd-hidden");
         });
         // Copy button interaction 
         changeIcon.addEventListener("mouseover", function (e) {
@@ -2136,10 +2115,14 @@ export class SwitchStepComponentView implements ComponentView {
         changeIcon.addEventListener("mousedown", function (e) {
             rightCopyImgContainerCircle.setAttribute("style", "fill: #3498db");
             changeIcon.setAttribute("href", `${changeUrlWhite}`);
+            reminder2.classList.add("sqd-hidden"); 
+            reminderText2.classList.add("sqd-hidden");
         });
         changeIcon.addEventListener("mouseup", function (e) {
             rightCopyImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
             changeIcon.setAttribute("href", `${changeUrl}`);
+            reminder2.classList.remove("sqd-hidden"); 
+            reminderText2.classList.remove("sqd-hidden");
         });
         // Delete button interaction 
         deleteIcon.addEventListener("mouseover", function (e) {
@@ -2151,10 +2134,14 @@ export class SwitchStepComponentView implements ComponentView {
         deleteIcon.addEventListener("mousedown", function (e) {
             rightDeleteImgContainerCircle.setAttribute("style", "fill: #3498db");
             deleteIcon.setAttribute("href", `${deleteUrlWhite}`);
+            reminder3.classList.add("sqd-hidden"); 
+            reminderText3.classList.add("sqd-hidden");
         });
         deleteIcon.addEventListener("mouseup", function (e) {
             rightDeleteImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
             deleteIcon.setAttribute("href", `${deleteUrl}`);
+            reminder3.classList.remove("sqd-hidden"); 
+            reminderText3.classList.remove("sqd-hidden");
         });
 
         // Event listeners in Dropdown
