@@ -1313,7 +1313,7 @@ export class SwitchStepComponentView implements ComponentView {
         let list2 = [''];
         let list2Tag = ['Exists', 'Does Not Exist'];
         let list2Gender = ['Is'];
-        let list2Bd = ['Month Is', 'Date Is', 'Is Before Date', 'Is After date', 'Is Blank'];
+        let list2Bd = ['Month Is', 'Date Is', 'Is Before Date', 'Is After Date', 'Is Blank'];
         let list2Email = ['Contains', 'Does Not Contain', 'Is Blank'];
         let list2Name = ["Is", "Is Not", "Contains", "Does Not Contain", "Blank"];
         let list2Phone = ["Contains", "Does Not Contain", "Blank"];
@@ -1327,6 +1327,7 @@ export class SwitchStepComponentView implements ComponentView {
         let list3State = usStateList;
         let choice1: string | null = "";
         let choice2: string | null = "";
+        const dateformat = /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])$/;
 
 
         // ============ 1st dropdown
@@ -1406,6 +1407,9 @@ export class SwitchStepComponentView implements ComponentView {
                 while (gSubDropdownbox1Pop.firstChild) {
                     gSubDropdownbox1Pop.removeChild(gSubDropdownbox1Pop.firstChild);
                 }
+
+                datePrompt.classList.add("sqd-hidden");
+
                 if (choice1 == 'Tag') {
                     list2 = list2Tag;
                 } if (choice1 == 'Gender') {
@@ -1507,9 +1511,10 @@ export class SwitchStepComponentView implements ComponentView {
                 }
 
                 if (choice1 == "Birthday") {
-                    let dateformat = /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])$/;
+                    // const dateformat = /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])$/;
                     textInput.addEventListener("input", function (e) {
                         if (!textInput.value.match(dateformat)) {
+                            datePrompt.textContent = "Incorrect Date Format";
                             console.log("wrong date format");
                             datePrompt.classList.remove("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #FF0000");
@@ -1519,6 +1524,25 @@ export class SwitchStepComponentView implements ComponentView {
                         }
                     });
 
+                } else if (choice1 == "Email Address") {
+                    textInput.addEventListener("input", function (e) {
+                        if (textInput.value.trim() == "") {
+                            datePrompt.textContent = "Input cannot be empty or whitespace";
+                            datePrompt.classList.remove("sqd-hidden");
+                            textInput.setAttribute("style", "border-color: #FF0000");
+                        } else if (textInput.value.charAt(0) == ' '
+                            || textInput.value.charAt(textInput.value.length - 1) == ' '
+                            || /[^\w\s@.()-]/g.test(textInput.value)
+                            // Check illegal input other than alphanumeric,underscore, or certain symbols
+                        ) {
+                            datePrompt.textContent = "Invalid input";
+                            datePrompt.classList.remove("sqd-hidden");
+                            textInput.setAttribute("style", "border-color: #FF0000");
+                        } else {
+                            datePrompt.classList.add("sqd-hidden");
+                            textInput.setAttribute("style", "border-color: #BFBFBF");
+                        }
+                    });
                 }
                 // ===================== 2nd dropdown
                 const dropdownBoxBottomShape1 = Dom.svg("rect", {
@@ -1568,13 +1592,18 @@ export class SwitchStepComponentView implements ComponentView {
                         while (gSubDropdownbox2Pop.firstChild) {
                             gSubDropdownbox2Pop.removeChild(gSubDropdownbox2Pop.firstChild);
                         }
+                        // Hide validation prompt
+                        if (choice2 != 'Date Is' && choice2 != 'Is Before Date' && choice2 != 'Is After Date') {
+                            datePrompt.classList.add("sqd-hidden");
+                        }
+
                         if (choice2 == 'Exists' || choice2 == 'Does Not Exist') {
                             list3 = list3Tag;
                         } else if (choice2 == 'Month Is') {
                             list3 = list3Bdm;
                             inputArea.classList.add("sqd-hidden");
                             gSubDropdown2.classList.remove("sqd-hidden");
-                        } else if (choice2 == 'Date Is') {
+                        } else if (choice2 == 'Date Is' || choice2 == 'Is Before Date' || choice2 == 'Is After Date') {
                             gSubDropdown2.classList.add("sqd-hidden");
                             inputArea.classList.remove("sqd-hidden");
                             // textInput.setAttribute("placeholder", "Enter Month/Day");
@@ -2056,7 +2085,7 @@ export class SwitchStepComponentView implements ComponentView {
                 choice1 == "Phone Number") {
                 if (textInput.value.trim() == "") {
                     textInput.value = ""; // Reset
-                    alert("Input cannot be empty or whitespace");
+                    // alert("Input cannot be empty or whitespace");
                     return; // If it's only whitespace or empty, return immediately
                 }
                 if (textInput.value.charAt(0) == ' '
@@ -2065,13 +2094,15 @@ export class SwitchStepComponentView implements ComponentView {
                     // Check illegal input other than alphanumeric,underscore, or certain symbols
                 ) {
                     textInput.value = ""; // Reset
-                    alert("Invalid input or punctuation");
+                    // alert("Invalid input or punctuation");
                     return; // If it starts or ends with whitespace, return immediately
                 }
                 let value = textInput.value;
                 step.properties["value"] = value;
-            } else if (choice1 == "Birthday" && choice2 == "Date Is") {
-                step.properties["value"] = textInput.value;
+            } else if (choice1 == "Birthday" && (choice2 == "Date Is" || choice2 == "Is Before Date" || choice2 == "Is After Date")) {
+                if (textInput.value.match(dateformat)) {
+                    step.properties["value"] = textInput.value;
+                }  
             } else if (choice1 == "Tag" || choice1 == "Gender" || choice2 == "Date Is") {
                 if (dropdownBoxInnerText2.textContent) {
                     step.properties["value"] = dropdownBoxInnerText2.textContent;
