@@ -49,7 +49,6 @@ export class SequenceComponentView implements ComponentView {
             StepComponentFactory.create(g, s, sequence, configuration)
         );
         component_length = components.length;
-        // console.log(component_length);
 
         const maxJoinX =
             components.length > 0
@@ -113,8 +112,6 @@ export class SequenceComponentView implements ComponentView {
                 containsSwitch = 1;
                 const stop = addStop(); 
                 Dom.translate(stop, maxJoinX - PH_WIDTH / 6.8, offsetY - PH_HEIGHT / 16);
-                console.log(g.children[component_length + 1]); 
-                console.log(g.children); 
                 // If there is one or more blocks below if/else,
                 // move them to the end of true branch
                 g.insertBefore(stop, g.children[1].children[7]); 
@@ -155,7 +152,6 @@ export class SequenceComponentView implements ComponentView {
         }
 
         let holderElement = document.getElementsByClassName('sqd-placeholder');
-        // console.log("Comp Len: " + components.length); 
         if (components.length == 0) {
             Dom.attrs(holderElement[0], {
                 visibility: 'hidden'
