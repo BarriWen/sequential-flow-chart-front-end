@@ -1653,6 +1653,7 @@ export class SwitchStepComponentView implements ComponentView {
             gSubDropdownboxPopMain1.appendChild(dropdownBoxBottomShapecoverMain1);
         }
 
+        let transId = ""; 
         // ================ ACTIONS dropdown
         for (let i = 1; i <= actions.length; i++) {
             const dropdownBoxBottomShapeTextMain2 = Dom.svg("text", {
@@ -1795,7 +1796,8 @@ export class SwitchStepComponentView implements ComponentView {
                     x: DROPDOWN_X2 - 30 + 17,
                     y: DROPDOWN_Y + 11 + DROPDOWN_H * i + 13,
                 });
-                dropdownBoxBottomShapeAct2Text.textContent = champaingns[i - 1];
+                dropdownBoxBottomShapeAct2Text.textContent = champaingns[i - 1].split(" ")[1];
+                let transIdText = champaingns[i - 1].split(" ")[0];
                 const dropdownBoxBottomShapeAct2cover = Dom.svg("rect", {
                     width: DROPDOWN2_W - 20,
                     height: DROPDOWN_H - 5,
@@ -1816,6 +1818,7 @@ export class SwitchStepComponentView implements ComponentView {
                     dropdownBoxInnerTextAct1.textContent = dropdownBoxBottomShapeAct2Text.textContent;
                     gSubDropdownboxAct1Pop.classList.toggle("sqd-hidden");
                     dropdownBoxInnerTextAct1.setAttribute("style", "fill: #000000; font-size: 9pt");
+                    transId = transIdText; 
                 });
     
                 // Append Child Action 2nd 
@@ -2063,7 +2066,7 @@ export class SwitchStepComponentView implements ComponentView {
             }
 
             if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
-                step.properties["condition"] = <string>dropdownBoxInnerTextAct1.textContent;
+                step.properties["condition"] = transId;
                 step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent;
             }
             textRight.textContent = "Title in development";
