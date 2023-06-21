@@ -1147,11 +1147,11 @@ export class SwitchStepComponentView implements ComponentView {
         async function performSearch(url: any) {
             const response = await fetch(url, {
                 method: "GET",
-                headers: {
-                    'X-RapidAPI-Key': '3d2638744emsh4c97887fda82d33p1fa914jsn36a686b5d460',
-                    'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
-                }
-            })
+            }); 
+            if (response.status == 200) {
+                console.log("Success getting cities"); 
+                // console.log(response.json()); 
+            }
             return response.json();
         }
 
@@ -1160,7 +1160,7 @@ export class SwitchStepComponentView implements ComponentView {
             clearTimeout(delay);
             let url: any;
             let city = locTextInput.value;
-            url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${city}&limit=10`;
+            url = `http://localhost:8080/worldcity/${city}/0.85`;
 
             delay = setTimeout(function (e) {
                 if (city.length < 5) {
@@ -1168,26 +1168,20 @@ export class SwitchStepComponentView implements ComponentView {
                     return;
                 }
                 performSearch(url).then((data) => {
-                    let cities = '';
-                    let region = '';
-                    let country = '';
-                    let cityResp = data.data;
-                    let locList = [];
-                    for (let i = 0; i < cityResp.length; i++) {
-                        cities = JSON.stringify(cityResp[i].city).replace('\"', '').replace('\"', '');
-                        region = JSON.stringify(cityResp[i].region).replace('\"', '').replace('\"', '');
-                        country = JSON.stringify(cityResp[i].country).replace('\"', '').replace('\"', '');
-                        let location = cities + ", " + region + ", " + country;
-                        locList.push(location);
-                    }
-                    populateResults(locList);
+                    let cityResp = data;
+                    console.log(cityResp); 
+                    // let locList = [];
+                    // for (let i = 0; i < cityResp.length; i++) {
+                    //     locList.push(cityResp);
+                    // }
+                    populateResults(cityResp);
                 })
-            })
-        })
+            }, 500); 
+        }); 
 
         function populateResults(results: any) {
-            while (locInputPop.firstChild) {
-                locInputPop.removeChild(locInputPop.firstChild);
+            while (searchPopItemDiv.firstChild) {
+                searchPopItemDiv.removeChild(searchPopItemDiv.firstChild);
             }
 
             const locInputBottomShape = Dom.svg("rect", {
@@ -1209,6 +1203,10 @@ export class SwitchStepComponentView implements ComponentView {
             }
             if (results.lengh == 0) {
                 locInputBottomShape.setAttribute("height", `${DROPDOWN_H}`);
+            } else if (results.length >= 5) {
+                locInputBottomShape.setAttribute("height", `${5 * DROPDOWN_H + 10}`);
+            } else if (results.length < 5) {
+                locInputBottomShape.setAttribute("height", `${(results.length) * DROPDOWN_H + 10}`);
             }
 
             for (let i = 1; i <= results.length; i++) {
@@ -1220,11 +1218,11 @@ export class SwitchStepComponentView implements ComponentView {
                 locInputBottomShapeText.textContent = results[i - 1];
                 const locInputBottomShapeCover = Dom.svg("rect", {
                     width: 364,
-                    height: DROPDOWN_H - 5,
+                    height: DROPDOWN_H - 2,
                     class: "option select-field choice",
                     fill: "#fff",
                     x: DROPDOWN_X1 + 7,
-                    y: DROPDOWN_Y + DROPDOWN_H * i + 45,
+                    y: DROPDOWN_Y + DROPDOWN_H * i + 43,
                     rx: 4,
                     ry: 4,
                     id: `locInputBottomShapeCover${Date.now()}`,
