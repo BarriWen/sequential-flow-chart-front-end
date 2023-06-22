@@ -55,7 +55,6 @@ export class SwitchStepComponentView implements ComponentView {
 
         const branchNames = Object.keys(step.branches);
         const labelNames = ["YES", "NO"];
-        console.log(branchNames);
         const sequenceComponents = branchNames.map((bn) =>
             SequenceComponent.create(g, step.branches[bn], configuration)
         );
@@ -446,10 +445,6 @@ export class SwitchStepComponentView implements ComponentView {
         deleteImgContainer.appendChild(deleteImgContainerCircle);
         deleteImgContainer.appendChild(upDeleteIcon);
 
-        upDeleteIcon.addEventListener("click", function (e) {
-            console.log("Up delete clicked");
-        })
-
         const copyImgContainer = Dom.svg("g", {
             class: "sqd-task-deleteImgContainer",
         });
@@ -683,14 +678,6 @@ export class SwitchStepComponentView implements ComponentView {
         // gDropdownbox.appendChild(addSegBtnTitle);
         // gDropdownbox.appendChild(addSegmentBtnClickArea);
         // gDropdownbox.appendChild(addConditionText);
-
-        addSegmentBtnClickArea.addEventListener("click", function (e) {
-            console.log("add seg clicked");
-        });
-
-        addConditionText.addEventListener("click", function (e) {
-            console.log("add cond clicked");
-        });
 
         // =============== gSubDropdown
         const gSubDropdown = Dom.svg("g", {
@@ -1161,11 +1148,11 @@ export class SwitchStepComponentView implements ComponentView {
         async function performSearch(url: any) {
             const response = await fetch(url, {
                 method: "GET",
-                headers: {
-                    'X-RapidAPI-Key': '3d2638744emsh4c97887fda82d33p1fa914jsn36a686b5d460',
-                    'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
-                }
-            })
+            }); 
+            if (response.status == 200) {
+                console.log("Success getting cities"); 
+                // console.log(response.json()); 
+            }
             return response.json();
         }
 
@@ -1174,7 +1161,7 @@ export class SwitchStepComponentView implements ComponentView {
             clearTimeout(delay);
             let url: any;
             let city = locTextInput.value;
-            url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${city}&limit=10`;
+            url = `http://localhost:8080/worldcity/${city}/0.85`;
 
             delay = setTimeout(function (e) {
                 if (city.length < 5) {
@@ -1182,27 +1169,20 @@ export class SwitchStepComponentView implements ComponentView {
                     return;
                 }
                 performSearch(url).then((data) => {
-                    let cities = '';
-                    let region = '';
-                    let country = '';
-                    let cityResp = data.data;
-                    let locList = [];
-                    for (let i = 0; i < cityResp.length; i++) {
-                        cities = JSON.stringify(cityResp[i].city).replace('\"', '').replace('\"', '');
-                        region = JSON.stringify(cityResp[i].region).replace('\"', '').replace('\"', '');
-                        country = JSON.stringify(cityResp[i].country).replace('\"', '').replace('\"', '');
-                        let location = cities + ", " + region + ", " + country;
-                        locList.push(location);
-                    }
-                    console.log(locList);
-                    populateResults(locList);
+                    let cityResp = data;
+                    console.log(cityResp); 
+                    // let locList = [];
+                    // for (let i = 0; i < cityResp.length; i++) {
+                    //     locList.push(cityResp);
+                    // }
+                    populateResults(cityResp);
                 })
-            })
-        })
+            }, 500); 
+        }); 
 
         function populateResults(results: any) {
-            while (locInputPop.firstChild) {
-                locInputPop.removeChild(locInputPop.firstChild);
+            while (searchPopItemDiv.firstChild) {
+                searchPopItemDiv.removeChild(searchPopItemDiv.firstChild);
             }
 
             const locInputBottomShape = Dom.svg("rect", {
@@ -1224,6 +1204,10 @@ export class SwitchStepComponentView implements ComponentView {
             }
             if (results.lengh == 0) {
                 locInputBottomShape.setAttribute("height", `${DROPDOWN_H}`);
+            } else if (results.length >= 5) {
+                locInputBottomShape.setAttribute("height", `${5 * DROPDOWN_H + 10}`);
+            } else if (results.length < 5) {
+                locInputBottomShape.setAttribute("height", `${(results.length) * DROPDOWN_H + 10}`);
             }
 
             for (let i = 1; i <= results.length; i++) {
@@ -1235,11 +1219,11 @@ export class SwitchStepComponentView implements ComponentView {
                 locInputBottomShapeText.textContent = results[i - 1];
                 const locInputBottomShapeCover = Dom.svg("rect", {
                     width: 364,
-                    height: DROPDOWN_H - 5,
+                    height: DROPDOWN_H - 2,
                     class: "option select-field choice",
                     fill: "#fff",
                     x: DROPDOWN_X1 + 7,
-                    y: DROPDOWN_Y + DROPDOWN_H * i + 45,
+                    y: DROPDOWN_Y + DROPDOWN_H * i + 43,
                     rx: 4,
                     ry: 4,
                     id: `locInputBottomShapeCover${Date.now()}`,
@@ -1398,7 +1382,7 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownRightButtonDownMain1.classList.remove("sqd-hidden");
 
                 gSubDropdownboxPopMain1.classList.toggle("sqd-hidden");
-                gSubDropdownboxPop.classList.toggle("sqd-hidden");
+                gSubDropdownboxPop.classList.add("sqd-hidden");
                 gSubDropdown1.classList.remove('sqd-hidden');
                 gSubDropdown2.classList.remove('sqd-hidden');
 
@@ -1423,7 +1407,6 @@ export class SwitchStepComponentView implements ComponentView {
                 if (choice1 == 'Gender') {
                     list2 = list2Gender;
                     list3 = list3Gender;
-                    console.log(list3);
                     dropdownBoxInnerText1.textContent = "Is";
                     dropdownRightButtonDown1.classList.add("sqd-hidden");
                     dropdownBoxShapeAfter1.classList.add("sqd-hidden");
@@ -1781,6 +1764,7 @@ export class SwitchStepComponentView implements ComponentView {
             gSubDropdownboxPopMain1.appendChild(dropdownBoxBottomShapecoverMain1);
         }
 
+        let transId = ""; 
         // ================ ACTIONS dropdown
         for (let i = 1; i <= actions.length; i++) {
             const dropdownBoxBottomShapeTextMain2 = Dom.svg("text", {
@@ -1886,53 +1870,75 @@ export class SwitchStepComponentView implements ComponentView {
         }
 
         // ================= ACTIONS 2nd dropdown 
-        let listAct2 = ["Campaign 1", "Campaign 2", "Campaign 3"];
-        const dropdownBoxBottomShapeAct2 = Dom.svg("rect", {
-            width: DROPDOWN2_W,
-            height: listAct2.length * DROPDOWN_H + 10,
-            fill: "#fff",
-            stroke: "#247d99",
-            x: DROPDOWN_X2 - 30,
-            y: DROPDOWN_Y + DROPDOWN_H + 10,
-            rx: 4,
-            ry: 4,
-        });
-        gSubDropdownboxAct1Pop.appendChild(dropdownBoxBottomShapeAct2);
+        let listAct2: string[] = [];
+        const userID = 123; //Need to be changed to current user
+        const request = new Request(`http://localhost:8080/getTransmission/${userID}`, { method: 'GET' });
+        let champaingns: string[] = ["default"];
+        // Async way to fetch tags
+        const getChampaingns = async () => {
+            const response = await fetch(request);
+            if (response.ok) {
+                const val = await response.json();
+                champaingns = val;
+                return champaingns;
+            } else {
+                return Promise.reject(response.status);
+            }
+        };
 
-        for (let i = 1; i <= listAct2.length; i++) {
-            const dropdownBoxBottomShapeAct2Text = Dom.svg("text", {
-                class: "sqd-task-text",
-                x: DROPDOWN_X2 - 30 + 17,
-                y: DROPDOWN_Y + 11 + DROPDOWN_H * i + 13,
-            });
-            dropdownBoxBottomShapeAct2Text.textContent = listAct2[i - 1];
-            const dropdownBoxBottomShapeAct2cover = Dom.svg("rect", {
-                width: DROPDOWN2_W - 20,
-                height: DROPDOWN_H - 5,
-                class: "option select-field choice",
+        getChampaingns().then(champaingns => {
+            console.log("Fetching", champaingns);
+            listAct2 = champaingns;
+            const dropdownBoxBottomShapeAct2 = Dom.svg("rect", {
+                width: DROPDOWN2_W,
+                height: champaingns.length * DROPDOWN_H + 10,
                 fill: "#fff",
-                x: DROPDOWN_X2 - 30 + 10,
-                y: DROPDOWN_Y + DROPDOWN_H * i + 15,
+                stroke: "#247d99",
+                x: DROPDOWN_X2 - 30,
+                y: DROPDOWN_Y + DROPDOWN_H + 10,
                 rx: 4,
                 ry: 4,
-                id: `dropdownBoxBottomShapeAct2cover${Date.now()}`,
             });
-            Dom.attrs(dropdownBoxBottomShapeAct2cover, {
-                opacity: 0.3,
-            });
+            gSubDropdownboxAct1Pop.appendChild(dropdownBoxBottomShapeAct2);
+    
+            for (let i = 1; i <= champaingns.length; i++) {
+                const dropdownBoxBottomShapeAct2Text = Dom.svg("text", {
+                    class: "sqd-task-text",
+                    x: DROPDOWN_X2 - 30 + 17,
+                    y: DROPDOWN_Y + 11 + DROPDOWN_H * i + 13,
+                });
+                dropdownBoxBottomShapeAct2Text.textContent = champaingns[i - 1].split(" ")[1];
+                let transIdText = champaingns[i - 1].split(" ")[0];
+                const dropdownBoxBottomShapeAct2cover = Dom.svg("rect", {
+                    width: DROPDOWN2_W - 20,
+                    height: DROPDOWN_H - 5,
+                    class: "option select-field choice",
+                    fill: "#fff",
+                    x: DROPDOWN_X2 - 30 + 10,
+                    y: DROPDOWN_Y + DROPDOWN_H * i + 15,
+                    rx: 4,
+                    ry: 4,
+                    id: `dropdownBoxBottomShapeAct2cover${Date.now()}`,
+                });
+                Dom.attrs(dropdownBoxBottomShapeAct2cover, {
+                    opacity: 0.3,
+                });
+    
+                // Add event listners for Action 2nd dropdown 
+                dropdownBoxBottomShapeAct2cover.addEventListener("click", function (e) {
+                    dropdownBoxInnerTextAct1.textContent = dropdownBoxBottomShapeAct2Text.textContent;
+                    dropdownBoxInnerText1.textContent = ""; // Empty condition value of CONTACT INFO
+                    gSubDropdownboxAct1Pop.classList.toggle("sqd-hidden");
+                    dropdownBoxInnerTextAct1.setAttribute("style", "fill: #000000; font-size: 9pt");
+                    transId = transIdText; 
+                });
+    
+                // Append Child Action 2nd 
+                gSubDropdownboxAct1Pop.appendChild(dropdownBoxBottomShapeAct2Text);
+                gSubDropdownboxAct1Pop.appendChild(dropdownBoxBottomShapeAct2cover);
+            }
 
-            // Add event listners for Action 2nd dropdown 
-            dropdownBoxBottomShapeAct2cover.addEventListener("click", function (e) {
-                dropdownBoxInnerTextAct1.textContent = dropdownBoxBottomShapeAct2Text.textContent;
-                dropdownBoxInnerText1.textContent = ""; // Empty condition value of CONTACT INFO
-                gSubDropdownboxAct1Pop.classList.toggle("sqd-hidden");
-                dropdownBoxInnerTextAct1.setAttribute("style", "fill: #000000; font-size: 9pt");
-            });
-
-            // Append Child Action 2nd 
-            gSubDropdownboxAct1Pop.appendChild(dropdownBoxBottomShapeAct2Text);
-            gSubDropdownboxAct1Pop.appendChild(dropdownBoxBottomShapeAct2cover);
-        }
+        }).catch(console.log);
 
         // ======================== ACTIONS 3rd dropdowns 
         let list3Actions = ["Hour (s)", "Day (s)", "Month (s)", "Year (s)"];
@@ -2224,36 +2230,6 @@ export class SwitchStepComponentView implements ComponentView {
                     return;
                 }
             }
-
-            // if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
-            //     step.properties["condition"] = <string>dropdownBoxInnerTextAct1.textContent;
-            //     step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent;
-            // }
-
-            // =================== Title 
-            //     if (step.properties["property"].toString() == "Tag") {
-            //         textRight.textContent = "If " + step.properties["value"].toString() + " " +
-            //             step.properties["condition"].toString() + " in the " +
-            //             step.properties["property"].toString() + "s";
-            //     }
-            //     if (step.properties["property"].toString() == "Location") {
-            //         if (step.properties["condition"].toString() == ("Is In Country" || "Is In US State")) {
-            //             textRight.textContent = "If " + step.properties["property"].toString() + " Is In The " +
-            //                 step.properties["value"].toString();
-            //         } else if (step.properties["condition"].toString() == ("Is Not In Country" || "Is Not In US State")) {
-            //             textRight.textContent = "If " + step.properties["property"].toString() + " Is Not In The " +
-            //                 step.properties["value"].toString();
-            //         } else {
-            //             textRight.textContent = "If " + step.properties["property"].toString() + " " +
-            //                 step.properties["condition"].toString() + " " +
-            //                 dropdownBoxInnerText2.textContent + " Miles";
-            //         }
-            //     }
-            //     else {
-            //         textRight.textContent = "If " + step.properties["property"].toString() + " " +
-            //             step.properties["condition"].toString() + " " +
-            //             step.properties["value"].toString();
-            //     }
             textRight.textContent = "Title in development";
         });
 
@@ -2288,10 +2264,14 @@ export class SwitchStepComponentView implements ComponentView {
         editIcon.addEventListener("mousedown", function (e) {
             rightEditImgContainerCircle.setAttribute("style", "fill: #3498db");
             editIcon.setAttribute("href", `${editUrlWhite}`);
+            reminder1.classList.add("sqd-hidden");
+            reminderText1.classList.add("sqd-hidden");
         });
         editIcon.addEventListener("mouseup", function (e) {
             rightEditImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
             editIcon.setAttribute("href", `${editUrl}`);
+            reminder1.classList.remove("sqd-hidden");
+            reminderText1.classList.remove("sqd-hidden");
         });
         // Copy button interaction 
         changeIcon.addEventListener("mouseover", function (e) {
@@ -2303,10 +2283,14 @@ export class SwitchStepComponentView implements ComponentView {
         changeIcon.addEventListener("mousedown", function (e) {
             rightCopyImgContainerCircle.setAttribute("style", "fill: #3498db");
             changeIcon.setAttribute("href", `${changeUrlWhite}`);
+            reminder2.classList.add("sqd-hidden");
+            reminderText2.classList.add("sqd-hidden");
         });
         changeIcon.addEventListener("mouseup", function (e) {
             rightCopyImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
             changeIcon.setAttribute("href", `${changeUrl}`);
+            reminder2.classList.remove("sqd-hidden");
+            reminderText2.classList.remove("sqd-hidden");
         });
         // Delete button interaction 
         deleteIcon.addEventListener("mouseover", function (e) {
@@ -2318,10 +2302,14 @@ export class SwitchStepComponentView implements ComponentView {
         deleteIcon.addEventListener("mousedown", function (e) {
             rightDeleteImgContainerCircle.setAttribute("style", "fill: #3498db");
             deleteIcon.setAttribute("href", `${deleteUrlWhite}`);
+            reminder3.classList.add("sqd-hidden");
+            reminderText3.classList.add("sqd-hidden");
         });
         deleteIcon.addEventListener("mouseup", function (e) {
             rightDeleteImgContainerCircle.setAttribute("style", "fill: #FFFFFF");
             deleteIcon.setAttribute("href", `${deleteUrl}`);
+            reminder3.classList.remove("sqd-hidden");
+            reminderText3.classList.remove("sqd-hidden");
         });
 
         // Event listeners in Dropdown
@@ -2395,6 +2383,8 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownRightButtonUpAct1.classList.remove("sqd-hidden");
                 dropdownRightButtonDownAct1.classList.add("sqd-hidden");
             }
+
+
         });
 
         dropdownBoxShapeAfterAct2.addEventListener("click", function (e) {

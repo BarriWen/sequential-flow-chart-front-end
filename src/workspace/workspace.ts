@@ -311,7 +311,7 @@ export class Workspace implements DesignerComponentProvider {
 
     private onIsDraggingChanged(isDragging: boolean) {
         this.getRootComponent().setIsDragging(isDragging);
-        console.log("is dragging"); 
+        // console.log("is dragging"); 
         var encapedComponents = document.querySelectorAll(".encapsulated");
         // if (encapedComponents) {
         //     encapedComponents.forEach((e) => e.classList.add("sqd-hidden"));
