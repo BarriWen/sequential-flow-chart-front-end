@@ -1123,13 +1123,13 @@ export class SwitchStepComponentView implements ComponentView {
         });
         actInputArea.appendChild(actTextInput);
 
-        const datePrompt = Dom.svg("text", {
+        const prompt = Dom.svg("text", {
             class: "sqd-date-prompt sqd-hidden",
             fill: "#F00000",
             x: DROPDOWN_X3 - 3,
             y: DROPDOWN_Y + 40,
         });
-        datePrompt.textContent = "Incorrect Date Format";
+        prompt.textContent = "Incorrect Date Format";
 
         const locInputArea = Dom.svg("foreignObject", {
             class: "location-input sqd-hidden",
@@ -1327,7 +1327,9 @@ export class SwitchStepComponentView implements ComponentView {
         let list3State = usStateList;
         let choice1: string | null = "";
         let choice2: string | null = "";
-        const dateformat = /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])$/;
+        let dateformat = /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])$/;
+        let validated = false;
+        let dropdown2Validated = true;
 
 
         // ============ 1st dropdown
@@ -1379,10 +1381,13 @@ export class SwitchStepComponentView implements ComponentView {
                 actInputArea.classList.add("sqd-hidden");
                 dropdownBoxShape.setAttribute("width", `${DROPDOWN1_W}`);
                 dropdownBoxShape.setAttribute("stroke", "#bfbfbf");
+                dropdownBoxShape1.setAttribute("stroke", "#bfbfbf");
                 dropdownBoxShapeAfter.setAttribute("width", `${DROPDOWN1_W}`);
                 dropdownBoxInnerText.setAttribute("style", "fill: #000000");
                 dropdownBoxInnerText1.setAttribute("style", "fill: #bfbfbf");
                 dropdownBoxInnerText1.textContent = "Is";
+                dropdownBoxInnerText2.textContent = "";
+                dropdown2Validated = true;
                 // dropdownBoxInnerText2.textContent = "Nothing Selected";
                 dropdownBoxInnerText2.setAttribute("style", "fill: #bfbfbf");
                 dropdownRightButtonDown.setAttribute("x", `${DROPDOWN_X1 + DROPDOWN1_W - 20}`);
@@ -1408,11 +1413,14 @@ export class SwitchStepComponentView implements ComponentView {
                     gSubDropdownbox1Pop.removeChild(gSubDropdownbox1Pop.firstChild);
                 }
 
-                datePrompt.classList.add("sqd-hidden");
+                prompt.classList.add("sqd-hidden");
+
+                validated = true;
 
                 if (choice1 == 'Tag') {
                     list2 = list2Tag;
-                } if (choice1 == 'Gender') {
+                }
+                if (choice1 == 'Gender') {
                     list2 = list2Gender;
                     list3 = list3Gender;
                     console.log(list3);
@@ -1476,21 +1484,26 @@ export class SwitchStepComponentView implements ComponentView {
                 } else {
                     dropdownRightButtonDown1.classList.remove("sqd-hidden");
                     dropdownBoxShapeAfter1.classList.remove("sqd-hidden");
-                } if (choice1 == 'Birthday') {
+                }
+                if (choice1 == 'Birthday') {
                     list2 = list2Bd;
-                } if (choice1 == 'Email Address') {
+                }
+                if (choice1 == 'Email Address') {
                     list2 = list2Email;
                     gSubDropdown2.classList.add("sqd-hidden");
                     inputArea.classList.remove("sqd-hidden");
-                } if (choice1 == "First Name" || choice1 == "Last Name" || choice1 == "Full Name") {
+                }
+                if (choice1 == "First Name" || choice1 == "Last Name" || choice1 == "Full Name") {
                     list2 = list2Name;
                     gSubDropdown2.classList.add("sqd-hidden");
                     inputArea.classList.remove("sqd-hidden");
-                } if (choice1 == "Phone Number") {
+                }
+                if (choice1 == "Phone Number") {
                     list2 = list2Phone;
                     gSubDropdown2.classList.add("sqd-hidden");
                     inputArea.classList.remove("sqd-hidden");
-                } if (choice1 == 'Location') {
+                }
+                if (choice1 == 'Location') {
                     list2 = list2Loc;
                 } else {
                     locInputArea.classList.add("sqd-hidden");
@@ -1498,7 +1511,8 @@ export class SwitchStepComponentView implements ComponentView {
                     rect1.setAttribute("height", `${3 * boxHeight + 10}`);
                     rectInnerBorder.setAttribute("height", `${boxHeight + 20}`);
                     locInputArea.classList.add("sqd-hidden");
-                } if (
+                }
+                if (
                     choice1 != 'Email Address' &&
                     choice1 != "Birthday" &&
                     choice1 != "First Name" &&
@@ -1510,39 +1524,77 @@ export class SwitchStepComponentView implements ComponentView {
                     gSubDropdown2.classList.remove("sqd-hidden");
                 }
 
+                // Validation notification 1
+                if (choice1 == "Tag" || choice1 == "Birthday" || choice1 == "Location") {
+                    if (!dropdownBoxInnerText1.textContent || dropdownBoxInnerText1.textContent == "Is") {
+                        prompt.textContent = "Please select condition";
+                        prompt.classList.remove("sqd-hidden");
+                        dropdownBoxShape1.setAttribute("stroke", "#FF0000");
+                        validated = false;
+                    } else {
+                        prompt.classList.add("sqd-hidden");
+                        validated = true;
+                    }
+                }
+
                 if (choice1 == "Birthday") {
                     // const dateformat = /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])$/;
                     textInput.addEventListener("input", function (e) {
                         if (!textInput.value.match(dateformat)) {
-                            datePrompt.textContent = "Incorrect Date Format";
+                            prompt.textContent = "Incorrect Date Format";
                             console.log("wrong date format");
-                            datePrompt.classList.remove("sqd-hidden");
+                            prompt.classList.remove("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #FF0000");
+                            validated = false;
                         } else {
-                            datePrompt.classList.add("sqd-hidden");
+                            prompt.classList.add("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #BFBFBF");
+                            validated = true;
                         }
                     });
 
-                } else if (choice1 == "Email Address") {
+                } else if (choice1 == "Email Address" || choice1 == "Full Name"
+                    || choice1 == "First Name" || choice1 == "Last Name"
+                    || choice1 == "Phone Number"
+                ) {
+                    let errFormat = /[^a-zA-Z\s]/g; // Full Name
+                    if (choice1 == "First Name" || choice1 == "Last Name") {
+                        errFormat = /[^a-zA-Z]/g;
+                    } else if (choice1 == "Phone Number") {
+                        errFormat = /[^0-9()-]/g;
+                    } else if (choice1 == "Email Address") {
+                        errFormat = /[^\w\s@.()-]/g;
+                    }
                     textInput.addEventListener("input", function (e) {
                         if (textInput.value.trim() == "") {
-                            datePrompt.textContent = "Input cannot be empty or whitespace";
-                            datePrompt.classList.remove("sqd-hidden");
+                            prompt.textContent = "Empty Input";
+                            validated = false;
+                            prompt.classList.remove("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #FF0000");
-                        } else if (textInput.value.charAt(0) == ' '
+                        } else if (textInput.value.match(errFormat) || textInput.value.charAt(0) == ' '
                             || textInput.value.charAt(textInput.value.length - 1) == ' '
-                            || /[^\w\s@.()-]/g.test(textInput.value)
-                            // Check illegal input other than alphanumeric,underscore, or certain symbols
                         ) {
-                            datePrompt.textContent = "Invalid input";
-                            datePrompt.classList.remove("sqd-hidden");
+                            prompt.textContent = "Invalid Input";
+                            prompt.classList.remove("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #FF0000");
+                            validated = false;
                         } else {
-                            datePrompt.classList.add("sqd-hidden");
+                            prompt.classList.add("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #BFBFBF");
+                            validated = true;
                         }
                     });
+                } else if (choice1 == "Gender") {
+                    if (!dropdownBoxInnerText2.textContent || dropdownBoxInnerText2.textContent == "") {
+                                prompt.textContent = "Please select value";
+                                prompt.classList.remove("sqd-hidden");
+                                dropdownBoxShape2.setAttribute("stroke", "#FF0000");
+                                validated = false;
+                                dropdown2Validated = false;
+                            } else {
+                                prompt.classList.add("sqd-hidden");
+                                validated = true;
+                            }
                 }
                 // ===================== 2nd dropdown
                 const dropdownBoxBottomShape1 = Dom.svg("rect", {
@@ -1594,7 +1646,7 @@ export class SwitchStepComponentView implements ComponentView {
                         }
                         // Hide validation prompt
                         if (choice2 != 'Date Is' && choice2 != 'Is Before Date' && choice2 != 'Is After Date') {
-                            datePrompt.classList.add("sqd-hidden");
+                            prompt.classList.add("sqd-hidden");
                         }
 
                         if (choice2 == 'Exists' || choice2 == 'Does Not Exist') {
@@ -1622,6 +1674,33 @@ export class SwitchStepComponentView implements ComponentView {
                             dropdownBoxInnerText2.textContent = "Nothing Selected";
                             dropdownBoxInnerText2.setAttribute("style", "fill: #BFBFBF; font-size: 8pt");
                             inputArea.setAttribute("value", "Blank");
+                        }
+                        if (choice1 == "Tag" || (choice1 == "Birthday" && choice2 == "Month Is")|| choice1 == "Location") {
+                            if (!dropdownBoxInnerText2.textContent || dropdownBoxInnerText2.textContent == "") {
+                                prompt.textContent = "Please select value";
+                                prompt.classList.remove("sqd-hidden");
+                                dropdownBoxShape2.setAttribute("stroke", "#FF0000");
+                                validated = false;
+                                dropdown2Validated = false;
+                            } else {
+                                prompt.classList.add("sqd-hidden");
+                                validated = true;
+                            }
+                        }
+                        if ((choice1 == "Email Address" && choice2 != "Is Blank")
+                            || choice1 == "First Name" || choice1 == "Last Name"
+                            || choice1 == "Full Name" || choice1 == "Phone Number"
+                            || (choice1 == "Birthday" && choice2 != "Month Is")
+                        ) {
+                            if (!textInput.value || textInput.value == "") {
+                                prompt.textContent = "Please enter value";
+                                prompt.classList.remove("sqd-hidden");
+                                textInput.setAttribute("style", "border-color: #FF0000");
+                                validated = false;
+                            } else {
+                                prompt.classList.add("sqd-hidden");
+                                validated = true;
+                            }
                         }
 
                         // ======================== 3rd dropdowns 
@@ -1661,12 +1740,14 @@ export class SwitchStepComponentView implements ComponentView {
 
                             // Add event listners for 3rd dropdown 
                             dropdownBoxBottomShape2cover.addEventListener("click", function (e) {
+                                dropdown2Validated = true;
                                 dropdownBoxShape2.setAttribute("stroke", "#bfbfbf");
                                 dropdownRightButtonUp2.classList.add("sqd-hidden");
                                 dropdownRightButtonDown2.classList.remove("sqd-hidden");
                                 dropdownBoxInnerText2.textContent = dropdownBoxBottomShape2Text.textContent;
                                 dropdownBoxInnerText2.setAttribute("style", "fill: #253947");
                                 gSubDropdownbox2Pop.classList.toggle("sqd-hidden");
+                                prompt.classList.add("sqd-hidden");
                             });
 
                             // Append Child 3rd 
@@ -1955,7 +2036,7 @@ export class SwitchStepComponentView implements ComponentView {
 
         gDropdown.appendChild(inputArea);
         gDropdown.appendChild(actInputArea);
-        gDropdown.appendChild(datePrompt);
+        gDropdown.appendChild(prompt);
         gDropdown.appendChild(locInputArea);
         gDropdown.appendChild(locInputPop);
         gDropdown.appendChild(gValBtn);
@@ -2088,14 +2169,27 @@ export class SwitchStepComponentView implements ComponentView {
                     // alert("Input cannot be empty or whitespace");
                     return; // If it's only whitespace or empty, return immediately
                 }
-                if (textInput.value.charAt(0) == ' '
-                    || textInput.value.charAt(textInput.value.length - 1) == ' '
-                    || /[^\w\s@.()-]/g.test(textInput.value)
+                if (!validated
+                    // textInput.value.charAt(0) == ' '
+                    // || textInput.value.charAt(textInput.value.length - 1) == ' '
+                    // || /[^\w\s@.()-]/g.test(textInput.value)
                     // Check illegal input other than alphanumeric,underscore, or certain symbols
                 ) {
                     textInput.value = ""; // Reset
                     // alert("Invalid input or punctuation");
                     return; // If it starts or ends with whitespace, return immediately
+                }
+                if (choice1 == "Full Name" && /[^a-zA-Z0-9\s]/g.test(textInput.value)) {
+                    textInput.value = ""; // Reset
+                    return;
+                }
+                if ((choice1 == "First Name" || choice1 == "Last Name") && /[^a-zA-Z0-9]/g.test(textInput.value)) {
+                    textInput.value = ""; // Reset
+                    return;
+                }
+                if (choice1 == "Phone Number" && /[^0-9()-]/g.test(textInput.value)) {
+                    textInput.value = ""; // Reset
+                    return;
                 }
                 let value = textInput.value;
                 step.properties["value"] = value;
@@ -2109,8 +2203,8 @@ export class SwitchStepComponentView implements ComponentView {
                 }
             } else if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
                 if (dropdownBoxInnerTextAct1 && dropdownBoxInnerTextAct1.textContent != "") {
-                    if (textInput.value.trim() != "") {
-                        let num = parseFloat(textInput.value);
+                    if (actTextInput.value.trim() != "") {
+                        let num = parseFloat(actTextInput.value);
                         if (isNaN(num)) {
                             alert("please enter valid number");
                             return;
@@ -2119,7 +2213,7 @@ export class SwitchStepComponentView implements ComponentView {
                                 alert("Please select your time unit");
                                 return;
                             }
-                            step.properties["value"] = num + "_" + dropdownBoxInnerTextAct2.textContent;
+                            step.properties["value"] = num + " " + dropdownBoxInnerTextAct2.textContent;
                         }
                     } else {
                         alert("Time value cannot be empty");
@@ -2131,10 +2225,10 @@ export class SwitchStepComponentView implements ComponentView {
                 }
             }
 
-            if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
-                step.properties["condition"] = <string>dropdownBoxInnerTextAct1.textContent;
-                step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent;
-            }
+            // if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
+            //     step.properties["condition"] = <string>dropdownBoxInnerTextAct1.textContent;
+            //     step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent;
+            // }
 
             // =================== Title 
             //     if (step.properties["property"].toString() == "Tag") {
@@ -2273,7 +2367,12 @@ export class SwitchStepComponentView implements ComponentView {
             if (gSubDropdownbox2Pop.classList.contains("sqd-hidden")) {
                 dropdownRightButtonUp2.classList.add("sqd-hidden");
                 dropdownRightButtonDown2.classList.remove("sqd-hidden");
-                dropdownBoxShape2.setAttribute("stroke", "#bfbfbf");
+                if (dropdown2Validated) {
+                    dropdownBoxShape2.setAttribute("stroke", "#bfbfbf");
+                } else {
+                    // display red border
+                    dropdownBoxShape2.setAttribute("stroke", "#FF0000");
+                }
             } else {
                 dropdownRightButtonUp2.classList.remove("sqd-hidden");
                 dropdownRightButtonDown2.classList.add("sqd-hidden");
