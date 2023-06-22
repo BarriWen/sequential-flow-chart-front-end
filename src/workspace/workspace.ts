@@ -24,7 +24,7 @@ const ZOOM_DELTA = 0.2;
 export class Workspace implements DesignerComponentProvider {
     public static create(
         parent: HTMLElement,
-        context: DesignerContext
+        context: DesignerContext,
     ): Workspace {
 
         const view = WorkspaceView.create(parent, context.configuration.steps);
@@ -123,6 +123,7 @@ export class Workspace implements DesignerComponentProvider {
         const delta = direction ? ZOOM_DELTA : -ZOOM_DELTA;
         const scale = this.context.limitScale(this.context.viewPort.scale + delta);
         this.context.setViewPort(this.context.viewPort.position, scale);
+        this.context.onZoomChanged.forward(scale);
     }
 
     public moveViewPortToStep(stepComponent: StepComponent) {
@@ -305,6 +306,7 @@ export class Workspace implements DesignerComponentProvider {
         const scale = newScale;
 
         this.context.setViewPort(position, scale);
+        this.context.onZoomChanged.forward(scale);
     }
 
     private onIsDraggingChanged(isDragging: boolean) {

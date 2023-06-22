@@ -13,7 +13,7 @@ export class ControlBarView {
 		}); 
 		const zoomOutButtonIcon = Dom.svg("image", {
 			href: "./assets/minus.svg", 
-		}); 
+		});
 		// Dom.attrs(zoomInButton, {
 
 		// })
@@ -22,6 +22,9 @@ export class ControlBarView {
 
 		// const resetButton = createButton(Icons.center, 'Reset');
 		const zoomInButton = createButton(Icons.zoomIn, 'Zoom in');
+		const zoomPercentageElement = Dom.element('div', {
+			class: 'zoom-percentage'
+		});
 		const zoomOutButton = createButton(Icons.zoomOut, 'Zoom out');
 
 		// const moveButton = createButton(Icons.move, 'Turn on/off drag and drop');
@@ -29,17 +32,20 @@ export class ControlBarView {
 
 		// root.appendChild(resetButton);
 		root.appendChild(zoomInButton);
+		root.appendChild(zoomPercentageElement);
 		root.appendChild(zoomOutButton);
+
 		// root.appendChild(moveButton);
 		// root.appendChild(deleteButton);
 
 		parent.appendChild(root);
-		return new ControlBarView(zoomInButton, zoomOutButton);
+		return new ControlBarView(zoomInButton, zoomPercentageElement, zoomOutButton);
 	}
 
 	private constructor(
 		// private readonly resetButton: HTMLElement,
 		private readonly zoomInButton: HTMLElement,
+		private readonly zoomPercentageElement: HTMLElement,
 		private readonly zoomOutButton: HTMLElement,
 		// private readonly moveButton: HTMLElement,
 		// private readonly deleteButton: HTMLElement
@@ -55,6 +61,10 @@ export class ControlBarView {
 
 	public bindZoomOutButtonClick(handler: () => void) {
 		bindClick(this.zoomOutButton, handler);
+	}
+
+	public setZoomPercentage(percentage: number) {
+		this.zoomPercentageElement.textContent = Math.round(percentage * 100) + '%';
 	}
 
 	// public bindMoveButtonClick(handler: () => void) {

@@ -8,6 +8,10 @@ export class ControlBar {
 		// view.bindResetButtonClick(() => bar.onResetButtonClicked());
 		view.bindZoomInButtonClick(() => bar.onZoomInButtonClicked());
 		view.bindZoomOutButtonClick(() => bar.onZoomOutButtonClicked());
+		view.setZoomPercentage(context.viewPort.scale);
+		context.onZoomChanged.subscribe((newScale: number) => {
+			view.setZoomPercentage(newScale);
+		});
 		// view.bindMoveButtonClick(() => bar.onMoveButtonClicked());
 		// view.bindDeleteButtonClick(() => bar.onDeleteButtonClicked());
 		// context.onIsReadonlyChanged.subscribe(() => bar.onIsReadonlyChanged());
@@ -24,10 +28,12 @@ export class ControlBar {
 
 	private onZoomInButtonClicked() {
 		this.context.zoom(true);
+		// this.view.setZoomPercentage(this.context.viewPort.scale * 100);
 	}
 
 	private onZoomOutButtonClicked() {
 		this.context.zoom(false);
+		// this.view.setZoomPercentage(this.context.viewPort.scale * 100);
 	}
 
 	private onMoveButtonClicked() {
