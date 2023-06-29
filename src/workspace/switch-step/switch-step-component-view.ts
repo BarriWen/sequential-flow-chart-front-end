@@ -1397,7 +1397,16 @@ export class SwitchStepComponentView implements ComponentView {
                     gSubDropdownbox1Pop.removeChild(gSubDropdownbox1Pop.firstChild);
                 }
 
+                // Reset UI
                 prompt.classList.add("sqd-hidden");
+                inputArea.classList.remove("sqd-hidden");
+                actConditonText.classList.remove("sqd-hidden");
+                dropdownBoxShape1.setAttribute("x", DROPDOWN_X2.toString());
+                dropdownRightButtonDown1.setAttribute("x", (DROPDOWN_X2 + DROPDOWN2_W - 20).toString());
+                dropdownRightButtonUp1.setAttribute("x", (DROPDOWN_X2 + DROPDOWN2_W - 20).toString());
+                dropdownBoxInnerText1.setAttribute("x", (DROPDOWN_X2 + 3).toString());
+                dropdownBoxShapeAfter1.setAttribute("x", (DROPDOWN_X2).toString());
+                // dropdownBoxBottomShape1.setAttribute("x", (DROPDOWN_X2).toString());
 
                 validated = true;
 
@@ -1715,7 +1724,8 @@ export class SwitchStepComponentView implements ComponentView {
                         }
                         if ((choice1 == "Email Address" && choice2 != "Is Blank")
                             || choice1 == "First Name" || choice1 == "Last Name"
-                            || choice1 == "Full Name" || choice1 == "Phone Number"
+                            || choice1 == "Full Name"
+                            || (choice1 == "Phone Number" && choice2 != "Blank")
                             || (choice1 == "Birthday" && choice2 != "Month Is")
                         ) {
                             if (!textInput.value || textInput.value == "") {
