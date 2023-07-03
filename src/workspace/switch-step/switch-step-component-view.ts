@@ -1313,6 +1313,7 @@ export class SwitchStepComponentView implements ComponentView {
         let choice2: string | null = "";
         let dateformat = /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])$/;
         let validated = false;
+        let valiText = false;
         let dropdown2Validated = true;
 
 
@@ -1586,8 +1587,8 @@ export class SwitchStepComponentView implements ComponentView {
                             } else {
                                 prompt.classList.add("sqd-hidden");
                                 validated = true;
-                            }
-                }
+                    }
+                } 
                 // ===================== 2nd dropdown
                 const dropdownBoxBottomShape1 = Dom.svg("rect", {
                     width: DROPDOWN2_W,
@@ -1909,6 +1910,18 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownRightButtonUpMain2.classList.add("sqd-hidden");
                 dropdownRightButtonDownMain2.classList.remove("sqd-hidden");
                 actInputArea.classList.remove("sqd-hidden");
+                // Action 2nd dropbox check
+                if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
+                    if (!dropdownBoxInnerTextAct1.textContent || dropdownBoxInnerTextAct1.textContent == "") {
+                        prompt.textContent = "Please select condition";
+                        prompt.classList.remove("sqd-hidden");
+                        dropdownBoxShapeAct1.setAttribute("stroke", "#FF0000");
+                        validated = false;
+                    } else {
+                        prompt.classList.add("sqd-hidden");
+                        validated = true;
+                    }
+                }
             });
 
             dropdownBoxBottomShapecoverMain2_1.addEventListener("click", function (e) {
@@ -1954,7 +1967,8 @@ export class SwitchStepComponentView implements ComponentView {
             if (response.ok) {
                 const val = await response.json();
                 champaingns = val;
-                return champaingns;
+                return ["1 test1", "2 test2"];
+                //return champaingns;
             } else {
                 return Promise.reject(response.status);
             }
@@ -2004,7 +2018,46 @@ export class SwitchStepComponentView implements ComponentView {
                     dropdownBoxInnerText1.textContent = ""; // Empty condition value of CONTACT INFO
                     gSubDropdownboxAct1Pop.classList.toggle("sqd-hidden");
                     dropdownBoxInnerTextAct1.setAttribute("style", "fill: #000000; font-size: 9pt");
-                    transId = transIdText; 
+                    transId = transIdText;
+                    prompt.classList.add("sqd-hidden");
+                    dropdownBoxShapeAct1.setAttribute("stroke", "#BFBFBF");
+                    validated = true;
+                    valiText = false;
+                    // Action - check texbox input
+                    if (!actTextInput || actTextInput.value == "") {
+                        prompt.textContent = "Please enter value";
+                        validated = false;
+                        valiText = false;
+                        prompt.classList.remove("sqd-hidden");
+                        actTextInput.setAttribute("style", "border-color: #FF0000");
+                    }
+                    actTextInput.addEventListener("input", function (e) {
+                        if (actTextInput.value == "") {
+                            prompt.textContent = "Please enter value";
+                            validated = false;
+                            valiText = false;
+                            prompt.classList.remove("sqd-hidden");
+                            actTextInput.setAttribute("style", "border-color: #FF0000");
+                        } else if (!/^\d+(\.\d+)?$/.test(actTextInput.value) || parseFloat(actTextInput.value) <= 0) {
+                            prompt.textContent = "Invalid value";
+                            valiText = false;
+                            validated = false;
+                            prompt.classList.remove("sqd-hidden");
+                            actTextInput.setAttribute("style", "border-color: #FF0000");
+                        } else {
+                            valiText = true;
+                            validated = true;
+                            prompt.classList.add("sqd-hidden");
+                            actTextInput.setAttribute("style", "border-color: #BFBFBF");
+                            if (dropdownBoxInnerTextAct2.textContent == "") {
+                                validated = false;
+                                prompt.textContent = "Please select unit";
+                                prompt.classList.remove("sqd-hidden");
+                                dropdownBoxShapeAct2.setAttribute("stroke", "#FF0000");
+                            }
+                        }
+                        
+                    });
                 });
     
                 // Append Child Action 2nd 
@@ -2056,6 +2109,9 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxInnerTextAct2.textContent = dropdownBoxBottomShapeAct2Text.textContent;
                 gSubDropdownboxAct2Pop.classList.toggle("sqd-hidden");
                 dropdownBoxInnerTextAct2.setAttribute("style", "fill: #000000; font-size: 9pt");
+                validated = true;
+                prompt.classList.add("sqd-hidden");
+                dropdownBoxShapeAct2.setAttribute("stroke", "#BFBFBF");
             });
 
             // Append Child ACTIONS 3rd 
@@ -2252,11 +2308,18 @@ export class SwitchStepComponentView implements ComponentView {
                     if (dropdownBoxInnerText2.textContent) {
                         step.properties["value"] = dropdownBoxInnerText2.textContent;
                     }
+                } else if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
+                    if (valiText) {
+                        step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent;
+                    } else {
+                        actTextInput.value == "";
+                    }
                 }
 
             } else {
                 textInput.value = ""; // Reset
                 dropdownBoxInnerText2.textContent = "";
+                actTextInput.value == "";
             }
             // if (locTextInput.value != "") {
             //     // textRight.textContent = dropdownBoxInnerText2.textContent;
@@ -2301,7 +2364,7 @@ export class SwitchStepComponentView implements ComponentView {
             // } else if (choice1 == "Birthday" && (choice2 == "Date Is" || choice2 == "Is Before Date" || choice2 == "Is After Date")) {
             //     if (textInput.value.match(dateformat)) {
             //         step.properties["value"] = textInput.value;
-            //     }  
+            //     }
             // } else if (choice1 == "Tag" || choice1 == "Gender" || choice2 == "Date Is") {
             //     if (dropdownBoxInnerText2.textContent) {
             //         step.properties["value"] = dropdownBoxInnerText2.textContent;
