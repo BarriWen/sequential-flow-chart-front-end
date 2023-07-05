@@ -1975,8 +1975,8 @@ export class SwitchStepComponentView implements ComponentView {
             if (response.ok) {
                 const val = await response.json();
                 champaingns = val;
-                return ["1 test1", "2 test2"];
-                //return champaingns;
+                // return ["1 test1", "2 test2"];
+                return champaingns;
             } else {
                 return Promise.reject(response.status);
             }
