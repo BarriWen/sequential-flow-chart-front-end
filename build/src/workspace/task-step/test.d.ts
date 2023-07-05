@@ -1,1 +1,1 @@
-declare const dropdownBoxBottomShape1: any;
+declare const prompt: any;

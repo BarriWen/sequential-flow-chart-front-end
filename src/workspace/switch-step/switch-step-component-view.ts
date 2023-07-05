@@ -1312,9 +1312,14 @@ export class SwitchStepComponentView implements ComponentView {
         let choice1: string | null = "";
         let choice2: string | null = "";
         let dateformat = /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])$/;
-        let validated = false;
-        let valiText = false;
-        let dropdown2Validated = true;
+        let allValidated = false;
+        let dp1Validated = false;
+        let dp2Validated = false;
+        let tb1Validated = false;
+        let locValidated = false;
+        let actDp1Validated = false; 
+        let actTb1Validated = false; 
+        let actDp2Validated = false;
 
 
         // ============ 1st dropdown
@@ -1372,7 +1377,8 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxInnerText1.setAttribute("style", "fill: #bfbfbf");
                 dropdownBoxInnerText1.textContent = "Is";
                 dropdownBoxInnerText2.textContent = "";
-                dropdown2Validated = true;
+                dp1Validated = true;
+                dp2Validated = true;
                 // dropdownBoxInnerText2.textContent = "Nothing Selected";
                 dropdownBoxInnerText2.setAttribute("style", "fill: #bfbfbf");
                 dropdownRightButtonDown.setAttribute("x", `${DROPDOWN_X1 + DROPDOWN1_W - 20}`);
@@ -1408,8 +1414,6 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxInnerText1.setAttribute("x", (DROPDOWN_X2 + 3).toString());
                 dropdownBoxShapeAfter1.setAttribute("x", (DROPDOWN_X2).toString());
                 // dropdownBoxBottomShape1.setAttribute("x", (DROPDOWN_X2).toString());
-
-                validated = true;
 
                 if (choice1 == 'Tag') {
                     list2 = list2Tag;
@@ -1519,14 +1523,14 @@ export class SwitchStepComponentView implements ComponentView {
 
                 // Validation notification 1
                 if (choice1 == "Tag" || choice1 == "Birthday" || choice1 == "Location") {
-                    if (!dropdownBoxInnerText1.textContent || dropdownBoxInnerText1.textContent == "Is") {
+                    if (dropdownBoxInnerText1.textContent == "Is") {
                         prompt.textContent = "Please select condition";
                         prompt.classList.remove("sqd-hidden");
                         dropdownBoxShape1.setAttribute("stroke", "#FF0000");
-                        validated = false;
+                        dp1Validated = false;
                     } else {
                         prompt.classList.add("sqd-hidden");
-                        validated = true;
+                        dp1Validated = true;
                     }
                 }
 
@@ -1538,11 +1542,11 @@ export class SwitchStepComponentView implements ComponentView {
                             console.log("wrong date format");
                             prompt.classList.remove("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #FF0000");
-                            validated = false;
+                            tb1Validated = false;
                         } else {
                             prompt.classList.add("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #BFBFBF");
-                            validated = true;
+                            tb1Validated = true;
                         }
                     });
 
@@ -1550,6 +1554,12 @@ export class SwitchStepComponentView implements ComponentView {
                     || choice1 == "First Name" || choice1 == "Last Name"
                     || choice1 == "Phone Number"
                 ) {
+                    if (dropdownBoxInnerText1.textContent == "Is" && textInput.value == "") {
+                        prompt.textContent = "Please enter value";
+                        prompt.classList.remove("sqd-hidden");
+                        textInput.setAttribute("style", "border-color: #FF0000");
+                        tb1Validated = false;
+                    }
                     let errFormat = /[^a-zA-Z\s]/g; // Full Name
                     if (choice1 == "First Name" || choice1 == "Last Name") {
                         errFormat = /[^a-zA-Z]/g;
@@ -1561,7 +1571,7 @@ export class SwitchStepComponentView implements ComponentView {
                     textInput.addEventListener("input", function (e) {
                         if (textInput.value.trim() == "") {
                             prompt.textContent = "Empty Input";
-                            validated = false;
+                            tb1Validated = false;
                             prompt.classList.remove("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #FF0000");
                         } else if (textInput.value.match(errFormat) || textInput.value.charAt(0) == ' '
@@ -1570,11 +1580,11 @@ export class SwitchStepComponentView implements ComponentView {
                             prompt.textContent = "Invalid Input";
                             prompt.classList.remove("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #FF0000");
-                            validated = false;
+                            tb1Validated = false;
                         } else {
                             prompt.classList.add("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #BFBFBF");
-                            validated = true;
+                            tb1Validated = true;
                         }
                     });
                 } else if (choice1 == "Gender") {
@@ -1582,11 +1592,10 @@ export class SwitchStepComponentView implements ComponentView {
                                 prompt.textContent = "Please select value";
                                 prompt.classList.remove("sqd-hidden");
                                 dropdownBoxShape2.setAttribute("stroke", "#FF0000");
-                                validated = false;
-                                dropdown2Validated = false;
+                                dp2Validated = false;
                             } else {
                                 prompt.classList.add("sqd-hidden");
-                                validated = true;
+                                dp2Validated = true;
                     }
                 } 
                 // ===================== 2nd dropdown
@@ -1626,6 +1635,7 @@ export class SwitchStepComponentView implements ComponentView {
                     });
                     // Add event listners for 2nd dropdowns 
                     dropdownBoxBottomShape1cover.addEventListener("click", function (e) {
+                        dp1Validated = true;
                         dropdownBoxInnerTextAct1.textContent = ""; // Empty condition value of ACTIONS
                         dropdownRightButtonUp1.classList.add("sqd-hidden");
                         dropdownRightButtonDown1.classList.remove("sqd-hidden");
@@ -1716,11 +1726,10 @@ export class SwitchStepComponentView implements ComponentView {
                                 prompt.textContent = "Please select value";
                                 prompt.classList.remove("sqd-hidden");
                                 dropdownBoxShape2.setAttribute("stroke", "#FF0000");
-                                validated = false;
-                                dropdown2Validated = false;
+                                dp2Validated = false;
                             } else {
                                 prompt.classList.add("sqd-hidden");
-                                validated = true;
+                                dp2Validated = true;
                             }
                         }
                         if ((choice1 == "Email Address" && choice2 != "Is Blank")
@@ -1733,10 +1742,9 @@ export class SwitchStepComponentView implements ComponentView {
                                 prompt.textContent = "Please enter value";
                                 prompt.classList.remove("sqd-hidden");
                                 textInput.setAttribute("style", "border-color: #FF0000");
-                                validated = false;
+                                tb1Validated = false;
                             } else {
                                 prompt.classList.add("sqd-hidden");
-                                validated = true;
                             }
                         }
 
@@ -1777,7 +1785,7 @@ export class SwitchStepComponentView implements ComponentView {
 
                             // Add event listners for 3rd dropdown 
                             dropdownBoxBottomShape2cover.addEventListener("click", function (e) {
-                                dropdown2Validated = true;
+                                dp2Validated = true;
                                 dropdownBoxShape2.setAttribute("stroke", "#bfbfbf");
                                 dropdownRightButtonUp2.classList.add("sqd-hidden");
                                 dropdownRightButtonDown2.classList.remove("sqd-hidden");
@@ -1789,7 +1797,7 @@ export class SwitchStepComponentView implements ComponentView {
                                     prompt.textContent = "Please enter location";
                                     prompt.classList.remove("sqd-hidden");
                                     locTextInput.setAttribute("style", "border-color: #FF0000");
-                                    validated = false;
+                                    locValidated = false;
                                 }
                             });
 
@@ -1800,11 +1808,11 @@ export class SwitchStepComponentView implements ComponentView {
                                     prompt.textContent = "Invalid location";
                                     prompt.classList.remove("sqd-hidden");
                                     locTextInput.setAttribute("style", "border-color: #FF0000");
-                                    validated = false;
+                                    locValidated = false;
                                 } else {
                                     prompt.classList.add("sqd-hidden");
                                     locTextInput.setAttribute("style", "border-color: #BFBFBF");
-                                    validated = true;
+                                    locValidated = true;
                                 }
                             });
 
@@ -1916,10 +1924,10 @@ export class SwitchStepComponentView implements ComponentView {
                         prompt.textContent = "Please select condition";
                         prompt.classList.remove("sqd-hidden");
                         dropdownBoxShapeAct1.setAttribute("stroke", "#FF0000");
-                        validated = false;
+                        actDp1Validated = false;
                     } else {
                         prompt.classList.add("sqd-hidden");
-                        validated = true;
+                        actDp1Validated = true;
                     }
                 }
             });
@@ -2021,36 +2029,32 @@ export class SwitchStepComponentView implements ComponentView {
                     transId = transIdText;
                     prompt.classList.add("sqd-hidden");
                     dropdownBoxShapeAct1.setAttribute("stroke", "#BFBFBF");
-                    validated = true;
-                    valiText = false;
+                    actDp1Validated = true;
+                    actTb1Validated= false;
                     // Action - check texbox input
                     if (!actTextInput || actTextInput.value == "") {
                         prompt.textContent = "Please enter value";
-                        validated = false;
-                        valiText = false;
+                        actTb1Validated= false;
                         prompt.classList.remove("sqd-hidden");
                         actTextInput.setAttribute("style", "border-color: #FF0000");
                     }
                     actTextInput.addEventListener("input", function (e) {
                         if (actTextInput.value == "") {
                             prompt.textContent = "Please enter value";
-                            validated = false;
-                            valiText = false;
+                            actTb1Validated = false;
                             prompt.classList.remove("sqd-hidden");
                             actTextInput.setAttribute("style", "border-color: #FF0000");
                         } else if (!/^\d+(\.\d+)?$/.test(actTextInput.value) || parseFloat(actTextInput.value) <= 0) {
                             prompt.textContent = "Invalid value";
-                            valiText = false;
-                            validated = false;
+                            actTb1Validated = false;
                             prompt.classList.remove("sqd-hidden");
                             actTextInput.setAttribute("style", "border-color: #FF0000");
                         } else {
-                            valiText = true;
-                            validated = true;
+                            actTb1Validated = true;
                             prompt.classList.add("sqd-hidden");
                             actTextInput.setAttribute("style", "border-color: #BFBFBF");
                             if (dropdownBoxInnerTextAct2.textContent == "") {
-                                validated = false;
+                                actDp2Validated = false;
                                 prompt.textContent = "Please select unit";
                                 prompt.classList.remove("sqd-hidden");
                                 dropdownBoxShapeAct2.setAttribute("stroke", "#FF0000");
@@ -2109,7 +2113,7 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownBoxInnerTextAct2.textContent = dropdownBoxBottomShapeAct2Text.textContent;
                 gSubDropdownboxAct2Pop.classList.toggle("sqd-hidden");
                 dropdownBoxInnerTextAct2.setAttribute("style", "fill: #000000; font-size: 9pt");
-                validated = true;
+                actDp2Validated = true;
                 prompt.classList.add("sqd-hidden");
                 dropdownBoxShapeAct2.setAttribute("stroke", "#BFBFBF");
             });
@@ -2282,46 +2286,107 @@ export class SwitchStepComponentView implements ComponentView {
                 // textRight.textContent = dropdownBoxInnerText.textContent;
                 step.properties["property"] = dropdownBoxInnerText.textContent;
             }
-            if (dropdownBoxInnerText1.textContent && dropdownBoxInnerText1.textContent != "") {
+            if (step.properties["type"] == "Contact Info" && dropdownBoxInnerText1.textContent && dropdownBoxInnerText1.textContent != "") {
                 // textRight.textContent = dropdownBoxInnerText.textContent;
                 // console.log(dropdownBoxInnerText1.textContent);
                 step.properties["condition"] = dropdownBoxInnerText1.textContent;
-            } else if (dropdownBoxInnerTextAct1.textContent && dropdownBoxInnerTextAct1.textContent != "") {
+            } else if (step.properties["type"] == "Actions" && dropdownBoxInnerTextAct1.textContent && dropdownBoxInnerTextAct1.textContent != "") {
                 step.properties["condition"] = dropdownBoxInnerTextAct1.textContent; // Set condition for ACTIONS
             }
 
+            // All Validation
+            let c1 = step.properties["property"];
+            let c2 = step.properties["condition"];
+            allValidated = false;
+            if (c1 == "Tag") {
+                if (dp1Validated && dp2Validated) {
+                    allValidated = true;
+                }
+            } else if (c1 == "Email Address"
+                || c1 == "Full Name"
+                || c1 == "First Name"
+                || c1 == "Last Name"
+                || c1 == "Phone Number"
+            ) {
+                if (tb1Validated) {
+                    allValidated = true;
+                }
+            } else if (c1 == "Gender") {
+                if (dp2Validated) {
+                    allValidated = true;
+                }
+            } else if (c1 == "Birthday") {
+                if (c2 == "Month Is") {
+                    if (dp2Validated) {
+                        allValidated = true;
+                    }
+                } else {
+                    if (dp1Validated && tb1Validated) {
+                        allValidated = true;
+                    }
+                }
+            } else if (c1 == "Location") {
+                if (dp1Validated) {
+                    if (c2 == "Is Within" || c2 == "Is Not Within") {
+                        if (dp2Validated && locValidated) {
+                            allValidated = true;
+                        }
+                    } else {
+                        if (dp2Validated) {
+                            allValidated = true;
+                        }
+                    }
+                }
+            } else if (c1 == "Opened" || c1 == "Not Opened" || c1 == "Clicked" || c1 == "Not Clicked") {
+                if (actDp1Validated && actTb1Validated && actDp2Validated) {
+                    allValidated = true;
+                }
+            }
+
+            
+
             // New click save validation logic
-            if (validated && choice2 != "Is Blank" && choice2 != "Blank") {
-                if (choice1 == "Email Address" ||
-                    choice1 == "Full Name" ||
-                    choice1 == "First Name" ||
-                    choice1 == "Last Name" ||
-                    choice1 == "Phone Number" || 
-                    (choice1 == "Birthday" &&
-                        (choice2 == "Date Is" || choice2 == "Is Before Date" || choice2 == "Is After Date")))
+            if (allValidated && c2 != "Is Blank" && c2 != "Blank") {
+                if (c1 == "Email Address" ||
+                    c1 == "Full Name" ||
+                    c1 == "First Name" ||
+                    c1 == "Last Name" ||
+                    c1 == "Phone Number" || 
+                    (c1 == "Birthday" &&
+                        (c2 == "Date Is" || c2 == "Is Before Date" || c2 == "Is After Date")))
                 {
                     step.properties["value"] = textInput.value;
-                } else if (choice1 == "Tag" ||
-                    choice1 == "Gender" ||
-                    choice2 == "Month Is")
+                } else if (c1 == "Tag" ||
+                    c1 == "Gender" ||
+                    c2 == "Month Is")
                 {
                     if (dropdownBoxInnerText2.textContent) {
                         step.properties["value"] = dropdownBoxInnerText2.textContent;
                     }
-                } else if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
-                    if (valiText) {
-                        step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent;
+                } else if (c1 == "Opened" || c1 == "Not Opened" || c1 == "Clicked" || c1 == "Not Clicked") {
+                    step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent;
+                } else if (c1 == "Location") {
+                    if (c2 == "Is Within" || c2 == "Is Not Within") {
+                        step.properties["value"] = dropdownBoxInnerText2.textContent + ", " + locTextInput.value;
                     } else {
-                        actTextInput.value == "";
+                        step.properties["value"] = dropdownBoxInnerText2.textContent + "";
                     }
                 }
-
             } else {
                 textInput.value = ""; // Reset
                 dropdownBoxInnerText2.textContent = "";
                 actTextInput.value == "";
             }
-            // if (locTextInput.value != "") {
+            console.log(allValidated);
+            console.log(dp1Validated);
+            console.log(dp2Validated);
+            console.log(tb1Validated);
+            console.log(locValidated);
+            console.log(actDp1Validated); 
+            console.log(actTb1Validated); 
+            console.log(actDp2Validated);
+            console.log(" ");
+                // if (locTextInput.value != "") {
             //     // textRight.textContent = dropdownBoxInnerText2.textContent;
             //     let value: any;
             //     value = dropdownBoxInnerText2.textContent + ", " + locTextInput.value;
@@ -2475,6 +2540,7 @@ export class SwitchStepComponentView implements ComponentView {
         });
 
         // Event listeners in Dropdown
+        // Expand 1st dropdown
         dropdownBoxShapeAfter.addEventListener("click", function (e) {
             e.stopPropagation();
             gSubDropdownboxPop.classList.toggle("sqd-hidden");
@@ -2489,6 +2555,7 @@ export class SwitchStepComponentView implements ComponentView {
             }
         });
 
+        // Expand 2nd dropdown
         dropdownBoxShapeAfter1.addEventListener("click", function (e) {
             e.stopPropagation();
             gSubDropdownbox1Pop.classList.toggle("sqd-hidden");
@@ -2498,7 +2565,12 @@ export class SwitchStepComponentView implements ComponentView {
             if (gSubDropdownbox1Pop.classList.contains("sqd-hidden")) {
                 dropdownRightButtonUp1.classList.add("sqd-hidden");
                 dropdownRightButtonDown1.classList.remove("sqd-hidden");
-                dropdownBoxShape1.setAttribute("stroke", "#bfbfbf");
+                if (dp1Validated) {
+                    dropdownBoxShape1.setAttribute("stroke", "#bfbfbf");
+                } else {
+                    // display red border
+                    dropdownBoxShape1.setAttribute("stroke", "#FF0000");
+                }
             } else {
                 dropdownRightButtonUp1.classList.remove("sqd-hidden");
                 dropdownRightButtonDown1.classList.add("sqd-hidden");
@@ -2517,7 +2589,7 @@ export class SwitchStepComponentView implements ComponentView {
             if (gSubDropdownbox2Pop.classList.contains("sqd-hidden")) {
                 dropdownRightButtonUp2.classList.add("sqd-hidden");
                 dropdownRightButtonDown2.classList.remove("sqd-hidden");
-                if (dropdown2Validated) {
+                if (dp2Validated) {
                     dropdownBoxShape2.setAttribute("stroke", "#bfbfbf");
                 } else {
                     // display red border
