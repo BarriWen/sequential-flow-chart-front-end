@@ -1,38 +1,86 @@
 const prompt = Dom.svg("text", {
             class: "sqd-date-prompt sqd-hidden",
             fill: "#F00000",
-            x: DROPDOWN_X3 - 3,
-            y: DROPDOWN_Y + 40,
+            x: DROPDOWN_X3,
+            y: DROPDOWN_Y + 36,
+            "font-size": "9px",
+});
+prompt.setAttribute("x", (DROPDOWN_X2 + 2).toString());
+prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
+const dropdownBoxShape1 = Dom.svg("rect", {
+            width: DROPDOWN2_W,
+            height: DROPDOWN_H,
+            class: "option select-field",
+            fill: "#fff",
+            stroke: "#bfbfbf",
+            x: DROPDOWN_X2,
+            y: DROPDOWN_Y,
+            rx: 5,
+            ry: 5,
         });
-prompt.textContent = "Incorrect Date Format";
-        // New click save validation logic
-            if (validated && choice2 != "Is Blank" && choice2 != "Blank") {
-                if (choice1 == "Email Address" ||
-                    choice1 == "Full Name" ||
-                    choice1 == "First Name" ||
-                    choice1 == "Last Name" ||
-                    choice1 == "Phone Number" || 
-                    (choice1 == "Birthday" &&
-                        (choice2 == "Date Is" || choice2 == "Is Before Date" || choice2 == "Is After Date")))
-                {
-                    step.properties["value"] = textInput.value;
-                } else if (choice1 == "Tag" ||
-                    choice1 == "Gender" ||
-                    choice2 == "Month Is")
-                {
-                    if (dropdownBoxInnerText2.textContent) {
-                        step.properties["value"] = dropdownBoxInnerText2.textContent;
-                    }
-                } else if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
-                    if (valiText) {
-                        step.properties["value"] = actTextInput.value + " " + dropdownBoxInnerTextAct2.textContent;
-                    } else {
-                        actTextInput.value == "";
-                    }
-                }
-
-            } else {
-                textInput.value = ""; // Reset
-                dropdownBoxInnerText2.textContent = "";
-                actTextInput.value == "";
-            }
+        const dropdownBoxShape2 = Dom.svg("rect", {
+            width: DROPDOWN1_W,
+            height: DROPDOWN_H,
+            class: "option select-field",
+            fill: "#fff",
+            stroke: "#bfbfbf",
+            x: DROPDOWN_X3,
+            y: DROPDOWN_Y,
+            rx: 5,
+            ry: 5,
+        });
+        const dropdownBoxShapeAct1 = Dom.svg("rect", {
+            width: DROPDOWN2_W,
+            height: DROPDOWN_H,
+            class: "option select-field",
+            fill: "#fff",
+            stroke: "#bfbfbf",
+            x: DROPDOWN_X2 - 30,
+            y: DROPDOWN_Y,
+            rx: 5,
+            ry: 5,
+        });
+        const dropdownBoxShapeAct2 = Dom.svg("rect", {
+            width: 70,
+            height: DROPDOWN_H,
+            class: "option select-field",
+            fill: "#fff",
+            stroke: "#bfbfbf",
+            x: DROPDOWN_X3 + 50,
+            y: DROPDOWN_Y,
+            rx: 5,
+            ry: 5,
+        });
+        const dropdownBoxShapeMain1 = Dom.svg("rect", {
+            width: DROPDOWN1_W,
+            height: DROPDOWN_H,
+            class: "option select-field",
+            fill: "rgba(255, 255, 255, 0)",
+            // stroke: "#a0a0a0",
+            x: DROPDOWN_X1,
+            y: DROPDOWN_Y + DROPDOWN_H + 8,
+            rx: 5,
+            ry: 5,
+        });
+        const inputArea = Dom.svg("foreignObject", {
+            class: "sqd-input-area sqd-hidden",
+            x: DROPDOWN_X3,
+            y: DROPDOWN_Y,
+            width: 130,
+            height: 30,
+        });
+        const actInputArea = Dom.svg("foreignObject", {
+            class: "sqd-act-input-area sqd-hidden",
+            x: 280,
+            y: DROPDOWN_Y,
+            width: 65,
+            height: 30,
+        });
+        const locInputArea = Dom.svg("foreignObject", {
+            class: "location-input sqd-hidden",
+            id: 'searchbox',
+            x: DROPDOWN_X1,
+            y: DROPDOWN_Y + DROPDOWN_H + 17,
+            width: 400,
+            height: 30,
+        });

@@ -1113,16 +1113,17 @@ export class SwitchStepComponentView implements ComponentView {
         const prompt = Dom.svg("text", {
             class: "sqd-date-prompt sqd-hidden",
             fill: "#F00000",
-            x: DROPDOWN_X3 - 3,
-            y: DROPDOWN_Y + 40,
+            x: DROPDOWN_X3 + 2,
+            y: DROPDOWN_Y + 36,
+            "font-size": "9px",
         });
-        prompt.textContent = "Incorrect Date Format";
+        prompt.textContent = "";
 
         const locInputArea = Dom.svg("foreignObject", {
             class: "location-input sqd-hidden",
             id: 'searchbox',
             x: DROPDOWN_X1,
-            y: DROPDOWN_Y + DROPDOWN_H + 10,
+            y: DROPDOWN_Y + DROPDOWN_H + 17,
             width: 400,
             height: 30,
         });
@@ -1524,6 +1525,8 @@ export class SwitchStepComponentView implements ComponentView {
                 // Validation notification 1
                 if (choice1 == "Tag" || choice1 == "Birthday" || choice1 == "Location") {
                     if (dropdownBoxInnerText1.textContent == "Is") {
+                        prompt.setAttribute("x", (DROPDOWN_X2 + 2).toString());
+                        prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                         prompt.textContent = "Please select condition";
                         prompt.classList.remove("sqd-hidden");
                         dropdownBoxShape1.setAttribute("stroke", "#FF0000");
@@ -1538,8 +1541,9 @@ export class SwitchStepComponentView implements ComponentView {
                     // const dateformat = /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])$/;
                     textInput.addEventListener("input", function (e) {
                         if (!textInput.value.match(dateformat)) {
+                            prompt.setAttribute("x", (DROPDOWN_X3 + 2).toString());
+                            prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                             prompt.textContent = "Incorrect Date Format";
-                            console.log("wrong date format");
                             prompt.classList.remove("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #FF0000");
                             tb1Validated = false;
@@ -1555,6 +1559,8 @@ export class SwitchStepComponentView implements ComponentView {
                     || choice1 == "Phone Number"
                 ) {
                     if (dropdownBoxInnerText1.textContent == "Is" && textInput.value == "") {
+                        prompt.setAttribute("x", (DROPDOWN_X3 + 2).toString());
+                        prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                         prompt.textContent = "Please enter value";
                         prompt.classList.remove("sqd-hidden");
                         textInput.setAttribute("style", "border-color: #FF0000");
@@ -1570,6 +1576,8 @@ export class SwitchStepComponentView implements ComponentView {
                     }
                     textInput.addEventListener("input", function (e) {
                         if (textInput.value.trim() == "") {
+                            prompt.setAttribute("x", (DROPDOWN_X3 + 2).toString());
+                            prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                             prompt.textContent = "Empty Input";
                             tb1Validated = false;
                             prompt.classList.remove("sqd-hidden");
@@ -1577,6 +1585,8 @@ export class SwitchStepComponentView implements ComponentView {
                         } else if (textInput.value.match(errFormat) || textInput.value.charAt(0) == ' '
                             || textInput.value.charAt(textInput.value.length - 1) == ' '
                         ) {
+                            prompt.setAttribute("x", (DROPDOWN_X3 + 2).toString());
+                            prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                             prompt.textContent = "Invalid Input";
                             prompt.classList.remove("sqd-hidden");
                             textInput.setAttribute("style", "border-color: #FF0000");
@@ -1589,6 +1599,8 @@ export class SwitchStepComponentView implements ComponentView {
                     });
                 } else if (choice1 == "Gender") {
                     if (!dropdownBoxInnerText2.textContent || dropdownBoxInnerText2.textContent == "") {
+                                prompt.setAttribute("x", (DROPDOWN_X3 + 2).toString());
+                                prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                                 prompt.textContent = "Please select value";
                                 prompt.classList.remove("sqd-hidden");
                                 dropdownBoxShape2.setAttribute("stroke", "#FF0000");
@@ -1723,6 +1735,8 @@ export class SwitchStepComponentView implements ComponentView {
                         }
                         if (choice1 == "Tag" || (choice1 == "Birthday" && choice2 == "Month Is")|| choice1 == "Location") {
                             if (!dropdownBoxInnerText2.textContent || dropdownBoxInnerText2.textContent == "") {
+                                prompt.setAttribute("x", (DROPDOWN_X3 + 2).toString());
+                                prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                                 prompt.textContent = "Please select value";
                                 prompt.classList.remove("sqd-hidden");
                                 dropdownBoxShape2.setAttribute("stroke", "#FF0000");
@@ -1739,6 +1753,8 @@ export class SwitchStepComponentView implements ComponentView {
                             || (choice1 == "Birthday" && choice2 != "Month Is")
                         ) {
                             if (!textInput.value || textInput.value == "") {
+                                prompt.setAttribute("x", (DROPDOWN_X3 + 2).toString());
+                                prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                                 prompt.textContent = "Please enter value";
                                 prompt.classList.remove("sqd-hidden");
                                 textInput.setAttribute("style", "border-color: #FF0000");
@@ -1794,6 +1810,8 @@ export class SwitchStepComponentView implements ComponentView {
                                 gSubDropdownbox2Pop.classList.toggle("sqd-hidden");
                                 prompt.classList.add("sqd-hidden");
                                 if ((choice2 == "Is Within" || choice2 == "Is Not Within") && locTextInput.value == "") {
+                                    prompt.setAttribute("x", (DROPDOWN_X1 + 2).toString());
+                                    prompt.setAttribute("y", (DROPDOWN_Y + DROPDOWN_H + 53).toString());
                                     prompt.textContent = "Please enter location";
                                     prompt.classList.remove("sqd-hidden");
                                     locTextInput.setAttribute("style", "border-color: #FF0000");
@@ -1805,6 +1823,8 @@ export class SwitchStepComponentView implements ComponentView {
                             locTextInput.addEventListener("input", function (e) {
                                 if (locTextInput.value == "" || locTextInput.value.charAt(0) == ' '
                                     || locTextInput.value.charAt(locTextInput.value.length - 1) == ' ') {
+                                    prompt.setAttribute("x", (DROPDOWN_X1 + 2).toString());
+                                    prompt.setAttribute("y", (DROPDOWN_Y + DROPDOWN_H + 53).toString());
                                     prompt.textContent = "Invalid location";
                                     prompt.classList.remove("sqd-hidden");
                                     locTextInput.setAttribute("style", "border-color: #FF0000");
@@ -1921,6 +1941,8 @@ export class SwitchStepComponentView implements ComponentView {
                 // Action 2nd dropbox check
                 if (choice1 == "Opened" || choice1 == "Not Opened" || choice1 == "Clicked" || choice1 == "Not Clicked") {
                     if (!dropdownBoxInnerTextAct1.textContent || dropdownBoxInnerTextAct1.textContent == "") {
+                        prompt.setAttribute("x", (DROPDOWN_X2 - 30).toString());
+                        prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                         prompt.textContent = "Please select condition";
                         prompt.classList.remove("sqd-hidden");
                         dropdownBoxShapeAct1.setAttribute("stroke", "#FF0000");
@@ -2033,6 +2055,8 @@ export class SwitchStepComponentView implements ComponentView {
                     actTb1Validated= false;
                     // Action - check texbox input
                     if (!actTextInput || actTextInput.value == "") {
+                        prompt.setAttribute("x", (282).toString());
+                        prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                         prompt.textContent = "Please enter value";
                         actTb1Validated= false;
                         prompt.classList.remove("sqd-hidden");
@@ -2040,11 +2064,15 @@ export class SwitchStepComponentView implements ComponentView {
                     }
                     actTextInput.addEventListener("input", function (e) {
                         if (actTextInput.value == "") {
+                            prompt.setAttribute("x", (282).toString());
+                            prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                             prompt.textContent = "Please enter value";
                             actTb1Validated = false;
                             prompt.classList.remove("sqd-hidden");
                             actTextInput.setAttribute("style", "border-color: #FF0000");
                         } else if (!/^\d+(\.\d+)?$/.test(actTextInput.value) || parseFloat(actTextInput.value) <= 0) {
+                            prompt.setAttribute("x", (282).toString());
+                            prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                             prompt.textContent = "Invalid value";
                             actTb1Validated = false;
                             prompt.classList.remove("sqd-hidden");
@@ -2055,6 +2083,8 @@ export class SwitchStepComponentView implements ComponentView {
                             actTextInput.setAttribute("style", "border-color: #BFBFBF");
                             if (dropdownBoxInnerTextAct2.textContent == "") {
                                 actDp2Validated = false;
+                                prompt.setAttribute("x", (DROPDOWN_X3 + 52).toString());
+                                prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                                 prompt.textContent = "Please select unit";
                                 prompt.classList.remove("sqd-hidden");
                                 dropdownBoxShapeAct2.setAttribute("stroke", "#FF0000");
