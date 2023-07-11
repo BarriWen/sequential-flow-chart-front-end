@@ -84,3 +84,11 @@ const dropdownBoxShape1 = Dom.svg("rect", {
             width: 400,
             height: 30,
         });
+
+        dropdownBoxShape1.setAttribute("stroke", "#bfbfbf");
+        dropdownBoxShape2.setAttribute("stroke", "#bfbfbf");
+        textInput.setAttribute("style", "border-color: #BFBFBF");
+        locTextInput.setAttribute("style", "border-color: #BFBFBF");
+        dropdownBoxShapeAct1.setAttribute("stroke", "#BFBFBF");
+        actTextInput.setAttribute("style", "border-color: #BFBFBF");
+        dropdownBoxShapeAct2.setAttribute("stroke", "#BFBFBF");

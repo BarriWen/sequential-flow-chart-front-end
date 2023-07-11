@@ -1684,7 +1684,15 @@ export class SwitchStepComponentView implements ComponentView {
                                 but1.setAttribute("x", newXValue);
                             });
                         } else {
-                            inputArea.classList.remove("sqd-hidden");
+                            // prevent UI display overlay
+                            if (choice1 == "Email Address"
+                            || choice1 == "First Name" || choice1 == "Last Name"
+                            || choice1 == "Full Name"
+                            || choice1 == "Phone Number"
+                            || (choice1 == "Birthday" && choice2 != "Month Is")
+                            ) {
+                                inputArea.classList.remove("sqd-hidden");
+                            }
                             actConditonText.classList.remove("sqd-hidden");
                             dropdownBoxShape1.setAttribute("x", DROPDOWN_X2.toString());
                             dropdownRightButtonDown1.setAttribute("x", (DROPDOWN_X2 + DROPDOWN2_W - 20).toString());
@@ -1914,6 +1922,7 @@ export class SwitchStepComponentView implements ComponentView {
                 opacity: 0.3,
             });
 
+            // Click Action main options, e.g. Opened
             dropdownBoxBottomShapecoverMain2.addEventListener("click", function (e) {
                 choice1 = dropdownBoxBottomShapeTextMain2.textContent;
                 dropdownRightButtonUp.classList.add("sqd-hidden");
@@ -1933,6 +1942,9 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownRightButtonUp.setAttribute("x", `${DROPDOWN_X1 + 70}`);
                 gSubDropdownAct1.classList.remove("sqd-hidden");
                 gSubDropdownAct2.classList.remove("sqd-hidden");
+                dropdownBoxShapeAct1.classList.remove("sqd-hidden");
+                dropdownBoxShapeAct2.classList.remove("sqd-hidden");
+                actTextInput.classList.remove("sqd-hidden");
                 dropdownRightButtonUp.classList.add("sqd-hidden");
                 dropdownRightButtonDown.classList.remove("sqd-hidden");
                 dropdownRightButtonUpMain2.classList.add("sqd-hidden");
@@ -1976,7 +1988,6 @@ export class SwitchStepComponentView implements ComponentView {
                 dropdownRightButtonDownMain2.classList.remove("sqd-hidden");
                 gSubDropdownAct1.classList.remove("sqd-hidden");
                 gSubDropdownAct2.classList.remove("sqd-hidden");
-                actInputArea.classList.remove("sqd-hidden");
             });
 
             // Append Child ACTIONS
@@ -2490,19 +2501,38 @@ export class SwitchStepComponentView implements ComponentView {
             textRight.textContent = "Title in development";
         });
 
+        // Reset the whole filter
         upchangeIcon.addEventListener("click", function (e) {
             step.properties = {};
             textRight.textContent = "Choose Condition";
             dropdownBoxInnerText.textContent = "Select a condition";
             dropdownBoxInnerText1.textContent = "";
             dropdownBoxInnerText2.textContent = "";
+            textInput.value = "";
+            actTextInput.value == "";
             dropdownBoxInnerTextMain1.textContent = "CONTACT INFO";
             dropdownBoxInnerTextMain2.textContent = "ACTIONS";
             gSubDropdown.classList.remove("sqd-hidden");
             gSubDropdown1.classList.remove("sqd-hidden");
             gSubDropdown2.classList.remove("sqd-hidden");
-            gSubDropdownMain1.classList.add("sqd-hidden");
-            gSubDropdownMain2.classList.add("sqd-hidden");
+            prompt.classList.add("sqd-hidden");
+            dropdownBoxShape1.classList.remove("sqd-hidden");
+            dropdownBoxShape2.classList.remove("sqd-hidden");
+            dropdownBoxShapeAct1.classList.add("sqd-hidden");
+            dropdownBoxShapeAct2.classList.add("sqd-hidden");
+            textInput.classList.add("sqd-hidden");
+            locTextInput.classList.add("sqd-hidden");
+            actTextInput.classList.add("sqd-hidden");
+            dropdownBoxShape1.setAttribute("stroke", "#bfbfbf");
+            dropdownBoxShape2.setAttribute("stroke", "#bfbfbf");
+            textInput.setAttribute("style", "border-color: #BFBFBF");
+            locTextInput.setAttribute("style", "border-color: #BFBFBF");
+            dropdownBoxShapeAct1.setAttribute("stroke", "#BFBFBF");
+            actTextInput.setAttribute("style", "border-color: #BFBFBF");
+            dropdownBoxShapeAct2.setAttribute("stroke", "#BFBFBF");
+            dropdownBoxShape.setAttribute("width", `${DROPDOWN1_W}`);
+            // gSubDropdownMain1.classList.add("sqd-hidden");
+            // gSubDropdownMain2.classList.add("sqd-hidden");
             locInputArea.classList.add("sqd-hidden");
             inputArea.classList.add("sqd-hidden");
             locInputPop.classList.add("sqd-hidden");
