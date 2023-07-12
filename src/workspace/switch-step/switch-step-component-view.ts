@@ -653,7 +653,7 @@ export class SwitchStepComponentView implements ComponentView {
         });
 
         const actConditonText = Dom.svg("text", {
-            x: 263,
+            x: DROPDOWN_X3 - 31,
             y: DROPDOWN_Y + 12,
             class: "sqd-task-text",
         })
@@ -1120,7 +1120,7 @@ export class SwitchStepComponentView implements ComponentView {
 
         const actInputArea = Dom.svg("foreignObject", {
             class: "sqd-act-input-area sqd-hidden",
-            x: 280,
+            x: DROPDOWN_X3 - 14,
             y: DROPDOWN_Y,
             width: 65,
             height: 30,
@@ -2091,7 +2091,7 @@ export class SwitchStepComponentView implements ComponentView {
                     actTb1Validated= false;
                     // Action - check texbox input
                     if (!actTextInput || actTextInput.value == "") {
-                        prompt.setAttribute("x", (282).toString());
+                        prompt.setAttribute("x", (DROPDOWN_X3 - 12).toString());
                         prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                         prompt.textContent = "Please enter value";
                         actTb1Validated= false;
@@ -2100,14 +2100,14 @@ export class SwitchStepComponentView implements ComponentView {
                     }
                     actTextInput.addEventListener("input", function (e) {
                         if (actTextInput.value == "") {
-                            prompt.setAttribute("x", (282).toString());
+                            prompt.setAttribute("x", (DROPDOWN_X3 - 12).toString());
                             prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                             prompt.textContent = "Please enter value";
                             actTb1Validated = false;
                             prompt.classList.remove("sqd-hidden");
                             actTextInput.setAttribute("style", "border-color: #FF0000");
                         } else if (!/^\d+(\.\d+)?$/.test(actTextInput.value) || parseFloat(actTextInput.value) <= 0) {
-                            prompt.setAttribute("x", (282).toString());
+                            prompt.setAttribute("x", (DROPDOWN_X3 - 12).toString());
                             prompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
                             prompt.textContent = "Invalid value";
                             actTb1Validated = false;
