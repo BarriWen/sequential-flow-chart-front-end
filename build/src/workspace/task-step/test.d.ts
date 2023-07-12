@@ -7,3 +7,5 @@ declare const dropdownBoxShapeMain1: any;
 declare const inputArea: any;
 declare const actInputArea: any;
 declare const locInputArea: any;
+declare const moreUrl: "./assets/triDotIcon.svg";
+declare const moreIcon: any;

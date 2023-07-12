@@ -92,4 +92,21 @@ const dropdownBoxShape1 = Dom.svg("rect", {
         dropdownBoxShapeAct1.setAttribute("stroke", "#BFBFBF");
         actTextInput.setAttribute("style", "border-color: #BFBFBF");
         dropdownBoxShapeAct2.setAttribute("stroke", "#BFBFBF");
-        
+        //////////////////////////////////
+        const moreUrl = "./assets/triDotIcon.svg";
+        const moreIcon = moreUrl
+            ? Dom.svg("image", {
+                href: moreUrl,
+            })
+            : Dom.svg("rect", {
+                class: "sqd-task-empty-icon sqd-task-more-icon",
+                rx: 4,
+                ry: 4,
+            });
+        Dom.attrs(moreIcon, {
+            class: "moreIcon encapsulated",
+            x: ICON_SIZE + containerWidths[0] + PADDING_X + textWidth - 27, // 
+            y: PADDING_TOP * 1.2, // = 24
+            width: ICON_SIZE,
+            height: ICON_SIZE,
+        });
