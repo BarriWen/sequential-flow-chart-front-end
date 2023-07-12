@@ -2506,6 +2506,7 @@ export class SwitchStepComponentView implements ComponentView {
             step.properties = {};
             textRight.textContent = "Choose Condition";
             dropdownBoxInnerText.textContent = "Select a condition";
+            dropdownBoxInnerText.setAttribute("style", "font-size: 8pt; fill: #bfbfbf");
             dropdownBoxInnerText1.textContent = "";
             dropdownBoxInnerText2.textContent = "";
             textInput.value = "";
@@ -2533,6 +2534,8 @@ export class SwitchStepComponentView implements ComponentView {
             dropdownBoxShape.setAttribute("width", `${DROPDOWN1_W}`);
             // gSubDropdownMain1.classList.add("sqd-hidden");
             // gSubDropdownMain2.classList.add("sqd-hidden");
+            dropdownRightButtonDown.setAttribute("x", `${DROPDOWN_X1 + DROPDOWN1_W - 20}`);
+            dropdownRightButtonUp.setAttribute("x", `${DROPDOWN_X1 + DROPDOWN1_W - 20}`);
             locInputArea.classList.add("sqd-hidden");
             inputArea.classList.add("sqd-hidden");
             locInputPop.classList.add("sqd-hidden");
