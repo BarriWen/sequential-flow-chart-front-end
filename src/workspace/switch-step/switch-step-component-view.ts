@@ -1182,7 +1182,6 @@ export class SwitchStepComponentView implements ComponentView {
 
         let delay: number;
         locTextInput.addEventListener('input', function (e) {
-            console.log("1");
             clearTimeout(delay);
             let url: any;
             let city = locTextInput.value;
