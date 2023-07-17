@@ -1079,8 +1079,23 @@ export class SwitchStepComponentView implements ComponentView {
         const gSubDropdownbox1Pop = Dom.svg("g", {
             class: `sqd-task-group sub-dropdownbox-pop sqd-hidden`,
         });
+        // Define clipPath and shape of clipping
+        const clipPath = Dom.svg("clipPath", { id: "clip" });
+        const rect2 = Dom.svg("rect", {
+            x: DROPDOWN_X3,
+            y: DROPDOWN_Y + 30,
+            width: 1000,
+            height: 130,
+        });
+        clipPath.appendChild(rect2);
+
+        // Append the clipPath to SVG defs
+        const defs = Dom.svg("defs");
+        defs.appendChild(clipPath);
+
         const gSubDropdownbox2Pop = Dom.svg("g", {
             class: `sqd-task-group sub-dropdownbox-pop sqd-hidden`,
+            'clip-path': 'url(#clip)',
         });
         const gSubDropdownboxAct1Pop = Dom.svg("g", {
             class: `sqd-task-group sub-dropdownbox-pop sqd-hidden`,
@@ -1879,10 +1894,11 @@ export class SwitchStepComponentView implements ComponentView {
                             }
 
                         }
+                        // Need fix
                         if (choice2 == "Is In Country" || choice2 == "Is Not In Country") {
                             dropdownPopSvg2.appendChild(dropdownPopBody2);
                             gSubDropdownbox2Pop.appendChild(dropdownPopSvg2);
-                            dropdownBoxBottomShape2.setAttribute("height", "120");
+                            dropdownBoxBottomShape2.setAttribute("height", "130");
                         } else {
                             dropdownBoxBottomShape2.setAttribute("height", `${list3.length * 25 + 10}`)
                         }
@@ -2233,6 +2249,7 @@ export class SwitchStepComponentView implements ComponentView {
         // Dropdown pop
         gSubDropdown.appendChild(gSubDropdownboxPop);
         gSubDropdown1.appendChild(gSubDropdownbox1Pop);
+        gSubDropdown2.appendChild(defs);
         gSubDropdown2.appendChild(gSubDropdownbox2Pop);
         gSubDropdownAct1.appendChild(gSubDropdownboxAct1Pop);
         gSubDropdownAct2.appendChild(gSubDropdownboxAct2Pop);
