@@ -12,6 +12,7 @@ export declare class SwitchStepComponentView implements ComponentView {
     private readonly regionView;
     private readonly scrollboxViewCountry;
     private readonly scrollboxViewLocation;
+    private readonly scrollBoxViewState;
     private readonly validationErrorView;
     private constructor();
     static create(parent: SVGElement, step: SwitchStep, configuration: StepsConfiguration): SwitchStepComponentView;

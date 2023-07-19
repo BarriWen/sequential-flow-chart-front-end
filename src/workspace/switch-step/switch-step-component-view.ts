@@ -11,6 +11,8 @@ import { SequenceComponent } from "../sequence/sequence-component";
 import { countryList, usStateList } from "./variousCountryListFormats";
 import { ScrollBoxViewCountry } from "./scrollbox-view-country";
 import { ScrollBoxViewLocation } from "./scrollbox-view-location";
+import { ScrollBoxViewState } from "./scrollbox-view-state";
+
 
 const MIN_CHILDREN_WIDTH = 200;
 const PADDING_X = 12;
@@ -36,6 +38,7 @@ export class SwitchStepComponentView implements ComponentView {
         private readonly regionView: RegionView,
         private readonly scrollboxViewCountry: ScrollBoxViewCountry,
         private readonly scrollboxViewLocation: ScrollBoxViewLocation,
+        private readonly scrollBoxViewState: ScrollBoxViewState,
         private readonly validationErrorView: ValidationErrorView
     ) // public readonly icon1: SVGElement,
     // public readonly icon2: SVGElement,
@@ -1320,15 +1323,25 @@ export class SwitchStepComponentView implements ComponentView {
 
         const CHOICE_H = 20;
 
+        // For country dropdown scroll function
         const dropdownPopSvg2 = Dom.svg("svg", {
             class: "country-dropdown",
         })
-
         const dropdownPopBody2 = Dom.svg("svg", {
             class: "country-dropdown-body"
         });
         const dropdownPopItemDiv2 = Dom.svg("svg", {
             class: "country-scrollbox",
+        });
+        // For state dropdown scroll function
+        const dropdownPopSvg3 = Dom.svg("svg", {
+            class: "state-dropdown",
+        })
+        const dropdownPopBody3 = Dom.svg("svg", {
+            class: "state-dropdown-body"
+        });
+        const dropdownPopItemDiv3 = Dom.svg("svg", {
+            class: "state-scrollbox",
         });
         // =================== Dropdown item lists 
         let list1 = [''];
@@ -1779,8 +1792,10 @@ export class SwitchStepComponentView implements ComponentView {
                         }
                         if (choice2 == 'Is In Country' || choice2 == 'Is Not In Country') {
                             list3 = list3Ctry;
+                            dropdownBoxInnerText2.textContent = "";
                         } else if (choice2 == "Is In US State" || choice2 == "Is Not In US State") {
                             list3 = list3State;
+                            dropdownBoxInnerText2.textContent = "";
                         }
                         if (choice1 == "Tag" || (choice1 == "Birthday" && choice2 == "Month Is")|| choice1 == "Location") {
                             if (!dropdownBoxInnerText2.textContent || dropdownBoxInnerText2.textContent == "") {
@@ -1889,6 +1904,9 @@ export class SwitchStepComponentView implements ComponentView {
                             if (choice2 == "Is In Country" || choice2 == "Is Not In Country") {
                                 dropdownPopItemDiv2.appendChild(dropdownBoxBottomShape2Text);
                                 dropdownPopItemDiv2.appendChild(dropdownBoxBottomShape2cover);
+                            } else if (choice2 == "Is In US State" || choice2 == "Is Not In US State") {
+                                dropdownPopItemDiv3.appendChild(dropdownBoxBottomShape2Text);
+                                dropdownPopItemDiv3.appendChild(dropdownBoxBottomShape2cover);
                             } else {
                                 gSubDropdownbox2Pop.appendChild(dropdownBoxBottomShape2Text);
                                 gSubDropdownbox2Pop.appendChild(dropdownBoxBottomShape2cover);
@@ -1899,6 +1917,10 @@ export class SwitchStepComponentView implements ComponentView {
                         if (choice2 == "Is In Country" || choice2 == "Is Not In Country") {
                             dropdownPopSvg2.appendChild(dropdownPopBody2);
                             gSubDropdownbox2Pop.appendChild(dropdownPopSvg2);
+                            dropdownBoxBottomShape2.setAttribute("height", "130");
+                        } else if (choice2 == "Is In US State" || choice2 == "Is Not In US State") {
+                            dropdownPopSvg3.appendChild(dropdownPopBody3);
+                            gSubDropdownbox2Pop.appendChild(dropdownPopSvg3);
                             dropdownBoxBottomShape2.setAttribute("height", "130");
                         } else {
                             dropdownBoxBottomShape2.setAttribute("height", `${list3.length * 25 + 10}`)
@@ -2803,6 +2825,9 @@ export class SwitchStepComponentView implements ComponentView {
         const scrollboxViewCountry: ScrollBoxViewCountry = ScrollBoxViewCountry.create(dropdownPopBody2, gSubDropdownbox2Pop);
         scrollboxViewCountry.setContent(dropdownPopItemDiv2)
 
+        const scrollBoxViewState: ScrollBoxViewState = ScrollBoxViewState.create(dropdownPopBody3, gSubDropdownbox2Pop);
+        scrollBoxViewState.setContent(dropdownPopItemDiv3);
+
         const scrollboxViewLocation: ScrollBoxViewLocation = ScrollBoxViewLocation.create(searchPopBody, locInputPop);
         scrollboxViewLocation.setContent(searchPopItemDiv);
 
@@ -2823,6 +2848,7 @@ export class SwitchStepComponentView implements ComponentView {
             regionView,
             scrollboxViewCountry,
             scrollboxViewLocation,
+            scrollBoxViewState,
             validationErrorView
         );
     }
