@@ -55,11 +55,13 @@ export class SwitchStepComponentView implements ComponentView {
         });
         // parent.appendChild(g);
         parent.insertBefore(g, parent.firstChild);
-
+        console.log("create");
         const branchNames = Object.keys(step.branches);
         const labelNames = ["YES", "NO"];
+        // Emptied bug?
         const sequenceComponents = branchNames.map((bn) =>
-            SequenceComponent.create(g, step.branches[bn], configuration)
+            SequenceComponent.create(g, step.branches[bn], configuration),
+            console.log("sequenceComponents")
         );
 
         const maxChildHeight = Math.max(
@@ -1913,7 +1915,6 @@ export class SwitchStepComponentView implements ComponentView {
                             }
 
                         }
-                        // Need fix
                         if (choice2 == "Is In Country" || choice2 == "Is Not In Country") {
                             dropdownPopSvg2.appendChild(dropdownPopBody2);
                             gSubDropdownbox2Pop.appendChild(dropdownPopSvg2);
