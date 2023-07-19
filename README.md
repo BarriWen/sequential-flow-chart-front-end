@@ -9,6 +9,10 @@
       npm run-script build
       ```
    2. Open newJourney.html in browser
+   3. Use startup.sh after modification to rebuild and relaunch the project to save time
+      ```
+      bash startup.sh
+      ```
  
 ### To run on localhost
    1. Install <a href="https://nodejs.org/en/">Node.js</a> first
