@@ -56,38 +56,56 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const textWidth = Math.max(text.getBBox().width+16, MIN_TEXT_WIDTH);
     const boxWidth = ICON_SIZE + 8 * PADDING_X + 2 * textWidth;
 
-    const gTriggerHint = Dom.svg("g", {
+    // Popup text setup
+    const gHint = Dom.svg("g", {
       class: "sqd-task-group-pop",
     });
 
-    const join = Dom.svg('line', {
-			class: 'sqd-join-pop',
-			x1: 241.953 + addon,
-			y1: 16,
-			x2: 274.953 + addon,
-			y2: 16
-		});
-
-    const triggerHint = Dom.svg("rect", {
-      class: "sqd-task-rect-triggerhint",
-      x:266.953 + addon,
-      y:0.5-3,
-      height:boxHeight+6,
-      width: 175,
-      rx:9,
-      ry:9
+    const hint_mark = Dom.svg("image", {
+      x: ICON_SIZE + boxWidth / 2.0 - 11,
+      y: boxHeight / 2.0 - 32,
+      width: 12,
+      height: 12,
+      href: "./assets/exclamation.svg",
     });
-
     const hint_text = Dom.svg("text", {
-      x: 276.953 + addon,
-      y: 17,
-      class: "sqd-task-text",
+      // class: "sqd-task-text",
+      x: ICON_SIZE + boxWidth / 2.0 + 2,
+      y: boxHeight / 2.0 - 22,
+      fill: "#F00000",
+      "font-size": "11px",
     });
-    hint_text.textContent = "Please set up your trigger"
+    hint_text.textContent = "Finish the setting";
+    gHint.appendChild(hint_mark);
+    gHint.appendChild(hint_text);
+    // const join = Dom.svg('line', {
+		// 	class: 'sqd-join-pop',
+		// 	x1: 241.953 + addon,
+		// 	y1: 16,
+		// 	x2: 274.953 + addon,
+		// 	y2: 16
+		// });
 
-    gTriggerHint.appendChild(join);
-    gTriggerHint.appendChild(triggerHint);
-    gTriggerHint.appendChild(hint_text);
+    // const triggerHint = Dom.svg("rect", {
+    //   class: "sqd-task-rect-triggerhint",
+    //   x:266.953 + addon,
+    //   y:0.5-3,
+    //   height:boxHeight+6,
+    //   width: 175,
+    //   rx:9,
+    //   ry:9
+    // });
+
+    // const hint_text = Dom.svg("text", {
+    //   x: 276.953 + addon,
+    //   y: 17,
+    //   class: "sqd-task-text",
+    // });
+    // hint_text.textContent = "Please set up your trigger"
+
+    // gHint.appendChild(join);
+    // gHint.appendChild(triggerHint);
+    // gHint.appendChild(hint_text);
     
 
     const rect = Dom.svg("rect", {
@@ -1741,7 +1759,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     gSubDropdown1.appendChild(downImgContainer1);
     gDropdown.appendChild(gSubDropdown1);
     gDropdown.appendChild(gSubDropdown);
-    g.appendChild(gTriggerHint);
+    g.appendChild(gHint);
     g.appendChild(gmoreIcon);
     g.appendChild(gRightPop3);
     g.appendChild(gDropdown);
@@ -1755,7 +1773,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       if_hintpop = true;
     }else{
       if_hintpop = false;
-      gTriggerHint.classList.toggle("sqd-hidden");
+      gHint.classList.toggle("sqd-hidden");
     }
     // Add EventListeners
     gmoreIcon.addEventListener("click", function (e) {
@@ -1768,19 +1786,19 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         gUpPop3.classList.toggle("sqd-hidden");
         gRightPop3.classList.toggle("sqd-hidden");
       }
-      gTriggerHint.classList.add("sqd-hidden");
+      gHint.classList.add("sqd-hidden");
       if_hintpop = false;
     });
 
     gmoreIcon.addEventListener("mouseover", function(){
       if(if_hintpop){
-        gTriggerHint.classList.remove("sqd-hidden");
+        gHint.classList.remove("sqd-hidden");
       }
     });
 
     gmoreIcon.addEventListener("mouseout", function(){
       if(if_hintpop){
-        gTriggerHint.classList.add("sqd-hidden");
+        gHint.classList.add("sqd-hidden");
       }
     });
     
@@ -1935,7 +1953,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     upchangeIcon.addEventListener("click", function(e){
       e.stopPropagation();
       // if_hintpop = true;
-      // gTriggerHint.setAttribute("visibility", "visible");
+      // gHint.setAttribute("visibility", "visible");
 
       const dialogBox = Dom.element("dialog", {
         class: "confirm-dialog",
