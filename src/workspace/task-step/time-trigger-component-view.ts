@@ -103,10 +103,21 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     // });
     // hint_text.textContent = "Please set up your trigger"
 
-    // gHint.appendChild(join);
-    // gHint.appendChild(triggerHint);
-    // gHint.appendChild(hint_text);
-    
+    let allValidated = false;
+    // Send once validation tag
+    let clickDayValidated = false;
+    let setTimeValidated = false;
+    if (step.properties["send"] != "" && step.properties["frequency"] == "Once") {
+      clickDayValidated = true;
+      setTimeValidated = true;
+    }
+
+    // Recurring validation tag
+    // let tb1Validated = false;
+    // let locValidated = false;
+    // let actDp1Validated = false; 
+    // let actTb1Validated = false; 
+    // let actDp2Validated = false;
 
     const rect = Dom.svg("rect", {
       x: 0.5 + addon,
@@ -958,7 +969,17 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
   //  let todayStr = yyyy + '-' + mmm + '-' + ddd + 'T' + hhh + ':' + nnn;
   //   console.log(todayStr);
     
-
+    // Validation prompt
+    const vPrompt = Dom.svg("text", {
+      class: "sqd-date-prompt sqd-hidden",
+      fill: "#F00000",
+      x: PADDING_X+10 + addon + 112,
+      y: 2 * boxHeight + 367,
+      "font-size": "10.5px",
+    });
+    vPrompt.textContent = "please select day(s)";
+    vPrompt.classList.remove("sqd-hidden");
+    
     const gOnce = Dom.svg("g",{
       class: "sqd-task-group-once",
     });
@@ -997,9 +1018,23 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         //@ts-ignore
         clickDay(event, dates) {
           OnceDates = dates;
+          // clickDay validation 1
+          if (OnceDates.length == 0) {
+            clickDayValidated = false;
+            vPrompt.classList.remove("sqd-hidden");
+            vPrompt.textContent = "Please select day(s)"
+          } else {
+            clickDayValidated = true;
+            vPrompt.classList.add("sqd-hidden");
+          }
+          if (!setTimeValidated && clickDayValidated) {
+            vPrompt.classList.remove("sqd-hidden");
+            vPrompt.textContent = "Please set valid time"
+          }
         },
       },
     });
+    // Resume node after connection or join
     if(databefore && databefore.length != 0 && dropdownBoxInnerText1.textContent == "Once"){
       let temp = [...databefore];
       temp.pop();
@@ -1025,6 +1060,19 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           //@ts-ignore
           clickDay(event, dates) {
             OnceDates = dates;
+            // clickDay validation 2
+            if (OnceDates.length == 0) {
+              clickDayValidated = false;
+              vPrompt.classList.remove("sqd-hidden");
+              vPrompt.textContent = "Please select day(s)"
+            } else {
+              clickDayValidated = true;
+              vPrompt.classList.add("sqd-hidden");
+            }
+            if (!setTimeValidated && clickDayValidated) {
+              vPrompt.classList.remove("sqd-hidden");
+              vPrompt.textContent = "Please set valid time"
+            }
           },
         },
       });
@@ -1054,7 +1102,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
 
     const setTimeWrapper = Dom.svg("foreignObject",{
       x:PADDING_X+114 + addon,
-      y:2 * boxHeight+340,
+      y:2 * boxHeight+339,
       height: 30,
       width: 40,
     });
@@ -1068,12 +1116,59 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       setTimeInput.value = databefore[databefore.length-1].slice(0,2);
     }
     setTimeWrapper.appendChild(setTimeInput);
-    
+    setTimeInput.addEventListener("input", validateOnceTime);
+
+    // setTime once validation
+    function validateOnceTime() {
+      setTimeValidated = true;
+      vPrompt.classList.add("sqd-hidden");
+      if (parseInt(setTimeInput.value) > 0
+        && parseInt(setTimeInput.value) < 13
+        && Number.isInteger(parseInt(setTimeInput.value))
+      ){
+        // Validate hours
+        let currentDate = new Date();
+        let currentHours = currentDate.getHours();
+        for (let dateString of OnceDates) {
+          let parts = dateString.split('-'); // Split the string into parts.
+          let year = parseInt(parts[0]);
+          let month = parseInt(parts[1]);
+          let day = parseInt(parts[2]);
+          if (year === currentDate.getFullYear()
+            && month === currentDate.getMonth() + 1
+            && day === currentDate.getDate()
+          ){ 
+            let h = parseInt(setTimeInput.value);
+            if (setTimeAmRect.classList.contains("selected")){
+              if (currentHours >= 12 || h <= currentHours || (h === 12 && currentHours === 0)) {
+                setTimeValidated = false;
+                vPrompt.classList.remove("sqd-hidden");
+                vPrompt.textContent = "Please set valid time"
+              }
+            } else {
+              if (h != 12){
+                h += 12;
+              }
+              if (h <= currentHours){
+                setTimeValidated = false;
+                vPrompt.classList.remove("sqd-hidden");
+                vPrompt.textContent = "Please set valid time"
+              }
+            }
+          }
+        }
+      } else {
+        setTimeValidated = false;
+        vPrompt.classList.remove("sqd-hidden");
+        vPrompt.textContent = "Please set valid time"
+      }
+    }
+
     const setTimeBr = Dom.svg("line", {
       x1: PADDING_X+121 + addon,
-			y1: 2 * boxHeight+354,
+			y1: 2 * boxHeight+353,
 			x2: PADDING_X+141 + addon,
-			y2: 2 * boxHeight+354,
+			y2: 2 * boxHeight+353,
       stroke: "#3FC8FA",
       class: "sqd-calendar-line"
     });
@@ -1081,7 +1176,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const setTimeRangeRect = Dom.svg("rect", {
       class: "set-time-rect",
       x:PADDING_X+147 + addon,
-      y:2 * boxHeight+338,
+      y:2 * boxHeight+336,
       rx: 10,
       ry: 10,
       width: 74,
@@ -1091,13 +1186,13 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const setTimeAmText = Dom.svg("text", {
       class: "sqd-task-text-settime-am",
       x: PADDING_X+159 + addon,
-      y: 2 * boxHeight+351,
+      y: 2 * boxHeight+349,
     });
     setTimeAmText.textContent = "AM";
     const setTimeAmRect = Dom.svg("rect", {
       class: "set-time-rect-m selected",
       x: PADDING_X+150 + addon,
-      y: 2 * boxHeight+340,
+      y: 2 * boxHeight+338,
       rx: 9,
       ry: 9,
       width: 37,
@@ -1108,13 +1203,13 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const setTimePmText = Dom.svg("text", {
       class: "sqd-task-text-settime-pm",
       x: PADDING_X+191 + addon,
-      y: 2 * boxHeight+351,
+      y: 2 * boxHeight+349,
     });
     setTimePmText.textContent = "PM";
     const setTimePmRect = Dom.svg("rect", {
       class: "set-time-rect-m",
       x: PADDING_X+181 + addon,
-      y: 2 * boxHeight+340,
+      y: 2 * boxHeight+338,
       rx: 9,
       ry: 9,
       width: 37,
@@ -1125,7 +1220,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const setTimeAmRectShape = Dom.svg("rect", {
       class: "set-time-shape",
       x: PADDING_X+150 + addon,
-      y: 2 * boxHeight+340,
+      y: 2 * boxHeight+338,
       rx: 9,
       ry: 9,
       width: 37,
@@ -1136,7 +1231,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const setTimePmRectShape = Dom.svg("rect", {
       class: "set-time-shape",
       x: PADDING_X+181 + addon,
-      y: 2 * boxHeight+340,
+      y: 2 * boxHeight+338,
       rx: 9,
       ry: 9,
       width: 37,
@@ -1147,7 +1242,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const setTimeTimeZone = Dom.svg("text", {
       class: "sqd-task-text_3",
       x: PADDING_X+10 + addon,
-      y: 2 * boxHeight+377,
+      y: 2 * boxHeight + 387,
+      "font-size": "11px",
     });
     setTimeTimeZone.textContent = "Your Timezone: " + Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -1191,7 +1287,9 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     gSetTime.appendChild(setTimeAmText);
     gSetTime.appendChild(setTimeAmRectShape);
     gSetTime.appendChild(setTimePmRectShape);
+    gSetTime.appendChild(vPrompt);
     gSetTime.appendChild(setTimeTimeZone);
+    
 
     if(databefore && databefore[databefore.length-1].toString().slice(2) == "PM" && dropdownBoxInnerText1.textContent == "Once"){
       setTimePmRect.classList.toggle("selected");
@@ -1217,6 +1315,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       x: PADDING_X+10 + addon,
       y: 2 * boxHeight+85,
       class: "sqd-task-text_3",
+      "font-size": "12px",
     });
 
     week_text.textContent = "Set your delieverable dates:"
@@ -1720,7 +1819,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const timezone = Dom.svg("text", {
       x:PADDING_X+10 + addon,
       y:2 * boxHeight+345,
-      class: "sqd-task-text_3"
+      class: "sqd-task-text_3",
+      "font-size": "11px",
     })
     timezone.textContent = "Your Timezone: " + Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -1865,7 +1965,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         step.properties["send"] = weekAndTime + 'End date:' + `${document.getElementsByClassName("date-input")[0].value}` + '/' + `${document.getElementsByClassName("date-input")[1].value}` + '/' + `${document.getElementsByClassName("date-input-year")[0].value}`;
         // Set timezone info
         step.properties["timezone"] = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      }else{
+      } else {
+        //  Send Once logic
         if((OnceDates && OnceDates.length == 0) || !OnceDates){
           alert("please select a day");
           return;

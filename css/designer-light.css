@@ -196,10 +196,15 @@ body{
 	fill: #949CA0;
 }
 
-.sqd-theme-light .sqd-task-text_3{
+.sqd-theme-light{
 	font-family: 'sofia-pro';
 	fill: #000;
 	font-size: 12px;
+}
+
+.sqd-task-text_3{
+	font-family: 'sofia-pro';
+	fill: #000;
 }
 
 .sqd-task-text-week{
