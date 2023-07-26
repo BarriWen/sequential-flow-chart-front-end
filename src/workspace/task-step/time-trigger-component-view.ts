@@ -8,7 +8,6 @@ import { OutputView } from "../common-views/output-view";
 import { ValidationErrorView } from "../common-views/validation-error-view";
 import { ComponentView } from "../component";
 import { SequenceComponent } from "../sequence/sequence-component";
-
 // import VanillaCalendar from "@uvarov.frontend/vanilla-calendar/src/index";
 // import '@uvarov.frontend/vanilla-calendar/build/vanilla-calendar.min.css';
 // import '@uvarov.frontend/vanilla-calendar/build/themes/light.min.css';
@@ -19,7 +18,6 @@ const PADDING_Y = 10;
 const MIN_TEXT_WIDTH = 70;
 const ICON_SIZE = 22;
 const RECT_RADIUS = 15;
-
 export class TimeTriggerTaskStepComponentView implements ComponentView {
   private constructor(
     public g: SVGGElement,
@@ -113,11 +111,12 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     }
 
     // Recurring validation tag
-    // let tb1Validated = false;
-    // let locValidated = false;
-    // let actDp1Validated = false; 
-    // let actTb1Validated = false; 
-    // let actDp2Validated = false;
+    let selectDateValidated = false;
+    let endDateValidated = false; 
+    if (step.properties["send"] != "" && step.properties["frequency"] == "Recurring") {
+      selectDateValidated = true;
+      endDateValidated = true;
+    }
 
     const rect = Dom.svg("rect", {
       x: 0.5 + addon,
@@ -969,7 +968,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
   //  let todayStr = yyyy + '-' + mmm + '-' + ddd + 'T' + hhh + ':' + nnn;
   //   console.log(todayStr);
     
-    // Validation prompt
+    // Send once validation prompt
     const vPrompt = Dom.svg("text", {
       class: "sqd-date-prompt sqd-hidden",
       fill: "#F00000",
@@ -977,7 +976,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       y: 2 * boxHeight + 367,
       "font-size": "10.5px",
     });
-    vPrompt.textContent = "please select day(s)";
+    vPrompt.textContent = "Please select day(s)";
     vPrompt.classList.remove("sqd-hidden");
     
     const gOnce = Dom.svg("g",{
@@ -997,6 +996,9 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     let databefore!:string[];
     if(step.properties["send"]){
       databefore = step.properties["send"].toString().split('T');
+      if (step.properties["end date"]) {
+        databefore.push(step.properties["end date"].toString());
+      }
     }
     
     let OnceDates!:string[];
@@ -1021,16 +1023,14 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           // clickDay validation 1
           if (OnceDates.length == 0) {
             clickDayValidated = false;
+            setTimeValidated = false;
             vPrompt.classList.remove("sqd-hidden");
-            vPrompt.textContent = "Please select day(s)"
+            vPrompt.textContent = "Please select day(s)";
           } else {
             clickDayValidated = true;
             vPrompt.classList.add("sqd-hidden");
           }
-          if (!setTimeValidated && clickDayValidated) {
-            vPrompt.classList.remove("sqd-hidden");
-            vPrompt.textContent = "Please set valid time"
-          }
+          validateOnceTime();
         },
       },
     });
@@ -1063,16 +1063,14 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
             // clickDay validation 2
             if (OnceDates.length == 0) {
               clickDayValidated = false;
+              setTimeValidated = false;
               vPrompt.classList.remove("sqd-hidden");
-              vPrompt.textContent = "Please select day(s)"
+              vPrompt.textContent = "Please select day(s)";
             } else {
               clickDayValidated = true;
               vPrompt.classList.add("sqd-hidden");
             }
-            if (!setTimeValidated && clickDayValidated) {
-              vPrompt.classList.remove("sqd-hidden");
-              vPrompt.textContent = "Please set valid time"
-            }
+            validateOnceTime();
           },
         },
       });
@@ -1122,6 +1120,13 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     function validateOnceTime() {
       setTimeValidated = true;
       vPrompt.classList.add("sqd-hidden");
+      if (OnceDates.length == 0) {
+        clickDayValidated = false;
+        setTimeValidated = false;
+        vPrompt.classList.remove("sqd-hidden");
+        vPrompt.textContent = "Please select day(s)";
+        return;
+      }
       if (parseInt(setTimeInput.value) > 0
         && parseInt(setTimeInput.value) < 13
         && Number.isInteger(parseInt(setTimeInput.value))
@@ -1140,10 +1145,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           ){ 
             let h = parseInt(setTimeInput.value);
             if (setTimeAmRect.classList.contains("selected")){
-              if (currentHours >= 12 || h <= currentHours || (h === 12 && currentHours === 0)) {
+              if (currentHours >= 12 || h <= currentHours || (h == 12 && currentHours >= 0)) {
                 setTimeValidated = false;
                 vPrompt.classList.remove("sqd-hidden");
-                vPrompt.textContent = "Please set valid time"
+                vPrompt.textContent = "Please set valid time";
+                return;
               }
             } else {
               if (h != 12){
@@ -1152,7 +1158,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
               if (h <= currentHours){
                 setTimeValidated = false;
                 vPrompt.classList.remove("sqd-hidden");
-                vPrompt.textContent = "Please set valid time"
+                vPrompt.textContent = "Please set valid time";
+                return;
               }
             }
           }
@@ -1265,6 +1272,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         gSetTime.insertBefore(setTimeAmRect, setTimePmRect);
       }
     });
+    // Add validator on PM button
+    setTimePmRectShape.addEventListener("click", validateOnceTime);
     setTimeAmRectShape.addEventListener("click", function(){
       if(!setTimeAmRect.classList.contains("selected")){
         setTimePmRect.classList.toggle("selected");
@@ -1276,6 +1285,8 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         gSetTime.insertBefore(setTimePmRect, setTimeAmRect);
       }
     });
+    // Add validator on AM button
+    setTimeAmRectShape.addEventListener("click", validateOnceTime);
 
     gSetTime.appendChild(setTimeText);
     gSetTime.appendChild(setTimeWrapper);
@@ -1320,6 +1331,62 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
 
     week_text.textContent = "Set your delieverable dates:"
     gWeeks.appendChild(week_text);
+
+    // Recurring validator
+    function validateRecurring() {
+      selectDateValidated = true;
+      endDateValidated = true;
+      let ifselected = false;
+      for (let i = 2; i < 10; i++){
+        if(gWeeks.children[i].classList.contains("selected")){
+          ifselected = true;
+        }
+      }
+      if (!ifselected) {
+        selectDateValidated = false;
+        wPrompt.textContent = "Please select day(s)";
+        wPrompt.classList.remove("sqd-hidden");
+        return;
+      }
+      const d = new Date();
+      let todayMonth = d.getMonth()+1;
+      let todayYear = d.getFullYear();
+      let todayDate = d.getDate();
+      //@ts-ignore
+      let inputMonth = parseInt(document.getElementsByClassName("date-input")[0].value);
+      //@ts-ignore
+      let inputDate = parseInt(document.getElementsByClassName("date-input")[1].value);
+      //@ts-ignore
+      let inputYear = parseInt(document.getElementsByClassName("date-input-year")[0].value);
+      if (inputYear < todayYear || isNaN(inputYear)) {
+        endDateValidated = false;
+        wPrompt.textContent = "Please enter valid end date";
+        wPrompt.classList.remove("sqd-hidden");
+        return;
+      }
+      if((inputMonth < todayMonth && inputYear == todayYear) || inputMonth > 12 || inputMonth < 1 || isNaN(inputMonth)){
+        endDateValidated = false;
+        wPrompt.textContent = "Please enter valid end date";
+        wPrompt.classList.remove("sqd-hidden");
+        return;
+      }
+      //@ts-ignore
+      if(isNaN(inputDate) || (inputDate < todayDate && inputMonth == todayMonth && inputYear == todayYear)){
+        endDateValidated = false;
+        wPrompt.textContent = "Please enter valid end date";
+        wPrompt.classList.remove("sqd-hidden");
+        return;
+      }
+      let lastDayOfMonth = new Date(inputYear, inputMonth, 0);
+      if(inputDate > lastDayOfMonth.getDate()){
+        endDateValidated = false;
+        wPrompt.textContent = "Please enter valid end date";
+        wPrompt.classList.remove("sqd-hidden");
+        return;
+      }
+      wPrompt.classList.add("sqd-hidden");
+    }
+    
 
     for(let i=1;i<8;i++){
       var week = "";
@@ -1723,8 +1790,9 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       gEachWeek.appendChild(gRangeDropdow);
       gWeeks.appendChild(gEachWeek);
       gWeeks.insertBefore(gEachWeek, gWeeks.firstChild);
+      checkboxShape.addEventListener("click", validateRecurring);
     }
-    
+
     //implement of end date section
     const gEndDate = Dom.svg("g", {
       class: "sqd-task-group"
@@ -1786,7 +1854,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     
     if(databefore && dropdownBoxInnerText1.textContent == "Recurring"){
       if(databefore.length != 0){
-        const databeforeEndDate = databefore[databefore.length-1].split(':')[1].split('/');
+        const databeforeEndDate = databefore[databefore.length-1].split('/');
         monthInput.value = databeforeEndDate[0];
         dateInput.value = databeforeEndDate[1];
         yearInput.value = databeforeEndDate[2];
@@ -1801,6 +1869,9 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         }
       }
     });
+    monthInput.addEventListener("input", validateRecurring);
+    dateInput.addEventListener("input", validateRecurring);
+    yearInput.addEventListener("input", validateRecurring);
 
     // Convert dateInput to two digits
     dateInput.addEventListener("change", function(){
@@ -1817,15 +1888,27 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     gEndDate.appendChild(yearWrapper);
 
     const timezone = Dom.svg("text", {
-      x:PADDING_X+10 + addon,
-      y:2 * boxHeight+345,
+      x:PADDING_X+10 + addon + 10,
+      y:2 * boxHeight+367,
       class: "sqd-task-text_3",
       "font-size": "11px",
     })
     timezone.textContent = "Your Timezone: " + Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+    // Recurring validation prompt
+    const wPrompt = Dom.svg("text", {
+      class: "sqd-date-prompt sqd-hidden",
+      fill: "#F00000",
+      x: PADDING_X+10 + addon + 100,
+      y:2 * boxHeight+345,
+      "font-size": "10.5px",
+    });
+    wPrompt.textContent = "Please select day(s)";
+    wPrompt.classList.remove("sqd-hidden");
+
     gWeeks.insertBefore(gEndDate, gWeeks.firstChild);
-    gWeeks.insertBefore(timezone,gWeeks.firstChild);
+    gWeeks.insertBefore(wPrompt, gWeeks.firstChild);
+    gWeeks.insertBefore(timezone, gWeeks.firstChild);
 
     if(step.properties["frequency"] == "Once"){
       gOnce.classList.remove("sqd-hidden");
@@ -1912,117 +1995,101 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       gSubDropdown1.classList.remove("sqd-hidden");
     });
 
+    // Count repeat times for recurring
+    //@ts-ignore
+    function countRepeat(startDate, endDate, day, hour, amPm) {
+      let count = 0;
+      let h = parseInt(hour);
+      let currentDate = new Date(startDate);
+      const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      if (amPm == "PM") {
+        if (parseInt(hour) != 12) {
+          h = parseInt(hour) + 12;
+        }
+      } else {
+        // AM
+        if (parseInt(hour) == 0) {
+          h = 0;
+        }
+      }
+      const index = daysOfWeek.indexOf(day);
+      while (currentDate <= endDate) {
+        if ((currentDate.getDay() == index && currentDate < endDate) ||
+          (currentDate.getDay() == index && currentDate == endDate && currentDate.getHours() <= h)
+        ) {
+          count++;
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+      return count;
+    }
+
+    // Save
     upCheckIcon.addEventListener("click", function(e){
       e.stopPropagation();
-      let ifselected = false;
       let weekAndTime:string = '';
-      step.properties["send"] = ""; 
+      step.properties["send"] = "";
+      step.properties["end date"] = ""; 
       step.properties["timezone"] = ""; 
       step.properties["list"] = ""; 
       step.properties["frequency"] = ""; 
 
-      if(dropdownBoxInnerText1.textContent == "Recurring"){
-        for(let i=2;i<9;i++){
-          if(gWeeks.children[i].classList.contains("selected")){
-            weekAndTime += `${gWeeks.children[i].children[5].textContent}`+`${gWeeks.children[i].children[0].children[1].textContent}`+`${gWeeks.children[i].children[1].children[1].textContent},`;
-            ifselected = true;
-          }
-        }
-        if(ifselected == false){
-          alert("please select at least one weekday");
-          return;
-        }
-        const d = new Date();
-        let todayMonth = d.getMonth()+1;
-        let todayYear = d.getFullYear();
-        let todayDate = d.getDate();
-        //@ts-ignore
-        let inputMonth = parseInt(document.getElementsByClassName("date-input")[0].value);
-        //@ts-ignore
-        let inputDate = parseInt(document.getElementsByClassName("date-input")[1].value);
-        //@ts-ignore
-        let inputYear = parseInt(document.getElementsByClassName("date-input-year")[0].value);
-
-        if(inputYear < todayYear || isNaN(inputYear)){
-          alert("please input right year of end date");
-          return;
-        }
-        if((inputMonth < todayMonth && inputYear == todayYear) || inputMonth > 12 || inputMonth < 1 || isNaN(inputMonth)){
-          alert("please input right month of end date");
-          return;
-        }
-        //@ts-ignore
-        if(isNaN(inputDate) || (inputDate < todayDate && inputMonth == todayMonth && inputYear == todayYear)){
-          alert("please input right date of end date");
-          return;
-        }
-        let lastDayOfMonth = new Date(inputYear, inputMonth, 0);
-        if(inputDate > lastDayOfMonth.getDate()){
-          alert("please input right date of end date");
-          return;
-        }
-        //@ts-ignore
-        step.properties["send"] = weekAndTime + 'End date:' + `${document.getElementsByClassName("date-input")[0].value}` + '/' + `${document.getElementsByClassName("date-input")[1].value}` + '/' + `${document.getElementsByClassName("date-input-year")[0].value}`;
-        // Set timezone info
-        step.properties["timezone"] = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      } else {
-        //  Send Once logic
-        if((OnceDates && OnceDates.length == 0) || !OnceDates){
-          alert("please select a day");
-          return;
-        } else {
-          step.properties["send"] = '';
-          for(let k=0;k<OnceDates.length;k++){
-            step.properties["send"] += OnceDates[k] + "T";
-            if (parseInt(setTimeInput.value) > 0 && parseInt(setTimeInput.value) < 13 && Number.isInteger(parseInt(setTimeInput.value))) {
-              // Validate hours
-              let currentDate = new Date();
-              let currentHours = currentDate.getHours();
-              for (let dateString of OnceDates) {
-                let parts = dateString.split('-'); // Split the string into parts.
-                let year = parseInt(parts[0]);
-                let month = parseInt(parts[1]);
-                let day = parseInt(parts[2]);
-                if (year === currentDate.getFullYear()
-                  && month === currentDate.getMonth() + 1
-                  && day === currentDate.getDate()
-                )
-                {
-                  let h = parseInt(setTimeInput.value);
-                  if (setTimeAmRect.classList.contains("selected")) {
-                    if (currentHours >= 12 || h <= currentHours || (h === 12 && currentHours === 0)) {
-                      alert("please enter correct hour");
-                      return;
-                    }
-                  } else {
-                    if (h != 12) {
-                      h += 12;
-                    }
-                    if (h <= currentHours) {
-                      alert("please enter correct hour");
-                      return;
-                    }
-                  }
-                }
+      // Recurring final validation logic - new
+      if (dropdownBoxInnerText1.textContent == "Recurring") {
+        if (selectDateValidated && endDateValidated) {
+          const today = new Date();
+          //@ts-ignore
+          const end = `${document.getElementsByClassName("date-input")[0].value}` + '-' + `${document.getElementsByClassName("date-input")[1].value}` + '-' + `${document.getElementsByClassName("date-input-year")[0].value}`;
+          // Get the timezone from the user's system
+          const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          let endDate = new Date(end);
+          endDate = new Date(endDate.toLocaleString("en-US", { timeZone }));
+          allValidated = true;
+          for(let i=2;i<10;i++){
+            if (gWeeks.children[i].classList.contains("selected")) {
+              if (weekAndTime != "") {
+                weekAndTime += ","
               }
-
-              step.properties["send"] += setTimeInput.value + ':00';
-
-              if(setTimeAmRect.classList.contains("selected")){
-                step.properties["send"] += "AM";
-              }else{
-                step.properties["send"] += "PM";
-              }
-              if (k < OnceDates.length - 1) {
-                step.properties["send"] += ",";
-              }
-              // Set timezone info
-              step.properties["timezone"] = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            }else{
-              alert("please enter correct hour");
-              return;
+              let day = `${gWeeks.children[i].children[5].textContent}`;
+              let hour = `${gWeeks.children[i].children[0].children[1].textContent}`;
+              let amPm = `${gWeeks.children[i].children[1].children[1].textContent}`
+              weekAndTime += day + hour + amPm + " " + countRepeat(today, endDate, day, hour, amPm);
             }
           }
+          //@ts-ignore
+          step.properties["send"] = weekAndTime;
+          // Add end date field
+          //@ts-ignore
+          step.properties["end date"] = `${document.getElementsByClassName("date-input")[0].value}` + '/' + `${document.getElementsByClassName("date-input")[1].value}` + '/' + `${document.getElementsByClassName("date-input-year")[0].value}`;
+          // Set timezone info
+          step.properties["timezone"] = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        } else {
+          allValidated = false;
+          step.properties["send"] = "";
+          // popup
+        }
+      } else {
+        //  Send Once final validation logic - new
+        if (clickDayValidated && setTimeValidated) {
+          allValidated = true;
+          for (let k=0;k<OnceDates.length;k++){
+            step.properties["send"] += OnceDates[k] + "T";
+            step.properties["send"] += setTimeInput.value + ':00';
+            if (setTimeAmRect.classList.contains("selected")){
+              step.properties["send"] += "AM";
+            }else{
+              step.properties["send"] += "PM";
+            }
+            if (k < OnceDates.length - 1) {
+              step.properties["send"] += ",";
+            }
+            // Set timezone info
+            step.properties["timezone"] = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          }
+        } else {
+          allValidated = false;
+          step.properties["send"] = "";
+          // popup
         }
       }
 
@@ -2033,9 +2100,9 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       textRight.textContent = dropdownBoxInnerText.textContent;
       //@ts-ignore
       step.properties["frequency"] = dropdownBoxInnerText1.textContent;
-
       step.updatedAt = new Date();
     });
+
     upCheckIcon.addEventListener("mousedown", function(e){
       e.stopPropagation();
       checkImgContainerCircle.setAttribute("style", "fill:#0C67A5");
