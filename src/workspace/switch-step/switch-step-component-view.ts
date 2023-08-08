@@ -1073,7 +1073,7 @@ export class SwitchStepComponentView implements ComponentView {
       stroke: "#bfbfbf",
       x: DROPDOWN_X1,
       y: DROPDOWN_Y + 2 * DROPDOWN_H + 10,
-      id: `dropdownBoxShapeMain2${Date.now()}`,
+      id: `dropdownBoxShapeMain2${step.id}`,
     });
     Dom.attrs(dropdownBoxShapeAfterMain2, {
       opacity: 0,
@@ -2124,7 +2124,7 @@ export class SwitchStepComponentView implements ComponentView {
         y: DROPDOWN_Y + 2 * CHOICE_H + CHOICE_H * i + 12,
         rx: 4,
         ry: 4,
-        id: `dropdownBoxBottomShapecoverMain2${Date.now()}`,
+        id: `dropdownBoxBottomShapecoverMain2${actions[i - 1]}${step.id}`,
       });
       Dom.attrs(dropdownBoxBottomShapecoverMain2, {
         opacity: 0.3,
@@ -2214,6 +2214,7 @@ export class SwitchStepComponentView implements ComponentView {
       dropdownBoxBottomShapecoverMain2_1.addEventListener(
         "click",
         function (e) {
+          console.log("hhh");
           choice1 = dropdownBoxBottomShapeTextMain2.textContent;
           dropdownRightButtonUp.classList.add("sqd-hidden");
           dropdownRightButtonDown.classList.remove("sqd-hidden");
@@ -2304,7 +2305,7 @@ export class SwitchStepComponentView implements ComponentView {
             y: DROPDOWN_Y + DROPDOWN_H * i + 15,
             rx: 4,
             ry: 4,
-            id: `dropdownBoxBottomShapeAct2cover${Date.now()}`,
+            id: `dropdownBoxBottomShapeAct2cover${dropdownBoxBottomShapeAct2Text.textContent}${step.id}`,
           });
           Dom.attrs(dropdownBoxBottomShapeAct2cover, {
             opacity: 0.3,
@@ -2664,7 +2665,7 @@ export class SwitchStepComponentView implements ComponentView {
         c1 == "Last Name" ||
         c1 == "Phone Number"
       ) {
-        if (tb1Validated) {
+        if (tb1Validated || c2 == "Blank" || c2 == "Is Blank") {
           allValidated = true;
         }
       } else if (c1 == "Gender") {
@@ -3205,6 +3206,54 @@ export class SwitchStepComponentView implements ComponentView {
           prevDp2.dispatchEvent(fakeClick);
           prevDp2.dispatchEvent(fakeClick);
         }
+      }
+      if (choice1 == "Birthday" && choice2 != "Month Is") {
+        textInput.value = step.properties["value"].toString();
+        textInput.dispatchEvent(fakeInput);
+      }
+      if (
+        choice1 == "Location" &&
+        (choice2 == "Is Within" || choice2 == "Is Not Within")
+      ) {
+        let parts = step.properties["value"].toString().split(", ");
+        let distance = parts[0];
+        let loc = parts[1];
+        let prevDp2 = document.getElementById(
+          `dropdownBoxBottomShape2cover${distance}${step.id}`
+        );
+        if (prevDp2) {
+          prevDp2.dispatchEvent(fakeClick);
+          prevDp2.dispatchEvent(fakeClick);
+          locTextInput.value = loc;
+          locTextInput.dispatchEvent(fakeInput);
+        }
+      }
+    } else if (
+      step.properties["value"] != "" &&
+      step.properties["type"] == "Action"
+    ) {
+      let parts = step.properties["value"].toString().split(" ");
+      let num = parts[0];
+      let time = parts[1];
+      actTextInput.value = num;
+      let Main2Button = document.getElementById(
+        `dropdownBoxShapeMain2${step.id}`
+      );
+      let prevMain2 = document.getElementById(
+        `dropdownBoxBottomShapecoverMain2${step.properties["property"]}${step.id}`
+      );
+      let prevActDp1 = document.getElementById(
+        `dropdownBoxBottomShapeAct2cover${step.properties["condition"]}${step.id}`
+      );
+      let prevActDp2 = document.getElementById(
+        `dropdownBoxBottomShape2cover${time}${step.id}`
+      );
+      if (Main2Button && prevMain2 && prevActDp1 && prevActDp2) {
+        Main2Button.dispatchEvent(fakeClick);
+        prevMain2.dispatchEvent(fakeClick);
+        prevActDp1.dispatchEvent(fakeInput);
+        prevActDp2.dispatchEvent(fakeClick);
+        prevActDp2.dispatchEvent(fakeClick);
       }
     }
 
