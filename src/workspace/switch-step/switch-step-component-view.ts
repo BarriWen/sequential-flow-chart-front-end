@@ -428,12 +428,12 @@ export class SwitchStepComponentView implements ComponentView {
           ry: 4,
         });
     Dom.attrs(upCheckIcon, {
-      class: "moreicon",
+      class: "checkIcon-inside",
       // id: `tagUpCheckIcon`,
       x: containerWidths[0] + 5 * PADDING_X + 3 * ICON_SIZE - 22,
       y: PADDING_Y - 26,
-      width: 22,
-      height: 22,
+      width: 10,
+      height: 10,
     });
     checkImgContainer.appendChild(checkImgContainerCircle);
     checkImgContainer.appendChild(upCheckIcon);

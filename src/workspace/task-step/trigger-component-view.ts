@@ -368,7 +368,7 @@ export class TriggerComponentView implements ComponentView {
         })
       : Dom.svg("rect", {
           class: "sqd-task-empty-icon",
-          rx: 4,
+          rx: 5,
           ry: 4,
         });
     Dom.attrs(upCheckIcon, {
@@ -377,8 +377,8 @@ export class TriggerComponentView implements ComponentView {
       // x: ICON_SIZE + textWidth / 2 + 2 * PADDING_X + 93,
       x: 177.4 + addon,
       y: PADDING_Y - 33,
-      width: 18,
-      height: 18,
+      width: 10,
+      height: 10,
     });
     checkImgContainer.appendChild(checkImgContainerCircle);
     checkImgContainer.appendChild(upCheckIcon);
