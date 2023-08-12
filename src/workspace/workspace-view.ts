@@ -30,6 +30,15 @@ export class WorkspaceView {
 
     const foreground = Dom.svg("g");
 
+    var url = window.location.pathname;
+    var userID;
+    if (url.includes("new")) {
+      userID = url.slice(5);
+    }
+    else {
+      userID = url.substring(1, url.lastIndexOf('/') + 1);
+    }
+
     const workspace = Dom.element("div", {
       class: "sqd-workspace",
     });
@@ -154,9 +163,9 @@ export class WorkspaceView {
               type: "save",
               name: triggers[i],
               createdAt: new Date(),
-              createdBy: "123",
+              createdBy: userID,
               updatedAt: new Date(),
-              updatedBy: "123",
+              updatedBy: userID,
               properties: {},
               branches: undefined,
             });

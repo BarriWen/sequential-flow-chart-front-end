@@ -856,8 +856,15 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, temp: string, s
         class: "sqd-task-group sqd-hidden"
     });
 
+    var url = window.location.pathname;
+    var userID;
+    if (url.includes("new")) {
+      userID = url.slice(5);
+    }
+    else {
+      userID = url.substring(1, url.lastIndexOf('/') + 1);
+    }
     // Fetch tags from backend
-    const userID = 123; //Need to be changed to current user
     const request = new Request(`http://localhost:8080/tag/${userID}`, { method: 'GET' });
     let tags: string[] = [];
     // Async way to fetch tags

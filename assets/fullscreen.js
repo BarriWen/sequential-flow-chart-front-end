@@ -295,15 +295,17 @@ let timeoutID;
 let timeout = 5 * 60 * 1000;
 let startDefinition;
 let journeyID;
+var url = window.location.pathname;
+const userID = url.slice(5);
 
 console.log("create empty canvas")
 const input = {
 	properties: {
 		journeyName:'test',
 		createdAt: new Date(),
-		createdBy: "123",
+		createdBy: userID,
 		updatedAt: new Date(),
-		updatedBy: "123",
+		updatedBy: userID,
 		description:" ",
 		journeyId: ""
 	},

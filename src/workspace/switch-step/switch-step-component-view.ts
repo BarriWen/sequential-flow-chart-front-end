@@ -2252,7 +2252,14 @@ export class SwitchStepComponentView implements ComponentView {
 
     // ================= ACTIONS 2nd dropdown
     let listAct2: string[] = [];
-    const userID = 123; //Need to be changed to current user
+    var url = window.location.pathname;
+    var userID;
+    if (url.includes("new")) {
+      userID = url.slice(5);
+    }
+    else {
+      userID = url.substring(1, url.lastIndexOf('/') + 1);
+    }
     const request = new Request(
       `http://localhost:8080/getTransmission/${userID}`,
       { method: "GET" }

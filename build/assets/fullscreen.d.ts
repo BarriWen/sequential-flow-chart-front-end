@@ -128,15 +128,17 @@ declare let timeoutID: any;
 declare let timeout: number;
 declare let startDefinition: any;
 declare let journeyID: any;
+declare var url: string;
+declare const userID: string;
 declare namespace input {
     namespace properties {
-        const journeyName: string;
-        const createdAt: Date;
-        const createdBy: string;
-        const updatedAt: Date;
-        const updatedBy: string;
-        const description: string;
-        const journeyId: string;
+        export const journeyName: string;
+        export const createdAt: Date;
+        export { userID as createdBy };
+        export const updatedAt: Date;
+        export { userID as updatedBy };
+        export const description: string;
+        export const journeyId: string;
     }
     const sequence: never[];
 }

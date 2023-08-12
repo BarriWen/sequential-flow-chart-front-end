@@ -760,8 +760,16 @@ export class TriggerComponentView implements ComponentView {
       class: `sqd-task-group sub-dropdownbox-pop sqd-hidden`,
     });
 
+    var url = window.location.pathname;
+    var userID;
+    if (url.includes("new")) {
+      userID = url.slice(5); //Need to be changed to an existing user
+    }
+    else {
+      userID = url.substring(1, url.lastIndexOf('/') + 1);
+    }
+
     // Fetch audience list from backend
-    const userID = 123; //Need to be changed to current user
     const request = new Request(`http://localhost:8080/dashboard/getAudiencelist/${userID}`, {method: 'GET'});
     let list: string[] = [];
     // Async way to fetch audience list

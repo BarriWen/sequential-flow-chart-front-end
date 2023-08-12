@@ -36,10 +36,18 @@ export class DragStepBehavior implements Behavior {
 
   public onStart(position: Vector) {
     let offset: Vector;
+    var url = window.location.pathname;
+    var userID;
+    if (url.includes("new")) {
+      userID = url.slice(5);
+    }
+    else {
+      userID = url.substring(1, url.lastIndexOf('/') + 1);
+    }
     this.step["createdAt"] = new Date();
-    this.step["createdBy"] = "123";
+    this.step["createdBy"] = userID;
     this.step["updatedAt"] = new Date();
-    this.step["updatedBy"] = "123";
+    this.step["updatedBy"] = userID;
     if (this.movingStepComponent) {
       this.movingStepComponent.setState(StepComponentState.dragging);
 
