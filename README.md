@@ -33,4 +33,5 @@
       ```
       npm start
       ```
-   2. Open http://localhost:3000 in browser
+   2. Open http://localhost:3000/new/:id in browser for new journey
+   3. Open http://localhost:3000/:id/* in browser for previous saved journey
