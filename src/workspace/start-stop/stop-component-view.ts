@@ -54,7 +54,7 @@ function createCircle(isStart: boolean): SVGGElement {
 	} else {
 		const endAuto = Dom.svg("image", {
 			class: "sqd-end-icon", 
-			href: "./assets/end.svg", 
+			href: "../assets/end.svg", 
 			width: 20, 
 			height: 20, 
 		}); 
@@ -86,7 +86,7 @@ function createEndPoint(g: SVGGElement){
 
 	const endAuto = Dom.svg("image", {
         class: "sqd-end-icon", 
-        href: "./assets/end.svg", 
+        href: "../assets/end.svg", 
         width: 20, 
         height: 20, 
     }); 

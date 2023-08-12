@@ -174,7 +174,7 @@ export class TagComponentView implements ComponentView {
         setUpReminder.appendChild(clickOkText);
         setUpReminder.insertBefore(clickOkBut, clickOkText);
         setUpReminder.appendChild(clickOkButCover);
-        const moreUrl = "./assets/moreIconTag.svg";
+        const moreUrl = "../assets/moreIconTag.svg";
         const moreIcon = moreUrl
             ? Dom.svg("image", {
                 href: moreUrl,
@@ -184,7 +184,7 @@ export class TagComponentView implements ComponentView {
                 rx: 4,
                 ry: 4,
             });
-        const moreDotUrl = "./assets/more-dot.svg"
+        const moreDotUrl = "../assets/more-dot.svg"
         const moreIconDot = moreDotUrl
             ? Dom.svg("image", {
                 href: moreDotUrl,
@@ -226,7 +226,7 @@ export class TagComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const copyUrl = "./assets/copy.svg";
+        const copyUrl = "../assets/copy.svg";
         const copyIcon = copyUrl
             ? Dom.svg("image", {
                 href: copyUrl,
@@ -260,7 +260,7 @@ export class TagComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const deleteUrl = "./assets/delete.svg";
+        const deleteUrl = "../assets/delete.svg";
         const deleteIcon = deleteUrl
             ? Dom.svg("image", {
                 href: deleteUrl,
@@ -294,7 +294,7 @@ export class TagComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const editUrl = "./assets/edit.svg";
+        const editUrl = "../assets/edit.svg";
         const editIcon = editUrl
             ? Dom.svg("image", {
                 href: editUrl,
@@ -330,7 +330,7 @@ export class TagComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const upCheckIconUrl = "./assets/check-inside.svg";
+        const upCheckIconUrl = "../assets/check-inside.svg";
         const upCheckIcon = upCheckIconUrl
             ? Dom.svg("image", {
                 href: upCheckIconUrl,
@@ -363,7 +363,7 @@ export class TagComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const upDeleteIconUrl = "./assets/delete.svg";
+        const upDeleteIconUrl = "../assets/delete.svg";
         const upDeleteIcon = upDeleteIconUrl
             ? Dom.svg("image", {
                 href: upDeleteIconUrl,
@@ -398,7 +398,7 @@ export class TagComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const upCopyIconUrl = "./assets/copy.svg";
+        const upCopyIconUrl = "../assets/copy.svg";
         const upCopyIcon = upCopyIconUrl
             ? Dom.svg("image", {
                 href: upCopyIconUrl,
@@ -630,11 +630,11 @@ export class TagComponentView implements ComponentView {
         });
         editIcon.addEventListener("mousedown", function () {
             rightEditImgContainerCircle.setAttribute("style", "fill:#5495d4");
-            editIcon.setAttribute("href", "./assets/edit2.svg")
+            editIcon.setAttribute("href", "../assets/edit2.svg")
         });
         editIcon.addEventListener("mouseup", function () {
             rightEditImgContainerCircle.setAttribute("style", "fill:white");
-            editIcon.setAttribute("href", "./assets/edit.svg")
+            editIcon.setAttribute("href", "../assets/edit.svg")
         });
         copyIcon.addEventListener("mouseover", () => {
             gRightPop3Reminder2.classList.toggle("sqd-hidden");
@@ -644,19 +644,19 @@ export class TagComponentView implements ComponentView {
         });
         copyIcon.addEventListener("mousedown", function () {
             rightCopyImgContainerCircle.setAttribute("style", "fill:#5495d4");
-            copyIcon.setAttribute("href", "./assets/copy2.svg");
+            copyIcon.setAttribute("href", "../assets/copy2.svg");
         });
         copyIcon.addEventListener("mouseup", function () {
             rightCopyImgContainerCircle.setAttribute("style", "fill:white");
-            copyIcon.setAttribute("href", "./assets/copy.svg")
+            copyIcon.setAttribute("href", "../assets/copy.svg")
         });
         upCopyIcon.addEventListener("mousedown", function () {
             copyImgContainerCircle.setAttribute("style", "fill:#5495d4");
-            upCopyIcon.setAttribute("href", "./assets/copy2.svg");
+            upCopyIcon.setAttribute("href", "../assets/copy2.svg");
         });
         upCopyIcon.addEventListener("mouseup", function () {
             copyImgContainerCircle.setAttribute("style", "fill:white");
-            upCopyIcon.setAttribute("href", "./assets/copy.svg")
+            upCopyIcon.setAttribute("href", "../assets/copy.svg")
         });
         deleteIcon.addEventListener("mouseover", () => {
             gRightPop3Reminder3.classList.toggle("sqd-hidden");
@@ -666,19 +666,19 @@ export class TagComponentView implements ComponentView {
         });
         deleteIcon.addEventListener("mousedown", function () {
             rightDeleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
-            deleteIcon.setAttribute("href", "./assets/delete2.svg")
+            deleteIcon.setAttribute("href", "../assets/delete2.svg")
         });
         deleteIcon.addEventListener("mouseup", function () {
             rightDeleteImgContainerCircle.setAttribute("style", "fill:white");
-            deleteIcon.setAttribute("href", "./assets/delete.svg")
+            deleteIcon.setAttribute("href", "../assets/delete.svg")
         });
         upDeleteIcon.addEventListener("mousedown", function () {
             deleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
-            upDeleteIcon.setAttribute("href", "./assets/delete2.svg")
+            upDeleteIcon.setAttribute("href", "../assets/delete2.svg")
         });
         upDeleteIcon.addEventListener("mouseup", function () {
             deleteImgContainerCircle.setAttribute("style", "fill:white");
-            upDeleteIcon.setAttribute("href", "./assets/delete.svg")
+            upDeleteIcon.setAttribute("href", "../assets/delete.svg")
         });
         const inputView = InputView.createRoundInput(g, boxWidth / 2, 0);
         inputView.setIsHidden(true);
@@ -801,7 +801,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, temp: string, s
         ry: 3,
         class: 'set-time-shape'
     });
-    const downUrl = "./assets/list_down.svg";
+    const downUrl = "../assets/list_down.svg";
     const downIcon = downUrl
         ? Dom.svg("image", {
             href: downUrl,
@@ -842,11 +842,11 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, temp: string, s
         gDropdownList.classList.toggle("sqd-hidden");
 
         if (!gDropdownList.classList.contains("sqd-hidden")) {
-            downIcon.setAttribute("href", "./assets/list_up.svg");
+            downIcon.setAttribute("href", "../assets/list_up.svg");
             dropdownBoxShape.setAttribute("stroke", "#4FCCFC");
             dropdownBoxInnerText.setAttribute("fill", "#4FCCFC");
         } else {
-            downIcon.setAttribute("href", "./assets/list_down.svg");
+            downIcon.setAttribute("href", "../assets/list_down.svg");
             dropdownBoxShape.setAttribute("stroke", "#a0a0a0");
             dropdownBoxInnerText.setAttribute("fill", "#a0a0a0");
         }
@@ -935,7 +935,7 @@ function tagDropDown(dropdown: SVGElement, h: number, w: number, temp: string, s
                 gDropdownList.classList.add("sqd-hidden");
                 dropdownBoxInnerText.textContent = tags[i];
                 tagSelected = dropdownBoxInnerText.textContent;
-                downIcon.setAttribute("href", "./assets/list_down.svg");
+                downIcon.setAttribute("href", "../assets/list_down.svg");
                 dropdownBoxShape.setAttribute("stroke", "#a0a0a0");
                 dropdownBoxInnerText.setAttribute("fill", "#a0a0a0");
             })

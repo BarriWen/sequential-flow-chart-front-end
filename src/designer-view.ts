@@ -383,7 +383,7 @@ export class DesignerView {
       // height: 80,
     });
     const logo = Dom.svg("image", {
-      href: "./assets/emaily-logo.svg",
+      href: "../assets/emaily-logo.svg",
       class: "logo",
       height: 84,
     });
@@ -395,7 +395,7 @@ export class DesignerView {
       width: 80,
       height: 80,
     });
-    const avatarUrl = "./assets/avatar.svg";
+    const avatarUrl = "../assets/avatar.svg";
     const avatar = avatarUrl
       ? Dom.svg("image", {
           href: avatarUrl,
@@ -438,42 +438,42 @@ export class DesignerView {
 
 
     const dashboardIcon = Dom.element("img", {
-      src: "./assets/dashboard.svg", 
+      src: "../assets/dashboard.svg", 
       class: "dashboard-icon emaily-toolbox-icon", 
       height: 20, 
       width: 20, 
     }); 
 
     const flowIcon = Dom.element("img", {
-      src: "./assets/flow.svg", 
+      src: "../assets/flow.svg", 
       class: "flow-icon emaily-toolbox-icon", 
       height: 20, 
       width: 20, 
     });
 
     const usersIcon = Dom.element("img", {
-      src: "./assets/users.svg", 
+      src: "../assets/users.svg", 
       class: "users-icon emaily-toolbox-icon", 
       height: 20, 
       width: 20, 
     });
 
     const fileIcon = Dom.element("img", {
-      src: "./assets/file.svg", 
+      src: "../assets/file.svg", 
       class: "file-icon emaily-toolbox-icon", 
       height: 20, 
       width: 20, 
     });
 
     const lineDivider = Dom.element("img", {
-      src: "./assets/lineDivider.svg", 
+      src: "../assets/lineDivider.svg", 
       class: "line-divider emaily-toolbox-icon", 
       height: 25, 
       width: 25, 
     });
 
     const settingsIcon = Dom.element("img", {
-      src: "./assets/settings.svg", 
+      src: "../assets/settings.svg", 
       class: "settings-icon emaily-toolbox-icon", 
       height: 20, 
       width: 20, 

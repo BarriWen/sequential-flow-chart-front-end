@@ -64,7 +64,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       y: boxHeight / 2.0 - 32,
       width: 12,
       height: 12,
-      href: "./assets/exclamation.svg",
+      href: "../assets/exclamation.svg",
     });
     const hint_text = Dom.svg("text", {
       // class: "sqd-task-text",
@@ -213,11 +213,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
     var moreUrl;
-    const moreDotUrl = "./assets/more-dot.svg"
+    const moreDotUrl = "../assets/more-dot.svg"
     if(step.name == "Subscribe" || step.name == "Unsubscribe"){
-      moreUrl = "./assets/more2.svg";
+      moreUrl = "../assets/more2.svg";
     }else{
-      moreUrl = "./assets/more4.svg"
+      moreUrl = "../assets/more4.svg"
     }
 
     const gmoreIcon = Dom.svg("g", {
@@ -273,7 +273,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const changeUrl = "./assets/change.svg";
+    const changeUrl = "../assets/change.svg";
     const changeIcon = changeUrl
       ? Dom.svg("image", {
           href: changeUrl,
@@ -309,7 +309,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const deleteUrl = "./assets/delete.svg";
+    const deleteUrl = "../assets/delete.svg";
     const deleteIcon = deleteUrl
       ? Dom.svg("image", {
           href: deleteUrl,
@@ -345,7 +345,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const editUrl = "./assets/edit.svg";
+    const editUrl = "../assets/edit.svg";
     const editIcon = editUrl
       ? Dom.svg("image", {
           href: editUrl,
@@ -382,7 +382,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "./assets/check-inside.svg";
+    const upCheckIconUrl = "../assets/check-inside.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -418,7 +418,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upDeleteIconUrl = "./assets/delete.svg";
+    const upDeleteIconUrl = "../assets/delete.svg";
     const upDeleteIcon = upDeleteIconUrl
       ? Dom.svg("image", {
           href: upDeleteIconUrl,
@@ -441,11 +441,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     deleteImgContainer.appendChild(upDeleteIcon);
     upDeleteIcon.addEventListener("mousedown", function(){
       deleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
-      upDeleteIcon.setAttribute("href", "./assets/delete2.svg")
+      upDeleteIcon.setAttribute("href", "../assets/delete2.svg")
     });
     upDeleteIcon.addEventListener("mouseup", function(){
       deleteImgContainerCircle.setAttribute("style", "fill:white");
-      upDeleteIcon.setAttribute("href", "./assets/delete.svg")
+      upDeleteIcon.setAttribute("href", "../assets/delete.svg")
     });
 
     const copyImgContainer = Dom.svg("g", {
@@ -463,7 +463,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upchangeUrl = "./assets/change.svg";
+    const upchangeUrl = "../assets/change.svg";
     const upchangeIcon = upchangeUrl
       ? Dom.svg("image", {
           href: upchangeUrl,
@@ -489,7 +489,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     const downImgContainer = Dom.svg("g", {
       class: "sqd-task-deleteImgContainer",
     });
-    const downUrl = "./assets/list_down.png";
+    const downUrl = "../assets/list_down.png";
     const downIcon = downUrl
       ? Dom.svg("image", {
           href: downUrl,
@@ -850,7 +850,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           gSubDropdownboxPop.classList.toggle("sqd-hidden");
           dropdownBoxShape.style.stroke="#BFBFBF";
           dropdownBoxInnerText.style.fill = "#BFBFBF";
-          downIcon.setAttribute("href", "./assets/list_down.png");
+          downIcon.setAttribute("href", "../assets/list_down.png");
         });
         gSubDropdownboxPop.appendChild(dropdownBoxBottomShapeText);
       // gSubDropdownboxPop.insertBefore(
@@ -915,7 +915,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         gSubDropdownbox1Pop.classList.toggle("sqd-hidden");
         dropdownBoxShape1.style.stroke="#BFBFBF";
         dropdownBoxInnerText1.style.fill = "#BFBFBF";
-        downIcon1.setAttribute("href", "./assets/list_down.png");
+        downIcon1.setAttribute("href", "../assets/list_down.png");
 
         if(dropdownBoxInnerText1.textContent == "Once"){
           gWeeks.classList.add("sqd-hidden");
@@ -1442,7 +1442,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       weekName.textContent = week;
       
       
-      const checkbox_img_url = "./assets/check-inside.svg";
+      const checkbox_img_url = "../assets/check-inside.svg";
       const checkbox_img = Dom.svg("image", {
         href: checkbox_img_url,
       });
@@ -1515,7 +1515,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       });
       timeText.textContent = "12";
 
-      const time_box_url = "./assets/down.svg";
+      const time_box_url = "../assets/down.svg";
       const timeicon = Dom.svg("image", {
         x:PADDING_X+150 + addon,
         y:2 * boxHeight+79 +i*28,
@@ -1559,7 +1559,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       });
       rangeText.textContent = "AM";
 
-      const range_box_url = "./assets/down.svg";
+      const range_box_url = "../assets/down.svg";
       const rangeicon = Dom.svg("image", {
         x:PADDING_X+200 + addon,
         y:2 * boxHeight+79 +i*28,
@@ -1655,7 +1655,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           Dom.attrs(timeText, {
             style: "fill:#949CA0"
           });
-          timeicon.setAttribute("href", "./assets/down.svg");
+          timeicon.setAttribute("href", "../assets/down.svg");
           if(k<10){
             timeText.textContent = `0${k}`;
           }else{
@@ -1730,7 +1730,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           Dom.attrs(rangeText, {
             style: "fill:#949CA0"
           });
-          rangeicon.setAttribute("href", "./assets/down.svg");
+          rangeicon.setAttribute("href", "../assets/down.svg");
           if(m==1){
             rangeText.textContent = "AM";
           }else{
@@ -1753,7 +1753,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           Dom.attrs(timeText, {
             style: "fill:#000"
           });
-          timeicon.setAttribute("href", "./assets/upArrow.svg")
+          timeicon.setAttribute("href", "../assets/upArrow.svg")
         }else{
           Dom.attrs(timeBox, {
             style: "stroke:#949CA0"
@@ -1761,7 +1761,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           Dom.attrs(timeText, {
             style: "fill:#949CA0"
           });
-          timeicon.setAttribute("href", "./assets/down.svg")
+          timeicon.setAttribute("href", "../assets/down.svg")
         }
       });
 
@@ -1775,7 +1775,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           Dom.attrs(rangeText, {
             style: "fill:#000"
           });
-          rangeicon.setAttribute("href", "./assets/upArrow.svg")
+          rangeicon.setAttribute("href", "../assets/upArrow.svg")
         }else{
           Dom.attrs(RangeBox, {
             style: "stroke:#949CA0"
@@ -1783,7 +1783,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           Dom.attrs(rangeText, {
             style: "fill:#949CA0"
           });
-          rangeicon.setAttribute("href", "./assets/down.svg")
+          rangeicon.setAttribute("href", "../assets/down.svg")
         }
       });
 
@@ -2121,11 +2121,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     
     upchangeIcon.addEventListener("mousedown", function(){
       copyImgContainerCircle.setAttribute("style", "fill:#5495d4");
-      upchangeIcon.setAttribute("href", "./assets/change2.svg")
+      upchangeIcon.setAttribute("href", "../assets/change2.svg")
     });
     upchangeIcon.addEventListener("mouseup", function(){
       copyImgContainerCircle.setAttribute("style", "fill:white");
-      upchangeIcon.setAttribute("href", "./assets/change.svg")
+      upchangeIcon.setAttribute("href", "../assets/change.svg")
     });
     upchangeIcon.addEventListener("click", function(e){
       e.stopPropagation();
@@ -2322,22 +2322,22 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     });
     editIcon.addEventListener("mousedown", function(){
       rightEditImgContainerCircle.setAttribute("style", "fill:#5495d4");
-      editIcon.setAttribute("href", "./assets/edit2.svg")
+      editIcon.setAttribute("href", "../assets/edit2.svg")
     });
     editIcon.addEventListener("mouseup", function(){
       rightEditImgContainerCircle.setAttribute("style", "fill:white");
-      editIcon.setAttribute("href", "./assets/edit.svg")
+      editIcon.setAttribute("href", "../assets/edit.svg")
     });
     changeIcon.addEventListener("mouseover", () => {
       gRightPop3Reminder2.classList.toggle("sqd-hidden");
     });
     changeIcon.addEventListener("mousedown", function(){
       rightCopyImgContainerCircle.setAttribute("style", "fill:#5495d4");
-      changeIcon.setAttribute("href", "./assets/change2.svg")
+      changeIcon.setAttribute("href", "../assets/change2.svg")
     });
     changeIcon.addEventListener("mouseup", function(){
       rightCopyImgContainerCircle.setAttribute("style", "fill:white");
-      changeIcon.setAttribute("href", "./assets/change.svg")
+      changeIcon.setAttribute("href", "../assets/change.svg")
     });
     changeIcon.addEventListener("mouseout", () => {
       gRightPop3Reminder2.classList.toggle("sqd-hidden");
@@ -2350,11 +2350,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
     });
     deleteIcon.addEventListener("mousedown", function(){
       rightDeleteImgContainerCircle.setAttribute("style", "fill:#5495d4");
-      deleteIcon.setAttribute("href", "./assets/delete2.svg")
+      deleteIcon.setAttribute("href", "../assets/delete2.svg")
     });
     deleteIcon.addEventListener("mouseup", function(){
       rightDeleteImgContainerCircle.setAttribute("style", "fill:white");
-      deleteIcon.setAttribute("href", "./assets/delete.svg")
+      deleteIcon.setAttribute("href", "../assets/delete.svg")
     });
 
     // Event listeners in Dropdown
@@ -2367,11 +2367,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
 
       if (!gSubDropdownboxPop.classList.contains("sqd-hidden")) {
         dropdownBoxShape.style.stroke="#4FCCFC";
-        downIcon.setAttribute("href", "./assets/list_up.png");
+        downIcon.setAttribute("href", "../assets/list_up.png");
         dropdownBoxInnerText.style.fill = "#43A2E3";
       }else{
         dropdownBoxShape.style.stroke="#BFBFBF";
-        downIcon.setAttribute("href", "./assets/list_down.png");
+        downIcon.setAttribute("href", "../assets/list_down.png");
         dropdownBoxInnerText.style.fill = "#BFBFBF";
       }
     });
@@ -2385,11 +2385,11 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
 
       if (!gSubDropdownbox1Pop.classList.contains("sqd-hidden")) {
         dropdownBoxShape1.style.stroke="#4FCCFC";
-        downIcon1.setAttribute("href", "./assets/list_up.png");
+        downIcon1.setAttribute("href", "../assets/list_up.png");
         dropdownBoxInnerText1.style.fill = "#43A2E3";
       }else{
         dropdownBoxShape1.style.stroke="#BFBFBF";
-        downIcon1.setAttribute("href", "./assets/list_down.png");
+        downIcon1.setAttribute("href", "../assets/list_down.png");
         dropdownBoxInnerText1.style.fill = "#BFBFBF";
       }
     });

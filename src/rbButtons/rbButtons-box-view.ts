@@ -6,8 +6,8 @@ export class rbButtonsBoxView {
             class: 'rb-buttons-box'
         });
 
-        const rbButton1 = createButton("./assets/round-bg.svg", "./assets/add-chat.svg", 'rbButton1');
-        const rbButton2 = createButton("./assets/round-bg.svg", "./assets/menu.svg", 'rbButton2');
+        const rbButton1 = createButton("../assets/round-bg.svg", "../assets/add-chat.svg", 'rbButton1');
+        const rbButton2 = createButton("../assets/round-bg.svg", "../assets/menu.svg", 'rbButton2');
 
         root.appendChild(rbButton1);
         root.appendChild(rbButton2);

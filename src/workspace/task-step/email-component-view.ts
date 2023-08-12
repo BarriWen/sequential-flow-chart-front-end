@@ -175,7 +175,7 @@ export class EmailComponentView implements ComponentView {
         setUpReminder.insertBefore(clickOkBut, clickOkText);
         setUpReminder.appendChild(clickOkButCover);
         // Right side buttons
-        const magnidyIconUrl = "./assets/magnify.svg";
+        const magnidyIconUrl = "../assets/magnify.svg";
         const magnidyIcon = magnidyIconUrl
             ? Dom.svg("image", {
                 href: magnidyIconUrl,
@@ -193,7 +193,7 @@ export class EmailComponentView implements ComponentView {
             width: ICON_SIZE,
             height: ICON_SIZE,
         });
-        const moreUrl = "./assets/emailMore.svg";
+        const moreUrl = "../assets/emailMore.svg";
         const moreIcon = moreUrl
             ? Dom.svg("image", {
                 href: moreUrl,
@@ -225,7 +225,7 @@ export class EmailComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const copyUrl = "./assets/copy.svg";
+        const copyUrl = "../assets/copy.svg";
         const copyIcon = copyUrl
             ? Dom.svg("image", {
                 href: copyUrl,
@@ -259,7 +259,7 @@ export class EmailComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const deleteUrl = "./assets/delete.svg";
+        const deleteUrl = "../assets/delete.svg";
         const deleteIcon = deleteUrl
             ? Dom.svg("image", {
                 href: deleteUrl,
@@ -293,7 +293,7 @@ export class EmailComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const editUrl = "./assets/edit.svg";
+        const editUrl = "../assets/edit.svg";
         const editIcon = editUrl
             ? Dom.svg("image", {
                 href: editUrl,
@@ -327,7 +327,7 @@ export class EmailComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const upCheckIconUrl = "./assets/check.svg";
+        const upCheckIconUrl = "../assets/check.svg";
         const upCheckIcon = upCheckIconUrl
             ? Dom.svg("image", {
                 href: upCheckIconUrl,
@@ -360,7 +360,7 @@ export class EmailComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const upDeleteIconUrl = "./assets/delete.svg";
+        const upDeleteIconUrl = "../assets/delete.svg";
         const upDeleteIcon = upDeleteIconUrl
             ? Dom.svg("image", {
                 href: upDeleteIconUrl,
@@ -395,7 +395,7 @@ export class EmailComponentView implements ComponentView {
             rx: 50,
             ry: 50,
         });
-        const upCopyIconUrl = "./assets/copy.svg";
+        const upCopyIconUrl = "../assets/copy.svg";
         const upCopyIcon = upCopyIconUrl
             ? Dom.svg("image", {
                 href: upCopyIconUrl,
@@ -824,7 +824,7 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
         RECT_RADIUS);
 
     const classicDesignIcon = Dom.svg("image", {
-        href: "./assets/classic.svg",
+        href: "../assets/classic.svg",
         width: 60,
         height: 60,
         class: "option select-field",
@@ -847,7 +847,7 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
         RECT_RADIUS);
 
     const textOnlyIcon = Dom.svg("image", {
-        href: "./assets/text.svg",
+        href: "../assets/text.svg",
         width: 60,
         height: 60,
         class: "option select-field",
@@ -870,7 +870,7 @@ function addDropDown(dropdown: SVGElement, h: number, w: number, button: SVGElem
         RECT_RADIUS);
 
     const htmlIcon = Dom.svg("image", {
-        href: "./assets/html.svg",
+        href: "../assets/html.svg",
         width: 60,
         height: 60,
         class: "option select-field",

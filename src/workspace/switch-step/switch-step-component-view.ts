@@ -102,7 +102,7 @@ export class SwitchStepComponentView implements ComponentView {
       y: boxHeight / 2.0 - 12,
       width: 12,
       height: 12,
-      href: "./assets/exclamation.svg",
+      href: "../assets/exclamation.svg",
     });
     const hint_text = Dom.svg("text", {
       // class: "sqd-task-text",
@@ -273,7 +273,7 @@ export class SwitchStepComponentView implements ComponentView {
     setUpReminder.insertBefore(clickOkBut, clickOkText);
     setUpReminder.appendChild(clickOkButCover);
 
-    const moreUrl = "./assets/triDotIcon.svg";
+    const moreUrl = "../assets/triDotIcon.svg";
     const moreIcon = moreUrl
       ? Dom.svg("image", {
           href: moreUrl,
@@ -307,8 +307,8 @@ export class SwitchStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const changeUrl = "./assets/copy.svg";
-    const changeUrlWhite = "./assets/copy2.svg";
+    const changeUrl = "../assets/copy.svg";
+    const changeUrlWhite = "../assets/copy2.svg";
     const changeIcon = changeUrl
       ? Dom.svg("image", {
           href: changeUrl,
@@ -344,8 +344,8 @@ export class SwitchStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const deleteUrl = "./assets/delete.svg";
-    const deleteUrlWhite = "./assets/delete2.svg";
+    const deleteUrl = "../assets/delete.svg";
+    const deleteUrlWhite = "../assets/delete2.svg";
     const deleteIcon = deleteUrl
       ? Dom.svg("image", {
           href: deleteUrl,
@@ -381,8 +381,8 @@ export class SwitchStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const editUrl = "./assets/edit.svg";
-    const editUrlWhite = "./assets/edit2.svg";
+    const editUrl = "../assets/edit.svg";
+    const editUrlWhite = "../assets/edit2.svg";
     const editIcon = editUrl
       ? Dom.svg("image", {
           href: editUrl,
@@ -417,7 +417,7 @@ export class SwitchStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upCheckIconUrl = "./assets/check-inside.svg";
+    const upCheckIconUrl = "../assets/check-inside.svg";
     const upCheckIcon = upCheckIconUrl
       ? Dom.svg("image", {
           href: upCheckIconUrl,
@@ -451,7 +451,7 @@ export class SwitchStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upDeleteIconUrl = "./assets/delete.svg";
+    const upDeleteIconUrl = "../assets/delete.svg";
     const upDeleteIcon = upDeleteIconUrl
       ? Dom.svg("image", {
           href: upDeleteIconUrl,
@@ -486,7 +486,7 @@ export class SwitchStepComponentView implements ComponentView {
       rx: 50,
       ry: 50,
     });
-    const upchangeUrl = "./assets/change.svg";
+    const upchangeUrl = "../assets/change.svg";
     const upchangeIcon = upchangeUrl
       ? Dom.svg("image", {
           href: upchangeUrl,
@@ -808,10 +808,10 @@ export class SwitchStepComponentView implements ComponentView {
       ry: 5,
     });
     // ================= dropdownRightButton
-    const downArrowLink = "./assets/downArrow.svg";
-    const upArrowLink = "./assets/upArrow.svg";
-    const downArrowSubLink = "./assets/downArrowSub.svg";
-    const upArrowSubLink = "./assets/upArrowSub.svg";
+    const downArrowLink = "../assets/downArrow.svg";
+    const upArrowLink = "../assets/upArrow.svg";
+    const downArrowSubLink = "../assets/downArrowSub.svg";
+    const upArrowSubLink = "../assets/upArrowSub.svg";
 
     const dropdownRightButtonDown = Dom.svg("image", {
       class: "sqd-task-text select-field",

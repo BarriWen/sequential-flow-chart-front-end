@@ -58,7 +58,7 @@ const configuration = {
 
 	steps: {
 		iconUrlProvider: (componentType, type) => {
-			return `./assets/icon-${type}.svg`
+			return `../assets/icon-${type}.svg`
 		},
 
 		validator: (step) => {

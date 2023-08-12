@@ -9,10 +9,10 @@ export class ControlBarView {
 
 		// const deleteButton = createButton(Icons.delete, 'Delete selected step');
 		const zoomInButtonIcon = Dom.svg("image", {
-			href: "./assets/sum.svg", 
+			href: "../assets/sum.svg", 
 		}); 
 		const zoomOutButtonIcon = Dom.svg("image", {
-			href: "./assets/minus.svg", 
+			href: "../assets/minus.svg", 
 		});
 		// Dom.attrs(zoomInButton, {
 
