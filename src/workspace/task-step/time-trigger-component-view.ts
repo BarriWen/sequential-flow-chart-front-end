@@ -1963,7 +1963,7 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
       if_hintpop = true;
     }else{
       if_hintpop = false;
-      gHint.classList.toggle("sqd-hidden");
+      // gHint.classList.toggle("sqd-hidden");
     }
     // Add EventListeners
     gmoreIcon.addEventListener("click", function (e) {
@@ -1976,21 +1976,21 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
         gUpPop3.classList.toggle("sqd-hidden");
         gRightPop3.classList.toggle("sqd-hidden");
       }
-      gHint.classList.add("sqd-hidden");
+      // gHint.classList.add("sqd-hidden");
       if_hintpop = false;
     });
 
-    gmoreIcon.addEventListener("mouseover", function(){
-      if(if_hintpop){
-        gHint.classList.remove("sqd-hidden");
-      }
-    });
+    // gmoreIcon.addEventListener("mouseover", function(){
+    //   if(if_hintpop){
+    //     gHint.classList.remove("sqd-hidden");
+    //   }
+    // });
 
-    gmoreIcon.addEventListener("mouseout", function(){
-      if(if_hintpop){
-        gHint.classList.add("sqd-hidden");
-      }
-    });
+    // gmoreIcon.addEventListener("mouseout", function(){
+    //   if(if_hintpop){
+    //     gHint.classList.add("sqd-hidden");
+    //   }
+    // });
     
     // Edit
     editIcon.addEventListener("click", function (e) {
@@ -2098,6 +2098,12 @@ export class TimeTriggerTaskStepComponentView implements ComponentView {
           step.properties["send"] = "";
           // popup
         }
+      }
+      // Popup logic
+      if (allValidated) {
+        gHint.classList.add("sqd-hidden");
+      } else {
+        gHint.classList.remove("sqd-hidden");
       }
 
       gDropdown.classList.toggle("sqd-hidden");

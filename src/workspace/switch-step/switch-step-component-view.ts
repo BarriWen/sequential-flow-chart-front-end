@@ -1214,6 +1214,7 @@ export class SwitchStepComponentView implements ComponentView {
       let city = locTextInput.value;
       url = `http://localhost:8080/worldcity/${city}/0.85`;
 
+      // @ts-ignore
       delay = setTimeout(function (e) {
         if (city.length < 3) {
           populateResults([]);
