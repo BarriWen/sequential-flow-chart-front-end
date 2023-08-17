@@ -2,7 +2,7 @@ export interface Definition {
     sequence: Sequence;
     properties: Properties;
 }
-export declare type Sequence = Step[];
+export type Sequence = Step[];
 export interface Step {
     branches: any;
     id: string;

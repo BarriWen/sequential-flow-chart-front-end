@@ -201,13 +201,18 @@ export class SwitchStepComponentView implements ComponentView {
       ry: RECT_RADIUS,
     });
     const textRight = Dom.svg("text", {
-      x: ICON_SIZE + containerWidths[0] - PADDING_X * 6,
+      x: ICON_SIZE + containerWidths[0] - PADDING_X * 5,
       y: boxHeight / 2.0 + PADDING_TOP,
       class: "task-title switch-title encapsulated",
       width: 300,
     });
 
-    textRight.textContent = "Condition Settings";
+    if (step.properties["property"] &&  step.properties["property"] != "") {
+        textRight.textContent = step.properties["property"].toString();
+    } else {
+      textRight.textContent = "Condition Settings";
+    }
+    
     g1.appendChild(textRight);
     g1.insertBefore(rectLeft, text);
     g1.insertBefore(rectMid, textMid);
@@ -1349,6 +1354,16 @@ export class SwitchStepComponentView implements ComponentView {
     const dropdownPopItemDiv3 = Dom.svg("svg", {
       class: "state-scrollbox",
     });
+    // For distance dropdown scroll function
+    const dropdownPopSvg4 = Dom.svg("svg", {
+      class: "distance-dropdown",
+    });
+    const dropdownPopBody4 = Dom.svg("svg", {
+      class: "distance-dropdown-body",
+    });
+    const dropdownPopItemDiv4 = Dom.svg("svg", {
+      class: "distance-scrollbox",
+    });
     // =================== Dropdown item lists
     let list1 = [""];
     let contInfo = [
@@ -2079,6 +2094,7 @@ export class SwitchStepComponentView implements ComponentView {
               dropdownPopSvg2.appendChild(dropdownPopBody2);
               gSubDropdownbox2Pop.appendChild(dropdownPopSvg2);
               dropdownBoxBottomShape2.setAttribute("height", "130");
+              gSubDropdown2.appendChild(defs);
             } else if (
               choice2 == "Is In US State" ||
               choice2 == "Is Not In US State"
@@ -2086,11 +2102,13 @@ export class SwitchStepComponentView implements ComponentView {
               dropdownPopSvg3.appendChild(dropdownPopBody3);
               gSubDropdownbox2Pop.appendChild(dropdownPopSvg3);
               dropdownBoxBottomShape2.setAttribute("height", "130");
+              gSubDropdown2.appendChild(defs);
             } else {
               dropdownBoxBottomShape2.setAttribute(
                 "height",
                 `${list3.length * 25 + 10}`
               );
+              gSubDropdown2.removeChild(defs);
             }
           });
 
@@ -2751,15 +2769,6 @@ export class SwitchStepComponentView implements ComponentView {
         dropdownBoxInnerText2.textContent = "";
         actTextInput.value == "";
       }
-      // console.log(allValidated);
-      // console.log(dp1Validated);
-      // console.log(dp2Validated);
-      // console.log(tb1Validated);
-      // console.log(locValidated);
-      // console.log(actDp1Validated);
-      // console.log(actTb1Validated);
-      // console.log(actDp2Validated);
-      // console.log(" ");
 
       // Popup logic
       if (allValidated) {
@@ -2767,7 +2776,9 @@ export class SwitchStepComponentView implements ComponentView {
       } else {
         gHint.classList.remove("sqd-hidden");
       }
-      textRight.textContent = "Title in development";
+      if (textRight.textContent != "") {
+        textRight.textContent = step.properties["property"];
+      }
     });
 
     // Reset the whole filter
@@ -3171,7 +3182,6 @@ export class SwitchStepComponentView implements ComponentView {
         `dropdownBoxBottomShapecoverMain1${step.properties["property"]}${step.id}`
       );
       if (Main1Button && prevMain1) {
-        console.log("found");
         Main1Button.dispatchEvent(fakeClick);
         prevMain1.dispatchEvent(fakeClick);
       } else {
@@ -3235,6 +3245,7 @@ export class SwitchStepComponentView implements ComponentView {
           locTextInput.dispatchEvent(fakeInput);
         }
       }
+      gHint.classList.add("sqd-hidden");
     } else if (
       step.properties["value"] != "" &&
       step.properties["type"] == "Action"
@@ -3262,6 +3273,7 @@ export class SwitchStepComponentView implements ComponentView {
         prevActDp2.dispatchEvent(fakeClick);
         prevActDp2.dispatchEvent(fakeClick);
       }
+      gHint.classList.add("sqd-hidden");
     }
 
     return new SwitchStepComponentView(
