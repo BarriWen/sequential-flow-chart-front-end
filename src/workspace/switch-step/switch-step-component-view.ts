@@ -1726,6 +1726,7 @@ export class SwitchStepComponentView implements ComponentView {
             errFormat = /[^\w@.]/g;
           }
           textInput.addEventListener("input", function (e) {
+            console.log("ttt");
             if (textInput.value.trim() == "") {
               vPrompt.setAttribute("x", (DROPDOWN_X3 + 2).toString());
               vPrompt.setAttribute("y", (DROPDOWN_Y + 36).toString());
@@ -3225,7 +3226,11 @@ export class SwitchStepComponentView implements ComponentView {
           prevDp2.dispatchEvent(fakeClick);
         }
       }
-      if (choice1 == "Birthday" && choice2 != "Month Is") {
+      if ((choice1 == "Birthday" && choice2 != "Month Is") ||
+        ((choice1 == "Email Address" || choice1 == "Phone Number" ||
+        choice1 == "First Name" || choice1 == "Last Name" ||
+        choice1 == "Full Name") && choice2 != "Blank" && choice2 != "Is Blank"
+      )) {
         textInput.value = step.properties["value"].toString();
         textInput.dispatchEvent(fakeInput);
       }
