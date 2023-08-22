@@ -8,10 +8,12 @@
       ```
       npm run-script build
       ```
-   2. Open newJourney.html in browser
-   3. (Optional) Use startup.sh after modification to rebuild and relaunch the project to save time
+      ```
+      node serve.js
+      ```
+   2. (Optional) Use startup.sh after modification to rebuild and relaunch the project to save time
       ```
       bash startup.sh
       ```
-   4. Open http://localhost:3000/new/:id in browser for new journey
-   5. Open http://localhost:3000/:id/* in browser for previous saved journey
+   3. Open http://localhost:3000/new/:id in browser for new journey
+   4. Open http://localhost:3000/:id/* in browser for previous saved journey
