@@ -9,7 +9,7 @@
       npm run-script build
       ```
    2. Open newJourney.html in browser
-   3. Use startup.sh after modification to rebuild and relaunch the project to save time
+   3. (Optional) Use startup.sh after modification to rebuild and relaunch the project to save time
       ```
       bash startup.sh
       ```
